@@ -29,6 +29,7 @@ public class ServerUI extends Application {
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
                 if(serverObject != null) {
+                	System.out.println("X button has been clicked!");
                 		serverForcedShutdown();
                 }
             }

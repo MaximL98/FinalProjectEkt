@@ -23,6 +23,7 @@
           <TableColumn prefWidth="140.80001831054688" text="State" />
         </columns>
       </TableView>
-      <PasswordField fx:id="databasePasswdTxt" layoutX="22.0" layoutY="177.0" />
+      <PasswordField fx:id="databasePasswdTxt" layoutX="22.0" layoutY="177.0" text="fuckyou" />
+      <Button fx:id="addUserToDB" disable="true" layoutX="231.0" layoutY="139.0" mnemonicParsing="false" onAction="#getAddUserToDbBtn" prefHeight="25.0" prefWidth="284.0" text="Add user to database" />
    </children>
 </Pane>

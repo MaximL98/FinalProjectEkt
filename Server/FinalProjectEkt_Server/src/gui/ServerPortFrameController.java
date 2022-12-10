@@ -1,38 +1,25 @@
 package gui;
 
-import java.net.URL;
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.io.IOException;
 
-import javafx.collections.FXCollections;
+import Server.DatabaseController;
+import Server.ServerUI;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import logic.Faculty;
-import logic.Student;
 import ocsf.server.ConnectionToClient;
-import Server.DatabaseController;
-import Server.EktServer;
-import Server.ServerUI;
-import common.SCCP;
-import common.ServerClientRequestTypes;
-import javafx.scene.control.TableView;
-import javafx.scene.control.PasswordField;
 
 public class ServerPortFrameController  {
-	//private StudentFormController sfc;	
 	
 	String temp="";
 	
@@ -54,35 +41,46 @@ public class ServerPortFrameController  {
 	@FXML TableView<ConnectionToClient> clientsTable;
 
 	@FXML PasswordField databasePasswdTxt;
+
+	@FXML Button addUserToDB;
 	
 	
 	
 	private String getport() {
 		return portxt.getText();			
 	}
+
 	
-	public void clickConnectBtn(ActionEvent event) throws Exception {
-		String p;
+	private String getDbUser() {
+		return databaseUsernameTxt.getText();			
+	}
+	
+	private String getDbPass() {
+		return databasePasswdTxt.getText();			
+	}
+	
+	public void clickConnectBtn(ActionEvent event) throws Exception {		
+		// try asking database controller to log in using the text fields
+		String p = getport();
+		DatabaseController.setDatabaseUserName(getDbUser());
+		DatabaseController.setDatabasePassword(getDbPass());
 		
-		p=getport();
+		
 		if(p.trim().isEmpty()) {
 			System.out.println("You must enter a port number");
 					
 		}
+		else if(!DatabaseController.checkLoginCredentials()) {
+			System.out.println("Database username or password is incorrect, disconnecting server!");
+		}
 		else
 		{
-			
-			// try asking database controller to log in using the text fields
-			DatabaseController.setDatabaseUserName(databaseUsernameTxt.getText());
-			DatabaseController.setDatabasePassword(databasePasswdTxt.getText());
-			
-			if(!DatabaseController.checkLoginCredentials()) {
-				System.out.println("Database username or password is incorrect, disconnecting server!");
-				return;
-			}
-			
 			// start server (this starts connection to database too)
 			ServerUI.runServer(p);
+			
+			// allow the user of the server to insert users to the database:
+			addUserToDB.setDisable(false);
+			
 		}
 	}
 
@@ -100,9 +98,30 @@ public class ServerPortFrameController  {
 	
 	public void getExitBtn(ActionEvent event)  {
 		System.out.println("exit Academic Tool");
-		// refactored
 		ServerUI.serverForcedShutdown();
+		// TODO:
+		// find a better way to do this
 		System.exit(0);			
+	}
+
+	@FXML public void getAddUserToDbBtn(ActionEvent event) throws IOException {
+		// start a new window with a selection tool for all the tables in the database.
+		// when user selects a table, show it, and show all fields to fill
+		System.out.println("Server is loading Database Control page");
+		
+		FXMLLoader loader = new FXMLLoader();
+
+		
+		Stage primaryStage = new Stage();
+		Pane root = loader.load(getClass().getResource("/gui/ServerDatabaseAdditionForm.fxml").openStream());
+		//UpdateCustomerController updateCustomerController = loader.getController();		
+		//UpdateCustomerController.loadStudent(ChatClient.s1);
+	
+		Scene scene = new Scene(root);			
+		primaryStage.setTitle("Database Control");
+
+		primaryStage.setScene(scene);		
+		primaryStage.show();
 	}
 
 }

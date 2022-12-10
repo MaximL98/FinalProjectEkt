@@ -1,20 +1,13 @@
 package Server;
 
+import gui.ServerPortFrameController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import logic.Faculty;
-import logic.Student;
-
-import java.io.IOException;
-import java.util.Vector;
-import gui.ServerPortFrameController;
-import Server.EktServer;
 
 public class ServerUI extends Application {
 	final public static int DEFAULT_PORT = 5555;
-	public static Vector<Student> students=new Vector<Student>();
 	private static EktServer serverObject;
 
 	public static void main( String args[] ) throws Exception
@@ -59,9 +52,8 @@ public class ServerUI extends Application {
 	        } 
 	        catch (Exception ex) 
 	        {
-		          System.out.println("exception: "+ ex);
-
-	          System.out.println("ERROR - Could not listen for clients!");
+	        	System.out.println("Exception in calling .listen() on server object: "+ ex);
+	        	System.out.println("ERROR - Could not listen for clients!");
 	        }
 	}
 

@@ -2,7 +2,7 @@ package Server;
 
 import java.sql.*;
 
-import com.mysql.cj.admin.ServerController;
+//import com.mysql.cj.admin.ServerController;
 
 /*
  * 
@@ -10,15 +10,13 @@ import com.mysql.cj.admin.ServerController;
  * 
  * READ the driver part in line 58 before screaming
  * 
- * 
- * 
  */
 
 
 public class DatabaseController {
 	// constants
 	private static final String URL = "jdbc:mysql://localhost/ekrutdb?serverTimezone=IST&sslMode=DISABLED&allowPublicKeyRetrieval=true";	// Rotem -> read line 28
-	private static final String DRIVER_NAME = "com.mysql.jdbc.Driver";
+	//private static final String DRIVER_NAME = "com.mysql.jdbc.Driver";
 
 	private static String dbName = "root";
 	private static String dbPassword;
@@ -32,7 +30,7 @@ public class DatabaseController {
 	private DatabaseController() {
 	
 		try {
-			// Rotem -> my java doesn't seem to want this (red error ni)
+			// R o t e m -> my java doesn't seem to want this (red error n i g)
 			//Class.forName(DRIVER_NAME).getDeclaredConstructor().newInstance();
 			
 			System.out.println("Driver definition succeed");

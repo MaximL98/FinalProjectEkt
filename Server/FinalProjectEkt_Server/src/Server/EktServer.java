@@ -1,51 +1,14 @@
-// This file contains material supporting section 3.7 of the textbook:
-// "Object Oriented Software Engineering" and is issued under the open-source
-// license found at www.lloseng.com 
 package Server;
 
-import java.io.*;
-import java.sql.SQLException;
-import java.util.Vector;
+import java.io.IOException;
 
 import common.SCCP;
 import common.ServerClientRequestTypes;
-import logic.Faculty;
-import logic.Student;
-import ocsf.server.*;
-
-/**
- * This class overrides some of the methods in the abstract 
- * superclass in order to give more functionality to the server.
- *
- * @author Dr Timothy C. Lethbridge
- * @author Dr Robert Lagani&egrave;re
- * @author Fran&ccedil;ois B&eacute;langer
- * @author Paul Holden
- * @version July 2000
- */
+import ocsf.server.AbstractServer;
+import ocsf.server.ConnectionToClient;
 
 public class EktServer extends AbstractServer 
 {
-  //Class variables *************************************************
-  
-  /**
-   * The default port to listen on.
-   */
-  //final public static int DEFAULT_PORT = 5555;
-  
-  //Constructors ****************************************************
-  
-  /**
-   * Constructs an instance of the echo server.
-   *
-   * @param port The port number to connect on.
-   * 
-   */
- public static Student [] students=new Student[4];
- 
- // to be used
- private DatabaseController dbController;
-
 
   public EktServer(int port) 
   {
@@ -57,11 +20,9 @@ public class EktServer extends AbstractServer
   }
   
   private void initDBConnector() {
-		dbController = DatabaseController.getInstance();
+		DatabaseController.getInstance();
   }
-  
-  //Instance methods ************************************************
-  
+
   /**
    * This method handles any messages received from the client.
    *
@@ -138,4 +99,3 @@ public class EktServer extends AbstractServer
   }
   
 }
-//End of EchoServer class

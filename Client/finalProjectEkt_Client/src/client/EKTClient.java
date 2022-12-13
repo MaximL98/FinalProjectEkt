@@ -10,7 +10,7 @@ import java.io.*;
 public class EKTClient extends AbstractClient
 {
 
-  public static Customer customer = new Customer(null,null,null, null, null, null);
+  public static Customer customer = new Customer(null,null,null, null, null, null, null, null);
   public static boolean awaitResponse = false;
   public static SCCP comm = new SCCP();
 

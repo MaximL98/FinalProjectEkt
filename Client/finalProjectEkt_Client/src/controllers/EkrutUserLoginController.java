@@ -21,7 +21,7 @@ public  class EkrutUserLoginController   {
 	
 	public void getExitBtn(ActionEvent event) throws Exception {
 		System.out.println("Worker Has Exited The Academic Tool");
-		ClientUI.chat.client.closeConnection();
+		ClientUI.clientController.client.closeConnection();
 		System.exit(0);
 	}
 

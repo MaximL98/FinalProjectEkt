@@ -5,7 +5,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class ClientUI extends Application {
-	public static ClientController chat; //only one instance
+	public static ClientController clientController; //only one instance
 	public static String serverIP;
 	public static void main( String args[] ) throws Exception
 	   { 
@@ -20,7 +20,7 @@ public class ClientUI extends Application {
 	}
 
 	public static void connectToServer() {
-		chat= new ClientController(serverIP, 5555);
+		clientController= new ClientController(serverIP, 5555);
 	}
 	
 	

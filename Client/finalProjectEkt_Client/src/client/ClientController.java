@@ -31,7 +31,7 @@ public class ClientController
   {
 	  client.handleMessageFromClientUI(msgToServer);
   }
-  
+  //test
 
   public static void display(String message) 
   {

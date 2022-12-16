@@ -21,14 +21,14 @@ public class SystemUser {
 	
 	/**
 	 * system user constructor
-	 * @param String firstName
-	 * @param String lastName
-	 * @param Integer id
-	 * @param String phoneNumber
-	 * @param String emailAddress
-	 * @param String creditCard
-	 * @param String username
-	 * @param String password
+	 * @param firstName
+	 * @param lastName
+	 * @param id
+	 * @param phoneNumber
+	 * @param emailAddress
+	 * @param creditCard
+	 * @param username
+	 * @param password
 	 */
 	public SystemUser(String firstName, String lastName, Integer id, String phoneNumber, String emailAddress,
 			String creditCard, String username, String password) {
@@ -44,123 +44,122 @@ public class SystemUser {
 	}
 	/**
 	 * getting user first name
-	 * @return String user first name
+	 * @return user first name
 	 */
 	public String getFirstName() {
 		return firstName;
 	}
 	/**
 	 * setting user first name
-	 * @param String firstName
+	 * @param firstName
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 	/**
 	 * getting user last name
-	 * @return String user last name
+	 * @return user last name
 	 */
 	public String getLastName() {
 		return lastName;
 	}
 	/**
 	 * setting user last name
-	 * @param String lastName
+	 * @param lastName
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 	/**
 	 * getting user id
-	 * @return Integer user id
+	 * @return user id
 	 */
 	public Integer getId() {
 		return id;
 	}
 	/**
 	 * setting user id
-	 * @param Integer id
+	 * @param id
 	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 	/**
 	 * getting user phone number
-	 * @return String user phone number
+	 * @return user phone number
 	 */
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 	/**
 	 * setting user phone number
-	 * @param String phoneNumber
+	 * @param phoneNumber
 	 */
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 	/**
 	 * getting user email address
-	 * @return String user email address
+	 * @return user email address
 	 */
 	public String getEmailAddress() {
 		return emailAddress;
 	}
 	/**
 	 * setting user email address
-	 * @param String emailAddress
+	 * @param emailAddress
 	 */
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
 	}
 	/**
 	 * getting user credit card number 
-	 * @return String credit card number
+	 * @return credit card number
 	 */
 	public String getCreditCard() {
 		return creditCard;
 	}
 	/**
 	 * setting user credit card number
-	 * @param String credit Card number
+	 * @param credit Card number
 	 */
 	public void setCreditCard(String creditCard) {
 		this.creditCard = creditCard;
 	}
 	/**
 	 * getting user username
-	 * @return String username
+	 * @return username
 	 */
 	public String getUsername() {
 		return username;
 	}
 	/**
 	 * setting user username
-	 * @param String username
+	 * @param username
 	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 	/**
 	 * getting user password
-	 * @return String password
+	 * @return password
 	 */
 	public String getPassword() {
 		return password;
 	}
 	/**
 	 * setting user password
-	 * @param String password
+	 * @param password
 	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
 	
-	//toString method that returns system user details
-	@Override
+	
 	/**
-	 * @override
 	 * toString method, returns system user details
 	 */
+	@Override
 	public String toString() {
 		return "SystemUser [firstName=" + firstName + ", lastName=" + lastName + ", id=" + id + ", phoneNumber="
 				+ phoneNumber + ", emailAddress=" + emailAddress + ", creditCard=" + creditCard + ", username="

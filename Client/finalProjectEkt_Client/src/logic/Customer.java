@@ -20,14 +20,14 @@ public class Customer extends SystemUser{
 	/**
 	 * Customer constructor, inherits fields from system user
 	 *
-	 * @param String customer first name
-	 * @param String customer last name
-	 * @param Integer customer id
-	 * @param String customer phone number
-	 * @param String customer email address
-	 * @param String customer credit card
-	 * @param String customer "username"
-	 * @param String customer password
+	 * @param customer first name
+	 * @param customer last name
+	 * @param customer id
+	 * @param customer phone number
+	 * @param customer email address
+	 * @param customer credit card
+	 * @param customer "username"
+	 * @param customer password
 	 */
 	public Customer(String firstName, String lastName, Integer id, String phoneNumber, String emailAddress,
 			String creditCard, String username, String password) {
@@ -37,7 +37,7 @@ public class Customer extends SystemUser{
 	
 	/**
 	 * getting customer subscription number
-	 * @return String customer subscription number
+	 * @return customer subscription number
 	 */
 	public String getSubscriberNumber() {return subscriberNumber;}
 	/**
@@ -50,14 +50,12 @@ public class Customer extends SystemUser{
 	
 	/**
 	 * returns if the customer is a subscriber or not
-	 * @return boolean true or false
+	 * @return true or false
 	 */
 	public boolean isSubscriber() {return subscriberNumber != null;}
 	/**
-	 * @override 
 	 * toString method, returns customer details
 	 */
-	//
 	@Override
 	public String toString() {
 		return "Customer [subscriberNumber=" + subscriberNumber + ", getSubscriberNumber()=" + getSubscriberNumber()

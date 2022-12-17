@@ -25,7 +25,6 @@ public class ClientController
     }
   }
 
-
   // overloaded method
   public void accept(SCCP msgToServer) 
   {

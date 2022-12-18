@@ -1,11 +1,19 @@
 package logic;
+
+import java.io.Serializable;
+
 /**
  * Project Name: finalProjectEkt_Client
  * Logic class that contains the details needed to save up for each system user.
  * @author Maxim Lebedinsky
  * @version 16/12/2022
  */
-public class SystemUser {
+// added serializble 
+public class SystemUser implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 *system user logic part.
 	 *all the following details, will be saved for each system user
@@ -161,9 +169,22 @@ public class SystemUser {
 	 */
 	@Override
 	public String toString() {
-		return "SystemUser [firstName=" + firstName + ", lastName=" + lastName + ", id=" + id + ", phoneNumber="
+		/*return "SystemUser [firstName=" + firstName + ", lastName=" + lastName + ", id=" + id + ", phoneNumber="
 				+ phoneNumber + ", emailAddress=" + emailAddress + ", creditCard=" + creditCard + ", username="
-				+ username + ", password=" + password + "]";
+				+ username + ", password=" + password + "]";*/
+		// I'm tired!
+		return sqlFormatObject();
+	}
+	
+	public String sqlFormatObject() {
+		return "(\"" + firstName + "\", "
+				+ "\"" + lastName + "\", " +
+				id + ", " +
+				"\"" + phoneNumber + "\", " +
+				"\""+emailAddress +"\", " +
+				"\""+creditCard + "\", " +
+				"\""+username + "\", " +
+				"\""+password +"\")";
 	}
 	
 	

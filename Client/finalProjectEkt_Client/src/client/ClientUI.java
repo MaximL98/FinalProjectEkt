@@ -12,7 +12,7 @@ public class ClientUI extends Application {
 	   { 
 		    launch(args);  
 	   } // end main
-	 
+	//Start
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		ClientLoginController aFrame = new ClientLoginController(); // create the window

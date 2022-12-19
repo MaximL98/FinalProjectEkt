@@ -6,9 +6,14 @@ import common.IServerSideFunction;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import logic.Customer;
-
-/*
- * Dabru hiti ani asbir mkave shze lo yeye mazben ela moil
+/**
+ * ServerMessageHandler: a wrapper class for a HashMap - map operation types to operations
+ * operation types: ServerClientRequestTypes objects
+ * operations: IServerSideFunction objects - implement the interface IServerSideFunction, 
+ * 											 and with it the handleMessage method that does 
+ * 											 the server's work for a given message
+ * @author Rotem
+ *
  */
 
 public class ServerMessageHandler {
@@ -80,7 +85,7 @@ public class ServerMessageHandler {
 			System.out.println("Calling the DB controller now (UNDER TEST)");
 			// if addMany = false, the controller will use a different query that will expect an array of size 1 (1 object)  
 			// now, we pass this three to the database controller.
-			boolean res = DatabaseController.handleQuery(DatabaseOperations.INSERT, tableName, addMany, objectsToAdd);
+			boolean res = DatabaseController.handleQuery(DatabaseOperation.INSERT, new Object[] {tableName, addMany, objectsToAdd});
 			
 			
 			// here, we return the proper message to the client
@@ -103,9 +108,7 @@ public class ServerMessageHandler {
 
 	private static HashMap<ServerClientRequestTypes, IServerSideFunction> map = 
 			new HashMap<ServerClientRequestTypes, IServerSideFunction>() {
-		/**
-		 * 
-		 */
+
 		private static final long serialVersionUID = 1L;
 
 	{
@@ -122,36 +125,5 @@ public class ServerMessageHandler {
 		return map;
 	}
 	
-	
-	/*
-	 * This main is used as a test to what I just did
-	 */
-	/*
-	 public static void main(String[] args) {
-		new ServerMessageHandler();
-		System.out.println("Testing message handler for \"ADD\" message type!");
-		String tableName = "Users";
-		Boolean many = false;
-		Object[] objectsToAdd = new Object[1];
-		objectsToAdd[0] = new Customer("David", "Dahookie", 1,"0505550000", "adolph@boy.are.you.fat", 
-				"1234-4321-5678-8765", "cumdumpster2020", "x0x0Y0banevr0t");
-		
-		SCCP msg = new SCCP();
-		
-		msg.setRequestType(ServerClientRequestTypes.ADD);
-		
-		msg.setMessageSent(new Object[] {
-				// first is string (table name)
-				tableName,
-				// second is Boolean (many?)
-				many,
-				// third is the array of objects to add
-				objectsToAdd
-		});
-		HashMap<ServerClientRequestTypes, IServerSideFunction> mymap = getMap();
-		IServerSideFunction f = mymap.get(msg.getRequestType());
-		f.handleMessage(msg);
-		
-	}*/
 	
 }

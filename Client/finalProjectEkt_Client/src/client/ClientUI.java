@@ -16,11 +16,13 @@ public class ClientUI extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		ClientLoginController aFrame = new ClientLoginController(); // create the window
-		CEOPageController ceopc = new CEOPageController();
+		// I removed this from here(just this one line, and 22 to reflect this)
+		// but the mimshak loox aight
+		//CEOPageController ceopc = new CEOPageController();
 		
-		ceopc.start(primaryStage);
+		//ceopc.start(primaryStage);
 
-		//aFrame.start(primaryStage);
+		aFrame.start(primaryStage);
 	}
 
 	public static void connectToServer() {

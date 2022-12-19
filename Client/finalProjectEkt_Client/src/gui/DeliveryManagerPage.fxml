@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane prefHeight="800.0" prefWidth="800.0">
+         <children>
+            <Text fx:id="welcomeText" layoutX="342.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delivery Management" />
+            <TableView fx:id="DeliveryTable" editable="true" layoutX="100.0" layoutY="100.0" prefHeight="600.0" prefWidth="600.0">
+              <columns>
+                <TableColumn fx:id="orderNumberColumn" prefWidth="137.0" text="Order Number" />
+                <TableColumn fx:id="dateReceivedColumn" prefWidth="163.0" text="Date Received" />
+                  <TableColumn fx:id="timeColumn" prefWidth="101.0" text="Time" />
+                  <TableColumn fx:id="statusColumn" prefWidth="198.0" text="Status" />
+              </columns>
+            </TableView>
+            <Button fx:id="btnBack" layoutX="14.0" layoutY="761.0" mnemonicParsing="false" text="Back" />
+            <Button fx:id="updateBtn" layoutX="374.0" layoutY="715.0" mnemonicParsing="false" text="Update" />
+         </children>
+      </Pane>
+   </children>
+</VBox>

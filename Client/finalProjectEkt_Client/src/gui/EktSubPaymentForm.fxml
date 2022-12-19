@@ -11,14 +11,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane layoutX="-6.0" layoutY="-6.0" prefHeight="814.0" prefWidth="800.0">
          <children>
-            <ImageView fitHeight="383.0" fitWidth="246.0" layoutX="56.0" layoutY="356.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="383.0" fitWidth="246.0" layoutX="56.0" layoutY="336.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../Downloads/-Insert_image_here-.svg.png" />
+                  <Image url="@Images/checkmark%20(1).png" />
                </image>
             </ImageView>
             <Text layoutX="52.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pay With Your Card Info">
@@ -26,9 +25,9 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="23.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="23.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../Downloads/-Insert_image_here-.svg.png" />
+                  <Image url="@Images/Logo.png" />
                </image>
             </ImageView>
             <Text layoutX="308.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment">
@@ -41,10 +40,10 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <TextField layoutX="502.0" layoutY="336.0" prefHeight="40.0" prefWidth="254.0" promptText="Credit Card Number" />
-            <TextField layoutX="440.0" layoutY="412.0" prefHeight="40.0" prefWidth="113.0" promptText="CVV" />
-            <ComboBox layoutX="571.0" layoutY="412.0" prefHeight="40.0" prefWidth="100.0" promptText="Mounth" />
-            <ComboBox layoutX="686.0" layoutY="412.0" prefHeight="40.0" prefWidth="100.0" promptText="Year" />
+            <TextField fx:id="txtCreditCard" layoutX="502.0" layoutY="336.0" prefHeight="40.0" prefWidth="254.0" promptText="Credit Card Number" />
+            <TextField fx:id="txtCVV" layoutX="440.0" layoutY="412.0" prefHeight="40.0" prefWidth="113.0" promptText="CVV" />
+            <ComboBox fx:id="cmbMonth" layoutX="571.0" layoutY="412.0" prefHeight="40.0" prefWidth="100.0" promptText="Month" />
+            <ComboBox fx:id="cmbYear" layoutX="686.0" layoutY="412.0" prefHeight="40.0" prefWidth="100.0" promptText="Year" />
             <Text layoutX="545.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fill Credit Card Info">
                <font>
                   <Font size="18.0" />
@@ -55,7 +54,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Button layoutX="552.0" layoutY="494.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="138.0" text="Pay">
+            <Button fx:id="btnPay" layoutX="552.0" layoutY="494.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="138.0" text="Pay">
                <font>
                   <Font size="24.0" />
                </font>
@@ -65,7 +64,7 @@
                   <Font size="36.0" />
                </font>
             </Text>
-            <Label layoutX="416.0" layoutY="618.0" text="&quot;the Price&quot;">
+            <Label fx:id="lblTotalPrice" layoutX="416.0" layoutY="618.0" text="&quot;the Price&quot;">
                <font>
                   <Font size="36.0" />
                </font>
@@ -75,7 +74,7 @@
                   <Font size="36.0" />
                </font>
             </Text>
-            <Button layoutX="23.0" layoutY="761.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="91.0" text="Back">
+            <Button fx:id="btnBack" layoutX="23.0" layoutY="761.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="91.0" text="Back">
                <font>
                   <Font size="18.0" />
                </font>

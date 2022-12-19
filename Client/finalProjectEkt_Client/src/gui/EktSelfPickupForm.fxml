@@ -11,7 +11,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane prefHeight="800.0" prefWidth="800.0">
+      <Pane fx:id="btnLocation" prefHeight="800.0" prefWidth="800.0">
          <children>
             <ImageView fitHeight="138.0" fitWidth="133.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -28,12 +28,12 @@
                   <Font name="Amiri Regular" size="24.0" />
                </font>
             </Text>
-            <TextField layoutX="298.0" layoutY="199.0" prefHeight="39.0" prefWidth="204.0" promptText="location search">
+            <TextField fx:id="txtLocation" layoutX="298.0" layoutY="199.0" prefHeight="39.0" prefWidth="204.0" promptText="location search">
                <font>
                   <Font size="18.0" />
                </font>
             </TextField>
-            <Button layoutX="298.0" layoutY="337.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="204.0" text="Kiryat Mozkin, Hahagana">
+            <Button fx:id="btnMozkin" layoutX="298.0" layoutY="337.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="204.0" text="Kiryat Mozkin, Hahagana">
                <font>
                   <Font size="16.0" />
                </font>
@@ -43,27 +43,27 @@
                   <Font name="Amiri Regular" size="24.0" />
                </font>
             </Text>
-            <Button layoutX="298.0" layoutY="388.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="204.0" text="Karmiel, Kramim">
+            <Button fx:id="btnKarmiel" layoutX="298.0" layoutY="388.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="204.0" text="Karmiel, Kramim">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button layoutX="298.0" layoutY="443.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="204.0" text="Jerusalem">
+            <Button fx:id="btnJerusalem" layoutX="298.0" layoutY="443.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="204.0" text="Jerusalem">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button layoutX="298.0" layoutY="495.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="204.0" text="Haifa, Horev">
+            <Button fx:id="btnHaifa" layoutX="298.0" layoutY="495.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="204.0" text="Haifa, Horev">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button layoutX="298.0" layoutY="546.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="204.0" text="Tel Aviv, Rotshild">
+            <Button fx:id="btnTelAviv" layoutX="298.0" layoutY="546.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="204.0" text="Tel Aviv, Rotshild">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button layoutX="14.0" layoutY="747.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="77.0" text="Back">
+            <Button fx:id="btnBack" layoutX="14.0" layoutY="747.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="77.0" text="Back">
                <font>
                   <Font size="16.0" />
                </font>

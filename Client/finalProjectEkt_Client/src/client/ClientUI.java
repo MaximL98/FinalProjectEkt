@@ -1,5 +1,6 @@
 package client;
 
+import controllers.CEOPageController;
 import controllers.ClientLoginController;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -11,10 +12,15 @@ public class ClientUI extends Application {
 	   { 
 		    launch(args);  
 	   } // end main
-	 
+	//Start
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		ClientLoginController aFrame = new ClientLoginController(); // create the window
+		// I removed this from here(just this one line, and 22 to reflect this)
+		// but the mimshak loox aight
+		//CEOPageController ceopc = new CEOPageController();
+		
+		//ceopc.start(primaryStage);
 
 		aFrame.start(primaryStage);
 	}

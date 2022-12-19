@@ -66,35 +66,33 @@ public class ServerMessageHandler {
 			+ message.getMessageSent() + " is not of type Object[]");
 			}
 
-			// if addMany = false, the controller will use a different query that will expect an array of size 1 (1 object)  
-			
 			// debug
-			System.out.println("Calling database controller now! (UNDER TEST)");
-			// end debug
-			
-			// now, we pass this three to the database controller.
-			boolean res = DatabaseController.handleQuery(DatabaseOperations.INSERT, tableName, addMany, objectsToAdd);
-			
-			// debug
-			System.out.println("Objects: ");
+			System.out.println("Called server with ADD:");
 			System.out.println("table name: " + tableName);
-			System.out.println("Add many: " + addMany);
+			System.out.println("Add many (boolean): " + addMany);
 			System.out.println("Objects: ");
 			for(Object o : objectsToAdd) {
 				System.out.println(o);
 			}
 			// end debug
 			
+			
+			System.out.println("Calling the DB controller now (UNDER TEST)");
+			// if addMany = false, the controller will use a different query that will expect an array of size 1 (1 object)  
+			// now, we pass this three to the database controller.
+			boolean res = DatabaseController.handleQuery(DatabaseOperations.INSERT, tableName, addMany, objectsToAdd);
+			
+			
 			// here, we return the proper message to the client
 			// we will need some imports to do so (NOT IMPLEMENTED)
 			System.out.println("Returning result to client (UNDER TEST)");
 			if(res) {
 				response.setRequestType(ServerClientRequestTypes.ACK);
-				response.setMessageSent("SUCCESS!");
+				response.setMessageSent(objectsToAdd); // send the array of objects we sent to add to the db, to indicate success
 			}
 			else {
 				response.setRequestType(ServerClientRequestTypes.ERROR_MESSAGE);
-				response.setMessageSent("ERROR: adding to DB failed");
+				response.setMessageSent("ERROR: adding to DB failed"); // TODO: add some valuable information.
 			}
 			
 			return response;

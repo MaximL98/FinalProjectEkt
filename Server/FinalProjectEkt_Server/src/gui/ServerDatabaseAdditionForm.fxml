@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerDatabaseAdditionController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerDatabaseAdditionController">
    <children>
       <ComboBox fx:id="tablesComboBox" layoutX="318.0" layoutY="36.0" prefWidth="150.0" promptText="Table" />
       <Label layoutX="74.0" layoutY="36.0" prefHeight="25.0" prefWidth="250.0" text="Select a table to modify" />

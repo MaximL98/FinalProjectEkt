@@ -9,7 +9,8 @@ import java.io.Serializable;
  * @version 16/12/2022
  */
 
-// I added serializable to both, come on...
+// Rotem - added implements Serializable.
+// we need to discuss which entities the server needs, and set them all to be "implements Serializable"
 public class SystemUser implements Serializable{
 	private static final long serialVersionUID = 1L;
 
@@ -22,7 +23,7 @@ public class SystemUser implements Serializable{
 	private Integer id;
 	private String phoneNumber;
 	private String emailAddress;
-	private String creditCard;
+	private String creditCard;  // Rotem - asking for this to be moved to Customer
 	private String username;
 	private String password;
 	

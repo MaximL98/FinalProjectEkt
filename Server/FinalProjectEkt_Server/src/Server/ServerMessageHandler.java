@@ -19,11 +19,12 @@ import logic.Customer;
 public class ServerMessageHandler {
 	// Class that handles a message which adds row/rows to database
 	private static final class HandleMessageAddToTable implements IServerSideFunction {
+		// this is defined as a constant since, for adding to table, we always want a 3 element Object array.
 		private static final int MESSAGE_OBJECT_ARRAY_SIZE = 3;
-
 		@Override
 		public SCCP handleMessage(SCCP message) {
-			// message should be: Type(SCRT), {String_tableName, Boolean_addMany, Object[]_whatToAdd}
+			// message should be: Type(ServerClientRequestTypes), Object[]{String_tableName, Boolean_addMany, Object[]_whatToAdd}
+			// preparing response: will eventually contain a type[error or success], and a message[should be the original added object(s)
 			SCCP response = new SCCP();
 			ServerClientRequestTypes type = message.getRequestType();
 			Object tmpMsg = message.getMessageSent();
@@ -33,6 +34,9 @@ public class ServerMessageHandler {
 			String tableName;
 			Boolean addMany;
 			Object[] objectsToAdd;
+			
+			/// Start input validation
+			
 			// verify type
 			if(!(type.equals(ServerClientRequestTypes.ADD))) {
 				throw new IllegalArgumentException("Invalid type used in handleMessage, type: " + message.getRequestType());
@@ -71,11 +75,10 @@ public class ServerMessageHandler {
 			+ message.getMessageSent() + " is not of type Object[]");
 			}
 
+			/// End input validation
+			
 			// debug
-			System.out.println("Called server with ADD:");
-			System.out.println("table name: " + tableName);
-			System.out.println("Add many (boolean): " + addMany);
-			System.out.println("Objects: ");
+			System.out.println("Called server with ADD.\nTable name: " + tableName + "\nAdd many (boolean): " + addMany+"\nObjects (to add): ");
 			for(Object o : objectsToAdd) {
 				System.out.println(o);
 			}
@@ -97,6 +100,7 @@ public class ServerMessageHandler {
 			}
 			else {
 				response.setRequestType(ServerClientRequestTypes.ERROR_MESSAGE);
+				// idea - maybe we should create a special type for errors too, and pass a dedicated one that will provide valuable info to the client?
 				response.setMessageSent("ERROR: adding to DB failed"); // TODO: add some valuable information.
 			}
 			

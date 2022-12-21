@@ -1,4 +1,5 @@
-/client/
-/controllers/
+/common/
 /gui/
+/controllers/
+/client/
 /logic/

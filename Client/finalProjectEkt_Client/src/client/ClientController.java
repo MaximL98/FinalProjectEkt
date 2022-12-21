@@ -9,6 +9,7 @@ public class ClientController
 {
    public static int DEFAULT_PORT ;
    public static ArrayList<ConnectionToClient> clients = new ArrayList<ConnectionToClient>();
+  public static SCCP responseFromServer = new SCCP(); 
   
   public EKTClient client;
 
@@ -25,16 +26,10 @@ public class ClientController
     }
   }
 
-  // overloaded method
   public void accept(SCCP msgToServer) 
   {
 	  client.handleMessageFromClientUI(msgToServer);
   }
-  //test
 
-  public static void display(String message) 
-  {
-    System.out.println("> " + message);
-  }
 }
 //End of ConsoleChat class

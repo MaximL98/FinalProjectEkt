@@ -12,7 +12,6 @@ public class EKTClient extends AbstractClient
 
   public static Customer customer = new Customer(null,null,null, null, null, null, null, null);
   public static boolean awaitResponse = false;
-  public static SCCP comm = new SCCP();
 
   
   public EKTClient(String host, int port) throws IOException 
@@ -32,17 +31,17 @@ public class EKTClient extends AbstractClient
 	  // we don't care what message it is, as long as it's wrapped in our defined class
 	  if(msg instanceof SCCP) {
 		  SCCP tmp = (SCCP)msg;
-		  System.out.println("Got an object from server " + " object looks like: " +  tmp);
-		  
-		  // a common object for communications between server and client
-		  comm.setRequestType(tmp.getRequestType());
-		  comm.setMessageSent(tmp.getMessageSent());
+		  System.out.println("Got a message from server: " +  tmp);
+		  // pass the message to the controller
+		  ClientController.responseFromServer.setRequestType(tmp.getRequestType());
+		  ClientController.responseFromServer.setMessageSent(tmp.getMessageSent());
 		  
 	  }
 	  else {
 		  // error! (invalid input to client)
-		  comm.setRequestType(null);
-		  comm.setMessageSent(null);
+		  // TODO: replace with specific error
+		  ClientController.responseFromServer.setRequestType(null);
+		  ClientController.responseFromServer.setMessageSent(null);
 	  }
   }
 
@@ -68,7 +67,7 @@ public class EKTClient extends AbstractClient
     catch(IOException e)
     {
     	e.printStackTrace();
-    	ClientController.display("Could not send message to server: Terminating client."+ e);
+    	System.err.println("Could not send message to server: Terminating client."+ e);
       quit();
     }
   }

@@ -6,19 +6,25 @@ import common.IServerSideFunction;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import logic.Customer;
-
-/*
- * Dabru hiti ani asbir mkave shze lo yeye mazben ela moil
+/**
+ * ServerMessageHandler: a wrapper class for a HashMap - map operation types to operations
+ * operation types: ServerClientRequestTypes objects
+ * operations: IServerSideFunction objects - implement the interface IServerSideFunction, 
+ * 											 and with it the handleMessage method that does 
+ * 											 the server's work for a given message
+ * @author Rotem
+ *
  */
 
 public class ServerMessageHandler {
 	// Class that handles a message which adds row/rows to database
 	private static final class HandleMessageAddToTable implements IServerSideFunction {
+		// this is defined as a constant since, for adding to table, we always want a 3 element Object array.
 		private static final int MESSAGE_OBJECT_ARRAY_SIZE = 3;
-
 		@Override
 		public SCCP handleMessage(SCCP message) {
-			// message should be: Type(SCRT), {String_tableName, Boolean_addMany, Object[]_whatToAdd}
+			// message should be: Type(ServerClientRequestTypes), Object[]{String_tableName, Boolean_addMany, Object[]_whatToAdd}
+			// preparing response: will eventually contain a type[error or success], and a message[should be the original added object(s)
 			SCCP response = new SCCP();
 			ServerClientRequestTypes type = message.getRequestType();
 			Object tmpMsg = message.getMessageSent();
@@ -28,6 +34,9 @@ public class ServerMessageHandler {
 			String tableName;
 			Boolean addMany;
 			Object[] objectsToAdd;
+			
+			/// Start input validation
+			
 			// verify type
 			if(!(type.equals(ServerClientRequestTypes.ADD))) {
 				throw new IllegalArgumentException("Invalid type used in handleMessage, type: " + message.getRequestType());
@@ -66,11 +75,10 @@ public class ServerMessageHandler {
 			+ message.getMessageSent() + " is not of type Object[]");
 			}
 
+			/// End input validation
+			
 			// debug
-			System.out.println("Called server with ADD:");
-			System.out.println("table name: " + tableName);
-			System.out.println("Add many (boolean): " + addMany);
-			System.out.println("Objects: ");
+			System.out.println("Called server with ADD.\nTable name: " + tableName + "\nAdd many (boolean): " + addMany+"\nObjects (to add): ");
 			for(Object o : objectsToAdd) {
 				System.out.println(o);
 			}
@@ -80,7 +88,7 @@ public class ServerMessageHandler {
 			System.out.println("Calling the DB controller now (UNDER TEST)");
 			// if addMany = false, the controller will use a different query that will expect an array of size 1 (1 object)  
 			// now, we pass this three to the database controller.
-			boolean res = DatabaseController.handleQuery(DatabaseOperations.INSERT, tableName, addMany, objectsToAdd);
+			boolean res = DatabaseController.handleQuery(DatabaseOperation.INSERT, new Object[] {tableName, addMany, objectsToAdd});
 			
 			
 			// here, we return the proper message to the client
@@ -92,6 +100,7 @@ public class ServerMessageHandler {
 			}
 			else {
 				response.setRequestType(ServerClientRequestTypes.ERROR_MESSAGE);
+				// idea - maybe we should create a special type for errors too, and pass a dedicated one that will provide valuable info to the client?
 				response.setMessageSent("ERROR: adding to DB failed"); // TODO: add some valuable information.
 			}
 			
@@ -103,9 +112,7 @@ public class ServerMessageHandler {
 
 	private static HashMap<ServerClientRequestTypes, IServerSideFunction> map = 
 			new HashMap<ServerClientRequestTypes, IServerSideFunction>() {
-		/**
-		 * 
-		 */
+
 		private static final long serialVersionUID = 1L;
 
 	{
@@ -122,36 +129,5 @@ public class ServerMessageHandler {
 		return map;
 	}
 	
-	
-	/*
-	 * This main is used as a test to what I just did
-	 */
-	/*
-	 public static void main(String[] args) {
-		new ServerMessageHandler();
-		System.out.println("Testing message handler for \"ADD\" message type!");
-		String tableName = "Users";
-		Boolean many = false;
-		Object[] objectsToAdd = new Object[1];
-		objectsToAdd[0] = new Customer("David", "Dahookie", 1,"0505550000", "adolph@boy.are.you.fat", 
-				"1234-4321-5678-8765", "cumdumpster2020", "x0x0Y0banevr0t");
-		
-		SCCP msg = new SCCP();
-		
-		msg.setRequestType(ServerClientRequestTypes.ADD);
-		
-		msg.setMessageSent(new Object[] {
-				// first is string (table name)
-				tableName,
-				// second is Boolean (many?)
-				many,
-				// third is the array of objects to add
-				objectsToAdd
-		});
-		HashMap<ServerClientRequestTypes, IServerSideFunction> mymap = getMap();
-		IServerSideFunction f = mymap.get(msg.getRequestType());
-		f.handleMessage(msg);
-		
-	}*/
 	
 }

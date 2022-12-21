@@ -152,8 +152,6 @@ public class AddUserToDbController {
     		ClientUI.clientController.accept(preparedMessage);
     		
     		// check comm for answer:
-    		// left this for the class to do at home
-    		// fuck nvm
     		if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
     			// add test that response.messageSent is the array we had in fill[2] (SAME OBJECT)
     			statusLabel.setText("Successfully added a client!");

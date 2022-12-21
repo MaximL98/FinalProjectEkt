@@ -191,9 +191,10 @@ public class DatabaseController {
 		dbPassword = databasePassword;
 	}
 
-	public static boolean handleQuery(DatabaseOperations operation, String tableName, Boolean addMany,
+	public static boolean handleQuery(DatabaseOperation operation, String tableName, Boolean addMany,
 			Object[] objectsToAdd) {
-		if(operation.equals(DatabaseOperations.INSERT)) {
+		
+		if(operation.equals(DatabaseOperation.INSERT)) {
 			// add
 			//(?, ?, ?, ?, ?, ?, ?, ?)
 			String addToTable =
@@ -208,9 +209,20 @@ public class DatabaseController {
 					return false; // TODO: add granularity
 				}
 			}
+			return true;
+
 		}
-		
-		return true;
+		return false;
 	}
+	
+	public static boolean handleQuery(DatabaseOperation operation, Object[] params) {
+		Object res = DatabaseOperationsMap.getMap().get(operation).getDatabaseAction(params);
+		if(res instanceof Boolean) {
+			return (boolean)res;
+		}
+		// fail any other case (for now)
+		return false;
+	}
+	
 	
 }

@@ -46,13 +46,13 @@
                   <RowConstraints maxHeight="73.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <DatePicker fx:id="endDateOrderReports" prefHeight="33.0" prefWidth="180.0" style="-fx-border-radius: 50;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <ComboBox fx:id="comboBoxOrderReports" prefHeight="33.0" prefWidth="180.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" GridPane.rowIndex="1">
+                  <DatePicker fx:id="dpEndDateOrderReport" prefHeight="33.0" prefWidth="180.0" style="-fx-border-radius: 50;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="cmbMachineOrderReport" prefHeight="33.0" prefWidth="180.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" GridPane.rowIndex="1">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                   </ComboBox>
-                  <Button fx:id="buttonViewOrderReports" alignment="CENTER" mnemonicParsing="false" onAction="#getBtnOrderReports" prefHeight="33.0" prefWidth="180.0" style="-fx-background-radius: 50; -fx-background-color: #FFFFC0; -fx-border-radius: 3; -fx-border-color: black; -fx-border-radius: 50;" text="View Report" textFill="#ae00ff" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <Button fx:id="btnViewOrderReport" alignment="CENTER" mnemonicParsing="false" onAction="#getBtnOrderReports" prefHeight="33.0" prefWidth="180.0" style="-fx-background-radius: 50; -fx-background-color: #FFFFC0; -fx-border-radius: 3; -fx-border-color: black; -fx-border-radius: 50;" text="View Report" textFill="#ae00ff" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <effect>
                         <Blend mode="SOFT_LIGHT">
                            <topInput>
@@ -75,7 +75,7 @@
                         <Font name="Calibri" size="22.0" />
                      </font>
                   </Button>
-                  <DatePicker fx:id="startDateOrderReports" prefHeight="33.0" prefWidth="180.0" style="-fx-border-radius: 50;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <DatePicker fx:id="DpStartDateOrderReport" prefHeight="33.0" prefWidth="180.0" style="-fx-border-radius: 50;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Date" GridPane.columnIndex="2" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date" GridPane.columnIndex="1" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Machine" />
@@ -98,13 +98,13 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ComboBox fx:id="comboBoxInventoryReports" prefHeight="33.0" prefWidth="180.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <ComboBox fx:id="cmbMachineInventoryReport" prefHeight="33.0" prefWidth="180.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                   </ComboBox>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Machine" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <Button fx:id="buttonViewInventoryReports" alignment="CENTER" mnemonicParsing="false" onAction="#getBtnInventoryReports" prefHeight="33.0" prefWidth="180.0" style="-fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: #FFFFF0; -fx-border-color: black;" text="View Report" textFill="#ae00ff" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                  <Button fx:id="btnViewInventoryReport" alignment="CENTER" mnemonicParsing="false" onAction="#getBtnInventoryReports" prefHeight="33.0" prefWidth="180.0" style="-fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: #FFFFF0; -fx-border-color: black;" text="View Report" textFill="#ae00ff" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <font>
                         <Font name="Calibri" size="22.0" />
                      </font>
@@ -148,17 +148,17 @@
                   <RowConstraints maxHeight="73.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <DatePicker fx:id="startDateCustomerReports" prefHeight="33.0" prefWidth="180.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <DatePicker fx:id="endDateCustomerReports" prefHeight="73.0" prefWidth="180.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <DatePicker fx:id="dpstartDateCustomerReport" prefHeight="33.0" prefWidth="180.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <DatePicker fx:id="dpEndDateCustomerReport" prefHeight="73.0" prefWidth="180.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Date" GridPane.columnIndex="2" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date" GridPane.columnIndex="1" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Machine" />
-                  <ComboBox fx:id="comboBoxCustomerReports" prefHeight="33.0" prefWidth="180.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" GridPane.rowIndex="1">
+                  <ComboBox fx:id="cmbMachineCustomerReport" prefHeight="33.0" prefWidth="180.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" GridPane.rowIndex="1">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                   </ComboBox>
-                  <Button fx:id="buttonViewCustomerReports" alignment="CENTER" mnemonicParsing="false" onAction="#getBtnCustomerReports" prefHeight="33.0" prefWidth="180.0" style="-fx-background-radius: 50; -fx-background-color: #FFFFC0; -fx-border-color: black; -fx-border-radius: 50;" text="View Report" textFill="#ae00ff" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <Button fx:id="btnViewCustomerReport" alignment="CENTER" mnemonicParsing="false" onAction="#getBtnCustomerReports" prefHeight="33.0" prefWidth="180.0" style="-fx-background-radius: 50; -fx-background-color: #FFFFC0; -fx-border-color: black; -fx-border-radius: 50;" text="View Report" textFill="#ae00ff" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <effect>
                         <Blend mode="SOFT_LIGHT">
                            <topInput>
@@ -183,7 +183,7 @@
                   </Button>
                </children>
             </GridPane>
-            <Button fx:id="btnLogout" onAction="#getBtnLogout" layoutX="14.0" layoutY="745.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="92.0" style="-fx-background-color: #FFCCCB;" text="Logout">
+            <Button fx:id="btnLogout" layoutX="14.0" layoutY="745.0" mnemonicParsing="false" onAction="#getBtnLogout" prefHeight="41.0" prefWidth="92.0" style="-fx-background-color: #FFCCCB;" text="Logout">
                <font>
                   <Font name="Calibri" size="22.0" />
                </font>

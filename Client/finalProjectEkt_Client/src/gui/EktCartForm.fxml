@@ -61,8 +61,8 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Button layoutX="359.0" layoutY="73.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="+" />
-                  <Button layoutX="415.0" layoutY="73.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="-" />
+                  <Button fx:id="btnAddQuantity" layoutX="359.0" layoutY="73.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="+" />
+                  <Button fx:id="btnSubtractQuantity" layoutX="415.0" layoutY="73.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="-" />
                   <Text layoutX="259.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sum">
                      <font>
                         <Font size="24.0" />
@@ -73,7 +73,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnCancel" layoutX="711.0" layoutY="74.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="52.0" text="X" />
+                  <Button fx:id="btnCancelProduct" layoutX="711.0" layoutY="74.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="52.0" text="X" />
                </children>
             </Pane>
             <Pane prefHeight="200.0" prefWidth="200.0">
@@ -108,8 +108,8 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Button layoutX="359.0" layoutY="73.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="+" />
-                  <Button layoutX="415.0" layoutY="73.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="-" />
+                  <Button fx:id="btnAddQuantity" layoutX="359.0" layoutY="73.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="+" />
+                  <Button fx:id="btnSubtractQuantity" layoutX="415.0" layoutY="73.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="-" />
                   <Text layoutX="259.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sum">
                      <font>
                         <Font size="24.0" />
@@ -120,7 +120,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnCancel" layoutX="711.0" layoutY="74.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="52.0" text="X" />
+                  <Button fx:id="btnCancelProduct" layoutX="711.0" layoutY="74.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="52.0" text="X" />
                </children>
             </Pane>
             <Pane prefHeight="200.0" prefWidth="200.0">
@@ -155,8 +155,8 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Button layoutX="359.0" layoutY="73.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="+" />
-                  <Button layoutX="415.0" layoutY="73.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="-" />
+                  <Button fx:id="btnAddQuantity" layoutX="359.0" layoutY="73.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="+" />
+                  <Button fx:id="btnSubtractQuantity" layoutX="415.0" layoutY="73.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="-" />
                   <Text layoutX="259.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sum">
                      <font>
                         <Font size="24.0" />
@@ -167,7 +167,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnCancel" layoutX="711.0" layoutY="74.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="52.0" text="X" />
+                  <Button fx:id="btnCancelProduct" layoutX="711.0" layoutY="74.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="52.0" text="X" />
                </children>
             </Pane>
             <Pane prefHeight="100.0" prefWidth="800.0">

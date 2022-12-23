@@ -1,6 +1,10 @@
 package Server;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
+
+import logic.SystemUser;
 
 public class DatabaseOperationsMap {
 	private static String SCHEMA_EKRUT = "ekrut";
@@ -83,6 +87,62 @@ public class DatabaseOperationsMap {
 		
 	}
 	
+	 protected static final class DatabaseActionSelectForLogin implements IDatabaseAction{
+		private String tableName;
+
+		// this performs the action we had in DatabaseController for .INSERT
+		// returns a boolean (Boolean) as an Object (because we implement an interface we have to be general)
+		@Override
+		public Object getDatabaseAction(Object[] params) {
+			// add input check - I can't be bothered to such an extent
+
+			String user, pass;
+			tableName = (String)params[0];
+			String[] up = (String[])params[1];
+			user = up[0];
+			pass = up[1];
+
+			String sqlQuery ="SELECT * FROM " +DatabaseOperationsMap.SCHEMA_EKRUT+"."+tableName+
+			 " WHERE username = \"" + user + "\" AND password = \"" + pass + "\";";
+			ResultSet queryResult  = DatabaseController.executeQueryWithResults(sqlQuery, null);
+			Boolean flag = false;
+			SystemUser connectedUser = null;
+			try {
+				queryResult.next();
+				  if(queryResult.getRow() != 0)
+				  {
+					  // get fields from DB
+					  Integer idNew= queryResult.getInt(1);
+
+					  String fname = queryResult.getString(2);
+
+					  String lname = queryResult.getString(3);
+
+					  String email = queryResult.getString(4);
+
+					  String fone = queryResult.getString(5);
+
+					  String cc = queryResult.getString(6);
+
+					  String retUser = queryResult.getString(7);
+					  
+					  String retPass = queryResult.getString(8);
+					  flag = true;
+					  connectedUser = new SystemUser(fname, lname, idNew, fone, email, cc, retUser, retPass);
+				  }
+				  queryResult.close();
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return connectedUser; 
+			
+		}
+
+
+	}
+	
 	private static HashMap<DatabaseOperation, IDatabaseAction> map = 
 			new HashMap<DatabaseOperation, IDatabaseAction>(){/**
 				 * 
@@ -91,7 +151,9 @@ public class DatabaseOperationsMap {
 
 			{
 				this.put(DatabaseOperation.INSERT, new DatabaseActionInsert());
+				this.put(DatabaseOperation.USER_LOGIN, new DatabaseActionSelectForLogin());
 				
+
 			}};
 
 	

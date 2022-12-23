@@ -177,9 +177,9 @@ public class SystemUser implements Serializable {
 	}
 	
 	public String sqlFormatObject() {
-		return "(\"" + firstName + "\", "
-				+ "\"" + lastName + "\", " +
-				id + ", " +
+		return "(\"" + id + "\", "
+				+ "\"" + firstName + "\", " +
+				lastName+ ", " +
 				"\"" + phoneNumber + "\", " +
 				"\""+emailAddress +"\", " +
 				"\""+creditCard + "\", " +

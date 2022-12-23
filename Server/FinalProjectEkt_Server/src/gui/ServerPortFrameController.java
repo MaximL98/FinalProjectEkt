@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import Server.DatabaseController;
 import Server.ServerUI;
+import common.WindowStarter;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,7 +45,20 @@ public class ServerPortFrameController  {
 
 	@FXML Button addUserToDB;
 	
-	
+	public void start(Stage primaryStage) throws Exception {	
+		// load server window
+		WindowStarter.createWindow(primaryStage, this, "/gui/ServerPort.fxml", "/gui/ServerPort.css", "Server");
+		
+		/*Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerPort.fxml"));
+				
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/gui/ServerPort.css").toExternalForm());
+		primaryStage.setTitle("Server");
+		primaryStage.setScene(scene);
+		*/
+		// here, we don't catch the X button, since we already did it in ServerUI's main
+		primaryStage.show();		
+	}
 	
 	private String getport() {
 		return portxt.getText();			
@@ -82,18 +96,6 @@ public class ServerPortFrameController  {
 			addUserToDB.setDisable(false);
 			
 		}
-	}
-
-	public void start(Stage primaryStage) throws Exception {	
-		// load server window
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerPort.fxml"));
-				
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/gui/ServerPort.css").toExternalForm());
-		primaryStage.setTitle("Client");
-		primaryStage.setScene(scene);
-		
-		primaryStage.show();		
 	}
 	
 	public void getExitBtn(ActionEvent event)  {

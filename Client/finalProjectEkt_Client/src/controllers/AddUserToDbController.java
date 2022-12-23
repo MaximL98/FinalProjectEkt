@@ -142,7 +142,7 @@ public class AddUserToDbController {
     		preparedMessage.setRequestType(ServerClientRequestTypes.ADD);
     		// first field is table name - users here
     		Object[] fill = new Object[3];
-    		fill[0] = "systemusers"; // add to table "systemusers" (hard code it elsewhere)
+    		fill[0] = "systemuser"; // add to table "systemusers" (hard code it elsewhere)
     		fill[1] = false; // add only 1
     		fill[2] = new Object[] {new SystemUser(firstNameTxt.getText(), lastNameTxt.getText(), id, 
     				phoneNumberTxt.getText(), emailTxt.getText(), creditCardTxt.getText(), usernameTxt.getText(), passwordTxt.getText())};

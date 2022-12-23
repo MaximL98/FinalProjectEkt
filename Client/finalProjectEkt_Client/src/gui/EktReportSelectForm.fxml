@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
@@ -27,11 +28,6 @@
             <Text layoutX="312.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Reports">
                <font>
                   <Font name="Yu Gothic Light" size="33.0" />
-               </font>
-            </Text>
-            <Text fx:id="WelcomeCEOText" layoutX="313.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome, CEO">
-               <font>
-                  <Font size="30.0" />
                </font>
             </Text>
             <GridPane alignment="BOTTOM_CENTER" layoutY="200.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="800.0">
@@ -183,7 +179,7 @@
                   </Button>
                </children>
             </GridPane>
-            <Button fx:id="btnLogout" onAction="#getBtnLogout" layoutX="14.0" layoutY="745.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="92.0" style="-fx-background-color: #FFCCCB;" text="Logout">
+            <Button fx:id="btnBack" layoutX="14.0" layoutY="745.0" mnemonicParsing="false" onAction="#getBtnLogout" prefHeight="41.0" prefWidth="92.0" style="-fx-background-color: #FFCCCB;" text="Back">
                <font>
                   <Font name="Calibri" size="22.0" />
                </font>
@@ -196,6 +192,11 @@
             <Text fx:id="orderErrorMessage" disable="true" fill="RED" layoutX="338.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" />
             <Text fx:id="inventoryErrorMessage" disable="true" fill="RED" layoutX="338.0" layoutY="455.0" strokeType="OUTSIDE" strokeWidth="0.0" />
             <Text fx:id="customerErrorMessage" disable="true" fill="RED" layoutX="338.0" layoutY="636.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+            <Label layoutX="244.0" layoutY="44.0" text="Welcome, Manager">
+               <font>
+                  <Font size="39.0" />
+               </font>
+            </Label>
          </children>
          <opaqueInsets>
             <Insets />

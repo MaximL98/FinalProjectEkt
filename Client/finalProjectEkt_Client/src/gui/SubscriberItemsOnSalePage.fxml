@@ -70,7 +70,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Text>
-                              <Button mnemonicParsing="false" text="Add To Cart" />
+                              <Button fx:id="btnAddToCart1" mnemonicParsing="false" text="Add To Cart" />
                            </children>
                         </VBox>
                      </children>

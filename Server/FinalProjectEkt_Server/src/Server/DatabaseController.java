@@ -160,9 +160,12 @@ public class DatabaseController {
 		PreparedStatement ps;
 		try {
 			ps = con.prepareStatement(sqlStatement);
-			for (int i = 0; i < params.length; i++) {
-				ps.setObject(i+1, params[i]);
+			if(params != null) {
+				for (int i = 0; i < params.length; i++) {
+					ps.setObject(i+1, params[i]);
+				}
 			}
+			System.out.println("SQL to execute: "+sqlStatement);
 			//System.out.println("prepared statement : " + ps.toString());
 
 			return ps.executeQuery();
@@ -215,13 +218,13 @@ public class DatabaseController {
 		return false;
 	}
 	
-	public static boolean handleQuery(DatabaseOperation operation, Object[] params) {
+	public static Object handleQuery(DatabaseOperation operation, Object[] params) {
 		Object res = DatabaseOperationsMap.getMap().get(operation).getDatabaseAction(params);
 		if(res instanceof Boolean) {
 			return (boolean)res;
 		}
 		// fail any other case (for now)
-		return false;
+		return res;
 	}
 	
 	

@@ -3,6 +3,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 import common.SCCP;
+import logic.SystemUser;
 import ocsf.server.ConnectionToClient;
 
 public class ClientController
@@ -10,6 +11,7 @@ public class ClientController
    public static int DEFAULT_PORT ;
    public static ArrayList<ConnectionToClient> clients = new ArrayList<ConnectionToClient>();
   public static SCCP responseFromServer = new SCCP(); 
+  private static SystemUser connectedSystemUser = null;
   
   public EKTClient client;
 
@@ -30,6 +32,14 @@ public class ClientController
   {
 	  client.handleMessageFromClientUI(msgToServer);
   }
+
+	public static SystemUser getCurrentSystemUser() {
+		return connectedSystemUser;
+	}
+	
+	public static void setCurrentSystemUser(SystemUser currentSystemUser) {
+		ClientController.connectedSystemUser = currentSystemUser;
+	}
 
 }
 //End of ConsoleChat class

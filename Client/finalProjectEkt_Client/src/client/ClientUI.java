@@ -18,7 +18,6 @@ public class ClientUI extends Application {
 		ClientLoginController aFrame = new ClientLoginController(); // create the window
 		// I removed this from here(just this one line, and 22 to reflect this)
 		// but the mimshak loox aight
-		// ok son get back 2 winning now stop winning
 		//CEOPageController ceopc = new CEOPageController();
 		
 		//ceopc.start(primaryStage);

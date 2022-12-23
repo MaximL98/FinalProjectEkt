@@ -20,7 +20,6 @@ public class Report {
 	 * @param customerHistogram
 	 */
 	public Report(Integer reportID, Integer stockStatusOfMachines, String customerHistogram) {
-		super();
 		this.reportID = reportID;
 		this.stockStatusOfMachines = stockStatusOfMachines;
 		this.customerHistogram = customerHistogram;

@@ -20,7 +20,6 @@ public class Promotions {
 	 * @param promotionLocation
 	 */
 	public Promotions(String productsDetails, Integer discountAmount, String promotionLocation) {
-		super();
 		this.productsDetails = productsDetails;
 		this.discountAmount = discountAmount;
 		this.promotionLocation = promotionLocation;

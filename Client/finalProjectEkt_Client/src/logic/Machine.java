@@ -114,6 +114,14 @@ public class Machine {
 		return "Machine [products=" + products + ", stock=" + stock + ", thresholdLevel=" + thresholdLevel
 				+ ", location=" + location + "]";
 	}
+	
+	public void addProduct(String productToAdd) {
+		products.add(productToAdd);
+	}
+	
+	public void removeProduct(String productToAdd) {
+		products.remove(productToAdd);
+	}
 
 	
 	

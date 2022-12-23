@@ -22,12 +22,8 @@ public class Promotions {
 	 * @param discountAmount
 	 * @param promotionLocation
 	 */
-<<<<<<< HEAD
-	public Promotions(String productsDetails, Integer discountAmount, String promotionLocation) {
-=======
 	public Promotions(ArrayList<String> productsDetails, Integer discountAmount, String promotionLocation) {
 		super();
->>>>>>> 46ba295c701d32a0f04cdd18250d1678b3fc2378
 		this.productsDetails = productsDetails;
 		this.discountAmount = discountAmount;
 		this.promotionLocation = promotionLocation;

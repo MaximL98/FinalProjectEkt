@@ -10,8 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18">
+<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane prefHeight="800.0" prefWidth="800.0">
          <children>
@@ -30,7 +29,7 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <BarChart layoutX="7.0" layoutY="244.0" prefHeight="571.0" prefWidth="649.0">
+            <BarChart fx:id="barCharInventoryStatus" layoutX="7.0" layoutY="244.0" prefHeight="571.0" prefWidth="649.0">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -38,7 +37,7 @@
                 <NumberAxis side="LEFT" />
               </yAxis>
             </BarChart>
-            <Text layoutX="47.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Minimum quantity for restocking:  4">
+            <Text fx:id="txtQuantity" layoutX="47.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Minimum quantity for restocking:  4">
                <font>
                   <Font size="24.0" />
                </font>

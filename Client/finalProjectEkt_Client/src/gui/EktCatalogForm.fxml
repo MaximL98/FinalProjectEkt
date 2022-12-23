@@ -37,7 +37,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0">
+            <Button fx:id="btnCatalog1" mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0">
                <graphic>
                   <ImageView fitHeight="131.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -46,7 +46,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="1">
+            <Button fx:id="btnCatalog2" mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="1">
                <graphic>
                   <ImageView fitHeight="131.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -55,7 +55,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="2">
+            <Button fx:id="btnCatalog3" mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="2">
                <graphic>
                   <ImageView fitHeight="131.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -64,7 +64,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="3">
+            <Button fx:id="btnCatalog4" mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="3">
                <graphic>
                   <ImageView fitHeight="131.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -73,7 +73,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="5">
+            <Button fx:id="btnCatalog6" mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="5">
                <graphic>
                   <ImageView fitHeight="131.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -82,7 +82,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.rowIndex="1">
+            <Button fx:id="btnCatalog7" mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.rowIndex="1">
                <graphic>
                   <ImageView fitHeight="131.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -91,7 +91,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button fx:id="btnCatalog8" mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <graphic>
                   <ImageView fitHeight="131.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -100,7 +100,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button fx:id="btnCatalog9" mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <graphic>
                   <ImageView fitHeight="131.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -109,7 +109,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <Button fx:id="btnCatalog10" mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <graphic>
                   <ImageView fitHeight="131.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -118,7 +118,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+            <Button fx:id="btnCatalog11" mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
                <graphic>
                   <ImageView fitHeight="131.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -127,7 +127,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+            <Button fx:id="btnCatalog12" mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
                <graphic>
                   <ImageView fitHeight="131.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -136,7 +136,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="4">
+            <Button fx:id="btnCatalog5" mnemonicParsing="false" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="4">
                <graphic>
                   <ImageView fitHeight="131.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -157,17 +157,17 @@
             <Font size="36.0" />
          </font>
       </Text>
-      <TextField layoutX="254.0" layoutY="251.0" prefHeight="30.0" prefWidth="290.0" promptText="Search Catalog">
+      <TextField fx:id="txtSearch" layoutX="254.0" layoutY="251.0" prefHeight="30.0" prefWidth="290.0" promptText="Search Catalog">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <Button layoutX="68.0" layoutY="251.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Category">
+      <Button fx:id="btnCategory" layoutX="68.0" layoutY="251.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Category">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button layoutX="14.0" layoutY="250.0" mnemonicParsing="false">
+      <Button fx:id="btnInfo" layoutX="14.0" layoutY="250.0" mnemonicParsing="false">
          <font>
             <Font size="14.0" />
          </font>

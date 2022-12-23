@@ -15,6 +15,8 @@ import java.sql.*;
 
 public class DatabaseController {
 	// constants
+	// URL is defined with ssl disabled because the java version is too weak to handle it otherwise 
+	// (sergoy: don't use java 19 because it's not buggy and I love bugs, I love them so much I eat them and shit them daily)
 	private static final String URL = "jdbc:mysql://localhost/ekrutdb?serverTimezone=IST&sslMode=DISABLED&allowPublicKeyRetrieval=true";	// Rotem -> read line 28
 	//private static final String DRIVER_NAME = "com.mysql.jdbc.Driver";
 

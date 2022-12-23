@@ -16,18 +16,18 @@
 	private String password;
 	-->
 
-<AnchorPane prefHeight="640.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddUserToDbController">
+<AnchorPane prefHeight="640.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddUserToDbController">
    <children>
       <Text layoutX="83.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert user details" />
-      <Button fx:id="btnConnect" layoutX="336.0" layoutY="93.0" mnemonicParsing="false" onAction="#getAddUserToDB" text="Add" />
-      <TextField fx:id="usernameTxt" layoutX="77.0" layoutY="93.0" promptText="USSRname" />
-      <TextField fx:id="passwordTxt" layoutX="77.0" layoutY="132.0" promptText="pASSword" />
-      <TextField fx:id="userIdTxt" layoutX="77.0" layoutY="174.0" promptText="User ID" />
-      <TextField fx:id="firstNameTxt" layoutX="77.0" layoutY="217.0" promptText="First name" />
-      <TextField fx:id="lastNameTxt" layoutX="77.0" layoutY="268.0" promptText="Last name" />
-      <TextField fx:id="phoneNumberTxt" layoutX="77.0" layoutY="307.0" promptText="Phone number" />
-      <TextField fx:id="emailTxt" layoutX="77.0" layoutY="349.0" promptText="Email" />
-      <TextField fx:id="creditCardTxt" layoutX="77.0" layoutY="392.0" promptText="Credit Card" />
-      <Text fx:id="statusLabel" layoutX="309.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status: Waiting" />
+      <Button fx:id="btnAdd" layoutX="336.0" layoutY="93.0" mnemonicParsing="false" onAction="#getAddUserToDB" text="Add" />
+      <TextField fx:id="txtUsername" layoutX="77.0" layoutY="93.0" promptText="USSRname" />
+      <TextField fx:id="txtPassword" layoutX="77.0" layoutY="132.0" promptText="pASSword" />
+      <TextField fx:id="txtID" layoutX="77.0" layoutY="174.0" promptText="User ID" />
+      <TextField fx:id="txtFirstName" layoutX="77.0" layoutY="217.0" promptText="First name" />
+      <TextField fx:id="txtLastName" layoutX="77.0" layoutY="268.0" promptText="Last name" />
+      <TextField fx:id="txtPhoneNumber" layoutX="77.0" layoutY="307.0" promptText="Phone number" />
+      <TextField fx:id="txtEmail" layoutX="77.0" layoutY="349.0" promptText="Email" />
+      <TextField fx:id="txtCreditCard" layoutX="77.0" layoutY="392.0" promptText="Credit Card" />
+      <Text fx:id="lblStatus" layoutX="309.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status: Waiting" />
    </children>
 </AnchorPane>

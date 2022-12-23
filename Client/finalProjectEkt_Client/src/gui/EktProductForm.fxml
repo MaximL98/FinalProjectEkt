@@ -14,14 +14,14 @@
    <children>
       <VBox prefHeight="800.0" prefWidth="800.0">
          <children>
-            <Pane prefHeight="152.0" prefWidth="816.0">
+            <Pane prefHeight="152.0" prefWidth="823.0">
                <children>
-                  <ImageView fitHeight="110.0" fitWidth="178.0" layoutX="308.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="110.0" fitWidth="178.0" layoutX="14.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../Downloads/-Insert_image_here-.svg.png" />
+                        <Image url="@Images/TheBetterLogo.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="182.0" layoutY="100.0" text="&quot;category name&quot; Products">
+                  <Label fx:id="lblCategoryName" layoutX="193.0" layoutY="50.0" text="&quot;category name&quot; Products">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -30,22 +30,17 @@
             </Pane>
             <Pane prefHeight="199.0" prefWidth="785.0">
                <children>
-                  <Label layoutX="29.0" layoutY="22.0" prefHeight="38.0" prefWidth="214.0" text="name of product">
+                  <Label fx:id="lblProductName1" layoutX="29.0" layoutY="22.0" prefHeight="38.0" prefWidth="214.0" text="name of product">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="29.0" layoutY="68.0" prefHeight="38.0" prefWidth="214.0" text="product Code ...">
+                  <Label fx:id="lblProductCode1" layoutX="29.0" layoutY="68.0" prefHeight="38.0" prefWidth="214.0" text="product Code ...">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="29.0" layoutY="106.0" prefHeight="38.0" prefWidth="214.0" text="category">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="29.0" layoutY="144.0" prefHeight="38.0" prefWidth="214.0" text="product price">
+                  <Label fx:id="lblPrice1" layoutX="29.0" layoutY="107.0" prefHeight="38.0" prefWidth="214.0" text="product price">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -55,12 +50,12 @@
                         <Image url="@../../../../../../Downloads/-Insert_image_here-.svg.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="628.0" layoutY="75.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="133.0" text="Add Item">
+                  <Button fx:id="addItem1" layoutX="628.0" layoutY="75.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="133.0" text="Add Item">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Label layoutX="662.0" layoutY="131.0" text="count: ...">
+                  <Label fx:id="lblCount1" layoutX="662.0" layoutY="131.0" text="count: ...">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -69,22 +64,17 @@
             </Pane>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label layoutX="29.0" layoutY="22.0" prefHeight="38.0" prefWidth="214.0" text="name of product">
+                  <Label fx:id="lblProductName2" layoutX="29.0" layoutY="22.0" prefHeight="38.0" prefWidth="214.0" text="name of product">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="29.0" layoutY="68.0" prefHeight="38.0" prefWidth="214.0" text="product Code: ...">
+                  <Label fx:id="lblProductCode2" layoutX="29.0" layoutY="68.0" prefHeight="38.0" prefWidth="214.0" text="product Code: ...">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="29.0" layoutY="106.0" prefHeight="38.0" prefWidth="214.0" text="category">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="29.0" layoutY="144.0" prefHeight="38.0" prefWidth="214.0" text="product price">
+                  <Label fx:id="lblPrice2" layoutX="29.0" layoutY="107.0" prefHeight="38.0" prefWidth="214.0" text="product price">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -94,12 +84,12 @@
                         <Image url="@../../../../../../Downloads/-Insert_image_here-.svg.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="628.0" layoutY="75.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="133.0" text="Add Item">
+                  <Button fx:id="addItem2" layoutX="628.0" layoutY="75.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="133.0" text="Add Item">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Label layoutX="662.0" layoutY="131.0" text="count: ...">
+                  <Label fx:id="lblCount2" layoutX="662.0" layoutY="131.0" text="count: ...">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -108,22 +98,17 @@
             </Pane>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label layoutX="29.0" layoutY="22.0" prefHeight="38.0" prefWidth="214.0" text="name of product">
+                  <Label fx:id="lblProductName3" layoutX="29.0" layoutY="22.0" prefHeight="38.0" prefWidth="214.0" text="name of product">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="29.0" layoutY="68.0" prefHeight="38.0" prefWidth="214.0" text="product Code: ...">
+                  <Label fx:id="lblProductCode3" layoutX="29.0" layoutY="68.0" prefHeight="38.0" prefWidth="214.0" text="product Code: ...">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="29.0" layoutY="106.0" prefHeight="38.0" prefWidth="214.0" text="category">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="29.0" layoutY="144.0" prefHeight="38.0" prefWidth="214.0" text="product price">
+                  <Label fx:id="lblPrice3" layoutX="29.0" layoutY="107.0" prefHeight="38.0" prefWidth="214.0" text="product price">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -133,12 +118,12 @@
                         <Image url="@../../../../../../Downloads/-Insert_image_here-.svg.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="628.0" layoutY="75.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="133.0" text="Add Item">
+                  <Button fx:id="addItem3" layoutX="628.0" layoutY="75.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="133.0" text="Add Item">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Label layoutX="662.0" layoutY="131.0" text="count: ...">
+                  <Label fx:id="lblCount3" layoutX="662.0" layoutY="131.0" text="count: ...">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -147,7 +132,7 @@
             </Pane>
             <Pane prefHeight="46.0" prefWidth="800.0">
                <children>
-                  <Button layoutX="14.0" layoutY="4.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="168.0" text="other category'es">
+                  <Button fx:id="btnBack" layoutX="14.0" layoutY="4.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="168.0" text="other category'es">
                      <font>
                         <Font size="18.0" />
                      </font>

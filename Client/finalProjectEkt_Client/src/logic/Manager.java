@@ -7,6 +7,10 @@ package logic;
  */
 public class Manager extends Worker{
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
 	* Manager logic part.
 	* private fields that will contain manager department and the area he is managing
 	*/

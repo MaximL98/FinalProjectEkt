@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 
 import client.ClientUI;
+import common.WindowStarter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,14 +24,8 @@ public class ClientLoginController {
 	
 	//start primary stage
 		public void start(Stage primaryStage) throws Exception {
-			Parent root = FXMLLoader.load(getClass().getResource("/gui/ClientLoginForm.fxml"));
+			WindowStarter.createWindow(primaryStage, this, "/gui/ClientLoginForm.fxml", "/gui/ClientLogin.css", "Login");
 
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/gui/ClientLogin.css").toExternalForm());
-			primaryStage.setTitle("Login");
-			primaryStage.setScene(scene);
-			
-			primaryStage.show();	 	   
 		}
 	
 	
@@ -47,15 +42,15 @@ public class ClientLoginController {
 		
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
-		Pane root = loader.load(getClass().getResource("/gui/EkrutUserLoginForm.fxml").openStream());
-		//UpdateCustomerController updateCustomerController = loader.getController();		
-		//updateCustomerController.loadCustomer(EKTClient.customer);
-	
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
+		
+		/*Pane root = loader.load(getClass().getResource("/gui/EkrutUserLoginForm.fxml").openStream());
+
 		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/gui/EkrutUserLoginForm.css").toExternalForm());
 		primaryStage.setTitle("Worker Page");
 
 		primaryStage.setScene(scene);		
-		primaryStage.show();
+		primaryStage.show();*/
 	}
 }

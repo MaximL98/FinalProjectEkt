@@ -6,6 +6,7 @@ import common.IServerSideFunction;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import logic.Customer;
+import logic.SystemUser;
 /**
  * ServerMessageHandler: a wrapper class for a HashMap - map operation types to operations
  * operation types: ServerClientRequestTypes objects
@@ -88,7 +89,7 @@ public class ServerMessageHandler {
 			System.out.println("Calling the DB controller now (UNDER TEST)");
 			// if addMany = false, the controller will use a different query that will expect an array of size 1 (1 object)  
 			// now, we pass this three to the database controller.
-			boolean res = DatabaseController.handleQuery(DatabaseOperation.INSERT, new Object[] {tableName, addMany, objectsToAdd});
+			boolean res = (boolean)DatabaseController.handleQuery(DatabaseOperation.INSERT, new Object[] {tableName, addMany, objectsToAdd});
 			
 			
 			// here, we return the proper message to the client
@@ -109,7 +110,28 @@ public class ServerMessageHandler {
 		}
 	}
 
+	private static final class HandleMessageLogin implements IServerSideFunction{
 
+		@Override
+		public SCCP handleMessage(SCCP loginMessage) {
+			// TODO Auto-generated method stub
+			// we are supposed to get this object:
+			// SCCP(
+			// ServerClientRequestTypes LOGIN, new String[]{"username", "password"}
+			// )
+
+			Object res = DatabaseController.
+					handleQuery(DatabaseOperation.USER_LOGIN, new Object[] {"systemuser", loginMessage.getMessageSent()});
+			if(res instanceof SystemUser) {
+				return new SCCP(ServerClientRequestTypes.LOGIN, (SystemUser)res);
+			}
+			
+			return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");		
+		}
+		
+	}
+	
+	
 	private static HashMap<ServerClientRequestTypes, IServerSideFunction> map = 
 			new HashMap<ServerClientRequestTypes, IServerSideFunction>() {
 
@@ -122,6 +144,8 @@ public class ServerMessageHandler {
 		 * 
 		 */
 		this.put(ServerClientRequestTypes.ADD, new HandleMessageAddToTable());
+		this.put(ServerClientRequestTypes.LOGIN, new HandleMessageLogin());
+		
 	}};
 
 	

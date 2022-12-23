@@ -13,13 +13,8 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane layoutX="-6.0" layoutY="-6.0" prefHeight="814.0" prefWidth="800.0">
+      <Pane layoutX="-6.0" prefHeight="814.0" prefWidth="800.0">
          <children>
-            <ImageView fitHeight="383.0" fitWidth="246.0" layoutX="56.0" layoutY="336.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@Images/checkmark%20(1).png" />
-               </image>
-            </ImageView>
             <Text layoutX="52.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pay With Your Card Info">
                <font>
                   <Font size="24.0" />
@@ -78,6 +73,15 @@
                <font>
                   <Font size="18.0" />
                </font>
+            </Button>
+            <Button layoutX="42.0" layoutY="336.0" mnemonicParsing="false" prefHeight="264.0" prefWidth="269.0">
+               <graphic>
+                  <ImageView fx:id="btnPayWithStoredCardInfo" fitHeight="383.0" fitWidth="246.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/checkmark%20(1).png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
          </children>
       </Pane>

@@ -16,17 +16,17 @@
          <children>
             <Text fx:id="WelcomeInventoryWorkerText" layoutX="326.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome, Inventory Worker" />
             <Text layoutX="307.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert Machine inventory to update:" />
-            <TableView layoutX="150.0" layoutY="150.0" prefHeight="550.0" prefWidth="500.0">
+            <TableView fx:id="tblInventory" layoutX="150.0" layoutY="150.0" prefHeight="550.0" prefWidth="500.0">
               <columns>
-                <TableColumn prefWidth="144.0" text="Item" />
-                <TableColumn minWidth="0.0" prefWidth="116.0" text="Quantity" />
-                  <TableColumn prefWidth="139.0" text="Restock Amount" />
+                <TableColumn fx:id="colItem" prefWidth="144.0" text="Item" />
+                <TableColumn fx:id="colQuantity" minWidth="0.0" prefWidth="116.0" text="Quantity" />
+                  <TableColumn fx:id="colRestockAmount" prefWidth="139.0" text="Restock Amount" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <ComboBox fx:id="machineComboBox" layoutX="325.0" layoutY="106.0" prefWidth="150.0" />
+            <ComboBox fx:id="cmbChooseMachine" layoutX="325.0" layoutY="106.0" prefWidth="150.0" />
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="650.0" layoutY="334.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/3121792.png" />

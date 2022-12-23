@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane prefHeight="353.0" prefWidth="532.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerPortFrameController">
+<Pane prefHeight="353.0" prefWidth="532.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerPortFrameController">
    <children>
       <Button fx:id="btnConnect" layoutX="43.0" layoutY="223.0" mnemonicParsing="false" onAction="#clickConnectBtn" prefHeight="33.0" prefWidth="116.0" text="Connect" />
       <TextField fx:id="portxt" disable="true" layoutX="22.0" layoutY="55.0" text="5555" />

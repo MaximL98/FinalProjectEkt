@@ -2,9 +2,7 @@ package Server;
 
 import gui.ServerPortFrameController;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 public class ServerUI extends Application {
 	final public static int DEFAULT_PORT = 5555;
@@ -19,14 +17,13 @@ public class ServerUI extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub				  		
 		ServerPortFrameController aFrame = new ServerPortFrameController(); // create StudentFrame
-		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent we) {
-                if(serverObject != null) {
-                	System.out.println("X button has been clicked!");
-                		serverForcedShutdown();
-                }
-            }
-        }); 
+		primaryStage.setOnCloseRequest(we -> {
+	    	System.out.println("X button has been clicked!");
+
+		    if(serverObject != null) {
+		    		serverForcedShutdown();
+		    }
+		}); 
 		aFrame.start(primaryStage);
 	}
 	
@@ -62,6 +59,7 @@ public class ServerUI extends Application {
 	}
 	
 	public static void serverForcedShutdown() {
+		System.out.println("Server starting shutdown process");
 		if(getEktServerObject() != null)
 			getEktServerObject().handleForcedShutdown();
 	}

@@ -25,6 +25,7 @@ public class ClientLoginController {
 	//start primary stage
 		public void start(Stage primaryStage) throws Exception {
 			WindowStarter.createWindow(primaryStage, this, "/gui/ClientLoginForm.fxml", "/gui/ClientLogin.css", "Login");
+			primaryStage.show();	 	
 
 		}
 	
@@ -43,7 +44,15 @@ public class ClientLoginController {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
-		
+		// this was done so that we can use this button
+		primaryStage.setOnCloseRequest(we -> 
+		{
+			System.out.println("Pressed the X button."); 
+			System.exit(0);
+		}
+		);
+		primaryStage.show();	 	
+
 		/*Pane root = loader.load(getClass().getResource("/gui/EkrutUserLoginForm.fxml").openStream());
 
 		Scene scene = new Scene(root);			

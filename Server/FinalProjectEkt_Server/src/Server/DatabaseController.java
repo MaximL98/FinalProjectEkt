@@ -28,7 +28,7 @@ public class DatabaseController {
 	// TODO:
 	// for test only
 	private static Connection con;
-	private static String schemaName="ekrut";
+	private static String schemaName="ektdb";
 
 	private DatabaseController() {
 	
@@ -203,7 +203,7 @@ public class DatabaseController {
 			// add
 			//(?, ?, ?, ?, ?, ?, ?, ?)
 			String addToTable =
-					"INSERT INTO " +schemaName+"."+tableName+ " VALUES ";
+					"INSERT INTO " +getSchemaName()+"."+tableName+ " VALUES ";
 			// sql format set in each logic class
 			for(Object o : objectsToAdd) {
 				
@@ -227,6 +227,10 @@ public class DatabaseController {
 		}
 		// fail any other case (for now)
 		return res;
+	}
+
+	public static String getSchemaName() {
+		return schemaName;
 	}
 	
 	

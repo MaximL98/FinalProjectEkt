@@ -7,7 +7,7 @@ import java.util.HashMap;
 import logic.SystemUser;
 
 public class DatabaseOperationsMap {
-	private static String SCHEMA_EKRUT = "ekrut";
+	private static String SCHEMA_EKRUT = DatabaseController.getSchemaName();
 
 	// this has to be protected (not private) because we need it in DatabaseController
 	 protected static final class DatabaseActionInsert implements IDatabaseAction{
@@ -105,7 +105,6 @@ public class DatabaseOperationsMap {
 			String sqlQuery ="SELECT * FROM " +DatabaseOperationsMap.SCHEMA_EKRUT+"."+tableName+
 			 " WHERE username = \"" + user + "\" AND password = \"" + pass + "\";";
 			ResultSet queryResult  = DatabaseController.executeQueryWithResults(sqlQuery, null);
-			Boolean flag = false;
 			SystemUser connectedUser = null;
 			try {
 				queryResult.next();
@@ -127,7 +126,6 @@ public class DatabaseOperationsMap {
 					  String retUser = queryResult.getString(7);
 					  
 					  String retPass = queryResult.getString(8);
-					  flag = true;
 					  connectedUser = new SystemUser(fname, lname, idNew, fone, email, cc, retUser, retPass);
 				  }
 				  queryResult.close();

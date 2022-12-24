@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="800.0" prefWidth="800.0">
+         <children>
+            <Pane prefHeight="152.0" prefWidth="823.0">
+               <children>
+                  <ImageView fitHeight="110.0" fitWidth="178.0" layoutX="14.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/TheBetterLogo.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lblCategoryName" layoutX="193.0" layoutY="50.0" text="&quot;category name&quot; Products">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane prefHeight="199.0" prefWidth="785.0">
+               <children>
+                  <Label fx:id="lblProductName1" layoutX="29.0" layoutY="22.0" prefHeight="38.0" prefWidth="214.0" text="name of product">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblProductCode1" layoutX="29.0" layoutY="68.0" prefHeight="38.0" prefWidth="214.0" text="product Code ...">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblPrice1" layoutX="29.0" layoutY="107.0" prefHeight="38.0" prefWidth="214.0" text="product price">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="300.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../Downloads/-Insert_image_here-.svg.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="addItem1" layoutX="628.0" layoutY="75.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="133.0" text="Add Item">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="lblCount1" layoutX="662.0" layoutY="131.0" text="count: ...">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="lblProductName2" layoutX="29.0" layoutY="22.0" prefHeight="38.0" prefWidth="214.0" text="name of product">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblProductCode2" layoutX="29.0" layoutY="68.0" prefHeight="38.0" prefWidth="214.0" text="product Code: ...">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblPrice2" layoutX="29.0" layoutY="107.0" prefHeight="38.0" prefWidth="214.0" text="product price">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="300.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../Downloads/-Insert_image_here-.svg.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="addItem2" layoutX="628.0" layoutY="75.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="133.0" text="Add Item">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="lblCount2" layoutX="662.0" layoutY="131.0" text="count: ...">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="lblProductName3" layoutX="29.0" layoutY="22.0" prefHeight="38.0" prefWidth="214.0" text="name of product">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblProductCode3" layoutX="29.0" layoutY="68.0" prefHeight="38.0" prefWidth="214.0" text="product Code: ...">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblPrice3" layoutX="29.0" layoutY="107.0" prefHeight="38.0" prefWidth="214.0" text="product price">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="300.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../Downloads/-Insert_image_here-.svg.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="addItem3" layoutX="628.0" layoutY="75.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="133.0" text="Add Item">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="lblCount3" layoutX="662.0" layoutY="131.0" text="count: ...">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane prefHeight="46.0" prefWidth="800.0">
+               <children>
+                  <Button fx:id="btnBack" layoutX="14.0" layoutY="4.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="168.0" text="other category'es">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+      <ScrollBar layoutX="807.0" layoutY="155.0" orientation="VERTICAL" prefHeight="594.0" prefWidth="14.0" />
+   </children>
+</AnchorPane>

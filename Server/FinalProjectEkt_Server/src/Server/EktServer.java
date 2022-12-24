@@ -33,22 +33,24 @@ public class EktServer extends AbstractServer
   public void handleMessageFromClient  (Object msg, ConnectionToClient client)
   {
 	  // TODO: this
-	  
-//	 int flag=0;
-//	    System.out.println("Message received: " + msg + " from " + client);
-//	    for(int  i=0;i<4;i++) {
-//			if(students[i].getId().equals(msg))
-//			{ 
-//				System.out.println("Server Found");
-//				this.sendToAllClients(students[i].toString());
-//				flag=1;
-//			}
-//		
-//		}
-//	    if (flag!=1) {
-//			System.out.println("Not Found");
-//			this.sendToAllClients("Error");
-//		}        
+	  if(msg instanceof SCCP) {
+		  
+		  System.out.println("Server got message from client (" +client+"): "+(SCCP)msg);
+		  // now, the magic:
+		  SCCP response = ServerMessageHandler.getMap().get(((SCCP)msg).getRequestType()).handleMessage((SCCP)msg);
+		  try {
+			  // send to client
+			client.sendToClient(response);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	  }
+	  else {
+		  // error
+		  System.out.println("ERROR! Server got message from " + client +
+				  " not of type SCCP! message: "+ msg +" type of message: "+ (msg.getClass()));
+	  }
   }
    
   /**

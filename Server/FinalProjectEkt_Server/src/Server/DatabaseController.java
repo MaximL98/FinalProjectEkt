@@ -26,6 +26,7 @@ public class DatabaseController {
 	// TODO:
 	// for test only
 	private static Connection con;
+	private static String schemaName="ekrut";
 
 	private DatabaseController() {
 	
@@ -117,7 +118,7 @@ public class DatabaseController {
 		}
 	}
 
-	public boolean executeQuery(String sqlStatement, Object[] params) {
+	public static boolean executeQuery(String sqlStatement, Object[] params) {
 		con = getConnection();
 		PreparedStatement ps;
 		try {
@@ -137,14 +138,34 @@ public class DatabaseController {
 	}
 
 
-	public ResultSet executeQueryWithResults(String sqlStatement, Object[] params) {
+	public static boolean executeQuery(String sqlStatement) {
 		con = getConnection();
 		PreparedStatement ps;
 		try {
 			ps = con.prepareStatement(sqlStatement);
-			for (int i = 0; i < params.length; i++) {
-				ps.setObject(i+1, params[i]);
+
+			//System.out.println("prepared statement : " + ps.toString());
+			return ps.executeUpdate() > 0;
+		} catch (Exception e) {
+
+			System.out.println("Query execution failed.");
+			System.out.println("Exception message : " + e.getMessage());
+
+			return false; 
+		}
+	}
+	
+	public static ResultSet executeQueryWithResults(String sqlStatement, Object[] params) {
+		con = getConnection();
+		PreparedStatement ps;
+		try {
+			ps = con.prepareStatement(sqlStatement);
+			if(params != null) {
+				for (int i = 0; i < params.length; i++) {
+					ps.setObject(i+1, params[i]);
+				}
 			}
+			System.out.println("SQL to execute: "+sqlStatement);
 			//System.out.println("prepared statement : " + ps.toString());
 
 			return ps.executeQuery();
@@ -157,11 +178,6 @@ public class DatabaseController {
 		}
 	}
 	
-	// super imbortad
-	public void saveReport() {
-
-	}
-
 	public static String getDatabaseUserName() {
 		return dbName;
 	}
@@ -177,5 +193,39 @@ public class DatabaseController {
 	public static void setDatabasePassword(String databasePassword) {
 		dbPassword = databasePassword;
 	}
+
+	public static boolean handleQuery(DatabaseOperation operation, String tableName, Boolean addMany,
+			Object[] objectsToAdd) {
+		
+		if(operation.equals(DatabaseOperation.INSERT)) {
+			// add
+			//(?, ?, ?, ?, ?, ?, ?, ?)
+			String addToTable =
+					"INSERT INTO " +schemaName+"."+tableName+ " VALUES ";
+			// sql format set in each logic class
+			for(Object o : objectsToAdd) {
+				
+				String currentAddToTable = (new StringBuilder(addToTable)).append(o.toString()).append(";").toString();
+				System.out.println("Tring to sql:");
+				System.out.println(currentAddToTable);
+				if(!executeQuery(currentAddToTable)) {
+					return false; // TODO: add granularity
+				}
+			}
+			return true;
+
+		}
+		return false;
+	}
+	
+	public static Object handleQuery(DatabaseOperation operation, Object[] params) {
+		Object res = DatabaseOperationsMap.getMap().get(operation).getDatabaseAction(params);
+		if(res instanceof Boolean) {
+			return (boolean)res;
+		}
+		// fail any other case (for now)
+		return res;
+	}
+	
 	
 }

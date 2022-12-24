@@ -15,7 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 
-public  class EkrutUserLoginController   {
+public  class AddSystemUserToDatabaseController   {
 	@FXML 
 	private Button btnExit;
 	

@@ -11,8 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="800.0" prefWidth="809.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+<AnchorPane prefHeight="800.0" prefWidth="809.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefHeight="800.0" prefWidth="800.0">
          <children>
@@ -32,7 +31,7 @@
             </Pane>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label layoutX="324.0" layoutY="14.0" text="Product Name">
+                  <Label fx:id="lblProductName1" layoutX="324.0" layoutY="14.0" text="Product Name">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -47,7 +46,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="558.0" layoutY="49.0" prefHeight="27.0" prefWidth="116.0" text="&quot;the quantity&quot;" textAlignment="CENTER">
+                  <Label fx:id="lblQuantity1" layoutX="558.0" layoutY="49.0" prefHeight="27.0" prefWidth="116.0" text="&quot;the quantity&quot;" textAlignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -57,7 +56,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="574.0" layoutY="119.0" prefHeight="27.0" prefWidth="84.0" text="&quot;the Sum&quot;" textAlignment="CENTER">
+                  <Label fx:id="lblSum1" layoutX="574.0" layoutY="119.0" prefHeight="27.0" prefWidth="84.0" text="&quot;the Sum&quot;" textAlignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -66,7 +65,7 @@
             </Pane>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label layoutX="324.0" layoutY="14.0" text="Product Name">
+                  <Label fx:id="lblProductName2" layoutX="324.0" layoutY="14.0" text="Product Name">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -81,7 +80,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="558.0" layoutY="49.0" prefHeight="27.0" prefWidth="116.0" text="&quot;the quantity&quot;" textAlignment="CENTER">
+                  <Label fx:id="lblQuantity2" layoutX="558.0" layoutY="49.0" prefHeight="27.0" prefWidth="116.0" text="&quot;the quantity&quot;" textAlignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -91,7 +90,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="574.0" layoutY="119.0" prefHeight="27.0" prefWidth="84.0" text="&quot;the Sum&quot;" textAlignment="CENTER">
+                  <Label fx:id="lblSum2" layoutX="574.0" layoutY="119.0" prefHeight="27.0" prefWidth="84.0" text="&quot;the Sum&quot;" textAlignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -100,7 +99,7 @@
             </Pane>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label layoutX="324.0" layoutY="9.0" text="Product Name">
+                  <Label fx:id="lblProductName3" layoutX="324.0" layoutY="9.0" text="Product Name">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -115,7 +114,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="558.0" layoutY="49.0" prefHeight="27.0" prefWidth="116.0" text="&quot;the quantity&quot;" textAlignment="CENTER">
+                  <Label fx:id="lblQuantity3" layoutX="558.0" layoutY="49.0" prefHeight="27.0" prefWidth="116.0" text="&quot;the quantity&quot;" textAlignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -125,7 +124,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="574.0" layoutY="119.0" prefHeight="27.0" prefWidth="84.0" text="&quot;the Sum&quot;" textAlignment="CENTER">
+                  <Label fx:id="lblSum3" layoutX="574.0" layoutY="119.0" prefHeight="27.0" prefWidth="84.0" text="&quot;the Sum&quot;" textAlignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -144,17 +143,17 @@
                         <Font size="36.0" />
                      </font>
                   </Label>
-                  <Button layoutX="333.0" layoutY="53.0" mnemonicParsing="false" text="Approve">
+                  <Button fx:id="btnApprove" layoutX="333.0" layoutY="53.0" mnemonicParsing="false" text="Approve">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Button layoutX="14.0" layoutY="53.0" mnemonicParsing="false" text="Back To Shop">
+                  <Button fx:id="btnBack" layoutX="14.0" layoutY="53.0" mnemonicParsing="false" text="Back To Shop">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Button layoutX="696.0" layoutY="53.0" mnemonicParsing="false" text="Close">
+                  <Button fx:id="btnClose" layoutX="696.0" layoutY="53.0" mnemonicParsing="false" text="Close">
                      <font>
                         <Font size="24.0" />
                      </font>

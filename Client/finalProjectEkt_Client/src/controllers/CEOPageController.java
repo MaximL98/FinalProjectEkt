@@ -65,6 +65,8 @@ public class CEOPageController extends Application{
 	
 	@FXML 
 	private ComboBox<String> comboBoxCustomerReports;
+
+	@FXML VBox vboxCEO;
 	
 	//Setup CEOpage before launch
 	public void setUpCEOPage() {

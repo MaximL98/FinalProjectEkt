@@ -15,7 +15,7 @@ import java.sql.*;
 
 public class DatabaseController {
 	// constants
-	private static final String URL = "jdbc:mysql://localhost/ekrutdb?serverTimezone=IST&sslMode=DISABLED&allowPublicKeyRetrieval=true";	// Rotem -> read line 28
+	private static final String URL = "jdbc:mysql://localhost/ektdb?serverTimezone=IST&sslMode=DISABLED&allowPublicKeyRetrieval=true";	// Rotem -> read line 28
 	//private static final String DRIVER_NAME = "com.mysql.jdbc.Driver";
 
 	private static String dbName = "root";
@@ -26,7 +26,7 @@ public class DatabaseController {
 	// TODO:
 	// for test only
 	private static Connection con;
-	private static String schemaName="ekrut";
+	private static String schemaName="ektdb";
 
 	private DatabaseController() {
 	
@@ -226,6 +226,12 @@ public class DatabaseController {
 		// fail any other case (for now)
 		return res;
 	}
+	
+	//Handles the query to fetch all products with params[0] category name
+    public static Object handleQueryFetchProducts(DatabaseOperation operation, Object[] params) {
+        Object resultSet = DatabaseOperationsMap.getMap().get(operation).getDatabaseAction(params);
+        return resultSet;
+    }
 	
 	
 }

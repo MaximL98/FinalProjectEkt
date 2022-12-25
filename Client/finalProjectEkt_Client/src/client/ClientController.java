@@ -12,8 +12,9 @@ public class ClientController
    public static ArrayList<ConnectionToClient> clients = new ArrayList<ConnectionToClient>();
   public static SCCP responseFromServer = new SCCP(); 
   private static SystemUser connectedSystemUser = null;
+  public static String CurrentProductCategory = null;
   
-  public EKTClient client;
+public EKTClient client;
 
   public ClientController(String host, int port) 
   {
@@ -41,5 +42,12 @@ public class ClientController
 		ClientController.connectedSystemUser = currentSystemUser;
 	}
 
+	  public static String getCurrentProductCategory() {
+			return CurrentProductCategory;
+		}
+
+//		public static void setCurrentProductCategory(String currentProductCategory) {
+//			CurrentProductCategory = currentProductCategory;
+//		}
 }
 //End of ConsoleChat class

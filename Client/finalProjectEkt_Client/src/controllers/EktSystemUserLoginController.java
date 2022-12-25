@@ -4,10 +4,13 @@ import client.ClientController;
 import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
+import common.WindowStarter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import logic.SystemUser;
 import javafx.scene.control.Label;
 
@@ -22,8 +25,9 @@ public class EktSystemUserLoginController {
     @FXML
     private TextField txtUsername;
 
-	@FXML Label statusLabel;
-
+	@FXML 
+	Label statusLabel;
+	
     @FXML
     void getBtnLogin(ActionEvent event) {
     	String userName, password;
@@ -47,6 +51,17 @@ public class EktSystemUserLoginController {
 			statusLabel.setVisible(true);
 	    	System.out.println("Successfully connected as: " + con.getUsername() +".");
 
+	    	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			Stage primaryStage = new Stage();
+			WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog");
+			// this was done so that we can use this button
+			primaryStage.setOnCloseRequest(we -> 
+			{
+				System.out.println("Pressed the X button."); 
+				System.exit(0);
+			}
+			);
+			primaryStage.show();
 			
 		}
 		else {

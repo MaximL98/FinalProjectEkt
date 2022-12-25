@@ -32,6 +32,7 @@ public class EktServer extends AbstractServer
    */
   public void handleMessageFromClient  (Object msg, ConnectionToClient client)
   {
+	  System.out.println("problem is here");
 	  // TODO: this
 	  if(msg instanceof SCCP) {
 		  

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import logic.SystemUser;
 
 public class DatabaseOperationsMap {
-	private static String SCHEMA_EKRUT = "ekrut";
+	private static String SCHEMA_EKRUT = "ektdb";
 
 	// this has to be protected (not private) because we need it in DatabaseController
 	 protected static final class DatabaseActionInsert implements IDatabaseAction{
@@ -142,7 +142,25 @@ public class DatabaseOperationsMap {
 
 
 	}
-	
+//Class which is used to return a result set of all products with the category name categoryName[0] 
+    protected static final class DatabaseActionSelectForFetchProducts implements IDatabaseAction {
+        private String tableName;
+
+        @Override
+        public Object getDatabaseAction(Object[] categoryName) {
+            tableName = "products";
+
+        String productCategory = (String)categoryName[0];
+        String sqlQuery = "Select * FROM " + DatabaseOperationsMap.SCHEMA_EKRUT + "." +
+            tableName + "Where category = \"" + productCategory + "\" OR subCategory =" + 
+            "\"" + productCategory + "\";";
+
+            ResultSet fetchProductsResultSet = DatabaseController.executeQueryWithResults(sqlQuery, categoryName);
+
+            return fetchProductsResultSet;
+        }
+
+    }
 	private static HashMap<DatabaseOperation, IDatabaseAction> map = 
 			new HashMap<DatabaseOperation, IDatabaseAction>(){/**
 				 * 
@@ -152,7 +170,7 @@ public class DatabaseOperationsMap {
 			{
 				this.put(DatabaseOperation.INSERT, new DatabaseActionInsert());
 				this.put(DatabaseOperation.USER_LOGIN, new DatabaseActionSelectForLogin());
-				
+				this.put(DatabaseOperation.FETCH_PRODUCTS_BY_CATEGORY, new DatabaseActionSelectForFetchProducts());
 
 			}};
 

@@ -7,14 +7,27 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import logic.Product;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+
+import controllers.EktCatalogFormController;
 import client.ClientController;
 import client.ClientUI;
 import common.SCCP;
@@ -76,9 +89,19 @@ public class EktProductFormController {
     @FXML
     private Button btnBack;
     
-	
-	public void initialize() {
-		String productCategory = ClientController.getCurrentProductCategory();
+    @FXML
+    private Button btnCart;
+    
+    @FXML
+    private Label txtNumberOfItemsInCart;
+
+    public static  int itemsInCart = 0;
+    
+    	
+	public void initialize() throws FileNotFoundException {
+		
+		String productCategory = ClientController.CurrentProductCategory.get(0);
+		System.out.println(productCategory);
 		lblCategoryName.setText(productCategory + " Products");
 		
 		SCCP preparedMessage = new SCCP();
@@ -90,58 +113,84 @@ public class EktProductFormController {
 		System.out.println("Client: Sending " + productCategory + " category to server.");
 		
 		ClientUI.clientController.accept(preparedMessage);
-		System.out.println("im stuck");
+		
 		if (ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.FETCH_PRODUCTS_BY_CATEGORY)) {
-			System.out.println("im stuck");
-
-			ResultSet resultSetOfProducts = (ResultSet)ClientController.responseFromServer.getMessageSent();
-			try {
-				while(resultSetOfProducts.next()) {
-					String productID = resultSetOfProducts.getString("productID");
+			
+			//Might want to check this suppression
+			ArrayList<?> arrayOfProducts = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
+			
+			for(Object product: arrayOfProducts) {
+				//Main product hbox
+				HBox productHBox = new HBox();
+				
+				
+				//ProductName + ProductID + ProductPrice
+				VBox productDetails = new VBox();
+				Text txtProductName = new Text();
+				txtProductName.setText(((Product) product).getProductName());
+				txtProductName.setFont(new Font(18));
+				Text txtProductID = new Text();
+				txtProductID.setText("Product ID: " + ((Product) product).getProductID());
+				txtProductID.setFont(new Font(18));
+				Text txtProductCostPerUnit = new Text();
+				txtProductCostPerUnit.setText("Price: " + ((Product) product).getCostPerUnit());
+				txtProductCostPerUnit.setFont(new Font(18));
+				
+				productDetails.getChildren().add(txtProductName);
+				productDetails.getChildren().add(txtProductID);
+				productDetails.getChildren().add(txtProductCostPerUnit);
+				////////////////////////////////////////
+				String pathToImage = "controllers/Images/" + ((Product) product).getProductID() + ".png";
+				ImageView productImageView = new ImageView(new Image(pathToImage));
+				productImageView.setFitHeight(100);
+				productImageView.setFitWidth(100);
+//				///////////////////////////////////////
 					
-					String productName = resultSetOfProducts.getString("productName");
-					
-					String costPerUnit = resultSetOfProducts.getString("costPerUnit");
-					
-					String category = resultSetOfProducts.getString("category");
-					
-					String subCategory = resultSetOfProducts.getString("subCategory");
-					
-					//Main product hbox
-					HBox productHBox = new HBox();
-					
-					//ProductName + ProductID + ProductPrice
-					VBox productDetails = new VBox();
-					Text txtProductName = new Text(productName);
-					Text txtProductID = new Text(productID);
-					Text txtProductCostPerUnit = new Text(costPerUnit);
-					productDetails.getChildren().add(txtProductName);
-					productDetails.getChildren().add(txtProductID);
-					productDetails.getChildren().add(txtProductCostPerUnit);
-					////////////////////////////////////////
-					
-					//Product Image
-					ImageView productImageView = new ImageView();
-					Image productImage = new Image("/gui.Images.Products/" + productID);
-					productImageView.setImage(productImage);
-					/////////////////////////////////////////
-					
-					//AddToCart Button + amountTxt
-					VBox productAddToCartVBox = new VBox();
-					Button addToCart = new Button();
-					Text amountOfItems = new Text();
-					productAddToCartVBox.getChildren().add(addToCart);
-					productAddToCartVBox.getChildren().add(amountOfItems);
-					//////////////////////////////////////////////////////
-					
-					productHBox.setPrefSize(800, 200);
-					productHBox.getChildren().add(productDetails);
-					productHBox.getChildren().add(productImageView);
-					vboxProducts.getChildren().add(productAddToCartVBox);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+				//AddToCart Button + amountTxt
+				VBox productAddToCartVBox = new VBox();
+				Button addToCart = new Button();
+				
+				
+				
+				addToCart.setOnAction(action -> {
+					itemsInCart++;
+					if (itemsInCart  == 1) {
+						String itemsInCartString = itemsInCart + "";
+						txtNumberOfItemsInCart.setText(itemsInCartString);
+						txtNumberOfItemsInCart.setStyle("-fx-background-color: #da8888; -fx-background-radius: 10; -fx-opacity: 0.75;");
+					}
+					else {
+						String itemsInCartString = itemsInCart + "";
+						txtNumberOfItemsInCart.setText(itemsInCartString);
+					}
+					//Increment value of the product key in the hash map
+					//If it does not exist, set value to "1"
+					ClientController.currentUserCart.merge((Product)product, 1, Integer::sum);
+				});
+				
+				
+				
+				addToCart.setText(((Product)product).getProductName());
+				Text amountOfItems = new Text();
+				amountOfItems.setText("Add To Cart");
+				amountOfItems.setFont(new Font(18));
+				
+				productAddToCartVBox.getChildren().add(addToCart);
+				productAddToCartVBox.getChildren().add(amountOfItems);
+				//////////////////////////////////////////////////////
+				
+				productHBox.setPrefSize(800, 200);
+				productDetails.setPrefSize(200, 200);
+				
+				productHBox.getChildren().add(productDetails);
+				productHBox.getChildren().add(productImageView);
+				productHBox.getChildren().add(productAddToCartVBox);
+				vboxProducts.getChildren().add(productHBox);
+				System.out.println(((Product) product).getProductID());			
+							
 			}
+			
+			
 		}
 	}
 	
@@ -159,4 +208,14 @@ public class EktProductFormController {
 		);
 		primaryStage.show();
 	}
+	
+	@FXML
+	public void getBtnCart(ActionEvent event) {
+		System.out.println(ClientController.currentUserCart.keySet().toString() + 
+				ClientController.currentUserCart.values().toString());
+		
+		//Implement open cart
+	}
+	
+	
 }

@@ -1,8 +1,12 @@
 package client;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import common.SCCP;
+import logic.Product;
 import logic.SystemUser;
 import ocsf.server.ConnectionToClient;
 
@@ -12,10 +16,11 @@ public class ClientController
    public static ArrayList<ConnectionToClient> clients = new ArrayList<ConnectionToClient>();
   public static SCCP responseFromServer = new SCCP(); 
   private static SystemUser connectedSystemUser = null;
-  public static String CurrentProductCategory = null;
+  public static ArrayList<String> CurrentProductCategory = new ArrayList<>();
+  //Map that holds the current cart contents of the user
+  public static HashMap<Product,Integer> currentUserCart = new HashMap<>();
   
 public EKTClient client;
-
   public ClientController(String host, int port) 
   {
     try 
@@ -41,13 +46,14 @@ public EKTClient client;
 	public static void setCurrentSystemUser(SystemUser currentSystemUser) {
 		ClientController.connectedSystemUser = currentSystemUser;
 	}
-
-	  public static String getCurrentProductCategory() {
-			return CurrentProductCategory;
-		}
-
-//		public static void setCurrentProductCategory(String currentProductCategory) {
-//			CurrentProductCategory = currentProductCategory;
-//		}
+	
+//	  public static String getCurrentProductCategory() {
+//			return CurrentProductCategory;
+//	}
+//
+//	public static void setCurrentProductCategory(String currentProductCategory) {
+//		System.out.println("im getting it from here");
+//		CurrentProductCategory = currentProductCategory;
+//	}
 }
 //End of ConsoleChat class

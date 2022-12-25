@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktCatalogFormController">
+<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktCatalogFormController">
    <children>
       <Pane prefHeight="155.0" prefWidth="800.0">
          <children>
@@ -54,7 +54,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btnCatalog2" mnemonicParsing="false" onAction="#getBtnCatalog0_0" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="1">
+            <Button fx:id="btnCatalog2" mnemonicParsing="false" onAction="#getBtnCatalog0_1" prefHeight="148.0" prefWidth="128.0" GridPane.columnIndex="1">
                <graphic>
                   <ImageView fx:id="btnCatalog0_1" fitHeight="131.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
                      <image>

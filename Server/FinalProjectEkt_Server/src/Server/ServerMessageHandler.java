@@ -1,12 +1,14 @@
 package Server;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import common.IServerSideFunction;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import logic.Customer;
+import logic.Product;
 import logic.SystemUser;
 /**
  * ServerMessageHandler: a wrapper class for a HashMap - map operation types to operations
@@ -138,9 +140,13 @@ public class ServerMessageHandler {
 
         @Override
         public SCCP handleMessage(SCCP fetchProductsMessage) {
-            Object resultSetProducts = DatabaseController.handleQueryFetchProducts(DatabaseOperation.FETCH_PRODUCTS_BY_CATEGORY, new Object[] {fetchProductsMessage.getMessageSent()});
+            Object resultSetProducts = DatabaseController.handleQueryFetchProducts(
+            		DatabaseOperation.FETCH_PRODUCTS_BY_CATEGORY, new Object[] {fetchProductsMessage.getMessageSent()});
 
-            return new SCCP(ServerClientRequestTypes.FETCH_PRODUCTS_BY_CATEGORY, (ResultSet)resultSetProducts);
+            if (resultSetProducts instanceof ArrayList) {
+            	return new SCCP(ServerClientRequestTypes.FETCH_PRODUCTS_BY_CATEGORY, resultSetProducts);
+            }	
+            return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");
         }
     }
 	

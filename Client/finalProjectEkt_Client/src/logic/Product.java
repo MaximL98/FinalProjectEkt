@@ -1,11 +1,16 @@
 package logic;
+
+import java.io.Serializable;
+
 /**
  * Project Name: finalProjectEkt_Client
  * Logic class that contains the details needed to save up for each report.
  * @author Maxim Lebedinsky
  * @version 16/12/2022
  */
-public class Product {
+public class Product implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	/**
 	*Product logic part.
 	*private fields that will contain product's: id, name and cost per unit
@@ -13,17 +18,21 @@ public class Product {
 	private String productID; //String cuz maybe => id = A12
 	private String productName;
 	private String costPerUnit;//String cuz maybe => costPerUnit = 10NIS
+	private String category;
+	private String subCategory;
 	/**
 	 * Product constructor.
 	 * @param productID
 	 * @param productName
 	 * @param costPerUnit
 	 */
-	public Product(String productID, String productName, String costPerUnit) {
+	public Product(String productID, String productName, String costPerUnit, String category, String subCategory) {
 		super();
 		this.productID = productID;
 		this.productName = productName;
 		this.costPerUnit = costPerUnit;
+		this.category = category;
+		this.subCategory = subCategory;
 	}
 	/**
 	 * getting the id of a product
@@ -74,6 +83,18 @@ public class Product {
 	public String toString() {
 		return "Product [productID=" + productID + ", productName=" + productName + ", costPerUnit=" + costPerUnit
 				+ "]";
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	public String getSubCategory() {
+		return subCategory;
+	}
+	public void setSubCategory(String subCategory) {
+		this.subCategory = subCategory;
 	}
 	
 	

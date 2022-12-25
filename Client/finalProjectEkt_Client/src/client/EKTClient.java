@@ -23,8 +23,7 @@ public class EKTClient extends AbstractClient
 
   public void handleMessageFromServer(Object msg) 
   {
-	  System.out.println("--> handleMessageFromServer");
-     
+	  System.out.println("--> EKT Client --> handleMessageFromServer");
 	  awaitResponse = false;
 	  // Rotem -- heavy modification so that it will finally work!
 

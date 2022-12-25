@@ -37,6 +37,7 @@ public class EktServer extends AbstractServer
 		  
 		  System.out.println("Server got message from client (" +client+"): "+(SCCP)msg);
 		  // now, the magic:
+		  
 		  SCCP response = ServerMessageHandler.getMap().get(((SCCP)msg).getRequestType()).handleMessage((SCCP)msg);
 		  try {
 			  // send to client

@@ -1,6 +1,7 @@
 package Server;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 //import com.mysql.cj.admin.ServerController;
 
@@ -15,7 +16,7 @@ import java.sql.*;
 
 public class DatabaseController {
 	// constants
-	private static final String URL = "jdbc:mysql://localhost/ekrutdb?serverTimezone=IST&sslMode=DISABLED&allowPublicKeyRetrieval=true";	// Rotem -> read line 28
+	private static final String URL = "jdbc:mysql://localhost/ektdb?serverTimezone=IST&sslMode=DISABLED&allowPublicKeyRetrieval=true";	// Rotem -> read line 28
 	//private static final String DRIVER_NAME = "com.mysql.jdbc.Driver";
 
 	private static String dbName = "root";
@@ -26,7 +27,7 @@ public class DatabaseController {
 	// TODO:
 	// for test only
 	private static Connection con;
-	private static String schemaName="ekrut";
+	private static String schemaName="ektdb";
 
 	private DatabaseController() {
 	
@@ -155,19 +156,24 @@ public class DatabaseController {
 		}
 	}
 	
+	
 	public static ResultSet executeQueryWithResults(String sqlStatement, Object[] params) {
 		con = getConnection();
 		PreparedStatement ps;
+		
+		
 		try {
 			ps = con.prepareStatement(sqlStatement);
+
 			if(params != null) {
 				for (int i = 0; i < params.length; i++) {
 					ps.setObject(i+1, params[i]);
 				}
 			}
-			System.out.println("SQL to execute: "+sqlStatement);
-			//System.out.println("prepared statement : " + ps.toString());
 
+			System.out.println("SQL to execute: "+ sqlStatement);
+			//System.out.println("prepared statement : " + ps.toString());
+			
 			return ps.executeQuery();
 		} catch (Exception e) {
 
@@ -176,6 +182,18 @@ public class DatabaseController {
 
 			return null;
 		}
+	}
+	
+	public static ResultSet executQueryWithResults_SimpleWithOneStatement(String sqlStatement) {
+		con = getConnection();
+		
+		try {
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement.executeQuery(sqlStatement);
+			return resultSet;
+		} catch (SQLException sqle) {	
+		}
+		return null;
 	}
 	
 	public static String getDatabaseUserName() {
@@ -226,6 +244,17 @@ public class DatabaseController {
 		// fail any other case (for now)
 		return res;
 	}
+	
+	//Handles the query to fetch all products with params[0] category name as an array
+    public static Object handleQueryFetchProducts(DatabaseOperation operation, Object[] params) {
+    	//Return resultSet of products as a cast of object (Object)
+    	
+    	Object resultArray = DatabaseOperationsMap.getMap().get(operation).getDatabaseAction(params);
+    	if(resultArray instanceof ArrayList)
+    		return (ArrayList<?>)resultArray;
+    	// fail any other case (for now)
+    	return null;
+    }
 	
 	
 }

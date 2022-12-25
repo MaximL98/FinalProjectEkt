@@ -2,12 +2,14 @@ package Server;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import logic.Product;
 import logic.SystemUser;
 
 public class DatabaseOperationsMap {
-	private static String SCHEMA_EKRUT = "ekrut";
+	private static String SCHEMA_EKRUT = "ektdb";
 
 	// this has to be protected (not private) because we need it in DatabaseController
 	 protected static final class DatabaseActionInsert implements IDatabaseAction{
@@ -85,8 +87,9 @@ public class DatabaseOperationsMap {
 
 
 		
-	}
+	 }
 	
+	 //Return currently logged in user back to client
 	 protected static final class DatabaseActionSelectForLogin implements IDatabaseAction{
 		private String tableName;
 
@@ -142,19 +145,63 @@ public class DatabaseOperationsMap {
 
 
 	}
+	 
+	 
+	 
+	 //Class which is used to return a result set of all products with the category name categoryName[0] 
+	 protected static final class DatabaseActionSelectForFetchProducts implements IDatabaseAction {
+        private String tableName;
+
+        @Override
+        public Object getDatabaseAction(Object[] categoryName) {
+            tableName = "product";
+
+	        String productCategory = (String)categoryName[0];
+	        String sqlQuery = "Select * FROM " + DatabaseOperationsMap.SCHEMA_EKRUT + "." +
+	            tableName + " Where category = \"" + productCategory + "\" OR subCategory =" + 
+	            " \"" + productCategory + "\";";
+	        
 	
-	private static HashMap<DatabaseOperation, IDatabaseAction> map = 
-			new HashMap<DatabaseOperation, IDatabaseAction>(){/**
-				 * 
-				 */
-				private static final long serialVersionUID = 1L;
+	        //Uses simpler version of execute query with one input string variable (the requested sql query)
+	        ResultSet fetchProductsResultSet = DatabaseController.executQueryWithResults_SimpleWithOneStatement(sqlQuery);
+	        
+	        ArrayList<Product> arrayOfProducts = new ArrayList<>();
+	        try {
+	        	while (fetchProductsResultSet.next()) {
+	        		String productID = fetchProductsResultSet.getString("productID");
+					
+					String productName = fetchProductsResultSet.getString("productName");
+					
+					String costPerUnit = fetchProductsResultSet.getString("costPerUnit");
+					
+					String category = fetchProductsResultSet.getString("category");
+					
+					String subCategory = fetchProductsResultSet.getString("subCategory");
+					
+					Product tempProduct = new Product(productID, productName, costPerUnit, category, subCategory);
+	        		
+					System.out.println(tempProduct.toString());
+					
+					arrayOfProducts.add(tempProduct);
+	        	}
+	        }catch (SQLException sqle) {
+	        	sqle.printStackTrace();
+	        }
+	        return arrayOfProducts;
+        }
 
-			{
-				this.put(DatabaseOperation.INSERT, new DatabaseActionInsert());
-				this.put(DatabaseOperation.USER_LOGIN, new DatabaseActionSelectForLogin());
-				
+    }
+	
+	 private static HashMap<DatabaseOperation, IDatabaseAction> map = new HashMap<DatabaseOperation, IDatabaseAction>(){
+		 
+		private static final long serialVersionUID = 1L;
+		
+		{
+			this.put(DatabaseOperation.INSERT, new DatabaseActionInsert());
+			this.put(DatabaseOperation.USER_LOGIN, new DatabaseActionSelectForLogin());
+			this.put(DatabaseOperation.FETCH_PRODUCTS_BY_CATEGORY, new DatabaseActionSelectForFetchProducts());
 
-			}};
+		}};
 
 	
 	public static HashMap<DatabaseOperation, IDatabaseAction> getMap() {

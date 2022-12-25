@@ -31,7 +31,7 @@ public class Customer extends SystemUser{
 	 */
 	public Customer(String firstName, String lastName, Integer id, String phoneNumber, String emailAddress,
 			String creditCard, String username, String password) {
-		super(firstName, lastName, id, phoneNumber, emailAddress, creditCard, username, password);
+		super(id, firstName, lastName, phoneNumber, emailAddress, creditCard, username, password);
 	}
 	
 	

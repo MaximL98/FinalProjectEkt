@@ -9,6 +9,10 @@ import logic.SystemUser;
 public class DatabaseOperationsMap {
 	private static String SCHEMA_EKRUT = DatabaseController.getSchemaName();
 
+	private static void printDebug(String msg) {
+		System.out.println(msg);
+	}
+	
 	// this has to be protected (not private) because we need it in DatabaseController
 	 protected static final class DatabaseActionInsert implements IDatabaseAction{
 		private String tableName;
@@ -35,9 +39,10 @@ public class DatabaseOperationsMap {
 			for(Object o : getObjectsToAdd()) {
 					
 				String currentAddToTable = (new StringBuilder(addToTable)).append(o.toString()).append(";").toString();
-				System.out.println("Writing to SQL:");
-				System.out.println(currentAddToTable);
+				printDebug("Sending query to SQL: " + currentAddToTable);
 				if(!DatabaseController.executeQuery(currentAddToTable)) {
+					// we need this line because we need getMany AFTER we delete it in "cleanUp()", 
+					// and we clean up because I used fields where I shouldn't have
 					Boolean tmpAddMany = getAddMany();
 					cleanUp(); // careful with this line
 					if(tmpAddMany) {
@@ -104,6 +109,10 @@ public class DatabaseOperationsMap {
 
 			String sqlQuery ="SELECT * FROM " +DatabaseOperationsMap.SCHEMA_EKRUT+"."+tableName+
 			 " WHERE username = \"" + user + "\" AND password = \"" + pass + "\";";
+			
+			printDebug("Sending query to SQL: " + sqlQuery);
+
+			
 			ResultSet queryResult  = DatabaseController.executeQueryWithResults(sqlQuery, null);
 			SystemUser connectedUser = null;
 			try {
@@ -112,21 +121,14 @@ public class DatabaseOperationsMap {
 				  {
 					  // get fields from DB
 					  Integer idNew= queryResult.getInt(1);
-
 					  String fname = queryResult.getString(2);
-
 					  String lname = queryResult.getString(3);
-
 					  String email = queryResult.getString(4);
-
 					  String fone = queryResult.getString(5);
-
 					  String cc = queryResult.getString(6);
-
 					  String retUser = queryResult.getString(7);
-					  
 					  String retPass = queryResult.getString(8);
-					  connectedUser = new SystemUser(fname, lname, idNew, fone, email, cc, retUser, retPass);
+					  connectedUser = new SystemUser(idNew, fname, lname, fone, email, cc, retUser, retPass);
 				  }
 				  queryResult.close();
 

@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 import logic.OnlineOrder;
 import logic.OnlineOrder.*;
 
-public class DeliveryManagerPageController extends Application implements Initializable{
+public class DeliveryManagerPageController extends Application {
 
 	@FXML
 	private Text welcomeText;
@@ -72,8 +72,8 @@ public class DeliveryManagerPageController extends Application implements Initia
 		primaryStage.show();
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	@FXML
+	public void initialize() {
 		tblOrderNumberColumn.setCellValueFactory(new PropertyValueFactory<OnlineOrder,String>("orderID"));
 		tblDateReceivedColumn.setCellValueFactory(new PropertyValueFactory<OnlineOrder,LocalDate>("dateReceived"));
 		tblTimeColumn.setCellValueFactory(new PropertyValueFactory<OnlineOrder,LocalDateTime>("deliveryTime"));

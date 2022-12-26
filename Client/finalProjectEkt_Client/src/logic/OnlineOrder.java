@@ -9,8 +9,8 @@ import javafx.scene.control.ComboBox;
  * Project Name: finalProjectEkt_Client Logic class that contains the details
  * needed to save up for each online order.
  * 
- * @author Maxim Lebedinsky
- * @version 16/12/2022
+ * @author Maxim Lebedinsky, Daniel Vardimon
+ * @version 26/12/2022
  */
 public class OnlineOrder extends Order {
 	/**

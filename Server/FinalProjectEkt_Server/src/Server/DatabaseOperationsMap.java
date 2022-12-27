@@ -1,5 +1,6 @@
 package Server;
 
+import java.security.InvalidParameterException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -19,6 +20,7 @@ public class DatabaseOperationsMap {
 
 	// this has to be protected (not private) because we need it in DatabaseController
 	 protected static final class DatabaseActionInsert implements IDatabaseAction{
+
 		private String tableName;
 		private Boolean addMany;
 		private Object[] objectsToAdd;
@@ -94,7 +96,7 @@ public class DatabaseOperationsMap {
 
 		
 	 }
-	
+
 	 //Return currently logged in user back to client
 	 protected static final class DatabaseActionSelectForLogin implements IDatabaseAction{
 		private String tableName;
@@ -258,6 +260,36 @@ public class DatabaseOperationsMap {
 		}
 
 	}
+	
+	protected static final class DatabaseActionUpdateForUpdateOnlineOrders implements IDatabaseAction {
+
+		private String ONLINE_ORDERS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "online_order";
+		private String ORDER_TYPES_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "order_type";
+		private String ORDER_STATUSES_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "order_status";
+		
+		@Override
+		public Object getDatabaseAction(Object[] params) {
+			if(!(params[0] instanceof Object[]))
+				throw new InvalidParameterException("Error: expected array of Objects.");
+			Object[] orders = (Object[])params[0];
+			for(Object o : orders) {
+				if(!(o instanceof OnlineOrder))
+					throw new InvalidParameterException("Error: expected array of Objects that includes OnlineOrders.");
+				OnlineOrder order = (OnlineOrder)o;
+				String sqlQuery = "UPDATE " + ONLINE_ORDERS_TABLE + " SET "
+								+ "typeId = (select statusId FROM " + ORDER_TYPES_TABLE + "  where typeName = \"" + order.getType().name() + "\"), "
+								+ "statusId = (select statusId FROM " + ORDER_STATUSES_TABLE + "  where statusName = \"" + order.getStatus().name() + "\"), "
+								+ "deliveryTime = '"+ Timestamp.valueOf(order.getDeliveryTime()).toString() + "' "
+								+ "WHERE orderId = \"" + order.getOrderID() + "\";";
+				boolean success = DatabaseController.executeQuery(sqlQuery);
+				if(!success)
+					return success;
+			}
+			return true;
+		}
+		
+	}
+
 
 	private static HashMap<DatabaseOperation, IDatabaseAction> map = new HashMap<DatabaseOperation, IDatabaseAction>() {
 
@@ -268,6 +300,7 @@ public class DatabaseOperationsMap {
 			this.put(DatabaseOperation.USER_LOGIN, new DatabaseActionSelectForLogin());
 			this.put(DatabaseOperation.FETCH_PRODUCTS_BY_CATEGORY, new DatabaseActionSelectForFetchProducts());
 			this.put(DatabaseOperation.FETCH_ONLINE_ORDERS, new DatabaseActionSelectForFetchOnlineOrders());
+			this.put(DatabaseOperation.UPDATE_ONLINE_ORDERS, new DatabaseActionUpdateForUpdateOnlineOrders());
 		}
 	};
 

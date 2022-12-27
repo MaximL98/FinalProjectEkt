@@ -17,7 +17,7 @@
                 <TableColumn fx:id="tblOrderNumberColumn" prefWidth="137.0" text="Order Number" />
                 <TableColumn fx:id="tblDateReceivedColumn" prefWidth="140.0" text="Date Received" />
                   <TableColumn fx:id="tblTimeColumn" prefWidth="170.0" text="Delivery Time" />
-                  <TableColumn fx:id="tblStatusColumn" prefWidth="150.0" text="Status" />
+                  <TableColumn fx:id="tblStatusColumn" prefWidth="150.0" styleClass="-fx-alignment: CENTER;" text="Status" />
               </columns>
             </TableView>
             <Button fx:id="btnBack" layoutX="14.0" layoutY="761.0" mnemonicParsing="false" onAction="#getBtnBack" text="Back" />

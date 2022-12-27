@@ -149,6 +149,22 @@ public class ServerMessageHandler {
             return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");
         }
     }
+    
+  //Handle message of fetching all order types from the order_type table.
+    // fetchProductsMessage.getMessageSent() == "category"
+    private static final class HandleMessageFetchOnlineOrders implements IServerSideFunction {
+
+        @Override
+        public SCCP handleMessage(SCCP fetchOnlineOrdersMessage) {
+            Object resultSetOnlineOrders = DatabaseController.handleQueryFetchOnlineOrders(
+            		DatabaseOperation.FETCH_ONLINE_ORDERS, new Object[] {fetchOnlineOrdersMessage.getMessageSent()});
+
+            if (resultSetOnlineOrders instanceof ArrayList) {
+            	return new SCCP(ServerClientRequestTypes.FETCH_ONLINE_ORDERS, resultSetOnlineOrders);
+            }	
+            return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");
+        }
+    }
 	
 	private static HashMap<ServerClientRequestTypes, IServerSideFunction> map = 
 			new HashMap<ServerClientRequestTypes, IServerSideFunction>() {
@@ -164,6 +180,7 @@ public class ServerMessageHandler {
 		this.put(ServerClientRequestTypes.ADD, new HandleMessageAddToTable());
 		this.put(ServerClientRequestTypes.LOGIN, new HandleMessageLogin());
 		this.put(ServerClientRequestTypes.FETCH_PRODUCTS_BY_CATEGORY, new HandleMessageFetchProducts());
+		this.put(ServerClientRequestTypes.FETCH_ONLINE_ORDERS, new HandleMessageFetchOnlineOrders());
 	}};
 
 	

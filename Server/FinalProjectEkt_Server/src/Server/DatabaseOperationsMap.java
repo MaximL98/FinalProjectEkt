@@ -2,9 +2,15 @@ package Server;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import logic.OnlineOrder;
+import logic.OnlineOrder.Status;
+import logic.OnlineOrder.Type;
 import logic.Product;
 import logic.SystemUser;
 
@@ -183,27 +189,88 @@ public class DatabaseOperationsMap {
 					System.out.println(tempProduct.toString());
 					
 					arrayOfProducts.add(tempProduct);
-	        	}
-	        }catch (SQLException sqle) {
-	        	sqle.printStackTrace();
-	        }
-	        return arrayOfProducts;
-        }
 
-    }
-	
-	 private static HashMap<DatabaseOperation, IDatabaseAction> map = new HashMap<DatabaseOperation, IDatabaseAction>(){
-		 
+				}
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			}
+			return arrayOfProducts;
+		}
+
+	}
+
+	// Class which is used to return a result set of all online orders with the
+	// status name in orderFilters[0]
+	protected static final class DatabaseActionSelectForFetchOnlineOrders implements IDatabaseAction {
+		private String ONLINE_ORDERS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "online_order";
+		private String ORDERS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "orders";
+		private String ORDER_TYPES_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "order_type";
+		private String ORDER_STATUSES_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "order_status";
+		private String MACHINES_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "machine";
+		private String LOCATIONS_TABLE =  DatabaseOperationsMap.SCHEMA_EKRUT + "." + "locations";
+
+		@Override
+		public Object getDatabaseAction(Object[] orderFilters) {
+			String sqlQuery = "Select " + ORDERS_TABLE +".*, typeName ,statusName, date_recieved, deliveryTime, locationName "
+					+ "FROM " + ONLINE_ORDERS_TABLE + " " + "LEFT JOIN " + ORDERS_TABLE + " "
+					+ "ON " + ONLINE_ORDERS_TABLE + ".orderID = " + ORDERS_TABLE + ".orderID "
+					+ "LEFT JOIN " + ORDER_TYPES_TABLE + " "
+					+ "ON " + ONLINE_ORDERS_TABLE + ".typeId = " + ORDER_TYPES_TABLE + ".typeId " 
+					+ "LEFT JOIN " + ORDER_STATUSES_TABLE + " " 
+					+ "ON " + ONLINE_ORDERS_TABLE + ".statusId = " + ORDER_STATUSES_TABLE + ".statusId " 
+					+ "LEFT JOIN " + MACHINES_TABLE + " " 
+					+ "ON "	+ ORDERS_TABLE + ".machineId = " + MACHINES_TABLE + ".machineId "
+					+ "LEFT JOIN " + LOCATIONS_TABLE + " " 
+					+ "ON "	+ MACHINES_TABLE + ".locationId = " + LOCATIONS_TABLE + ".locationID";
+			if(orderFilters.length > 0) {
+				String statusName = ((String[]) orderFilters[0])[0];
+				sqlQuery += " WHERE statusName = \"" + statusName + "\"";
+			}
+
+			// Uses simpler version of execute query with one input string variable (the
+			// requested sql query)
+			ResultSet fetchOnlineOrdersResultSet = DatabaseController
+					.executQueryWithResults_SimpleWithOneStatement(sqlQuery);
+
+			ArrayList<OnlineOrder> orders = new ArrayList<>();
+			try {
+				while (fetchOnlineOrdersResultSet.next()) {
+					String orderID = fetchOnlineOrdersResultSet.getString("orderID");
+					Integer totalAmount = fetchOnlineOrdersResultSet.getInt("total_amount");
+					String attribute = fetchOnlineOrdersResultSet.getString("attribute");
+					Type type = Type.valueOf(fetchOnlineOrdersResultSet.getString("typeName"));
+					Status status = Status.valueOf(fetchOnlineOrdersResultSet.getString("statusName"));
+					LocalDate dateReceived = fetchOnlineOrdersResultSet.getDate("date_recieved").toLocalDate();
+					LocalDateTime deliveryTime = null;
+					Timestamp deliveryTimeStamp = fetchOnlineOrdersResultSet.getTimestamp("deliveryTime");
+					if(deliveryTimeStamp != null)
+						deliveryTime = deliveryTimeStamp.toLocalDateTime();
+					String location = fetchOnlineOrdersResultSet.getString("locationName");
+					OnlineOrder tempOrder = new OnlineOrder(orderID, totalAmount, attribute, location, dateReceived, deliveryTime, type, status);
+					System.out.println(tempOrder.toString());
+
+					orders.add(tempOrder);
+				}
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			}
+			return orders;
+		}
+
+	}
+
+	private static HashMap<DatabaseOperation, IDatabaseAction> map = new HashMap<DatabaseOperation, IDatabaseAction>() {
+
 		private static final long serialVersionUID = 1L;
 		
 		{
 			this.put(DatabaseOperation.INSERT, new DatabaseActionInsert());
 			this.put(DatabaseOperation.USER_LOGIN, new DatabaseActionSelectForLogin());
 			this.put(DatabaseOperation.FETCH_PRODUCTS_BY_CATEGORY, new DatabaseActionSelectForFetchProducts());
+			this.put(DatabaseOperation.FETCH_ONLINE_ORDERS, new DatabaseActionSelectForFetchOnlineOrders());
+		}
+	};
 
-		}};
-
-	
 	public static HashMap<DatabaseOperation, IDatabaseAction> getMap() {
 		return map;
 	}

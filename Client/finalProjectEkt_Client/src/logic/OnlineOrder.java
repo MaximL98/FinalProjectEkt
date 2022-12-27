@@ -3,7 +3,6 @@ package logic;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javafx.collections.FXCollections;
-import javafx.scene.control.ComboBox;
 
 /**
  * Project Name: finalProjectEkt_Client Logic class that contains the details
@@ -19,37 +18,24 @@ public class OnlineOrder extends Order {
 	 * location
 	 */
 	public enum Type {
-		PICKUP("pickup"), DELIVERY("delivery");
-
-		private final String type;
-
-		Type(String type) {
-			this.type = type;
-		}
-
-		public String getType() {
-			return type;
-		}
+		Pickup, Delivery;
 	}
 
 	public enum Status {
-		InProgress("In Progress"), Complete("Complete"), Canceled("Cancelled");
-
-		private final String status;
-
-		Status(String status) {
-			this.status = status;
-		}
-
-		public String getStatus() {
-			return status;
+		InProgress, Complete, Cancelled;
+		
+		@Override
+		public String toString() {
+			if(this.compareTo(InProgress) == 0)
+				return "In Progress";
+			return super.toString();
 		}
 	}
 
 	private String machineLocation;
 	private LocalDate dateReceived;
 	private Type type;
-	private ComboBox<String> statusCombo;
+	private Status status;
 	private LocalDateTime deliveryTime;
 
 	/**
@@ -69,8 +55,7 @@ public class OnlineOrder extends Order {
 		this.dateReceived = dateReceived;
 		this.deliveryTime = deliveryTime;
 		this.type = type;
-		this.statusCombo = new ComboBox<>(FXCollections.observableArrayList(Status.InProgress.getStatus(), Status.Canceled.getStatus(), Status.Complete.getStatus()));
-		this.statusCombo.setValue(status.getStatus());
+		this.setStatus(status);
 	}
 
 	/**
@@ -138,11 +123,19 @@ public class OnlineOrder extends Order {
 		this.deliveryTime = deliveryTime;
 	}
 
+
 	/**
-	 * @return the statusCombo
+	 * @return the status
 	 */
-	public ComboBox<String> getStatusCombo() {
-		return statusCombo;
+	public Status getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	/**

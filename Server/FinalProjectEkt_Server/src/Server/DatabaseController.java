@@ -256,5 +256,15 @@ public class DatabaseController {
     	return null;
     }
 	
+  //Handles the query to fetch all online orders with params[0] as status filter.
+    public static Object handleQueryFetchOnlineOrders(DatabaseOperation operation, Object[] params) {
+    	//Return resultSet of products as a cast of object (Object)
+    	
+    	Object resultArray = DatabaseOperationsMap.getMap().get(operation).getDatabaseAction(params);
+    	if(resultArray instanceof ArrayList)
+    		return (ArrayList<?>)resultArray;
+    	// fail any other case (for now)
+    	return null;
+    }
 	
 }

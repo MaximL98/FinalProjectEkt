@@ -1,11 +1,18 @@
 package logic;
+
+import java.io.Serializable;
+
 /**
  * Project Name: finalProjectEkt_Server
  * Logic class that contains the details needed to save up for each order.
  * @author Maxim Lebedinsky
  * @version 16/12/2022
  */
-public class Order {
+public class Order implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	*Order logic part.
 	*private fields that will contain order's: id, total amount (of products), attribute

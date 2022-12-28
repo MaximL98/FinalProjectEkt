@@ -1,6 +1,7 @@
 package Server;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 //import com.mysql.cj.admin.ServerController;
 
@@ -155,19 +156,24 @@ public class DatabaseController {
 		}
 	}
 	
+	
 	public static ResultSet executeQueryWithResults(String sqlStatement, Object[] params) {
 		con = getConnection();
 		PreparedStatement ps;
+		
+		
 		try {
 			ps = con.prepareStatement(sqlStatement);
+
 			if(params != null) {
 				for (int i = 0; i < params.length; i++) {
 					ps.setObject(i+1, params[i]);
 				}
 			}
-			System.out.println("SQL to execute: "+sqlStatement);
-			//System.out.println("prepared statement : " + ps.toString());
 
+			System.out.println("SQL to execute: "+ sqlStatement);
+			//System.out.println("prepared statement : " + ps.toString());
+			
 			return ps.executeQuery();
 		} catch (Exception e) {
 
@@ -176,6 +182,18 @@ public class DatabaseController {
 
 			return null;
 		}
+	}
+	
+	public static ResultSet executQueryWithResults_SimpleWithOneStatement(String sqlStatement) {
+		con = getConnection();
+		
+		try {
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement.executeQuery(sqlStatement);
+			return resultSet;
+		} catch (SQLException sqle) {	
+		}
+		return null;
 	}
 	
 	public static String getDatabaseUserName() {
@@ -227,5 +245,26 @@ public class DatabaseController {
 		return res;
 	}
 	
+	//Handles the query to fetch all products with params[0] category name as an array
+    public static Object handleQueryFetchProducts(DatabaseOperation operation, Object[] params) {
+    	//Return resultSet of products as a cast of object (Object)
+    	
+    	Object resultArray = DatabaseOperationsMap.getMap().get(operation).getDatabaseAction(params);
+    	if(resultArray instanceof ArrayList)
+    		return (ArrayList<?>)resultArray;
+    	// fail any other case (for now)
+    	return null;
+    }
+	
+  //Handles the query to fetch all online orders with params[0] as status filter.
+    public static Object handleQueryFetchOnlineOrders(DatabaseOperation operation, Object[] params) {
+    	//Return resultSet of products as a cast of object (Object)
+    	
+    	Object resultArray = DatabaseOperationsMap.getMap().get(operation).getDatabaseAction(params);
+    	if(resultArray instanceof ArrayList)
+    		return (ArrayList<?>)resultArray;
+    	// fail any other case (for now)
+    	return null;
+    }
 	
 }

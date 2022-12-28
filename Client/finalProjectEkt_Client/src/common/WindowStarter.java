@@ -10,12 +10,9 @@ import javafx.stage.Stage;
 public class WindowStarter {
 	
 	// method to save lines - opens new window
-	// CHANGE:
-	// Stage does not call show here, fucker!
 	public static void createWindow(Stage primaryStage, Object classObject, 
 			String fxmlAddress, String cssAddress, String windowTitle) 
 					 {
-		
 		Parent root;
 		try {
 			root = FXMLLoader.load(classObject.getClass().getResource(fxmlAddress));

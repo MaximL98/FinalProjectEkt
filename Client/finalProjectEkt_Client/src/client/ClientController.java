@@ -1,8 +1,12 @@
 package client;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import common.SCCP;
+import logic.Product;
 import logic.SystemUser;
 import ocsf.server.ConnectionToClient;
 
@@ -12,8 +16,14 @@ public class ClientController
    public static ArrayList<ConnectionToClient> clients = new ArrayList<ConnectionToClient>();
   public static SCCP responseFromServer = new SCCP(); 
   private static SystemUser connectedSystemUser = null;
+  public static String CurrentProductCategory = null;
+  //Map that holds the current cart contents of the user
+  public static HashMap<Product,Integer> currentUserCart = new HashMap<>();
+  //TO MAXIM//////////////////////////////////////////////////////////////////
+  public static ArrayList<Product> arrayOfAddedProductsToGridpane = new ArrayList<>();
+  //////////////////////////////////////////////////////////////////////////
   
-  public EKTClient client;
+public EKTClient client;
 
   public ClientController(String host, int port) 
   {
@@ -41,5 +51,12 @@ public class ClientController
 		ClientController.connectedSystemUser = currentSystemUser;
 	}
 
+	  public static String getCurrentProductCategory() {
+			return CurrentProductCategory;
+		}
+
+//		public static void setCurrentProductCategory(String currentProductCategory) {
+//			CurrentProductCategory = currentProductCategory;
+//		}
 }
 //End of ConsoleChat class

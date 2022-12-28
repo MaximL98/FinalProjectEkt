@@ -7,21 +7,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DeliveryManagerPageController">
    <children>
       <Pane prefHeight="800.0" prefWidth="800.0">
          <children>
             <Text fx:id="welcomeText" layoutX="342.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delivery Management" />
-            <TableView fx:id="DeliveryTable" editable="true" layoutX="100.0" layoutY="100.0" prefHeight="600.0" prefWidth="600.0">
+            <TableView id="deliveryTable" fx:id="deliveryTable" editable="true" layoutX="100.0" layoutY="100.0" prefHeight="600.0" prefWidth="600.0" stylesheets="@DeliveryManager.css">
               <columns>
                 <TableColumn fx:id="tblOrderNumberColumn" prefWidth="137.0" text="Order Number" />
-                <TableColumn fx:id="tblDateReceivedColumn" prefWidth="163.0" text="Date Received" />
-                  <TableColumn fx:id="tblTimeColumn" prefWidth="101.0" text="Time" />
-                  <TableColumn fx:id="tblStatusColumn" prefWidth="198.0" text="Status" />
+                <TableColumn fx:id="tblDateReceivedColumn" prefWidth="140.0" text="Date Received" />
+                  <TableColumn fx:id="tblTimeColumn" prefWidth="170.0" text="Delivery Time" />
+                  <TableColumn fx:id="tblStatusColumn" prefWidth="150.0" styleClass="-fx-alignment: CENTER;" text="Status" />
               </columns>
             </TableView>
-            <Button fx:id="btnBack" layoutX="14.0" layoutY="761.0" mnemonicParsing="false" text="Back" />
-            <Button fx:id="btnUpdate" layoutX="374.0" layoutY="715.0" mnemonicParsing="false" text="Update" />
+            <Button fx:id="btnBack" layoutX="14.0" layoutY="761.0" mnemonicParsing="false" onAction="#getBtnBack" text="Back" />
+            <Button fx:id="btnUpdate" layoutX="374.0" layoutY="715.0" mnemonicParsing="false" onAction="#getBtnUpdate" text="Update" />
          </children>
       </Pane>
    </children>

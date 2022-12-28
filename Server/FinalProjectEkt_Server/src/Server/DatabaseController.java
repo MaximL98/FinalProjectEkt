@@ -15,7 +15,7 @@ import java.sql.*;
 
 public class DatabaseController {
 	// constants
-	private static final String URL = "jdbc:mysql://localhost/ekrutdb?serverTimezone=IST&sslMode=DISABLED&allowPublicKeyRetrieval=true";	// Rotem -> read line 28
+	private static final String URL = "jdbc:mysql://localhost/ektdb?serverTimezone=IST&sslMode=DISABLED&allowPublicKeyRetrieval=true";	// Rotem -> read line 28
 	//private static final String DRIVER_NAME = "com.mysql.jdbc.Driver";
 
 	private static String dbName = "root";
@@ -26,7 +26,7 @@ public class DatabaseController {
 	// TODO:
 	// for test only
 	private static Connection con;
-	private static String schemaName="ekrut";
+	private static String schemaName="ektdb";
 
 	private DatabaseController() {
 	

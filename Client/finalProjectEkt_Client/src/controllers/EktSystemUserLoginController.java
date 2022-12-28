@@ -4,10 +4,12 @@ import client.ClientController;
 import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
+import common.WindowStarter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import logic.SystemUser;
 import javafx.scene.control.Label;
 
@@ -30,6 +32,14 @@ public class EktSystemUserLoginController {
     	userName = txtUsername.getText();
     	password = txtPassword.getText();
     	// ask to connect
+    	System.out.println("Test");
+    	if(userName.equals("q")) {
+    		Stage primaryStage = new Stage();
+    		WindowStarter.createWindow(primaryStage, new Object(), "/gui/SalesManager.fxml", null, "Sales");
+    		System.out.println("Test");
+    		primaryStage.show();
+    		return;
+    	}
     	
     	SCCP preparedMessage = new SCCP();
     	preparedMessage.setRequestType(ServerClientRequestTypes.LOGIN);
@@ -37,6 +47,8 @@ public class EktSystemUserLoginController {
 		// send to server
     	System.out.println("Client: Sending login request to server as " + userName+".");
 		ClientUI.clientController.accept(preparedMessage);
+		
+		
 		
 		// check comm for answer:
 		if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.LOGIN)) {

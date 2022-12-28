@@ -1,7 +1,5 @@
 package controllers;
 
-import java.awt.Label;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import client.ClientController;
@@ -12,7 +10,6 @@ import javafx.geometry.HPos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.Alert.AlertType;
@@ -52,11 +49,24 @@ public class EktCartFormController {
 		int i = 0, j = 0;
 		
 		for (Product product: ClientController.currentUserCart.keySet()) {
-			Text productName = new Text(((Product)product).getProductName());
+			Text productName = new Text(product.getProductName());
 			Text quantityLabel = new Text("Quantity: " + ClientController.currentUserCart.get(product));
 			Button removeButton = new Button("remove");
+			removeButton.setOnAction(action -> {
+				EktProductFormController.itemsInCart = 0;
+				ClientController.currentUserCart.put(product, ClientController.currentUserCart.get(product) - 1);
+			});
+			
 			Button addButton = new Button("+");
+			addButton.setOnAction(action -> {
+				EktProductFormController.itemsInCart--;
+				ClientController.currentUserCart.put(product, ClientController.currentUserCart.get(product) + 1);
+			});
+			
 			Button removeOneButton = new Button("-");
+			removeOneButton.setOnAction(action -> {
+				EktProductFormController.itemsInCart++;
+			});
 			
 			j=0;
 			gridpaneIntoVbox.add(productName, j, i);
@@ -93,8 +103,8 @@ public class EktCartFormController {
 	public void getBtnBack(ActionEvent event) {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktProductForm.fxml", null, 
-				ClientController.CurrentProductCategory);
+		//category is located in a ArrayList
+		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktProductForm.fxml", null, ClientController.CurrentProductCategory.get(0));
 		vboxCart.getChildren().clear();
 		primaryStage.setOnCloseRequest(we -> 
 			{
@@ -122,8 +132,9 @@ public class EktCartFormController {
 			//Login window//
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
+			//category is located in a ArrayList
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktCatalogForm.fxml", null, 
-					ClientController.CurrentProductCategory);
+					ClientController.CurrentProductCategory.get(0));
 
 			ClientController.currentUserCart.keySet().clear();;
 
@@ -140,6 +151,16 @@ public class EktCartFormController {
 	
 	@FXML
 	public void getBtnOrder(ActionEvent event){
-		
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		//category is located in a ArrayList
+		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktOrderSummary.fxml", null, "Order Summary");
+		vboxCart.getChildren().clear();
+		primaryStage.setOnCloseRequest(we -> 
+			{
+				System.out.println("Pressed the X button."); 
+				System.exit(0);
+			});
+		primaryStage.show();
 	}
 }

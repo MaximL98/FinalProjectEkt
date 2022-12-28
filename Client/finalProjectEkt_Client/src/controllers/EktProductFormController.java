@@ -2,6 +2,7 @@ package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -27,7 +28,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-
+import controllers.EktCatalogFormController;
 import client.ClientController;
 import client.ClientUI;
 import common.SCCP;
@@ -92,23 +93,21 @@ public class EktProductFormController {
     @FXML
     private Button btnCart;
     
-    //TO MAXIM//////////////////////////////////
     @FXML
     private Label txtNumberOfItemsInCart;
 
     public static  int itemsInCart = 0;
-    //////////////////////////////////////////////////////////////////
-	
+    
+    	
 	public void initialize() throws FileNotFoundException {
-		if (itemsInCart != 0)
-			txtNumberOfItemsInCart.setStyle("-fx-background-color: #da8888; -fx-background-radius: 10; -fx-opacity: 0.75;");
-		else {
-			txtNumberOfItemsInCart.setStyle("-fx-background-color:  #a7e8f2; -fx-background-radius: 10; -fx-opacity: 0.75;");
-		}
-		txtNumberOfItemsInCart.setText(itemsInCart + "");
+		//Maxim new: added cart image 
+		ImageView cartImg = new ImageView(new Image("controllers/Images/cart.png"));
+		System.out.println("test");
+		cartImg.setFitHeight(50);
+		cartImg.setPreserveRatio(true);
+		btnCart.setGraphic(cartImg);
 		
-		
-		String productCategory = ClientController.getCurrentProductCategory();
+		String productCategory = ClientController.CurrentProductCategory.get(0);
 		lblCategoryName.setText(productCategory + " Products");
 		
 		SCCP preparedMessage = new SCCP();
@@ -146,13 +145,12 @@ public class EktProductFormController {
 				productDetails.getChildren().add(txtProductName);
 				productDetails.getChildren().add(txtProductID);
 				productDetails.getChildren().add(txtProductCostPerUnit);
+				productDetails.setAlignment(Pos.CENTER);
 				////////////////////////////////////////
-
-//				Image productImage = new Image(getClass().getResourceAsStream(path));
-//				ImageView productImageView = new ImageView();
-//				productImageView.setImage(productImage);
-//				productImageView.setX(100);
-//				productImageView.setY(100);
+				String pathToImage = "controllers/Images/" + ((Product) product).getProductID() + ".png";
+				ImageView productImageView = new ImageView(new Image(pathToImage));
+				productImageView.setFitHeight(200);
+				productImageView.setFitWidth(200);
 //				///////////////////////////////////////
 					
 				//AddToCart Button + amountTxt
@@ -160,7 +158,7 @@ public class EktProductFormController {
 				Button addToCart = new Button();
 				
 				
-				//TO MAXIM//////////////////////////////////////////////////////
+				
 				addToCart.setOnAction(action -> {
 					itemsInCart++;
 					if (itemsInCart  == 1) {
@@ -176,27 +174,32 @@ public class EktProductFormController {
 					//If it does not exist, set value to "1"
 					ClientController.currentUserCart.merge((Product)product, 1, Integer::sum);
 				});
-				/////////////////////////////////////////////////////////////////////////////////
 				
 				
-				addToCart.setText(((Product)product).getProductName());
-				Text amountOfItems = new Text();
-				amountOfItems.setText("Add To Cart");
-				amountOfItems.setFont(new Font(18));
+				
+				addToCart.setText("Add To Cart");
+				
+//				Text amountOfItems = new Text();
+//				amountOfItems.setText("");
+//				amountOfItems.setFont(new Font(18));
 				
 				productAddToCartVBox.getChildren().add(addToCart);
-				productAddToCartVBox.getChildren().add(amountOfItems);
-				
-				
+//				productAddToCartVBox.getChildren().add(amountOfItems);
+				//////////////////////////////////////////////////////
+				productAddToCartVBox.setAlignment(Pos.CENTER_RIGHT);
+				productHBox.setAlignment(Pos.CENTER);
 				productHBox.setPrefSize(800, 200);
 				productDetails.setPrefSize(200, 200);
 				
 				productHBox.getChildren().add(productDetails);
-				//productHBox.getChildren().add(productImageView);
+				productHBox.getChildren().add(productImageView);
 				productHBox.getChildren().add(productAddToCartVBox);
-				vboxProducts.getChildren().add(productHBox);		
+				vboxProducts.getChildren().add(productHBox);
+				System.out.println(((Product) product).getProductID());			
 							
 			}
+			
+			
 		}
 	}
 	
@@ -215,22 +218,19 @@ public class EktProductFormController {
 		primaryStage.show();
 	}
 	
-	
-	//TO MAXIM/////////////////////////////
 	@FXML
-	public void getBtnCart(ActionEvent event) {	
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktCartForm.fxml", null, "Ekt Cart");
-		primaryStage.setOnCloseRequest(we -> 
-			{
-			System.out.println("Pressed the X button."); 
-			System.exit(0);
-			});
-		
-		primaryStage.show();
-	}
-	//TO MAXIM/////////////////////////////
+    public void getBtnCart(ActionEvent event) {
+        ((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+        Stage primaryStage = new Stage();
+        WindowStarter.createWindow(primaryStage, this, "/gui/EktCartForm.fxml", null, "Ekt Cart");
+        primaryStage.setOnCloseRequest(we -> 
+            {
+            System.out.println("Pressed the X button."); 
+            System.exit(0);
+            });
+
+        primaryStage.show();
+    }
 	
 	
 }

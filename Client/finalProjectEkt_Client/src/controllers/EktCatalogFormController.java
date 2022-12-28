@@ -1,6 +1,8 @@
 package controllers;
 
 import common.WindowStarter;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -8,9 +10,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
 import client.ClientController;
 
-public class EktCatalogFormController {
+public class EktCatalogFormController implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	 	@FXML
 	    private Button btnCatalog1;
@@ -72,89 +82,100 @@ public class EktCatalogFormController {
 	    @FXML
 	    private Button btnLogout;
 
-    
-	String productFormFXMLLocation = "/gui/EktProductForm.fxml";
 
-//  //start primary stage
-//  		public void start(Stage primaryStage) throws Exception {
-//  			WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog");
-//  			primaryStage.show();	 	
-//  	}
-    
-  	//Category 1
+		String productFormFXMLLocation = "/gui/EktProductForm.fxml";
+	
+		
+		
+		//Category 1
   		@FXML
   		private void getBtnCatalog0_0(ActionEvent event)  {
- 
+  			
   			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
   			Stage primaryStage = new Stage();
-  			String category = "Healthy";
-  			ClientController.CurrentProductCategory = category;
-  			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, category);
+  			//category.text"Healthy";
+  			ClientController.CurrentProductCategory.add(0 ,"Healthy");
+  			//ClientController.CurrentProductCategory = changeSt;
+  			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, "Healthy");
   			primaryStage.setOnCloseRequest(we -> 
   			{
   				System.out.println("Pressed the X button."); 
   				System.exit(0);
-  			});
-  			primaryStage.show();
+  			}
+  			);
+  			
+  			primaryStage.show();  			
   		}
   		//Category 2
   		@FXML
   		private void getBtnCatalog0_1(ActionEvent event)  {
+  			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
   			Stage primaryStage = new Stage();
   			String category = "Soft drinks";
-  			ClientController.CurrentProductCategory = category;
+  			ClientController.CurrentProductCategory.add(0 ,category);
   			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, category);
   			primaryStage.show();
   		}
   		//Category 3
   		@FXML
   		private void getBtnCatalog0_2(ActionEvent event)  {
+  			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
   			Stage primaryStage = new Stage();
   			String category = "Fruits";
-  			ClientController.CurrentProductCategory = category;
+  			ClientController.CurrentProductCategory.add(0 ,category);
   			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, category);
+  			primaryStage.show();
   		}
   		//Category 4
   		@FXML
   		private void getBtnCatalog0_3(ActionEvent event)  {
+  			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
   			Stage primaryStage = new Stage();
   			String category = "Vegetables";
-  			ClientController.CurrentProductCategory = category;
+  			ClientController.CurrentProductCategory.add(0 ,category);
   			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, category);
+  			primaryStage.show();
   		}
   		//Category 5
   		@FXML
   		private void getBtnCatalog1_0(ActionEvent event)  {
+  			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
   			Stage primaryStage = new Stage();
   			String category = "Snacks";
-  			ClientController.CurrentProductCategory = category;
+  			ClientController.CurrentProductCategory.add(0 ,category);
   			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, category);
+  			primaryStage.show();
   		}
   		//Category 6
   		@FXML
   		private void getBtnCatalog1_1(ActionEvent event)  {
+  			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
   			Stage primaryStage = new Stage();
   			String category = "Sandwiches";
-  			ClientController.CurrentProductCategory = category;
+  			ClientController.CurrentProductCategory.add(0 ,category);
   			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, category);
+  			primaryStage.show();
   		}
   		//Category 7
   		@FXML
   		private void getBtnCatalog1_2(ActionEvent event)  {
-  			
+  			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
   			Stage primaryStage = new Stage();
   			String category = "Chewing gum";
-  			ClientController.CurrentProductCategory = category;
+  			ClientController.CurrentProductCategory.add(0 ,category);
   			System.out.println(ClientController.getCurrentSystemUser().getFirstName());
   			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, category);
+  			primaryStage.show();
   		}
   		//Category 8
   		@FXML
   		private void getBtnCatalog1_3(ActionEvent event)  {
+  			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
   			Stage primaryStage = new Stage();
   			String category = "Dairy";
-  			ClientController.CurrentProductCategory = category;
+  			ClientController.CurrentProductCategory.add(0 ,category);
   			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, category);
+  			primaryStage.show();
   		}
 
   	    @FXML

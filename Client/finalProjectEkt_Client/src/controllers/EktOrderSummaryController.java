@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.control.Alert.AlertType;
@@ -22,6 +23,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import logic.Product;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -29,7 +31,7 @@ import javafx.scene.shape.Rectangle;
 
 public class EktOrderSummaryController {
 	@FXML
-    private VBox VBox;
+	private BorderPane borderPane;
 
 	@FXML
     private Button btnApprove;
@@ -47,8 +49,12 @@ public class EktOrderSummaryController {
     
     
     public void initialize() {
+		VBox productsVbox = new VBox();
+		ScrollPane centerScrollBar = new ScrollPane(productsVbox);
+		centerScrollBar.setPrefHeight(600);
+		centerScrollBar.setPrefWidth(800);
     	gridPane = new GridPane();
-    	gridPane.setPrefSize(800, 100);
+    	gridPane.setPrefSize(700, 100);
     	
     	Double totalPrice = 0.0;
     	final int numCols = 5;
@@ -100,7 +106,8 @@ public class EktOrderSummaryController {
     	}
     		lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
     		ClientController.orderTotalPrice = totalPrice;
-    		VBox.getChildren().add(gridPane);
+    		borderPane.setCenter(centerScrollBar);
+    		productsVbox.getChildren().add(gridPane);
 
     	
     }

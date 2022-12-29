@@ -1,108 +1,97 @@
 package controllers;
 
-import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import common.InactivityChecker;
+import client.ClientController;
+import client.ClientUI;
+import common.SCCP;
+import common.ServerClientRequestTypes;
 import common.WindowStarter;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import logic.Promotions;
 import javafx.fxml.Initializable;
 
-public class PromotionEditingController implements Initializable{
-  @FXML
-  private TextField txtPromotionName;
+public class PromotionEditingController implements Initializable {
+	@FXML
+	private TextField txtPromotionName;
 
-  @FXML
-  private TextField txtPromotionDescription;
+	private Promotions promotions;
 
-  @FXML
-  private ComboBox<String> cbLocation;
-  
-  @FXML
-  private TextField txtProductId;
+	@FXML
+	private TextField txtPromotionDescription;
 
-  @FXML
-  private TextField txtDiscountPercentage;
+	@FXML
+	private ComboBox<String> cbLocation;
 
-  @FXML
-  private DatePicker dpPromotionStartDate;
+	@FXML
+	private TextField txtProductId;
 
-  @FXML
-  private DatePicker dpPromotionEndDate;
+	@FXML
+	private TextField txtDiscountPercentage;
 
-  @FXML
-  private Button btnCreatePromotion;
+	@FXML
+	private DatePicker dpPromotionStartDate;
 
-  @FXML
-  private void createPromotionHandler() {
-	  
+	@FXML
+	private DatePicker dpPromotionEndDate;
 
-    // Get the promotion details from the text fields and date pickers
-    String promotionName = txtPromotionName.getText();
-    String promotionDescription = txtPromotionDescription.getText();
-    // Get the selected location from the ComboBox
-    String storelocation = cbLocation.getValue();
-    // Get the product ID from the TextField
-    String productId = txtProductId.getText();
-    int discountPercentage = Integer.parseInt(txtDiscountPercentage.getText());
-    LocalDate startDate = dpPromotionStartDate.getValue();
-    LocalDate endDate = dpPromotionEndDate.getValue();
- // Load the JDBC driver
-  
+	@FXML
+	private Button btnCreatePromotion;
 
-    // Establish a connection to the database
-    //Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/mydatabase", "username", "password");
+	@FXML
+	private Button btnGoBack;
 
-    // Create a PreparedStatement with the INSERT SQL statement
-    //String sql = "INSERT INTO promotions (name, description, location, product_id, discount_percentage, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
-   // PreparedStatement stmt = conn.prepareStatement(sql);
+	@FXML
+	private void createPromotionHandler() {
+		// Get the promotion details from the text fields and date pickers
+		SCCP preparedMessage = new SCCP();
+		preparedMessage.setRequestType(ServerClientRequestTypes.ADD_PROMOTION);
+		Object[] fillMessage = new Object[3];
+		promotions.setDiscountPercentage(txtDiscountPercentage.getText());
+		//....
+		fillMessage[0] =  "promotions";
+		fillMessage[1] = false;
+		fillMessage[2] = new Object[] {promotions};
+		
+		preparedMessage.setMessageSent(fillMessage);
 
-    // Set the values for the INSERT statement
-//    stmt.setString(1, promotionName);
-//    stmt.setString(2, promotionDescription);
-//    stmt.setString(3, cbLocation.getValue());
-//    stmt.setString(4, productId);
-//    stmt.setInt(5, discountPercentage);
-//    stmt.setDate(6, Date.valueOf(startDate));
-//    stmt.setDate(7, Date.valueOf(endDate));
-//
-//    // Execute the INSERT statement
-//    stmt.executeUpdate();
-//
-//    // Close the connection to the database
-//    conn.close();
+		// send to server
+		System.out.println("Client: Sending new promotion request to the server.");
+		ClientUI.clientController.accept(preparedMessage);
 
-  }
-  
-  public void goBackHandler(ActionEvent event) {
+		// if the response is not the type we expect, something went wrong with server
+		// communication and we throw an exception.
+		if (!(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ADD_PROMOTION))) {
+			throw new RuntimeException("Error with server communication: Non expected request type");
+		} else {
+			Alert successMessage = new Alert(AlertType.INFORMATION);
+			successMessage.setTitle("Update Success");
+			successMessage.setHeaderText("Update Success");
+			successMessage.setContentText("Promotion created successfully!");
+			successMessage.show();
+		}
+	}
+
+	public void goBackHandler(ActionEvent event) {
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, new Object(), "/gui/SalesManager.fxml", null, "Sales");
 		primaryStage.show();
 	}
-@Override
-public void initialize(URL location, ResourceBundle resources) {
-	String [] items = {"North","South","United Arab Emirates"};
-	cbLocation.getItems().addAll(items);
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		String[] items = { "North", "South", "United Arab Emirates" };
+		cbLocation.getItems().addAll(items);
 	}
-	
 }
-
-

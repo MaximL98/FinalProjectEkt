@@ -1,8 +1,11 @@
 package logic;
+
+import java.sql.Date;
+
 /**
- * Project Name: finalProjectEkt_Server
+ * Project Name: finalProjectEkt_Client
  * Logic class that contains the details needed to save up for each promotion.
- * @author Maxim Lebedinsky
+ * @author Maxim Lebedinsky,Nastya chesnov,Raz waiss
  * @version 16/12/2022
  */
 public class Promotions {
@@ -10,55 +13,26 @@ public class Promotions {
 	*Promotions logic part.
 	*private fields that will contain: products details, discount amount and location of the promotion
 	*/
-	private String productsDetails; //maybe needed ArrayList<String> here...
-	private Integer discountAmount; //same here, ArrayList<Integer> ...
 	private String promotionLocation;
+	private String promotionName;
+	private String promotionDescription;
+	private String productId;
+	private String discountPercentage;
+	private Date startDate;
+	private Date endDate;
 	/**
 	 * Promotions constructor.
 	 * @param productsDetails
 	 * @param discountAmount
 	 * @param promotionLocation
 	 */
-	public Promotions(String productsDetails, Integer discountAmount, String promotionLocation) {
-		super();
-		this.productsDetails = productsDetails;
-		this.discountAmount = discountAmount;
-		this.promotionLocation = promotionLocation;
-	}
-	/**
-	 * getting the details of the products
-	 * @return productsDetails
-	 */
-	public String getProductsDetails() {
-		return productsDetails;
-	}
-	/**
-	 * setting the details of the products
-	 * @param productsDetails
-	 */
-	public void setProductsDetails(String productsDetails) {
-		this.productsDetails = productsDetails;
-	}
-	/**
-	 * getting the discount amount
-	 * @return discountAmount
-	 */
-	public Integer getDiscountAmount() {
-		return discountAmount;
-	}
-	/**
-	 * setting the discount amount
-	 * @param discountAmount
-	 */
-	public void setDiscountAmount(Integer discountAmount) {
-		this.discountAmount = discountAmount;
-	}
-	/**
-	 * getting location of the promotion
-	 * @return promotionLocation
-	 */
-	public String getPromotionLocation() {
-		return promotionLocation;
+	public Promotions(String promotionName, String promotionDescription, String productId, String discountPercentage, java.sql.Date startDate, java.sql.Date endDate) {
+	    this.promotionName = promotionName;
+	    this.promotionDescription = promotionDescription;
+	    this.productId = productId;
+	    this.discountPercentage = discountPercentage;
+	    this.startDate = startDate;
+	    this.endDate = endDate;
 	}
 	/**
 	 * setting the location of the promotion
@@ -67,13 +41,61 @@ public class Promotions {
 	public void setPromotionLocation(String promotionLocation) {
 		this.promotionLocation = promotionLocation;
 	}
-	/**
-	 * toString method, returns promotions details
-	 */	
+
+	public String getPromotionName() {
+		return promotionName;
+	}
+
+	public void setPromotionName(String promotionName) {
+		this.promotionName = promotionName;
+	}
+
+	public String getPromotionDescription() {
+		return promotionDescription;
+	}
+
+	public void setPromotionDescription(String promotionDescription) {
+		this.promotionDescription = promotionDescription;
+	}
+
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+
+	public String getDiscountPercentage() {
+		return discountPercentage;
+	}
+
+	public void setDiscountPercentage(String discountPercentage) {
+		this.discountPercentage = discountPercentage;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
 	@Override
 	public String toString() {
-		return "Promotions [productsDetails=" + productsDetails + ", discountAmount=" + discountAmount
-				+ ", promotionLocation=" + promotionLocation + "]";
+		return "Promotions [productsDetails=" + ", promotionLocation=" + promotionLocation
+				+ ", promotionName=" + promotionName + ", promotionDescription=" + promotionDescription + ", productId="
+				+ productId + ", discountPercentage=" + discountPercentage + ", startDate=" + startDate + ", endDate="
+				+ endDate + "]";
 	}
 	
 	

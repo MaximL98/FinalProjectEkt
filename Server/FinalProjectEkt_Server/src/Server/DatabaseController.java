@@ -3,6 +3,8 @@ package Server;
 import java.sql.*;
 import java.util.ArrayList;
 
+import common.SCCP;
+
 //import com.mysql.cj.admin.ServerController;
 
 /*
@@ -244,6 +246,8 @@ public class DatabaseController {
 		// fail any other case (for now)
 		return res;
 	}
+
+
 	
 	//Handles the query to fetch all products with params[0] category name as an array
     public static Object handleQueryFetchProducts(DatabaseOperation operation, Object[] params) {

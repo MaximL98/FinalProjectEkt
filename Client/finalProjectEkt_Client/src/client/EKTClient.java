@@ -47,7 +47,7 @@ public class EKTClient extends AbstractClient
 
   // TODO: this is a copy of the above method but with a different parameter
   // new method can send the dedicated object from client to server
-  public void handleMessageFromClientUI(SCCP message)  
+  public void handleMessageFromClientUI(SCCP message)
   {
     try
     {

@@ -2,4 +2,9 @@
 /common/
 /controllers/
 /logic/
+<<<<<<< HEAD
 /bin/
+=======
+/gui/
+/bin/
+>>>>>>> refs/remotes/origin/master

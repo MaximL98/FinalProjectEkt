@@ -21,11 +21,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+
+
+///////////////////////////////////////////////////
+///////////////////////////////////////////////////
+//Needs a rename to EktReportSelectFormController//
+///////////////////////////////////////////////////
+///////////////////////////////////////////////////
+
 public class CEOPageController extends Application{
-	
-	public static void main(String[] args) {
-		launch(args);
-	}
 	
 	@FXML
 	private Button buttonViewOrderReports;

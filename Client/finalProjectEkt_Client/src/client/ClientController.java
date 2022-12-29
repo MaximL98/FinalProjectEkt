@@ -7,6 +7,7 @@ import java.util.Set;
 
 import common.SCCP;
 import logic.Product;
+import logic.Role;
 import logic.SystemUser;
 import ocsf.server.ConnectionToClient;
 
@@ -24,7 +25,9 @@ public class ClientController
   public static long orderCounter = 5;
   public static Double orderTotalPrice = new Double(0.0);
   
-public EKTClient client;
+  public EKTClient client;
+  private static Role currentUserRole = null;
+
 
   public ClientController(String host, int port) 
   {
@@ -61,5 +64,18 @@ public EKTClient client;
 //		System.out.println("im getting it from here");
 //		CurrentProductCategory = currentProductCategory;
 //	}
+
+	public static void setCurrentUserRole(Role role) {
+		// sets the 'role' variable in this class to the assigned value
+		currentUserRole = role;
+	}
+	
+
+	public static Role getCurrentUserRole() {
+		// gets the 'role' variable of this class
+		return currentUserRole;
+	}
+
+
 }
 //End of ConsoleChat class

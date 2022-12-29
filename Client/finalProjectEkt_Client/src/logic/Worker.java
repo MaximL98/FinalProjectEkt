@@ -5,7 +5,12 @@ package logic;
  * @author Maxim Lebedinsky
  * @version 16/12/2022
  */
+
 public class Worker extends SystemUser{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * worker logic part.
 	 * private field that will contain worker role in the system

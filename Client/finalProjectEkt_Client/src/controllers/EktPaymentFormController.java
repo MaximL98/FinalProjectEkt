@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import client.ClientController;
+import client.ClientUI;
+import common.SCCP;
+import common.ServerClientRequestTypes;
 import common.WindowStarter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -75,11 +78,36 @@ public class EktPaymentFormController {
 		System.out.println(year.toString());
 		
 		//////////////////////////////////Implement Input check//////////////////////////////////////////////////////
+		//////////////////////////////////Implement check of online order////////////////////////////////////////////
 		if(creditCard != null & cvv != null) {
-			//Save Order to database
-			Order currentOrder = new Order();
+			Integer orderCounter = (int) ClientController.orderCounter++;
 			ClientController.orderCounter++;
+			
+			//Send order to DB
+			SCCP insertOrderToDB = new SCCP();
+			//Create array to fill the message according to the ServerClientRequestTypes.ADD template
+			insertOrderToDB.setRequestType(ServerClientRequestTypes.ADD);
+			Object[] fill = new Object[3];
+			fill[0] = "orders";
+			fill[1] = false;
+			fill[2] = new Object[] {new Order(
+					orderCounter.toString(), ClientController.currentUserCart.size(), ClientController.orderTotalPrice.toString(), 1)};
+			
+			insertOrderToDB.setMessageSent(fill);
+			System.out.println(insertOrderToDB.getMessageSent().toString());
+			ClientUI.clientController.accept(insertOrderToDB);
+//			
+//			// check comm for answer:
+//    		if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
+//    			// add test that response.messageSent is the array we had in fill[2] (SAME OBJECT)
+//    			System.out.println("success");
+//    		}
+//    		else {
+//    			System.out.println("failed");
+//    		}
+			
 			nextPage(event, "/gui/OrderReceiptPage.fxml", "Receipt");
+			
 			
 		}
 		else {

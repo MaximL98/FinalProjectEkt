@@ -36,7 +36,7 @@ public class OnlineOrder extends Order{
 		}
 	}
 	
-	private String machineLocation;
+	private int machineLocation;
 	/**
 	 * OnlineOrder constructor, inherits fields from Order and own field machine location
 	 * @param orderID
@@ -44,22 +44,22 @@ public class OnlineOrder extends Order{
 	 * @param attribute
 	 * @param machineLocation
 	 */
-	public OnlineOrder(String orderID, Integer totalAmount, String attribute, String machineLocation) {
-		super(orderID, totalAmount, attribute);
+	public OnlineOrder(String orderID, Integer totalAmount, String attribute, int machineLocation) {
+		super(orderID, totalAmount, attribute, machineLocation);
 		this.machineLocation = machineLocation;
 	}
 	/**
 	 * getting machine location
 	 * @return machineLocation
 	 */
-	public String getMachineLocation() {
+	public int getMachineLocation() {
 		return machineLocation;
 	}
 	/**
 	 * setting machine location
 	 * @param machineLocation
 	 */
-	public void setMachineLocation(String machineLocation) {
+	public void setMachineLocation(int machineLocation) {
 		this.machineLocation = machineLocation;
 	}
 	/**

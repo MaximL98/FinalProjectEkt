@@ -6,8 +6,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
@@ -95,6 +97,9 @@ public class EktProductFormController {
     
     @FXML
     private Label txtNumberOfItemsInCart;
+    
+    @FXML
+    private AnchorPane anchorPaneProductForm;
 
     public static  int itemsInCart = 0;
     
@@ -106,6 +111,10 @@ public class EktProductFormController {
 		cartImg.setFitHeight(50);
 		cartImg.setPreserveRatio(true);
 		btnCart.setGraphic(cartImg);
+		
+		//Scrollpane
+		
+		
 		
 		String productCategory = ClientController.CurrentProductCategory.get(0);
 		lblCategoryName.setText(productCategory + " Products");
@@ -128,7 +137,6 @@ public class EktProductFormController {
 			for(Object product: arrayOfProducts) {
 				//Main product hbox
 				HBox productHBox = new HBox();
-				
 				
 				//ProductName + ProductID + ProductPrice
 				VBox productDetails = new VBox();
@@ -198,6 +206,8 @@ public class EktProductFormController {
 				System.out.println(((Product) product).getProductID());			
 							
 			}
+			ScrollPane scrollPane = new ScrollPane(vboxProducts);
+			scrollPane.setFitToWidth(true);
 			
 			
 		}

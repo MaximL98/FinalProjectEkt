@@ -50,6 +50,10 @@ public class SystemUser implements Serializable {
 		this.username = username;
 		this.password = password;
 	}
+
+	
+
+
 	/**
 	 * getting user first name
 	 * @return user first name

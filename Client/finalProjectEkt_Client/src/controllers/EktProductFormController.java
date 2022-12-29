@@ -1,3 +1,4 @@
+
 package controllers;
 
 import javafx.event.ActionEvent;
@@ -6,10 +7,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
@@ -97,24 +96,23 @@ public class EktProductFormController {
     
     @FXML
     private Label txtNumberOfItemsInCart;
-    
-    @FXML
-    private AnchorPane anchorPaneProductForm;
 
     public static  int itemsInCart = 0;
     
     	
 	public void initialize() throws FileNotFoundException {
+		String  itemsInCartString = itemsInCart + "";
+		txtNumberOfItemsInCart.setText(itemsInCartString);
+		if (itemsInCart  == 0) 
+			txtNumberOfItemsInCart.setStyle("-fx-background-color: #a7e8f2; -fx-opacity:  0.75; -fx-background-radius: 10;");
+		
+		else
+			txtNumberOfItemsInCart.setStyle("-fx-background-color: #da8888; -fx-background-radius: 10; -fx-opacity: 0.75;");
 		//Maxim new: added cart image 
 		ImageView cartImg = new ImageView(new Image("controllers/Images/cart.png"));
-		System.out.println("test");
 		cartImg.setFitHeight(50);
 		cartImg.setPreserveRatio(true);
 		btnCart.setGraphic(cartImg);
-		
-		//Scrollpane
-		
-		
 		
 		String productCategory = ClientController.CurrentProductCategory.get(0);
 		lblCategoryName.setText(productCategory + " Products");
@@ -137,6 +135,7 @@ public class EktProductFormController {
 			for(Object product: arrayOfProducts) {
 				//Main product hbox
 				HBox productHBox = new HBox();
+				
 				
 				//ProductName + ProductID + ProductPrice
 				VBox productDetails = new VBox();
@@ -170,13 +169,13 @@ public class EktProductFormController {
 				addToCart.setOnAction(action -> {
 					itemsInCart++;
 					if (itemsInCart  == 1) {
-						String itemsInCartString = itemsInCart + "";
-						txtNumberOfItemsInCart.setText(itemsInCartString);
+						String itemsInCartStr = itemsInCart + "";
+						txtNumberOfItemsInCart.setText(itemsInCartStr);
 						txtNumberOfItemsInCart.setStyle("-fx-background-color: #da8888; -fx-background-radius: 10; -fx-opacity: 0.75;");
 					}
 					else {
-						String itemsInCartString = itemsInCart + "";
-						txtNumberOfItemsInCart.setText(itemsInCartString);
+						String itemsInCartStr = itemsInCart + "";
+						txtNumberOfItemsInCart.setText(itemsInCartStr);
 					}
 					//Increment value of the product key in the hash map
 					//If it does not exist, set value to "1"
@@ -206,8 +205,6 @@ public class EktProductFormController {
 				System.out.println(((Product) product).getProductID());			
 							
 			}
-			ScrollPane scrollPane = new ScrollPane(vboxProducts);
-			scrollPane.setFitToWidth(true);
 			
 			
 		}

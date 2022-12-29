@@ -58,7 +58,6 @@ public class EKTClient extends AbstractClient
        	
     	sendToServer(message);
     	
-    	
 		// wait for response
 		while (awaitResponse) {
 			try {

@@ -12,6 +12,7 @@ public enum ServerClientRequestTypes {
 	// special messages:
 	CONNECT_TO_SERVER, LOGIN, LOGOUT, ERROR_MESSAGE, ACK, CRASH,
 	// database-related messages
+
 	CREATE, UPDATE, REMOVE, ADD, DISPLAY, FETCH_PRODUCTS_BY_CATEGORY, INSERT_ORDER_TO_DATABASE;
 	
 	/*

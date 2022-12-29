@@ -84,8 +84,6 @@ public class EktCatalogFormController implements Serializable {
 
 
 		String productFormFXMLLocation = "/gui/EktProductForm.fxml";
-		
-		String test = "/gui/TestScrollbar.fxml";
 	
 		
 		
@@ -98,7 +96,7 @@ public class EktCatalogFormController implements Serializable {
   			//category.text"Healthy";
   			ClientController.CurrentProductCategory.add(0 ,"Healthy");
   			//ClientController.CurrentProductCategory = changeSt;
-  			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), test, null, "Healthy");
+  			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, "Healthy");
   			primaryStage.setOnCloseRequest(we -> 
   			{
   				System.out.println("Pressed the X button."); 
@@ -195,3 +193,4 @@ public class EktCatalogFormController implements Serializable {
   			primaryStage.show();
   	   }
 }
+

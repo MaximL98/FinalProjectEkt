@@ -7,10 +7,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -20,6 +22,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.Product;
 
+import java.awt.Scrollbar;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -36,12 +39,12 @@ import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
 public class EktProductFormController {
-
-    @FXML
-    private VBox vboxProducts;
     
     @FXML
     private Label lblCategoryName;
+    
+    @FXML
+    private BorderPane borderPane;
 
 	@FXML
     private Label lblProductName1;
@@ -101,6 +104,10 @@ public class EktProductFormController {
     
     	
 	public void initialize() throws FileNotFoundException {
+		
+		VBox vboxProducts = new VBox();
+		
+		
 		String  itemsInCartString = itemsInCart + "";
 		txtNumberOfItemsInCart.setText(itemsInCartString);
 		if (itemsInCart  == 0) 
@@ -195,7 +202,7 @@ public class EktProductFormController {
 				//////////////////////////////////////////////////////
 				productAddToCartVBox.setAlignment(Pos.CENTER_RIGHT);
 				productHBox.setAlignment(Pos.CENTER);
-				productHBox.setPrefSize(800, 200);
+				productHBox.setPrefSize(700, 200);
 				productDetails.setPrefSize(200, 200);
 				
 				productHBox.getChildren().add(productDetails);
@@ -205,6 +212,12 @@ public class EktProductFormController {
 				System.out.println(((Product) product).getProductID());			
 							
 			}
+			
+			ScrollPane scrollPane = new ScrollPane(vboxProducts);
+			scrollPane.prefHeight(600);
+			scrollPane.prefWidth(800);
+			borderPane.setCenter(scrollPane);
+			
 			
 			
 		}

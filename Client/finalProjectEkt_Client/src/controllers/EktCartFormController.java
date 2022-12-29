@@ -17,7 +17,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 
 import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -28,10 +30,7 @@ import logic.Product;
 public class EktCartFormController {
 	
 	@FXML
-	private VBox vboxCart;
-	
-	@FXML
-	private ScrollBar scrollBar;
+	private BorderPane borderPane;
 	
 	@FXML
 	private Button btnCancelOrder;
@@ -44,6 +43,8 @@ public class EktCartFormController {
 	private boolean emptyCart = true;
 	
 	private Double totalPrice = 0.0;
+	
+	private VBox vboxCart;
 	
 	private Double calculatetotalPrice(Double totalSum, Double costPerUnit, Integer quantityNum, Product product) {
 		totalPrice = 0.0;
@@ -58,11 +59,11 @@ public class EktCartFormController {
 
 	@FXML
 	public void initialize() {
+		vboxCart = new VBox();
 		gridpaneIntoVbox  = new GridPane();
-		gridpaneIntoVbox.setPrefSize(800, 100);
-		gridpaneIntoVbox.setMinHeight(70);
-		gridpaneIntoVbox.setMaxWidth(800 - scrollBar.getWidth());
-		vboxCart.setMaxWidth(800);
+//		gridpaneIntoVbox.setPrefSize(800, 100);
+//		gridpaneIntoVbox.setMinHeight(70);
+//		gridpaneIntoVbox.setMaxWidth(800);
 
 		lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 
@@ -165,6 +166,11 @@ public class EktCartFormController {
 		}
 
 		vboxCart.getChildren().add(gridpaneIntoVbox);
+		ScrollPane scrollPane = new ScrollPane(vboxCart);
+		scrollPane.prefHeight(600);
+		scrollPane.prefWidth(800);
+		
+		borderPane.setCenter(scrollPane);
 	}
 	
 	@FXML

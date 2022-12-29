@@ -22,7 +22,7 @@ public class ClientController
   public static ArrayList<Product> arrayOfAddedProductsToGridpane = new ArrayList<>();
 
   public static long orderCounter = 5;
-  public static Double orderTotalPrice = new Double(0);
+  public static Double orderTotalPrice = new Double(0.0);
   
 public EKTClient client;
 

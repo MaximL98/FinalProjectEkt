@@ -58,7 +58,7 @@ public class PromotionEditingController implements Initializable {
 		SCCP preparedMessage = new SCCP();
 		preparedMessage.setRequestType(ServerClientRequestTypes.ADD_PROMOTION);
 		Object[] fillMessage = new Object[3];
-		promotions.setDiscountPercentage(txtDiscountPercentage.getText());
+		//promotions.setDiscountPercentage(txtDiscountPercentage.getText());
 		//....
 		fillMessage[0] =  "promotions";
 		fillMessage[1] = false;

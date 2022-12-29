@@ -25,6 +25,7 @@ public class ServerMessageHandler {
 	private static final class HandleMessageAddToTable implements IServerSideFunction {
 		// this is defined as a constant since, for adding to table, we always want a 3 element Object array.
 		private static final int MESSAGE_OBJECT_ARRAY_SIZE = 3;
+		
 		@Override
 		public SCCP handleMessage(SCCP message) {
 			// message should be: Type(ServerClientRequestTypes), Object[]{String_tableName, Boolean_addMany, Object[]_whatToAdd}
@@ -34,18 +35,19 @@ public class ServerMessageHandler {
 			Object tmpMsg = message.getMessageSent();
 			Object[] formattedMessage;
 			
+			
 			// parts of the message:
 			String tableName;
 			Boolean addMany;
 			Object[] objectsToAdd;
 			
 			/// Start input validation
-			
+			System.out.println("test1");
 			// verify type
 			if(!(type.equals(ServerClientRequestTypes.ADD))) {
 				throw new IllegalArgumentException("Invalid type used in handleMessage, type: " + message.getRequestType());
 			}
-			
+			System.out.println("test2");
 			// verify message format
 			if(tmpMsg instanceof Object[]) {
 				formattedMessage = (Object[])tmpMsg;
@@ -149,6 +151,7 @@ public class ServerMessageHandler {
             return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");
         }
     }
+
 	
 	private static HashMap<ServerClientRequestTypes, IServerSideFunction> map = 
 			new HashMap<ServerClientRequestTypes, IServerSideFunction>() {
@@ -156,8 +159,7 @@ public class ServerMessageHandler {
 		private static final long serialVersionUID = 1L;
 
 	{
-		
-		/*
+			/*
 		 * A dedicated function for a message to add something to some table (server-side)
 		 * 
 		 */

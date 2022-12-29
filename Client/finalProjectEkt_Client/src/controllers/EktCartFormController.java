@@ -1,6 +1,7 @@
 package controllers;
 
 import java.text.DecimalFormat;
+
 import java.util.Optional;
 
 import client.ClientController;
@@ -12,7 +13,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+
 import javafx.scene.control.Label;
+
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.ColumnConstraints;
@@ -52,6 +55,7 @@ public class EktCartFormController {
 		return totalPrice;
 	}
 	
+
 	@FXML
 	public void initialize() {
 		gridpaneIntoVbox  = new GridPane();
@@ -59,12 +63,13 @@ public class EktCartFormController {
 		gridpaneIntoVbox.setMinHeight(70);
 		gridpaneIntoVbox.setMaxWidth(800 - scrollBar.getWidth());
 		vboxCart.setMaxWidth(800);
+
 		lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 
 		final int numCols = 5;
 		Double totalSum = 0.0, costPerUnit = 0.0;
 		Integer quantityNum = 0;
-		
+
 		for (int i = 0; i < numCols; i++) {
 			ColumnConstraints colConst = new ColumnConstraints();
 			colConst.setPercentWidth(800/5);
@@ -81,6 +86,7 @@ public class EktCartFormController {
 			Button removeButton = new Button("remove");
 			Button addButton = new Button("+");
 			Button removeOneButton = new Button("-");
+
 			
 			j=0;
 			gridpaneIntoVbox.add(productName, j, i);
@@ -103,7 +109,6 @@ public class EktCartFormController {
 			gridpaneIntoVbox.add(removeOneButton, j, i);
 			GridPane.setHalignment(removeOneButton, HPos.CENTER);
 			i++;
-			
 			
 			removeButton.setOnAction(action -> {
 				System.out.println("item" + product.getProductName() + " was removed");
@@ -190,6 +195,7 @@ public class EktCartFormController {
 		alert.setHeaderText("This action will remove all items from the cart");
 		alert.setContentText("Are you sure you want to continue?");
 		Optional<ButtonType> result = alert.showAndWait();
+
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 
 		if (result.get() == ButtonType.OK) {
@@ -255,5 +261,6 @@ public class EktCartFormController {
 				});
 			primaryStage.show();
 		}
+
 	}
 }

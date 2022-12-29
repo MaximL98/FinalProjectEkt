@@ -1,6 +1,7 @@
 package controllers;
 
 import java.text.DecimalFormat;
+
 import java.util.Optional;
 
 import client.ClientController;
@@ -100,6 +101,7 @@ public class EktOrderSummaryController {
     		lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
     		ClientController.orderTotalPrice = totalPrice;
     		VBox.getChildren().add(gridPane);
+
     	
     }
     
@@ -117,6 +119,7 @@ public class EktOrderSummaryController {
         );
         primaryStage.show();
         ((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //closing primary window
+
     }
 
     @FXML
@@ -161,6 +164,6 @@ public class EktOrderSummaryController {
 			primaryStage.show();
 			//////////////////////
 			((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
-		}
+		  }
     }
 }

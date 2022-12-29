@@ -17,6 +17,7 @@ public class DatabaseOperationsMap {
 		private Boolean addMany;
 		private Object[] objectsToAdd;
 		
+		
 		// this performs the action we had in DatabaseController for .INSERT
 		// returns a boolean (Boolean) as an Object (because we implement an interface we have to be general)
 		@Override
@@ -145,8 +146,6 @@ public class DatabaseOperationsMap {
 
 
 	}
-	 
-	 
 	 
 	 //Class which is used to return a result set of all products with the category name categoryName[0] 
 	 protected static final class DatabaseActionSelectForFetchProducts implements IDatabaseAction {

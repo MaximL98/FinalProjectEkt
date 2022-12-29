@@ -1,11 +1,15 @@
 package logic;
 /**
- * Project Name: finalProjectEkt_Server
+ * Project Name: finalProjectEkt_Client
  * Logic class that contains the details needed to save up for each manager.
  * @author Maxim Lebedinsky
  * @version 16/12/2022
  */
 public class Manager extends Worker{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	* Manager logic part.
 	* private fields that will contain manager department and the area he is managing

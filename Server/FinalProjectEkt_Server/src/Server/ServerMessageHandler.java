@@ -7,6 +7,8 @@ import java.util.HashMap;
 import common.IServerSideFunction;
 import common.SCCP;
 import common.ServerClientRequestTypes;
+import database.DatabaseController;
+import database.DatabaseOperation;
 import logic.Customer;
 import logic.Product;
 import logic.SystemUser;
@@ -142,7 +144,7 @@ public class ServerMessageHandler {
 
         @Override
         public SCCP handleMessage(SCCP fetchProductsMessage) {
-            Object resultSetProducts = DatabaseController.handleQueryFetchProducts(
+            Object resultSetProducts = DatabaseController.handleQuery(
             		DatabaseOperation.FETCH_PRODUCTS_BY_CATEGORY, new Object[] {fetchProductsMessage.getMessageSent()});
 
             if (resultSetProducts instanceof ArrayList) {

@@ -133,7 +133,6 @@ public class EktProductFormController {
 		System.out.println("Client: Sending " + productCategory + " category to server.");
 		
 		ClientUI.clientController.accept(preparedMessage);
-		
 		if (ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.FETCH_PRODUCTS_BY_CATEGORY)) {
 			
 			//Might want to check this suppression

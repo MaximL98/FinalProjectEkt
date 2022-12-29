@@ -2,7 +2,7 @@ package logic;
 
 //import java.io.Serializable;
 /**
- * Project Name: finalProjectEkt_Server
+ * Project Name: finalProjectEkt_Client
  * Logic class that contains the details needed to save up for each customer.
  * this class extends the other logic class "SystemUser"
  * @author Maxim Lebedinsky
@@ -10,6 +10,10 @@ package logic;
  */
 public class Customer extends SystemUser{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//private static final long serialVersionUID = 1L;
 	
 	/**
@@ -31,7 +35,7 @@ public class Customer extends SystemUser{
 	 */
 	public Customer(String firstName, String lastName, Integer id, String phoneNumber, String emailAddress,
 			String creditCard, String username, String password) {
-		super(firstName, lastName, id, phoneNumber, emailAddress, creditCard, username, password);
+		super(id, firstName, lastName, phoneNumber, emailAddress, creditCard, username, password);
 	}
 	
 	

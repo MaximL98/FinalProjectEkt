@@ -2,9 +2,9 @@ package gui;
 
 import java.io.IOException;
 
-import Server.DatabaseController;
 import Server.ServerUI;
 import common.WindowStarter;
+import database.DatabaseController;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,7 +20,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import ocsf.server.ConnectionToClient;
 
-public class ServerPortFrameController  {
+public class ServerPortController  {
 	
 	String temp="";
 	
@@ -44,6 +44,8 @@ public class ServerPortFrameController  {
 	@FXML PasswordField databasePasswdTxt;
 
 	@FXML Button addUserToDB;
+
+	@FXML Button btnDisconnect;
 	
 	public void start(Stage primaryStage) throws Exception {	
 		// load server window
@@ -95,6 +97,14 @@ public class ServerPortFrameController  {
 			// allow the user of the server to insert users to the database:
 			addUserToDB.setDisable(false);
 			
+			// toggle disconnect button
+			btnDisconnect.setVisible(true);
+			btnDisconnect.setDisable(false);
+			
+			// toggle connect button
+			btnConnect.setVisible(false);
+			btnConnect.setDisable(true);
+			
 		}
 	}
 	
@@ -124,6 +134,27 @@ public class ServerPortFrameController  {
 
 		primaryStage.setScene(scene);		
 		primaryStage.show();
+	}
+
+	@FXML public void clickDisconnectBtn(ActionEvent event) {
+		// similar to exit, we stop the connection to the database, and shut down the server:
+		ServerUI.serverForcedShutdown();
+		// but we don't close the program, allowing re-connection
+		// NOT System.exit(0)
+		
+		// now, re-allow connect button and disable disconnect button
+		
+		// toggle disconnect button
+		btnConnect.setVisible(true);
+		btnConnect.setDisable(false);
+		
+		// toggle connect button
+		btnDisconnect.setVisible(false);
+		btnDisconnect.setDisable(true);
+		
+		// and disable "add user to db" button
+		addUserToDB.setDisable(true);
+
 	}
 
 }

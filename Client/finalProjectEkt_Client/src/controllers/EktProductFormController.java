@@ -2,6 +2,7 @@ package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -99,9 +100,20 @@ public class EktProductFormController {
     
     	
 	public void initialize() throws FileNotFoundException {
+		String  itemsInCartString = itemsInCart + "";
+		txtNumberOfItemsInCart.setText(itemsInCartString);
+		if (itemsInCart  == 0) 
+			txtNumberOfItemsInCart.setStyle("-fx-background-color: #a7e8f2; -fx-opacity:  0.75; -fx-background-radius: 10;");
+		
+		else
+			txtNumberOfItemsInCart.setStyle("-fx-background-color: #da8888; -fx-background-radius: 10; -fx-opacity: 0.75;");
+		//Maxim new: added cart image 
+		ImageView cartImg = new ImageView(new Image("controllers/Images/cart.png"));
+		cartImg.setFitHeight(50);
+		cartImg.setPreserveRatio(true);
+		btnCart.setGraphic(cartImg);
 		
 		String productCategory = ClientController.CurrentProductCategory.get(0);
-		System.out.println(productCategory);
 		lblCategoryName.setText(productCategory + " Products");
 		
 		SCCP preparedMessage = new SCCP();
@@ -139,11 +151,12 @@ public class EktProductFormController {
 				productDetails.getChildren().add(txtProductName);
 				productDetails.getChildren().add(txtProductID);
 				productDetails.getChildren().add(txtProductCostPerUnit);
+				productDetails.setAlignment(Pos.CENTER);
 				////////////////////////////////////////
 				String pathToImage = "controllers/Images/" + ((Product) product).getProductID() + ".png";
 				ImageView productImageView = new ImageView(new Image(pathToImage));
-				productImageView.setFitHeight(100);
-				productImageView.setFitWidth(100);
+				productImageView.setFitHeight(200);
+				productImageView.setFitWidth(200);
 //				///////////////////////////////////////
 					
 				//AddToCart Button + amountTxt
@@ -155,13 +168,13 @@ public class EktProductFormController {
 				addToCart.setOnAction(action -> {
 					itemsInCart++;
 					if (itemsInCart  == 1) {
-						String itemsInCartString = itemsInCart + "";
-						txtNumberOfItemsInCart.setText(itemsInCartString);
+						String itemsInCartStr = itemsInCart + "";
+						txtNumberOfItemsInCart.setText(itemsInCartStr);
 						txtNumberOfItemsInCart.setStyle("-fx-background-color: #da8888; -fx-background-radius: 10; -fx-opacity: 0.75;");
 					}
 					else {
-						String itemsInCartString = itemsInCart + "";
-						txtNumberOfItemsInCart.setText(itemsInCartString);
+						String itemsInCartStr = itemsInCart + "";
+						txtNumberOfItemsInCart.setText(itemsInCartStr);
 					}
 					//Increment value of the product key in the hash map
 					//If it does not exist, set value to "1"
@@ -170,15 +183,17 @@ public class EktProductFormController {
 				
 				
 				
-				addToCart.setText(((Product)product).getProductName());
-				Text amountOfItems = new Text();
-				amountOfItems.setText("Add To Cart");
-				amountOfItems.setFont(new Font(18));
+				addToCart.setText("Add To Cart");
+				
+//				Text amountOfItems = new Text();
+//				amountOfItems.setText("");
+//				amountOfItems.setFont(new Font(18));
 				
 				productAddToCartVBox.getChildren().add(addToCart);
-				productAddToCartVBox.getChildren().add(amountOfItems);
+//				productAddToCartVBox.getChildren().add(amountOfItems);
 				//////////////////////////////////////////////////////
-				
+				productAddToCartVBox.setAlignment(Pos.CENTER_RIGHT);
+				productHBox.setAlignment(Pos.CENTER);
 				productHBox.setPrefSize(800, 200);
 				productDetails.setPrefSize(200, 200);
 				
@@ -210,12 +225,18 @@ public class EktProductFormController {
 	}
 	
 	@FXML
-	public void getBtnCart(ActionEvent event) {
-		System.out.println(ClientController.currentUserCart.keySet().toString() + 
-				ClientController.currentUserCart.values().toString());
-		
-		//Implement open cart
-	}
+    public void getBtnCart(ActionEvent event) {
+        ((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+        Stage primaryStage = new Stage();
+        WindowStarter.createWindow(primaryStage, this, "/gui/EktCartForm.fxml", null, "Ekt Cart");
+        primaryStage.setOnCloseRequest(we -> 
+            {
+            System.out.println("Pressed the X button."); 
+            System.exit(0);
+            });
+
+        primaryStage.show();
+    }
 	
 	
 }

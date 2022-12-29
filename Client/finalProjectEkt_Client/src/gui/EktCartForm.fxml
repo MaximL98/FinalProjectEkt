@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="809.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="809.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktCartFormController">
    <children>
       <VBox fx:id="vboxCart" prefHeight="700.0" prefWidth="800.0">
          <children>
@@ -33,17 +33,17 @@
       </VBox>
       <Pane layoutX="5.0" layoutY="700.0" prefHeight="100.0" prefWidth="800.0">
          <children>
-            <Button fx:id="btnBack" layoutX="14.0" layoutY="46.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="170.0" text="Back To Shopping">
+            <Button fx:id="btnBack" layoutX="14.0" layoutY="46.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="46.0" prefWidth="170.0" text="Back To Shopping">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="btnOrder" layoutX="315.0" layoutY="46.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="170.0" text="Order">
+            <Button onAction="#getBtnOrder" fx:id="btnOrder" layoutX="315.0" layoutY="46.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="170.0" text="Order">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="btnCancelOrder" layoutX="616.0" layoutY="46.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="170.0" text="Cancel Order">
+            <Button onAction="#getBtnCancelOrder" fx:id="btnCancelOrder" layoutX="616.0" layoutY="46.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="170.0" text="Cancel Order">
                <font>
                   <Font size="18.0" />
                </font>
@@ -60,6 +60,6 @@
             </Label>
          </children>
       </Pane>
-      <ScrollBar orientation="VERTICAL" prefHeight="602.0" prefWidth="14.0" />
+      <ScrollBar fx:id="scrollBar" orientation="VERTICAL" prefHeight="602.0" prefWidth="14.0" />
    </children>
 </AnchorPane>

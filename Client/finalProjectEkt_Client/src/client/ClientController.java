@@ -19,8 +19,10 @@ public class ClientController
   public static ArrayList<String> CurrentProductCategory = new ArrayList<>();
   //Map that holds the current cart contents of the user
   public static HashMap<Product,Integer> currentUserCart = new HashMap<>();
-  
-public EKTClient client;
+  public static ArrayList<Product> arrayOfAddedProductsToGridpane = new ArrayList<>();
+  public static long orderCounter = 0;
+  public static Double orderTotalPrice = 0.0;
+  public EKTClient client;
   public ClientController(String host, int port) 
   {
     try 

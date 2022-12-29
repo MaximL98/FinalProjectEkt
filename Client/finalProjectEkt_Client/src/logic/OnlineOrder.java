@@ -5,18 +5,11 @@ import java.time.LocalDateTime;
 import javafx.collections.FXCollections;
 
 /**
-<<<<<<< HEAD
  * Project Name: finalProjectEkt_Client Logic class that contains the details
  * needed to save up for each online order.
  * 
  * @author Maxim Lebedinsky, Daniel Vardimon
  * @version 26/12/2022
-=======
- * Project Name: finalProjectEkt_Server
- * Logic class that contains the details needed to save up for each online order.
- * @author Maxim Lebedinsky
- * @version 16/12/2022
->>>>>>> refs/remotes/origin/master
  */
 public class OnlineOrder extends Order {
 	/**
@@ -38,7 +31,6 @@ public class OnlineOrder extends Order {
 			return super.toString();
 		}
 	}
-<<<<<<< HEAD
 
 	private String machineLocation;
 	private LocalDate dateReceived;
@@ -46,23 +38,6 @@ public class OnlineOrder extends Order {
 	private Status status;
 	private LocalDateTime deliveryTime;
 
-=======
-	
-	public enum Status{
-		InProgress("inProgress"), Complete("complete"), Canceled("cancelled");
-		
-		private final String status;
-		
-		Status(String status) {
-			this.status = status;
-		}
-		public String getStatus() {
-			return status;
-		}
-	}
-	
-	private int machineLocation;
->>>>>>> refs/remotes/origin/master
 	/**
 	 * OnlineOrder constructor, inherits fields from Order and own field machine
 	 * location
@@ -73,14 +48,9 @@ public class OnlineOrder extends Order {
 	 * @param machineLocation
 	 * @param dateReceived
 	 */
-<<<<<<< HEAD
 	public OnlineOrder(String orderID, Integer totalAmount, String attribute, String machineLocation,
-			LocalDate dateReceived,LocalDateTime deliveryTime, Type type, Status status) {
-		super(orderID, totalAmount, attribute);
-=======
-	public OnlineOrder(String orderID, Integer totalAmount, String attribute, int machineLocation) {
-		super(orderID, totalAmount, attribute, machineLocation);
->>>>>>> refs/remotes/origin/master
+			LocalDate dateReceived,LocalDateTime deliveryTime, Type type, Status status, int machineID) {
+		super(orderID, totalAmount, attribute, 10);
 		this.machineLocation = machineLocation;
 		this.dateReceived = dateReceived;
 		this.deliveryTime = deliveryTime;
@@ -93,7 +63,7 @@ public class OnlineOrder extends Order {
 	 * 
 	 * @return machineLocation
 	 */
-	public int getMachineLocation() {
+	public String getMachineLocation() {
 		return machineLocation;
 	}
 
@@ -102,7 +72,7 @@ public class OnlineOrder extends Order {
 	 * 
 	 * @param machineLocation
 	 */
-	public void setMachineLocation(int machineLocation) {
+	public void setMachineLocation(String machineLocation) {
 		this.machineLocation = machineLocation;
 	}
 

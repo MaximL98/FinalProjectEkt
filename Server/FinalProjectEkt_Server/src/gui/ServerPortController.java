@@ -2,9 +2,9 @@ package gui;
 
 import java.io.IOException;
 
-import Server.DatabaseController;
 import Server.ServerUI;
 import common.WindowStarter;
+import database.DatabaseController;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

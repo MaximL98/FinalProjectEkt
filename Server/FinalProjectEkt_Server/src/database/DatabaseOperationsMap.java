@@ -1,9 +1,11 @@
-package Server;
+package database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import common.TypeChecker;
 import logic.SystemUser;
 
 public class DatabaseOperationsMap {
@@ -101,9 +103,25 @@ public class DatabaseOperationsMap {
 		public Object getDatabaseAction(Object[] params) {
 			// add input check - I can't be bothered to such an extent
 
+			// input check:
+			ArrayList<Class<?>> typesList = new ArrayList<>();
+			typesList.add(String.class);
+			typesList.add(String[].class);
+			
+			// validate input
+			if(!TypeChecker.validate(params, typesList, 0)) {
+				throw new IllegalArgumentException("Invalid input in getDatabaseAction for action: " +
+													DatabaseOperation.USER_LOGIN + " (wrong input types)");
+			}
+			
 			String user, pass;
 			tableName = (String)params[0];
 			String[] up = (String[])params[1];
+			if(up.length != 2) {
+				throw new IllegalArgumentException("Invalid input in getDatabaseAction for action: " + 
+													DatabaseOperation.USER_LOGIN + " (size of user-password array not 2)");
+			}
+			
 			user = up[0];
 			pass = up[1];
 

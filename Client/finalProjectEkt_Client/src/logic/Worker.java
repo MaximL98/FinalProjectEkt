@@ -5,6 +5,7 @@ package logic;
  * @author Maxim Lebedinsky
  * @version 16/12/2022
  */
+
 public class Worker extends SystemUser{
 	/**
 	 * worker logic part.

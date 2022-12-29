@@ -151,7 +151,6 @@ public class ServerMessageHandler {
             return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");
         }
     }
-    
 
 	
 	private static HashMap<ServerClientRequestTypes, IServerSideFunction> map = 

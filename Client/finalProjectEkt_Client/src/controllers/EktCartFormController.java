@@ -1,5 +1,7 @@
 package controllers;
 
+import java.text.DecimalFormat;
+
 import java.util.Optional;
 
 import client.ClientController;
@@ -11,6 +13,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+
+import javafx.scene.control.Label;
+
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.ColumnConstraints;
@@ -30,9 +35,27 @@ public class EktCartFormController {
 	
 	@FXML
 	private Button btnCancelOrder;
+
+    @FXML
+    private Label lblTotalPrice;
 	
 	private GridPane gridpaneIntoVbox;
 	
+	private boolean emptyCart = true;
+	
+	private Double totalPrice = 0.0;
+	
+	private Double calculatetotalPrice(Double totalSum, Double costPerUnit, Integer quantityNum, Product product) {
+		totalPrice = 0.0;
+		quantityNum = ClientController.currentUserCart.get(product);
+		costPerUnit = Double.valueOf(product.getCostPerUnit());
+		totalSum = quantityNum * costPerUnit;
+		totalPrice += totalSum;
+
+		return totalPrice;
+	}
+	
+
 	@FXML
 	public void initialize() {
 		gridpaneIntoVbox  = new GridPane();
@@ -40,33 +63,30 @@ public class EktCartFormController {
 		gridpaneIntoVbox.setMinHeight(70);
 		gridpaneIntoVbox.setMaxWidth(800 - scrollBar.getWidth());
 		vboxCart.setMaxWidth(800);
+
+		lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
+
 		final int numCols = 5;
+		Double totalSum = 0.0, costPerUnit = 0.0;
+		Integer quantityNum = 0;
+
 		for (int i = 0; i < numCols; i++) {
 			ColumnConstraints colConst = new ColumnConstraints();
 			colConst.setPercentWidth(800/5);
 			gridpaneIntoVbox.getColumnConstraints().add(colConst);
 		}	
 		int i = 0, j = 0;
-		
 		for (Product product: ClientController.currentUserCart.keySet()) {
+			emptyCart = false;
 			Text productName = new Text(product.getProductName());
 			Text quantityLabel = new Text("Quantity: " + ClientController.currentUserCart.get(product));
+			
+    		
+			
 			Button removeButton = new Button("remove");
-			removeButton.setOnAction(action -> {
-				EktProductFormController.itemsInCart = 0;
-				ClientController.currentUserCart.put(product, ClientController.currentUserCart.get(product) - 1);
-			});
-			
 			Button addButton = new Button("+");
-			addButton.setOnAction(action -> {
-				EktProductFormController.itemsInCart--;
-				ClientController.currentUserCart.put(product, ClientController.currentUserCart.get(product) + 1);
-			});
-			
 			Button removeOneButton = new Button("-");
-			removeOneButton.setOnAction(action -> {
-				EktProductFormController.itemsInCart++;
-			});
+
 			
 			j=0;
 			gridpaneIntoVbox.add(productName, j, i);
@@ -90,12 +110,60 @@ public class EktCartFormController {
 			GridPane.setHalignment(removeOneButton, HPos.CENTER);
 			i++;
 			
-			ClientController.arrayOfAddedProductsToGridpane.add(product);
+			removeButton.setOnAction(action -> {
+				System.out.println("item" + product.getProductName() + " was removed");
+				gridpaneIntoVbox.getChildren().remove(productName);
+				gridpaneIntoVbox.getChildren().remove(quantityLabel);
+				gridpaneIntoVbox.getChildren().remove(removeButton);
+				gridpaneIntoVbox.getChildren().remove(addButton);
+				gridpaneIntoVbox.getChildren().remove(removeOneButton);
+
+				//removeProduct = true;
+				EktProductFormController.itemsInCart -= ClientController.currentUserCart.get(product);
+				ClientController.currentUserCart.put(product, 0);
+				totalPrice = calculatetotalPrice(totalSum, costPerUnit, ClientController.currentUserCart.get(product), product);
+				lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
+
+			});
+			
+
+			addButton.setOnAction(action -> {
+				EktProductFormController.itemsInCart++;
+				ClientController.currentUserCart.put(product, ClientController.currentUserCart.get(product) + 1);
+				quantityLabel.setText("Quantity: " + (ClientController.currentUserCart.get(product).toString()));
+				totalPrice = calculatetotalPrice(totalSum, costPerUnit, ClientController.currentUserCart.get(product), product);
+				lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
+
+			});
+			
+
+			removeOneButton.setOnAction(action -> {
+				EktProductFormController.itemsInCart--;
+				ClientController.currentUserCart.put(product, ClientController.currentUserCart.get(product) - 1);
+				quantityLabel.setText("Quantity: " + (ClientController.currentUserCart.get(product).toString()));
+				totalPrice = calculatetotalPrice(totalSum, costPerUnit, ClientController.currentUserCart.get(product), product);
+				lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
+
+			});
+			
+
+			if(!ClientController.currentUserCart.get(product).equals(0))
+				ClientController.arrayOfAddedProductsToGridpane.add(product);
+			
+			if(ClientController.currentUserCart.get(product).equals(0)) {
+				gridpaneIntoVbox.getChildren().remove(productName);
+				gridpaneIntoVbox.getChildren().remove(quantityLabel);
+				gridpaneIntoVbox.getChildren().remove(removeButton);
+				gridpaneIntoVbox.getChildren().remove(addButton);
+				gridpaneIntoVbox.getChildren().remove(removeOneButton);
+			}
 			
 			//Implement amount of items
-			
+			totalPrice = calculatetotalPrice(totalSum, costPerUnit, quantityNum, product);
+			lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
+
 		}
-		
+
 		vboxCart.getChildren().add(gridpaneIntoVbox);
 	}
 	
@@ -127,7 +195,9 @@ public class EktCartFormController {
 		alert.setHeaderText("This action will remove all items from the cart");
 		alert.setContentText("Are you sure you want to continue?");
 		Optional<ButtonType> result = alert.showAndWait();
-		
+
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+
 		if (result.get() == ButtonType.OK) {
 			//Login window//
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
@@ -151,16 +221,46 @@ public class EktCartFormController {
 	
 	@FXML
 	public void getBtnOrder(ActionEvent event){
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		//category is located in a ArrayList
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktOrderSummary.fxml", null, "Order Summary");
-		vboxCart.getChildren().clear();
-		primaryStage.setOnCloseRequest(we -> 
-			{
-				System.out.println("Pressed the X button."); 
-				System.exit(0);
-			});
-		primaryStage.show();
+		if(emptyCart) {
+    		//Alert window
+    		Alert alert = new Alert(AlertType.WARNING);
+    		alert.setTitle("Empty Cart");
+    		alert.setHeaderText("Your cart is empty, you cannot persist to order!");
+    		Optional<ButtonType> result = alert.showAndWait();
+    		
+    		if (result.get() == ButtonType.OK) {
+    			//Login window//
+    			Stage primaryStage = new Stage();
+    			//category is located in a ArrayList
+    			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktProductForm.fxml", null, 
+    					ClientController.CurrentProductCategory.get(0));
+    	
+    			ClientController.currentUserCart.keySet().clear();;
+    	
+    			primaryStage.setOnCloseRequest(we -> 
+    				{
+    					System.out.println("Pressed the X button."); 
+    					System.exit(0);
+    				});
+    			primaryStage.show();
+    			//////////////////////
+    			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+
+    		}
+    	}
+		else {
+			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			Stage primaryStage = new Stage();
+			//category is located in a ArrayList
+			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktOrderSummary.fxml", null, "Order Summary");
+			vboxCart.getChildren().clear();
+			primaryStage.setOnCloseRequest(we -> 
+				{
+					System.out.println("Pressed the X button."); 
+					System.exit(0);
+				});
+			primaryStage.show();
+		}
+
 	}
 }

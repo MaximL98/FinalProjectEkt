@@ -10,7 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPaneProductForm" maxHeight="800.0" maxWidth="800.0" prefHeight="800.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktProductFormController">
+
+<AnchorPane prefHeight="800.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktProductFormController">
+
    <children>
       <Pane layoutY="756.0" prefHeight="53.0" prefWidth="800.0">
          <children>

@@ -221,6 +221,7 @@ public class EktCartFormController {
 	//The user will be disconnected and the login page will be displayed
 	@FXML
 	public void getBtnCancelOrder(ActionEvent event) {
+		EktProductFormController.itemsInCart = 0;
 		//Alert window
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Clear Cart");
@@ -267,8 +268,9 @@ public class EktCartFormController {
     			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktProductForm.fxml", null, 
     					ClientController.CurrentProductCategory.get(0));
     	
-    			ClientController.currentUserCart.keySet().clear();;
-    	
+    			ClientController.currentUserCart.keySet().clear();
+    			
+    			
     			primaryStage.setOnCloseRequest(we -> 
     				{
     					System.out.println("Pressed the X button."); 

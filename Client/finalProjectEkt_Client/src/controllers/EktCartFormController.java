@@ -41,19 +41,14 @@ public class EktCartFormController {
 	private GridPane gridpaneIntoVbox;
 	
 	private boolean emptyCart = true;
-	
-	private Double totalPrice = 0.0;
-	
+		
 	private VBox vboxCart;
 	
-	private Double calculatetotalPrice(Double totalSum, Double costPerUnit, Integer quantityNum, Product product) {
-		totalPrice = 0.0;
+	private void calculatetotalPrice(Double totalSum, Double costPerUnit, Integer quantityNum, Product product) {
+		
 		quantityNum = ClientController.currentUserCart.get(product);
 		costPerUnit = Double.valueOf(product.getCostPerUnit());
-		totalSum = quantityNum * costPerUnit;
-		totalPrice += totalSum;
-
-		return totalPrice;
+		ClientController.orderTotalPrice = quantityNum * costPerUnit;
 	}
 	
 
@@ -61,11 +56,8 @@ public class EktCartFormController {
 	public void initialize() {
 		vboxCart = new VBox();
 		gridpaneIntoVbox  = new GridPane();
-//		gridpaneIntoVbox.setPrefSize(800, 100);
-//		gridpaneIntoVbox.setMinHeight(70);
-//		gridpaneIntoVbox.setMaxWidth(800);
 
-		lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
+		lblTotalPrice.setText((new DecimalFormat("##.##").format(ClientController.orderTotalPrice)).toString() + "$");
 
 		final int numCols = 5;
 		Double totalSum = 0.0, costPerUnit = 0.0;
@@ -122,8 +114,8 @@ public class EktCartFormController {
 				//removeProduct = true;
 				EktProductFormController.itemsInCart -= ClientController.currentUserCart.get(product);
 				ClientController.currentUserCart.put(product, 0);
-				totalPrice = calculatetotalPrice(totalSum, costPerUnit, ClientController.currentUserCart.get(product), product);
-				lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
+				calculatetotalPrice(totalSum, costPerUnit, ClientController.currentUserCart.get(product), product);
+				lblTotalPrice.setText((new DecimalFormat("##.##").format(ClientController.orderTotalPrice)).toString() + "$");
 
 			});
 			
@@ -132,8 +124,8 @@ public class EktCartFormController {
 				EktProductFormController.itemsInCart++;
 				ClientController.currentUserCart.put(product, ClientController.currentUserCart.get(product) + 1);
 				quantityLabel.setText("Quantity: " + (ClientController.currentUserCart.get(product).toString()));
-				totalPrice = calculatetotalPrice(totalSum, costPerUnit, ClientController.currentUserCart.get(product), product);
-				lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
+				calculatetotalPrice(totalSum, costPerUnit, ClientController.currentUserCart.get(product), product);
+				lblTotalPrice.setText((new DecimalFormat("##.##").format(ClientController.orderTotalPrice)).toString() + "$");
 
 			});
 			
@@ -142,8 +134,8 @@ public class EktCartFormController {
 				EktProductFormController.itemsInCart--;
 				ClientController.currentUserCart.put(product, ClientController.currentUserCart.get(product) - 1);
 				quantityLabel.setText("Quantity: " + (ClientController.currentUserCart.get(product).toString()));
-				totalPrice = calculatetotalPrice(totalSum, costPerUnit, ClientController.currentUserCart.get(product), product);
-				lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
+				calculatetotalPrice(totalSum, costPerUnit, ClientController.currentUserCart.get(product), product);
+				lblTotalPrice.setText((new DecimalFormat("##.##").format(ClientController.orderTotalPrice)).toString() + "$");
 
 			});
 			
@@ -152,6 +144,7 @@ public class EktCartFormController {
 				ClientController.arrayOfAddedProductsToGridpane.add(product);
 			
 			if(ClientController.currentUserCart.get(product).equals(0)) {
+				ClientController.orderTotalPrice = 0.0;
 				gridpaneIntoVbox.getChildren().remove(productName);
 				gridpaneIntoVbox.getChildren().remove(quantityLabel);
 				gridpaneIntoVbox.getChildren().remove(removeButton);
@@ -160,8 +153,8 @@ public class EktCartFormController {
 			}
 			
 			//Implement amount of items
-			totalPrice = calculatetotalPrice(totalSum, costPerUnit, quantityNum, product);
-			lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
+			calculatetotalPrice(totalSum, costPerUnit, quantityNum, product);
+			lblTotalPrice.setText((new DecimalFormat("##.##").format(ClientController.orderTotalPrice)).toString() + "$");
 
 		}
 

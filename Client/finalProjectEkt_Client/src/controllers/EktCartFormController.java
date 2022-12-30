@@ -23,6 +23,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.Product;
@@ -41,35 +42,36 @@ public class EktCartFormController {
 	private GridPane gridpaneIntoVbox;
 	
 	private boolean emptyCart = true;
+		
+	private VBox vboxCart;
+	
+	private Double priceToAdd = 0.0;
 	
 	private Double totalPrice = 0.0;
 	
-	private VBox vboxCart;
-	
-	private Double calculatetotalPrice(Double totalSum, Double costPerUnit, Integer quantityNum, Product product) {
-		totalPrice = 0.0;
+	private void calculatePriceToAdd(Double costPerUnit, Integer quantityNum, Product product) {
 		quantityNum = ClientController.currentUserCart.get(product);
 		costPerUnit = Double.valueOf(product.getCostPerUnit());
-		totalSum = quantityNum * costPerUnit;
-		totalPrice += totalSum;
-
-		return totalPrice;
+		priceToAdd = quantityNum * costPerUnit;
 	}
 	
+	private void calculateTotalPrice() {
+		totalPrice = 0.0;
+		for (Product product: ClientController.cartPrice.keySet()) {
+			System.out.println("Adding the price of " + product.getProductName()+ "in");
+			totalPrice += ClientController.cartPrice.get(product);
+			System.out.println("Total price now is = " + totalPrice);
+		}
+	}
 
 	@FXML
 	public void initialize() {
 		vboxCart = new VBox();
 		gridpaneIntoVbox  = new GridPane();
-//		gridpaneIntoVbox.setPrefSize(800, 100);
-//		gridpaneIntoVbox.setMinHeight(70);
-//		gridpaneIntoVbox.setMaxWidth(800);
-
-		lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
+		lblTotalPrice.setText("0$");
 
 		final int numCols = 5;
-		Double totalSum = 0.0, costPerUnit = 0.0;
-		Integer quantityNum = 0;
+		Double costPerUnit = 0.0;
 
 		for (int i = 0; i < numCols; i++) {
 			ColumnConstraints colConst = new ColumnConstraints();
@@ -78,17 +80,28 @@ public class EktCartFormController {
 		}	
 		int i = 0, j = 0;
 		for (Product product: ClientController.currentUserCart.keySet()) {
+			
+			calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(product), product);
+			ClientController.cartPrice.put(product,priceToAdd);
+			calculateTotalPrice();
+			lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
+
 			emptyCart = false;
 			Text productName = new Text(product.getProductName());
 			Text quantityLabel = new Text("Quantity: " + ClientController.currentUserCart.get(product));
 			
-    		
+			productName.setFont(new Font(18));
+			quantityLabel.setFont(new Font(18));
 			
 			Button removeButton = new Button("remove");
 			Button addButton = new Button("+");
 			Button removeOneButton = new Button("-");
-
+			removeButton.setFont(new Font(18));
+			addButton.setFont(new Font(18));
+			removeOneButton.setFont(new Font(18));
 			
+			
+
 			j=0;
 			gridpaneIntoVbox.add(productName, j, i);
 			GridPane.setHalignment(productName, HPos.CENTER);
@@ -122,7 +135,9 @@ public class EktCartFormController {
 				//removeProduct = true;
 				EktProductFormController.itemsInCart -= ClientController.currentUserCart.get(product);
 				ClientController.currentUserCart.put(product, 0);
-				totalPrice = calculatetotalPrice(totalSum, costPerUnit, ClientController.currentUserCart.get(product), product);
+				calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(product), product);
+				ClientController.cartPrice.put(product, 0.0);
+				calculateTotalPrice();
 				lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 
 			});
@@ -132,7 +147,9 @@ public class EktCartFormController {
 				EktProductFormController.itemsInCart++;
 				ClientController.currentUserCart.put(product, ClientController.currentUserCart.get(product) + 1);
 				quantityLabel.setText("Quantity: " + (ClientController.currentUserCart.get(product).toString()));
-				totalPrice = calculatetotalPrice(totalSum, costPerUnit, ClientController.currentUserCart.get(product), product);
+				calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(product), product);
+				ClientController.cartPrice.put(product, priceToAdd);
+				calculateTotalPrice();
 				lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 
 			});
@@ -142,7 +159,9 @@ public class EktCartFormController {
 				EktProductFormController.itemsInCart--;
 				ClientController.currentUserCart.put(product, ClientController.currentUserCart.get(product) - 1);
 				quantityLabel.setText("Quantity: " + (ClientController.currentUserCart.get(product).toString()));
-				totalPrice = calculatetotalPrice(totalSum, costPerUnit, ClientController.currentUserCart.get(product), product);
+				calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(product), product);
+				ClientController.cartPrice.put(product, priceToAdd);
+				calculateTotalPrice();
 				lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 
 			});
@@ -152,19 +171,18 @@ public class EktCartFormController {
 				ClientController.arrayOfAddedProductsToGridpane.add(product);
 			
 			if(ClientController.currentUserCart.get(product).equals(0)) {
+				ClientController.cartPrice.put(product, 0.0);
 				gridpaneIntoVbox.getChildren().remove(productName);
 				gridpaneIntoVbox.getChildren().remove(quantityLabel);
 				gridpaneIntoVbox.getChildren().remove(removeButton);
 				gridpaneIntoVbox.getChildren().remove(addButton);
 				gridpaneIntoVbox.getChildren().remove(removeOneButton);
 			}
-			
+			System.out.println("The total price in the cart right now is = " + totalPrice);
 			//Implement amount of items
-			totalPrice = calculatetotalPrice(totalSum, costPerUnit, quantityNum, product);
-			lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
-
 		}
-
+		ClientController.orderTotalPrice = totalPrice;
+		System.out.println(ClientController.orderTotalPrice);
 		vboxCart.getChildren().add(gridpaneIntoVbox);
 		ScrollPane scrollPane = new ScrollPane(vboxCart);
 		scrollPane.prefHeight(600);

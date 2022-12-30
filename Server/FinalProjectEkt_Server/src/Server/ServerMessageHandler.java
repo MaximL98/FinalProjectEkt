@@ -44,12 +44,10 @@ public class ServerMessageHandler {
 			Object[] objectsToAdd;
 			
 			/// Start input validation
-			System.out.println("test1");
 			// verify type
 			if(!(type.equals(ServerClientRequestTypes.ADD))) {
 				throw new IllegalArgumentException("Invalid type used in handleMessage, type: " + message.getRequestType());
 			}
-			System.out.println("test2");
 			// verify message format
 			if(tmpMsg instanceof Object[]) {
 				formattedMessage = (Object[])tmpMsg;
@@ -111,9 +109,7 @@ public class ServerMessageHandler {
 				// idea - maybe we should create a special type for errors too, and pass a dedicated one that will provide valuable info to the client?
 				response.setMessageSent("ERROR: adding to DB failed"); // TODO: add some valuable information.
 			}
-			
 			return response;
-			
 		}
 	}
 
@@ -146,6 +142,7 @@ public class ServerMessageHandler {
 		
 	}
 	
+	// explain it
 	private static final class HandleMessageGet implements IServerSideFunction{
 
 		@Override
@@ -189,9 +186,6 @@ public class ServerMessageHandler {
             return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");
         }
     }
-
-	
-	
 
 	private static HashMap<ServerClientRequestTypes, IServerSideFunction> map = 
 			new HashMap<ServerClientRequestTypes, IServerSideFunction>() {

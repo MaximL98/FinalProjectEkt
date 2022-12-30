@@ -1,6 +1,6 @@
 package Server;
 
-import gui.ServerPortFrameController;
+import gui.ServerPortController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -16,7 +16,7 @@ public class ServerUI extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub				  		
-		ServerPortFrameController aFrame = new ServerPortFrameController(); // create StudentFrame
+		ServerPortController aFrame = new ServerPortController(); // create StudentFrame
 		primaryStage.setOnCloseRequest(we -> {
 	    	System.out.println("X button has been clicked!");
 

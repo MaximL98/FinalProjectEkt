@@ -1,6 +1,15 @@
+<<<<<<< HEAD
 /client/
 /common/
 /controllers/
 /logic/
 /gui/
 /bin/
+=======
+/controllers/
+/logic/
+/client/
+/gui/
+/common/
+/bin/
+>>>>>>> refs/remotes/origin/rotem

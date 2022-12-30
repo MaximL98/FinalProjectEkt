@@ -29,16 +29,16 @@ public class SystemUser implements Serializable {
 	
 	/**
 	 * system user constructor
+	 * @param id
 	 * @param firstName
 	 * @param lastName
-	 * @param id
 	 * @param phoneNumber
 	 * @param emailAddress
 	 * @param creditCard
 	 * @param username
 	 * @param password
 	 */
-	public SystemUser(String firstName, String lastName, Integer id, String phoneNumber, String emailAddress,
+	public SystemUser(Integer id, String firstName, String lastName, String phoneNumber, String emailAddress,
 			String creditCard, String username, String password) {
 		super();
 		this.firstName = firstName;
@@ -50,6 +50,10 @@ public class SystemUser implements Serializable {
 		this.username = username;
 		this.password = password;
 	}
+
+	
+
+
 	/**
 	 * getting user first name
 	 * @return user first name

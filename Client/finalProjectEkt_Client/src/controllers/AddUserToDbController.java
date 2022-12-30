@@ -144,7 +144,7 @@ public class AddUserToDbController {
     		Object[] fill = new Object[3];
     		fill[0] = "systemuser"; // add to table "systemusers" (hard code it elsewhere)
     		fill[1] = false; // add only 1
-    		fill[2] = new Object[] {new SystemUser(firstNameTxt.getText(), lastNameTxt.getText(), id, 
+    		fill[2] = new Object[] {new SystemUser(id, firstNameTxt.getText(), lastNameTxt.getText(), 
     				phoneNumberTxt.getText(), emailTxt.getText(), creditCardTxt.getText(), usernameTxt.getText(), passwordTxt.getText())};
     		preparedMessage.setMessageSent(fill);
     		

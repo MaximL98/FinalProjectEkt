@@ -1,7 +1,6 @@
-package Server;
+package database;
 
 import java.sql.*;
-import java.util.ArrayList;
 
 //import com.mysql.cj.admin.ServerController;
 
@@ -16,7 +15,9 @@ import java.util.ArrayList;
 
 public class DatabaseController {
 	// constants
-	private static final String URL = "jdbc:mysql://localhost/ektdb?serverTimezone=IST&sslMode=DISABLED&allowPublicKeyRetrieval=true";	// Rotem -> read line 28
+	// URL is defined with ssl disabled because the java version is too weak to handle it otherwise 
+	// (sergoy: don't use java 19 because it's not buggy and I love bugs, I love them so much I eat them and shit them daily)
+	private static final String URL = "jdbc:mysql://localhost/ekrutdb?serverTimezone=IST&sslMode=DISABLED&allowPublicKeyRetrieval=true";	// Rotem -> read line 28
 	//private static final String DRIVER_NAME = "com.mysql.jdbc.Driver";
 
 	private static String dbName = "root";
@@ -156,24 +157,19 @@ public class DatabaseController {
 		}
 	}
 	
-	
 	public static ResultSet executeQueryWithResults(String sqlStatement, Object[] params) {
 		con = getConnection();
 		PreparedStatement ps;
-		
-		
 		try {
 			ps = con.prepareStatement(sqlStatement);
-
 			if(params != null) {
 				for (int i = 0; i < params.length; i++) {
 					ps.setObject(i+1, params[i]);
 				}
 			}
-
-			System.out.println("SQL to execute: "+ sqlStatement);
+			System.out.println("SQL to execute: "+sqlStatement);
 			//System.out.println("prepared statement : " + ps.toString());
-			
+
 			return ps.executeQuery();
 		} catch (Exception e) {
 
@@ -182,18 +178,6 @@ public class DatabaseController {
 
 			return null;
 		}
-	}
-	
-	public static ResultSet executQueryWithResults_SimpleWithOneStatement(String sqlStatement) {
-		con = getConnection();
-		
-		try {
-			Statement statement = con.createStatement();
-			ResultSet resultSet = statement.executeQuery(sqlStatement);
-			return resultSet;
-		} catch (SQLException sqle) {	
-		}
-		return null;
 	}
 	
 	public static String getDatabaseUserName() {
@@ -212,6 +196,8 @@ public class DatabaseController {
 		dbPassword = databasePassword;
 	}
 
+	
+	// please, just ignore this one, I left it only to keep track of how it was done before the map existed.
 	public static boolean handleQuery(DatabaseOperation operation, String tableName, Boolean addMany,
 			Object[] objectsToAdd) {
 		
@@ -219,7 +205,7 @@ public class DatabaseController {
 			// add
 			//(?, ?, ?, ?, ?, ?, ?, ?)
 			String addToTable =
-					"INSERT INTO " +schemaName+"."+tableName+ " VALUES ";
+					"INSERT INTO " +getSchemaName()+"."+tableName+ " VALUES ";
 			// sql format set in each logic class
 			for(Object o : objectsToAdd) {
 				
@@ -237,24 +223,19 @@ public class DatabaseController {
 	}
 	
 	public static Object handleQuery(DatabaseOperation operation, Object[] params) {
-		Object res = DatabaseOperationsMap.getMap().get(operation).getDatabaseAction(params);
-		if(res instanceof Boolean) {
-			return (boolean)res;
+		// TODO: add error checking
+		if(!DatabaseOperationsMap.getMap().containsKey(operation)) {
+			throw new UnsupportedOperationException("SQL Controller does not support the operation " + operation + ". Contact your doctor about Levi-tra today!");
 		}
-		// fail any other case (for now)
-		return res;
+		return DatabaseOperationsMap.getMap().get(operation).getDatabaseAction(params);
 	}
 	
-	//Handles the query to fetch all products with params[0] category name as an array
-    public static Object handleQueryFetchProducts(DatabaseOperation operation, Object[] params) {
-    	//Return resultSet of products as a cast of object (Object)
-    	
-    	Object resultArray = DatabaseOperationsMap.getMap().get(operation).getDatabaseAction(params);
-    	if(resultArray instanceof ArrayList)
-    		return (ArrayList<?>)resultArray;
-    	// fail any other case (for now)
-    	return null;
-    }
+	
+
+
+	public static String getSchemaName() {
+		return schemaName;
+	}
 	
 	
 }

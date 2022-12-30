@@ -13,8 +13,7 @@ public enum ServerClientRequestTypes {
 	CONNECT_TO_SERVER, LOGIN, LOGOUT, ERROR_MESSAGE, ACK, CRASH,
 	// database-related messages
 
-	CREATE, UPDATE, REMOVE, ADD, DISPLAY, FETCH_PRODUCTS_BY_CATEGORY, INSERT_ORDER_TO_DATABASE;
-	
+	CREATE, UPDATE, REMOVE, ADD, DISPLAY, FETCH_PRODUCTS_BY_CATEGORY, INSERT_ORDER_TO_DATABASE;	
 	/*
 	 * Legend:
 	 * CONNECT_TO_SERVER - sends an empty object, used by server to maintain a list of connected clients (better than my original way)

@@ -32,13 +32,12 @@ public class ClientLoginController {
 	
 	
 	public void getConnectToServer(ActionEvent event) throws IOException {
-		System.out.println("Worker is in connect to server");
+		System.out.println("Client is connecting to server");
 		String tmp = txtIP.getText();
 		if(tmp.equals(""))
 			tmp = "localhost";
 		ClientUI.serverIP = tmp;
 		ClientUI.connectToServer();
-		FXMLLoader loader = new FXMLLoader();
 
 		
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
@@ -52,6 +51,7 @@ public class ClientLoginController {
 		}
 		);
 		primaryStage.show();	 	
+		System.out.println("Client is now connected to server");
 
 		/*Pane root = loader.load(getClass().getResource("/gui/EkrutUserLoginForm.fxml").openStream());
 

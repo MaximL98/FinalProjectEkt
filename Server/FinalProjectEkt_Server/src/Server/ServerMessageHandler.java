@@ -7,6 +7,8 @@ import java.util.HashMap;
 import common.IServerSideFunction;
 import common.SCCP;
 import common.ServerClientRequestTypes;
+import database.DatabaseController;
+import database.DatabaseOperation;
 import logic.Customer;
 import logic.Product;
 import logic.SystemUser;
@@ -42,12 +44,10 @@ public class ServerMessageHandler {
 			Object[] objectsToAdd;
 			
 			/// Start input validation
-			System.out.println("test1");
 			// verify type
 			if(!(type.equals(ServerClientRequestTypes.ADD))) {
 				throw new IllegalArgumentException("Invalid type used in handleMessage, type: " + message.getRequestType());
 			}
-			System.out.println("test2");
 			// verify message format
 			if(tmpMsg instanceof Object[]) {
 				formattedMessage = (Object[])tmpMsg;
@@ -109,25 +109,60 @@ public class ServerMessageHandler {
 				// idea - maybe we should create a special type for errors too, and pass a dedicated one that will provide valuable info to the client?
 				response.setMessageSent("ERROR: adding to DB failed"); // TODO: add some valuable information.
 			}
-			
 			return response;
-			
 		}
 	}
 
 	private static final class HandleMessageLogin implements IServerSideFunction{
+
+		// TODO:
+		// we need to modify this queer, we need to ask the DB for an entry with username,
+		// if not found, we return error "no such user",
+		// else, we compare passwords HERE (too bad, too much work 2 queers for one action)
+		// if true, connect,
+		// else, respond "wrong password"
+		@Override
+		public SCCP handleMessage(SCCP loginMessage) {
+			// we are supposed to get this object:
+			// SCCP(
+			// ServerClientRequestTypes LOGIN, new String[]{"username", "password"}
+			// )
+			String username = (String)((Object[])loginMessage.getMessageSent())[0];
+			String password = (String)((Object[])loginMessage.getMessageSent())[1];
+
+			Object res = DatabaseController.
+					handleQuery(DatabaseOperation.USER_LOGIN, new Object[] {"systemuser", loginMessage.getMessageSent()});
+			if(res instanceof SystemUser) {
+				// we already know now that the user exists and has inserted the correct password
+				return new SCCP(ServerClientRequestTypes.LOGIN, (SystemUser)res);
+			}
+			// we know that something wrong occurred
+			return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");		
+		}
+		
+	}
+	
+	// explain it
+	private static final class HandleMessageGet implements IServerSideFunction{
 
 		@Override
 		public SCCP handleMessage(SCCP loginMessage) {
 			// TODO Auto-generated method stub
 			// we are supposed to get this object:
 			// SCCP(
-			// ServerClientRequestTypes LOGIN, new String[]{"username", "password"}
+			// ServerClientRequestTypes GET, Object[]{where_to_look(tableName), boolean(getMany), 
+			// what_to_get(String[]{(column = match),(column = match)})}
 			// )
 
+			assert loginMessage.getMessageSent() instanceof Object[]; // assertion as shortcut
+			
+			String tableName = (String)((Object[])loginMessage.getMessageSent())[0];
+			String[] columns = (String[])((Object[])loginMessage.getMessageSent())[1];
+			
 			Object res = DatabaseController.
-					handleQuery(DatabaseOperation.USER_LOGIN, new Object[] {"systemuser", loginMessage.getMessageSent()});
+					handleQuery(DatabaseOperation.USER_LOGIN, new Object[] {tableName, loginMessage.getMessageSent()});
 			if(res instanceof SystemUser) {
+				
 				return new SCCP(ServerClientRequestTypes.LOGIN, (SystemUser)res);
 			}
 			
@@ -142,7 +177,7 @@ public class ServerMessageHandler {
 
         @Override
         public SCCP handleMessage(SCCP fetchProductsMessage) {
-            Object resultSetProducts = DatabaseController.handleQueryFetchProducts(
+            Object resultSetProducts = DatabaseController.handleQuery(
             		DatabaseOperation.FETCH_PRODUCTS_BY_CATEGORY, new Object[] {fetchProductsMessage.getMessageSent()});
 
             if (resultSetProducts instanceof ArrayList) {
@@ -152,7 +187,6 @@ public class ServerMessageHandler {
         }
     }
 
-	
 	private static HashMap<ServerClientRequestTypes, IServerSideFunction> map = 
 			new HashMap<ServerClientRequestTypes, IServerSideFunction>() {
 

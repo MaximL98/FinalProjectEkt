@@ -1,11 +1,16 @@
 package logic;
 /**
- * Project Name: finalProjectEkt_Server
+ * Project Name: finalProjectEkt_Client
  * Logic class that contains the details needed to save up for each worker.
  * @author Maxim Lebedinsky
  * @version 16/12/2022
  */
+
 public class Worker extends SystemUser{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * worker logic part.
 	 * private field that will contain worker role in the system
@@ -26,7 +31,7 @@ public class Worker extends SystemUser{
 	public Worker(String firstName, String lastName, Integer id, String phoneNumber, String emailAddress,
 			String creditCard, String username, String password, String role) 
 	{
-		super(firstName, lastName, id, phoneNumber, emailAddress, creditCard, username, password);
+		super(id, firstName, lastName, phoneNumber, emailAddress, creditCard, username, password);
 		this.role = role;
 	}
 

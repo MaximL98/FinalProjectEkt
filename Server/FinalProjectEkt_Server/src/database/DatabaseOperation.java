@@ -1,4 +1,4 @@
-package Server;
+package database;
 
 public enum DatabaseOperation {
 	// update this accordingly

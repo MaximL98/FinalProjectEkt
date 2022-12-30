@@ -1,4 +1,4 @@
-package Server;
+package database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -132,7 +132,7 @@ public class DatabaseOperationsMap {
 					  
 					  String retPass = queryResult.getString(8);
 					  flag = true;
-					  connectedUser = new SystemUser(fname, lname, idNew, fone, email, cc, retUser, retPass);
+					  connectedUser = new SystemUser(idNew, fname, lname, fone, email, cc, retUser, retPass);
 				  }
 				  queryResult.close();
 
@@ -162,7 +162,7 @@ public class DatabaseOperationsMap {
 	        
 	
 	        //Uses simpler version of execute query with one input string variable (the requested sql query)
-	        ResultSet fetchProductsResultSet = DatabaseController.executQueryWithResults_SimpleWithOneStatement(sqlQuery);
+	        ResultSet fetchProductsResultSet = DatabaseController.executeQueryWithResults(sqlQuery, null);
 	        
 	        ArrayList<Product> arrayOfProducts = new ArrayList<>();
 	        try {
@@ -208,3 +208,4 @@ public class DatabaseOperationsMap {
 	}
 	
 }
+

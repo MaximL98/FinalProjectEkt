@@ -1,6 +1,9 @@
 package logic;
+
+import java.util.ArrayList;
+
 /**
- * Project Name: finalProjectEkt_Server
+ * Project Name: finalProjectEkt_Client
  * Logic class that contains the details needed to save up for each promotion.
  * @author Maxim Lebedinsky
  * @version 16/12/2022
@@ -10,7 +13,7 @@ public class Promotions {
 	*Promotions logic part.
 	*private fields that will contain: products details, discount amount and location of the promotion
 	*/
-	private String productsDetails; //maybe needed ArrayList<String> here...
+	private ArrayList<String> productsDetails = new ArrayList<>();
 	private Integer discountAmount; //same here, ArrayList<Integer> ...
 	private String promotionLocation;
 	/**
@@ -19,7 +22,7 @@ public class Promotions {
 	 * @param discountAmount
 	 * @param promotionLocation
 	 */
-	public Promotions(String productsDetails, Integer discountAmount, String promotionLocation) {
+	public Promotions(ArrayList<String> productsDetails, Integer discountAmount, String promotionLocation) {
 		super();
 		this.productsDetails = productsDetails;
 		this.discountAmount = discountAmount;
@@ -29,14 +32,14 @@ public class Promotions {
 	 * getting the details of the products
 	 * @return productsDetails
 	 */
-	public String getProductsDetails() {
+	public ArrayList<String> getProductsDetails() {
 		return productsDetails;
 	}
 	/**
 	 * setting the details of the products
 	 * @param productsDetails
 	 */
-	public void setProductsDetails(String productsDetails) {
+	public void setProductsDetails(ArrayList<String> productsDetails) {
 		this.productsDetails = productsDetails;
 	}
 	/**

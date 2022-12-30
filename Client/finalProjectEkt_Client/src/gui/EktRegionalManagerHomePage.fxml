@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="controllers.EktManagerWelcomePage">
+<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="controllers.EktRegionalManagerHomePageController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="46.0" layoutY="171.0" prefHeight="591.0" prefWidth="341.0">
          <children>
@@ -38,6 +38,6 @@
             </Text>
          </children>
       </Pane>
-      <Button fx:id="btnLogout" layoutX="14.0" layoutY="762.0" mnemonicParsing="false" text="Logout" />
+      <Button fx:id="btnLogout" onAction="#getLogoutBtn" layoutX="14.0" layoutY="762.0" mnemonicParsing="false" text="Logout" />
    </children>
 </AnchorPane>

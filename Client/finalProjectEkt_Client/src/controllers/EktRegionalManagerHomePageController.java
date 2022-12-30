@@ -6,11 +6,20 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-
-public class EktManagerWelcomePageController {
+/*
+ * Rotem:
+ * I co-opted this window for regional manager.
+ * Original class name:
+ * EktManagerWelcomePageController
+ * new one:
+ * this obv
+ * 
+ */
+public class EktRegionalManagerHomePageController {
 	
 	@FXML
 	private Button btnReviewReports;
+	@FXML Button btnLogout;
 	
 	@FXML
 	public void getBtnReviewReports(ActionEvent event) {
@@ -26,5 +35,10 @@ public class EktManagerWelcomePageController {
 		);
 		primaryStage.show();
 		((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //closing primary window
+	}
+
+	@FXML public void getLogoutBtn(ActionEvent event) {
+		throw new UnsupportedOperationException("Logout is bad");
+		
 	}
 }

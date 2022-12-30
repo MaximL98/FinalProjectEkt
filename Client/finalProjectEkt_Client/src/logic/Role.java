@@ -15,6 +15,11 @@ public enum Role {
 	public static Role getRoleFromString(String roleAsString) {
 		return Role.valueOf(roleAsString.toUpperCase());
 	}
-
+	
+	// we want it in lowercase for the sql table
+	@Override
+	public String toString() {
+		return this.name().toLowerCase();
+	}
 	
 }

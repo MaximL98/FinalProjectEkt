@@ -131,8 +131,10 @@ public class DatabaseOperationsMap {
 					  String retUser = queryResult.getString(7);
 					  
 					  String retPass = queryResult.getString(8);
+					  
+					  String role = queryResult.getString(9);
 					  flag = true;
-					  connectedUser = new SystemUser(idNew, fname, lname, fone, email, cc, retUser, retPass);
+					  connectedUser = new SystemUser(idNew, fname, lname, fone, email, cc, retUser, retPass, role.toLowerCase());
 				  }
 				  queryResult.close();
 

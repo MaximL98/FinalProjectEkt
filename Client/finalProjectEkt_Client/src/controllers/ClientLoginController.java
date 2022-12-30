@@ -42,7 +42,10 @@ public class ClientLoginController {
 		
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
+		// this line is to add stuff to db in a mesudar fashion
+		//WindowStarter.createWindow(primaryStage, this, "/gui/AddUserToDbForm.fxml", null, "dbg");
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
+
 		// this was done so that we can use this button
 		primaryStage.setOnCloseRequest(we -> 
 		{

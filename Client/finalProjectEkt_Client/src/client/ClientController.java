@@ -19,7 +19,12 @@ public class ClientController
   private static SystemUser connectedSystemUser = null;
   public static ArrayList<String> CurrentProductCategory = new ArrayList<>();
   //Map that holds the current cart contents of the user
-  public static HashMap<Product,Integer> currentUserCart = new HashMap<>();
+  public static HashMap<String,Integer> currentUserCart = new HashMap<>();
+  
+  ////// Dima 30/12 20:00
+  public static HashMap<String,Product> getProductByID = new HashMap<>();
+  ////////////////////////////////////////////////////////////////////
+  
   public static ArrayList<Product> arrayOfAddedProductsToGridpane = new ArrayList<>();
 
   public static long orderCounter = 5;

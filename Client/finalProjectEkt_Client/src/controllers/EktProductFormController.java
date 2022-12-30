@@ -237,7 +237,10 @@ public class EktProductFormController {
 					}
 					//Increment value of the product key in the hash map
 					//If it does not exist, set value to "1"
-					ClientController.currentUserCart.merge((Product)product, 1, Integer::sum);
+					String currentProductID = ((Product)product).getProductID();
+					if (!ClientController.getProductByID.containsKey(currentProductID))
+						ClientController.getProductByID.put(currentProductID, (Product) product);
+					ClientController.currentUserCart.merge(currentProductID, 1, Integer::sum);
 				});
 				
 //				Text amountOfItems = new Text();
@@ -288,8 +291,6 @@ public class EktProductFormController {
 			scrollPane.prefWidth(800);
 			scrollPane.setStyle("-fx-background: #EE82EE; -fx-border-width: 10px; -fx-background-color: BLACK;");
 			borderPane.setCenter(scrollPane);
-			
-			
 			
 		}
 	}

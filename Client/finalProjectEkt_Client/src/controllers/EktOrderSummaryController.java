@@ -65,9 +65,10 @@ public class EktOrderSummaryController {
 		}
 		
 		int i = 0, j = 0;
-    	for(Product product : ClientController.currentUserCart.keySet()) {
+    	for(Product product : ClientController.getProductByID.values()) {
+    		String currentProductID = product.getProductID();
     		Text productName = new Text("Product:\n" + product.getProductName());
-    		Integer quantityNum = ClientController.currentUserCart.get(product);
+    		Integer quantityNum = ClientController.currentUserCart.get(currentProductID);
     		Text quantity = new Text("Quantity:\n" + (quantityNum).toString());
     		Double costPerUnit = Double.valueOf(product.getCostPerUnit());
     		Double totalSum = quantityNum * costPerUnit;

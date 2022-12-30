@@ -50,7 +50,7 @@ public class EktCartFormController {
 	private Double totalPrice = 0.0;
 	
 	private void calculatePriceToAdd(Double costPerUnit, Integer quantityNum, Product product) {
-		quantityNum = ClientController.currentUserCart.get(product);
+		quantityNum = ClientController.currentUserCart.get(product.getProductID());
 		costPerUnit = Double.valueOf(product.getCostPerUnit());
 		priceToAdd = quantityNum * costPerUnit;
 	}
@@ -79,16 +79,16 @@ public class EktCartFormController {
 			gridpaneIntoVbox.getColumnConstraints().add(colConst);
 		}	
 		int i = 0, j = 0;
-		for (Product product: ClientController.currentUserCart.keySet()) {
-			
-			calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(product), product);
+		for (Product product: ClientController.getProductByID.values()) {
+			String currentProductID = product.getProductID();
+			calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(currentProductID), product);
 			ClientController.cartPrice.put(product,priceToAdd);
 			calculateTotalPrice();
 			lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 
 			emptyCart = false;
 			Text productName = new Text(product.getProductName());
-			Text quantityLabel = new Text("Quantity: " + ClientController.currentUserCart.get(product));
+			Text quantityLabel = new Text("Quantity: " + ClientController.currentUserCart.get(currentProductID));
 			
 			productName.setFont(new Font(18));
 			quantityLabel.setFont(new Font(18));
@@ -133,9 +133,9 @@ public class EktCartFormController {
 				gridpaneIntoVbox.getChildren().remove(removeOneButton);
 
 				//removeProduct = true;
-				EktProductFormController.itemsInCart -= ClientController.currentUserCart.get(product);
-				ClientController.currentUserCart.put(product, 0);
-				calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(product), product);
+				EktProductFormController.itemsInCart -= ClientController.currentUserCart.get(currentProductID);
+				ClientController.currentUserCart.put(currentProductID, 0);
+				calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(currentProductID), product);
 				ClientController.cartPrice.put(product, 0.0);
 				calculateTotalPrice();
 				lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
@@ -145,9 +145,9 @@ public class EktCartFormController {
 
 			addButton.setOnAction(action -> {
 				EktProductFormController.itemsInCart++;
-				ClientController.currentUserCart.put(product, ClientController.currentUserCart.get(product) + 1);
-				quantityLabel.setText("Quantity: " + (ClientController.currentUserCart.get(product).toString()));
-				calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(product), product);
+				ClientController.currentUserCart.put(currentProductID, ClientController.currentUserCart.get(currentProductID) + 1);
+				quantityLabel.setText("Quantity: " + (ClientController.currentUserCart.get(currentProductID).toString()));
+				calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(currentProductID), product);
 				ClientController.cartPrice.put(product, priceToAdd);
 				calculateTotalPrice();
 				lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
@@ -157,20 +157,28 @@ public class EktCartFormController {
 
 			removeOneButton.setOnAction(action -> {
 				EktProductFormController.itemsInCart--;
-				ClientController.currentUserCart.put(product, ClientController.currentUserCart.get(product) - 1);
-				quantityLabel.setText("Quantity: " + (ClientController.currentUserCart.get(product).toString()));
-				calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(product), product);
+				ClientController.currentUserCart.put(currentProductID, ClientController.currentUserCart.get(currentProductID) - 1);
+				quantityLabel.setText("Quantity: " + (ClientController.currentUserCart.get(currentProductID).toString()));
+				calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(currentProductID), product);
 				ClientController.cartPrice.put(product, priceToAdd);
 				calculateTotalPrice();
 				lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
+				if (ClientController.currentUserCart.get(currentProductID) < 1) {
+					System.out.println("item" + product.getProductName() + " was removed");
+					gridpaneIntoVbox.getChildren().remove(productName);
+					gridpaneIntoVbox.getChildren().remove(quantityLabel);
+					gridpaneIntoVbox.getChildren().remove(removeButton);
+					gridpaneIntoVbox.getChildren().remove(addButton);
+					gridpaneIntoVbox.getChildren().remove(removeOneButton);
+				}
 
 			});
 			
 
-			if(!ClientController.currentUserCart.get(product).equals(0))
+			if(!ClientController.currentUserCart.get(currentProductID).equals(0))
 				ClientController.arrayOfAddedProductsToGridpane.add(product);
 			
-			if(ClientController.currentUserCart.get(product).equals(0)) {
+			if(ClientController.currentUserCart.get(currentProductID).equals(0)) {
 				ClientController.cartPrice.put(product, 0.0);
 				gridpaneIntoVbox.getChildren().remove(productName);
 				gridpaneIntoVbox.getChildren().remove(quantityLabel);

@@ -24,7 +24,7 @@ public class ClientController
 
   public static long orderCounter = 5;
   public static Double orderTotalPrice = new Double(0.0);
-  
+  public static HashMap<Product, Double> cartPrice = new HashMap<>();
   public EKTClient client;
   private static Role currentUserRole = null;
 

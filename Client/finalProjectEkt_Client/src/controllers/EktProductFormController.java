@@ -3,17 +3,23 @@ package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -102,11 +108,30 @@ public class EktProductFormController {
 
     public static  int itemsInCart = 0;
     
+    ///// Dima 30/12 17:15
+    private int gridPaneRow = 0;
+    private String nextItemLocation = "left";
+    ////////////////////
     	
 	public void initialize() throws FileNotFoundException {
 		
-		VBox vboxProducts = new VBox();
-		
+		///////////// Dima 30/12 17:39 ////////////
+		GridPane gridPaneProducts = new GridPane();
+		ColumnConstraints columnLeft = new ColumnConstraints();
+	    columnLeft.setPercentWidth(50);
+	    ColumnConstraints columnRight = new ColumnConstraints();
+	    columnRight.setPercentWidth(50);
+	    gridPaneProducts.getColumnConstraints().addAll(columnLeft, columnRight); // each get 50% of width
+	    
+		gridPaneProducts.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+		gridPaneProducts.setPrefSize(800 - 10, 600 - 4);
+		gridPaneProducts.setHgap(5);;
+		gridPaneProducts.setVgap(5);;
+		gridPaneProducts.setPadding(new Insets(5,0,0,6));
+
+	    
+		gridPaneProducts.setAlignment(Pos.TOP_CENTER);
+		///////////////////////////////////////////
 		
 		String  itemsInCartString = itemsInCart + "";
 		txtNumberOfItemsInCart.setText(itemsInCartString);
@@ -155,24 +180,51 @@ public class EktProductFormController {
 				txtProductCostPerUnit.setText("Price: " + ((Product) product).getCostPerUnit());
 				txtProductCostPerUnit.setFont(new Font(18));
 				
+				/////// Dima 30/12 18:05//////////////////////////////////////
 				productDetails.getChildren().add(txtProductName);
 				productDetails.getChildren().add(txtProductID);
-				productDetails.getChildren().add(txtProductCostPerUnit);
+				
+				//Implement item on sale	
+				if (((Product) product).getProductID().equals("103")) {
+					//This is just an example
+					txtProductCostPerUnit.setStrikethrough(true);
+					Text txtSubscriberSale = new Text();
+					txtSubscriberSale.setText("On Sale: 10.90");
+					txtSubscriberSale.setFill(Color.CRIMSON);
+					txtSubscriberSale.setFont(new Font(18));
+					
+					productDetails.getChildren().add(txtProductCostPerUnit);
+					
+					productDetails.getChildren().add(txtSubscriberSale);
+				}
+				else {
+					productDetails.getChildren().add(txtProductCostPerUnit);
+				}
+				// if(itemOnSale == true) - > add this text:
+				//////////////////////////////////////////////////////////////
+				
 				productDetails.setAlignment(Pos.CENTER);
-				////////////////////////////////////////
+				
 				String pathToImage = "controllers/Images/" + ((Product) product).getProductID() + ".png";
 				ImageView productImageView = new ImageView(new Image(pathToImage));
-				productImageView.setFitHeight(200);
-				productImageView.setFitWidth(200);
-//				///////////////////////////////////////
+				productImageView.setFitHeight(150);
+				productImageView.setFitWidth(150);
+				///////////////////////////////////////
 					
 				//AddToCart Button + amountTxt
 				VBox productAddToCartVBox = new VBox();
-				Button addToCart = new Button();
+				
+				//////// Dima 30/12 17:29////////////////////
+				Button addToCartButton = new Button();
+				ImageView addToCartImageView = new ImageView(new Image("controllers/Images/addToCartIcon.png"));
+				addToCartImageView.setFitHeight(50);
+				addToCartImageView.setFitWidth(50);
+				addToCartButton.setPrefSize(50, 50);
+				addToCartButton.setGraphic(addToCartImageView);
+				////////////////////////////////////////////
 				
 				
-				
-				addToCart.setOnAction(action -> {
+				addToCartButton.setOnAction(action -> {
 					itemsInCart++;
 					if (itemsInCart  == 1) {
 						String itemsInCartStr = itemsInCart + "";
@@ -188,33 +240,53 @@ public class EktProductFormController {
 					ClientController.currentUserCart.merge((Product)product, 1, Integer::sum);
 				});
 				
-				
-				
-				addToCart.setText("Add To Cart");
-				
 //				Text amountOfItems = new Text();
 //				amountOfItems.setText("");
 //				amountOfItems.setFont(new Font(18));
 				
-				productAddToCartVBox.getChildren().add(addToCart);
+				productAddToCartVBox.getChildren().add(addToCartButton);
 //				productAddToCartVBox.getChildren().add(amountOfItems);
 				//////////////////////////////////////////////////////
 				productAddToCartVBox.setAlignment(Pos.CENTER_RIGHT);
 				productHBox.setAlignment(Pos.CENTER);
-				productHBox.setPrefSize(700, 200);
-				productDetails.setPrefSize(200, 200);
+				productHBox.setPrefSize(400, 150);
+				productDetails.setPrefSize(150, 150);
 				
 				productHBox.getChildren().add(productDetails);
 				productHBox.getChildren().add(productImageView);
 				productHBox.getChildren().add(productAddToCartVBox);
-				vboxProducts.getChildren().add(productHBox);
+				
+				Pane pane = new Pane();
+				pane.setStyle("-fx-border-color: #8A2BE2; -fx-border-width: 5px; -fx-border-radius: 10;"
+						+ " -fx-background-color:  #FefFc0; -fx-background-radius: 12");
+				pane.getChildren().add(productHBox);
+				DropShadow paneShadow = new DropShadow();
+				paneShadow.setColor(Color.GREY);
+				paneShadow.setRadius(10);
+				paneShadow.setSpread(0.2);
+				pane.setEffect(paneShadow);
+				
+				
+				///////// Dima 30/12 17:24 ///////////////////////
+				if (nextItemLocation.equals("left")) {
+					gridPaneProducts.add(pane, 0, gridPaneRow);
+					nextItemLocation = "right";
+				} 
+				else {
+					gridPaneProducts.add(pane, 1, gridPaneRow);
+					gridPaneRow++;
+					nextItemLocation = "left";
+				}
+				//////////////////////////////////////////////////////
+				
 				System.out.println(((Product) product).getProductID());			
 							
 			}
 			
-			ScrollPane scrollPane = new ScrollPane(vboxProducts);
+			ScrollPane scrollPane = new ScrollPane(gridPaneProducts);
 			scrollPane.prefHeight(600);
 			scrollPane.prefWidth(800);
+			scrollPane.setStyle("-fx-background: #EE82EE; -fx-border-width: 10px; -fx-background-color: BLACK;");
 			borderPane.setCenter(scrollPane);
 			
 			

@@ -59,7 +59,7 @@ public class EktSystemUserLoginController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	    	// TODO: YOU CAN NOW SEE HOW LARGE THIS SHIT GETS!
+			// NOW it's dynamic
 			ClientController.setCurrentUserRole(connectedUser.getRole());
 			// TODO: create another map from Role to window-for-role ?
 			

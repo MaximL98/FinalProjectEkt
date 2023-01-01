@@ -26,6 +26,7 @@ import logic.Product;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
@@ -43,7 +44,7 @@ public class EktOrderSummaryController {
     private Button btnClose;
     
     @FXML
-    private Label lblTotalPrice;
+    private Text txtOrderTotal;
     
     private GridPane gridPane;
     
@@ -51,28 +52,37 @@ public class EktOrderSummaryController {
     public void initialize() {
 		VBox productsVbox = new VBox();
 		ScrollPane centerScrollBar = new ScrollPane(productsVbox);
+		
 		centerScrollBar.setPrefHeight(600);
 		centerScrollBar.setPrefWidth(800);
+		centerScrollBar.setStyle("-fx-background-color: transparent; -fx-background:  linear-gradient(from 0px 0px to 0px 1500px, pink, yellow);");
     	gridPane = new GridPane();
-    	gridPane.setPrefSize(700, 100);
-    	
+   	
     	Double totalPrice = 0.0;
-    	final int numCols = 5;
+    	final int numCols = 4;
 		for (int i = 0; i < numCols; i++) {
 			ColumnConstraints colConst = new ColumnConstraints();
-			colConst.setPercentWidth(800/5);
+			colConst.setPercentWidth(800/4);
 			gridPane.getColumnConstraints().add(colConst);
 		}
+
+    	/////////////////////////Dima 31/12 10:30
+    	gridPane.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+    	gridPane.setPrefSize(800-2, 550);
+    	gridPane.setVgap(5);
+    	//////////////////////////////////////////////////////
 		
 		int i = 0, j = 0;
     	for(Product product : ClientController.getProductByID.values()) {
     		String currentProductID = product.getProductID();
-    		Text productName = new Text("Product:\n" + product.getProductName());
+    		Text productName = new Text("" + product.getProductName());
+    		productName.setStyle("-fx-font: 20 System; -fx-font-weight: bold;");
+
     		Integer quantityNum = ClientController.currentUserCart.get(currentProductID);
-    		Text quantity = new Text("Quantity:\n" + (quantityNum).toString());
+    		Text quantity = new Text("Quantity: " + (quantityNum).toString());
     		Double costPerUnit = Double.valueOf(product.getCostPerUnit());
     		Double totalSum = quantityNum * costPerUnit;
-    		Text sum = new Text("Cost:\n" + (new DecimalFormat("##.##").format(totalSum)).toString() + " $");
+    		Text sum = new Text("Cost: " + (new DecimalFormat("##.##").format(totalSum)).toString() + " $");
     		totalPrice += totalSum;
     		Label emptySpace = new Label("");
     		emptySpace.setMinHeight(75);
@@ -86,13 +96,14 @@ public class EktOrderSummaryController {
 			productImageView.setFitHeight(75);
 			productImageView.setFitWidth(75);
 			productImageView.setTranslateX(20);
-			productImageView.setTranslateY(75 * i);
+			productImageView.setTranslateY(0);
 			
-			gridPane.getChildren().add(productImageView);
+			gridPane.add(productImageView, j, i);
+			GridPane.setHalignment(productImageView, HPos.CENTER);
 			
 			j++; 
 			gridPane.add(productName, j, i);
-			GridPane.setHalignment(productName, HPos.LEFT);
+			GridPane.setHalignment(productName, HPos.CENTER);
 			
 			j++;	
 			gridPane.add(quantity, j, i);
@@ -101,14 +112,16 @@ public class EktOrderSummaryController {
 			j++;
 			gridPane.add(sum, j, i);
 			GridPane.setHalignment(sum, HPos.CENTER);
-			gridPane.add(emptySpace, j, i);
-			GridPane.setHalignment(emptySpace, HPos.CENTER);
+//			
+//			gridPane.add(emptySpace, j, i);
+//			GridPane.setHalignment(emptySpace, HPos.CENTER);
 			i++;j=0;
     	}
-    		lblTotalPrice.setText((new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
+    		txtOrderTotal.setText("ORDER TOTAL: " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
+    		txtOrderTotal.setLayoutX(400 - txtOrderTotal.minWidth(0)/2);
     		ClientController.orderTotalPrice = totalPrice;
-    		borderPane.setCenter(centerScrollBar);
     		productsVbox.getChildren().add(gridPane);
+    		borderPane.setCenter(centerScrollBar);
 
     	
     }

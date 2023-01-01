@@ -314,6 +314,7 @@ public class EktCartFormController {
 
 			ClientController.currentUserCart.keySet().clear();
 			ClientController.getProductByID.keySet().clear();
+			ClientController.cartPrice.keySet().clear();
 
 			primaryStage.setOnCloseRequest(we -> 
 				{
@@ -358,6 +359,7 @@ public class EktCartFormController {
     		}
     	}
 		else {
+			
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
 			//category is located in a ArrayList

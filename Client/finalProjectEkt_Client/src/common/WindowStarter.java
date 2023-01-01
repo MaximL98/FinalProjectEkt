@@ -27,6 +27,7 @@ public class WindowStarter {
 			
 			primaryStage.setTitle(windowTitle);
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.Serializable;
@@ -22,70 +23,71 @@ public class EktCatalogFormController implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	 	@FXML
+	 @FXML
 	    private Button btnCatalog1;
-
-	    @FXML
-	    private ImageView btnClatalog0_0;
 
 	    @FXML
 	    private Button btnCatalog2;
 
 	    @FXML
-	    private ImageView btnCatalog0_1;
-
-	    @FXML
 	    private Button btnCatalog3;
-
-	    @FXML
-	    private ImageView btnCatalog0_2;
 
 	    @FXML
 	    private Button btnCatalog4;
 
 	    @FXML
-	    private ImageView btnCatalog0_3;
+	    private Button btnCatalog5;
+
+	    @FXML
+	    private Button btnCatalog6;
 
 	    @FXML
 	    private Button btnCatalog7;
 
 	    @FXML
-	    private ImageView btnCatalog1_0;
-
-	    @FXML
 	    private Button btnCatalog8;
-
-	    @FXML
-	    private ImageView btnCatalog1_1;
-
-	    @FXML
-	    private Button btnCatalog9;
-
-	    @FXML
-	    private ImageView btnCatalog1_2;
-
-	    @FXML
-	    private Button btnCatalog10;
-
-	    @FXML
-	    private ImageView btnCatalog1_3;
-
-	    @FXML
-	    private TextField txtSearch;
-
-	    @FXML
-	    private Button btnCategory;
-
-	    @FXML
-	    private Button btnInfo;
 
 	    @FXML
 	    private Button btnLogout;
 
+	    @FXML
+	    private Button btnMyOrders;
+
+	    @FXML
+	    private ImageView imgClatalog0_0;
+
+	    @FXML
+	    private ImageView imgClatalog0_1;
+
+	    @FXML
+	    private ImageView imgClatalog0_2;
+
+	    @FXML
+	    private ImageView imgClatalog0_3;
+
+	    @FXML
+	    private ImageView imgClatalog1_0;
+
+	    @FXML
+	    private ImageView imgClatalog1_1;
+
+	    @FXML
+	    private ImageView imgClatalog1_2;
+
+	    @FXML
+	    private ImageView imgClatalog1_3;
+
+	    @FXML
+	    private Text txtWelcomeCustomer;
+
 
 		String productFormFXMLLocation = "/gui/EktProductForm.fxml";
 	
-		
+		@FXML
+		public void initialize() {
+			txtWelcomeCustomer.setText("Hi " + ClientController.getCurrentSystemUser().getFirstName() + ", glad you are back!");
+			txtWelcomeCustomer.setLayoutX(400 - (txtWelcomeCustomer.minWidth(0))/2);
+		}
 		
 		//Category 1
   		@FXML

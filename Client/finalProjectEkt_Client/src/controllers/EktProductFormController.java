@@ -2,6 +2,7 @@
 package controllers;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,15 +15,24 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -37,6 +47,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.io.File;
+
 
 import controllers.EktCatalogFormController;
 import client.ClientController;
@@ -45,9 +59,12 @@ import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
 public class EktProductFormController {
+	
+    @FXML
+    private Text txtCategoryName;
     
     @FXML
-    private Label lblCategoryName;
+    private Pane topPane;
     
     @FXML
     private BorderPane borderPane;
@@ -114,14 +131,13 @@ public class EktProductFormController {
     ////////////////////
     	
 	public void initialize() throws FileNotFoundException {
-		
-		///////////// Dima 30/12 17:39 ////////////
+		///////////// Dima 31/12 10:00 ////////////
 		GridPane gridPaneProducts = new GridPane();
 		ColumnConstraints columnLeft = new ColumnConstraints();
 	    columnLeft.setPercentWidth(50);
 	    ColumnConstraints columnRight = new ColumnConstraints();
 	    columnRight.setPercentWidth(50);
-	    gridPaneProducts.getColumnConstraints().addAll(columnLeft, columnRight); // each get 50% of width
+	    gridPaneProducts.getColumnConstraints().addAll(columnLeft, columnRight); // each gets 50% of width
 	    
 		gridPaneProducts.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 		gridPaneProducts.setPrefSize(800 - 10, 600 - 4);
@@ -131,6 +147,7 @@ public class EktProductFormController {
 
 	    
 		gridPaneProducts.setAlignment(Pos.TOP_CENTER);
+		
 		///////////////////////////////////////////
 		
 		String  itemsInCartString = itemsInCart + "";
@@ -143,11 +160,14 @@ public class EktProductFormController {
 		//Maxim new: added cart image 
 		ImageView cartImg = new ImageView(new Image("controllers/Images/cart.png"));
 		cartImg.setFitHeight(50);
+		cartImg.setFitWidth(50);
 		cartImg.setPreserveRatio(true);
 		btnCart.setGraphic(cartImg);
 		
 		String productCategory = ClientController.CurrentProductCategory.get(0);
-		lblCategoryName.setText(productCategory + " Products");
+		txtCategoryName.setText(productCategory);
+		//txtCategoryName.setTextFill(Color.WHITE);
+		txtCategoryName.setLayoutX(400 - (txtCategoryName.minWidth(gridPaneRow))/2);
 		
 		SCCP preparedMessage = new SCCP();
 		
@@ -173,25 +193,32 @@ public class EktProductFormController {
 				Text txtProductName = new Text();
 				txtProductName.setText(((Product) product).getProductName());
 				txtProductName.setFont(new Font(18));
+				txtProductName.setFill(Color.BLACK);
+				txtProductName.setStyle("-fx-font: 20 System; -fx-font-weight: bold;");
+				
 				Text txtProductID = new Text();
-				txtProductID.setText("Product ID: " + ((Product) product).getProductID());
+				txtProductID.setText("");
 				txtProductID.setFont(new Font(18));
+				txtProductID.setFill(Color.BLACK);
 				Text txtProductCostPerUnit = new Text();
-				txtProductCostPerUnit.setText("Price: " + ((Product) product).getCostPerUnit());
+				txtProductCostPerUnit.setText(((Product) product).getCostPerUnit() + "$");
 				txtProductCostPerUnit.setFont(new Font(18));
+				txtProductCostPerUnit.setFill(Color.BLACK);
 				
 				/////// Dima 30/12 18:05//////////////////////////////////////
 				productDetails.getChildren().add(txtProductName);
-				productDetails.getChildren().add(txtProductID);
+				//productDetails.getChildren().add(txtProductID);
 				
 				//Implement item on sale	
+				//if(ClientController.getcurrentCustomer == Subscriber AND product == ON-SALE -> display item on sale
 				if (((Product) product).getProductID().equals("103")) {
 					//This is just an example
 					txtProductCostPerUnit.setStrikethrough(true);
 					Text txtSubscriberSale = new Text();
-					txtSubscriberSale.setText("On Sale: 10.90");
+					txtSubscriberSale.setText("ON SALE: 10.90$");
 					txtSubscriberSale.setFill(Color.CRIMSON);
 					txtSubscriberSale.setFont(new Font(18));
+					txtSubscriberSale.setStyle("-fx-font: 20 System; -fx-font-weight: bold;");
 					
 					productDetails.getChildren().add(txtProductCostPerUnit);
 					
@@ -218,13 +245,16 @@ public class EktProductFormController {
 				Button addToCartButton = new Button();
 				ImageView addToCartImageView = new ImageView(new Image("controllers/Images/addToCartIcon.png"));
 				addToCartImageView.setFitHeight(50);
-				addToCartImageView.setFitWidth(50);
+				addToCartImageView.setFitWidth(45);
 				addToCartButton.setPrefSize(50, 50);
 				addToCartButton.setGraphic(addToCartImageView);
+				addToCartButton.setStyle("-fx-background-color: transparent; -fx-border-color:crimson; "
+						+ "-fx-border-width: 1px; -fx-border-radius: 100");
 				////////////////////////////////////////////
+			
 				
-				
-				addToCartButton.setOnAction(action -> {
+				addToCartButton.setOnAction(event -> {
+					
 					itemsInCart++;
 					if (itemsInCart  == 1) {
 						String itemsInCartStr = itemsInCart + "";
@@ -241,6 +271,9 @@ public class EktProductFormController {
 					if (!ClientController.getProductByID.containsKey(currentProductID))
 						ClientController.getProductByID.put(currentProductID, (Product) product);
 					ClientController.currentUserCart.merge(currentProductID, 1, Integer::sum);
+					//Animate add to cart
+					
+
 				});
 				
 //				Text amountOfItems = new Text();
@@ -260,13 +293,14 @@ public class EktProductFormController {
 				productHBox.getChildren().add(productAddToCartVBox);
 				
 				Pane pane = new Pane();
-				pane.setStyle("-fx-border-color: #8A2BE2; -fx-border-width: 5px; -fx-border-radius: 10;"
-						+ " -fx-background-color:  #FefFc0; -fx-background-radius: 12");
+				pane.setStyle("-fx-border-color: Gold; -fx-border-width: 2px; -fx-border-radius: 10;"
+						+ " -fx-background-color:   linear-gradient(from 0px 0px to 0px 1500px, pink, yellow); -fx-background-radius: 12");
+
 				pane.getChildren().add(productHBox);
 				DropShadow paneShadow = new DropShadow();
-				paneShadow.setColor(Color.GREY);
-				paneShadow.setRadius(10);
-				paneShadow.setSpread(0.2);
+				paneShadow.setColor(Color.YELLOW);
+				paneShadow.setRadius(1);
+				paneShadow.setSpread(0.001);
 				pane.setEffect(paneShadow);
 				
 				
@@ -289,9 +323,16 @@ public class EktProductFormController {
 			ScrollPane scrollPane = new ScrollPane(gridPaneProducts);
 			scrollPane.prefHeight(600);
 			scrollPane.prefWidth(800);
-			scrollPane.setStyle("-fx-background: #EE82EE; -fx-border-width: 10px; -fx-background-color: BLACK;");
+			////////////////// Dima 31/12 10:50 changed styling into this
+			Border border = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
 			borderPane.setCenter(scrollPane);
+			scrollPane.setStyle("-fx-background-color: transparent; -fx-background:  linear-gradient(from 0px 0px to 0px 1500px, pink, yellow);"
+					+ "-fx-border-color: transparent;");
+			scrollPane.setBorder(border);
 			
+			//////////////////////////////////////////////////
+			
+			//linear-gradient(from 0px 0px to 0px 1500px, black, crimson);
 		}
 	}
 	

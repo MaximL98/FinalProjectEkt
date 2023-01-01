@@ -66,10 +66,14 @@ public class EktCartFormController {
 		for (Product product: ClientController.cartPrice.keySet()) {
 			System.out.println("Adding the price of " + product.getProductName()+ "in");
 			totalPrice += ClientController.cartPrice.get(product);
-			System.out.println("Total price now is = " + totalPrice);
+		}
+		if(totalPrice == 0.0) {
+			emptyCart = true;
+			System.out.println("The cart is empty right now!");
 		}
 	}
 
+	
 	@FXML
 	public void initialize() {
 		vboxCart = new VBox();
@@ -92,6 +96,7 @@ public class EktCartFormController {
 		gridpaneIntoVbox.setVgap(5);;
 		int i = 0, j = 0;
 		for (Product product: ClientController.getProductByID.values()) {
+	
 			String currentProductID = product.getProductID();
 			calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(currentProductID), product);
 			ClientController.cartPrice.put(product,priceToAdd);
@@ -99,7 +104,7 @@ public class EktCartFormController {
 			txtTotalPrice.setText("Cart Total: " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 			txtTotalPrice.setLayoutX(400 - txtTotalPrice.minWidth(0)/2);
 			
-			emptyCart = false;
+//			emptyCart = false;
 			
 			///////////// Dima 31/12 10:15
 			Image removeItemIcon = new Image("controllers/Images/removeItemFromCart.png");
@@ -126,9 +131,7 @@ public class EktCartFormController {
 			productImageView.setTranslateX(20);
 			productImageView.setTranslateY(0);
 			gridpaneIntoVbox.add(productImageView, j, i);
-			
-			System.out.println(i);
-			
+						
 			
 			Text productName = new Text(product.getProductName());
 			Text quantityLabel = new Text("Quantity: " + ClientController.currentUserCart.get(currentProductID));
@@ -237,24 +240,27 @@ public class EktCartFormController {
 			});
 			
 
-			if(!ClientController.currentUserCart.get(currentProductID).equals(0))
+			if(!ClientController.currentUserCart.get(currentProductID).equals(0)) {
 				ClientController.arrayOfAddedProductsToGridpane.add(product);
+				emptyCart = false;
+			}
 			
 			if(ClientController.currentUserCart.get(currentProductID).equals(0)) {
 				ClientController.cartPrice.put(product, 0.0);
+				emptyCart = true;
 				gridpaneIntoVbox.getChildren().remove(productName);
 				gridpaneIntoVbox.getChildren().remove(quantityLabel);
 				gridpaneIntoVbox.getChildren().remove(removeButton);
 				gridpaneIntoVbox.getChildren().remove(addButton);
 				gridpaneIntoVbox.getChildren().remove(removeOneButton);
 				gridpaneIntoVbox.getChildren().remove(productImageView);
+				
 			}
-			System.out.println("The total price in the cart right now is = " + totalPrice);
 			//Implement amount of items
 		}
 
 		ClientController.orderTotalPrice = totalPrice;
-		System.out.println(ClientController.orderTotalPrice);
+		System.out.println("total price = " + ClientController.orderTotalPrice);
 		vboxCart.getChildren().add(gridpaneIntoVbox);
 		ScrollPane scrollPane = new ScrollPane(vboxCart);
 		

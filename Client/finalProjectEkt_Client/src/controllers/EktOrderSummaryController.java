@@ -140,7 +140,6 @@ public class EktOrderSummaryController {
         );
         primaryStage.show();
         ((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //closing primary window
-
     }
 
     @FXML
@@ -179,7 +178,7 @@ public class EktOrderSummaryController {
 	
 			primaryStage.setOnCloseRequest(we -> 
 				{
-					System.out.println("Pressed the X button."); 
+					System.out.println("Pressed the X button.");
 					System.exit(0);
 				});
 			primaryStage.show();

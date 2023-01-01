@@ -15,7 +15,6 @@ public class Worker extends SystemUser{
 	 * worker logic part.
 	 * private field that will contain worker role in the system
 	 */
-	private String role;
 	/**
 	 * Worker constructor, inherits fields from the system user. And have his own field "role"
 	 * @param firstName
@@ -31,32 +30,15 @@ public class Worker extends SystemUser{
 	public Worker(String firstName, String lastName, Integer id, String phoneNumber, String emailAddress,
 			String creditCard, String username, String password, String role) 
 	{
-		super(id, firstName, lastName, phoneNumber, emailAddress, creditCard, username, password);
-		this.role = role;
+		super(id, firstName, lastName, phoneNumber, emailAddress, creditCard, username, password, role);
 	}
-
-	/**
-	 * getting worker role
-	 * @return role
-	 */
-	public String getRole() {
-		return role;
-	}
-	/**
-	 * setting worker role
-	 * @param role
-	 */
-	public void setRole(String role) {
-		this.role = role;
-	}
-
 	
 	/**
 	 * toString method, returns worker details
 	 */	
 	@Override
 	public String toString() {
-		return "Worker [role=" + role + ", first name =" + getFirstName() + ", last name =" + getLastName()
+		return "Worker [role=" + super.getRole() + ", first name =" + getFirstName() + ", last name =" + getLastName()
 				+ ", id =" + getId() + ", phone number =" + getPhoneNumber() + ", email address ="
 				+ getEmailAddress() + ", credit card=" + getCreditCard() + ", username=" + getUsername()
 				+ ", password" + getPassword() + "]";

@@ -5,18 +5,25 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class EktManagerWelcomePageController {
-	
+public class EktMyOrderController {
+
 	@FXML
-	private Button btnReviewReports;
-	
+	private BorderPane borderPaneComplete;
+
 	@FXML
-	public void getBtnReviewReports(ActionEvent event) {
-		
+	private BorderPane borderPaneInProgress;
+
+	@FXML
+	private Button btnBack;
+
+	@FXML
+	void getBtnBack(ActionEvent event) {
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktReportSelectForm.fxml", null, "Reviews");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog");
 		// this was done so that we can use this button
 		primaryStage.setOnCloseRequest(we -> 
 		{
@@ -25,6 +32,6 @@ public class EktManagerWelcomePageController {
 		}
 		);
 		primaryStage.show();
-		((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //closing primary window
 	}
+
 }

@@ -52,52 +52,87 @@ public class EktSystemUserLoginController {
 			ClientController.setCurrentSystemUser(connectedUser);
 			statusLabel.setText("Successfully connected as: " + connectedUser.getUsername() +".");
 			statusLabel.setVisible(true);
-	    	// TODO: YOU CAN NOW SEE HOW LARGE THIS SHIT GETS!
-	    	// TODO: this is hard coded, change it!
-			ClientController.setCurrentUserRole(Role.CUSTOMER);
+			System.out.println("SLEEPING FOR A SECOND TO SHOW LABEL!");
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// NOW it's dynamic
+			ClientController.setCurrentUserRole(connectedUser.getRole());
 			// TODO: create another map from Role to window-for-role ?
-			String path = "";
-			String title = "";
-			if(ClientController.getCurrentUserRole().equals(Role.CUSTOMER)) {
+			
+			// sammy D the current window
+			((Node)event.getSource()).getScene().getWindow().hide();
+			// prepare the new stage:
+			Stage primaryStage = new Stage();
+			// this was done so that we can use this button
+			primaryStage.setOnCloseRequest(we -> 
+			{
+				System.out.println("Pressed the X button."); 
+				System.exit(0);
+			}
+			);
+			// switch based on the current user's role
+			switch(connectedUser.getRole()) {
+			case CUSTOMER:
 				/*
 				 *  This is an example for a home page
+				String path = "";
+				String title = "";
 				path = "/gui/EktCustomerHomeAreaForm.fxml";
 				title = "Customer home page";
-				System.out.println("Successfully connected as: " + connectedUser.getUsername() +".");
+					System.out.println("Successfully connected as: " + connectedUser.getUsername() +".");
 	    		// added here:
 	    		// check user role (SHOULD BE INSERTED TO THE TABLE)
-	    		// and set current role for fetching the correct new window			
+		    	// and set current role for fetching the correct new window			
 				// load the new window:
 				((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 				Stage primaryStage = new Stage();
-
-
 				WindowStarter.createWindow(primaryStage, this, path, null, title);
-				// this was done so that we can use this button
-				primaryStage.setOnCloseRequest(we -> 
+				// this was done so that we can use this button					primaryStage.setOnCloseRequest(we -> 
 				{
 					System.out.println("Pressed the X button."); 
-					System.exit(0);
+					System.exit(0);					
 				}
 				);
 				primaryStage.show();
 				*/
-				((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-				Stage primaryStage = new Stage();
+				// TODO: replace this with a legit home area for cumsoomer
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog");
-				// this was done so that we can use this button
-				primaryStage.setOnCloseRequest(we -> 
-				{
-					System.out.println("Pressed the X button."); 
-					System.exit(0);
-				}
-				);
+
 				primaryStage.show();
+				break;
+				
+			case REGIONAL_MANAGER:
+
+				WindowStarter.createWindow(primaryStage, this, "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page");
+				primaryStage.show();
+				break;
+				
+			case LOGISTICS_MANAGER:
+				WindowStarter.createWindow(primaryStage, this, "/gui/EktLogisticsManagerHomePage.fxml", null, "Logistics Manager Home Page");
+				primaryStage.show();
+				break;
+				
+			case SERVICE_REPRESENTATIVE:
+				WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepresentativeHomePage.fxml", null, "Service Rep Home Page");
+				primaryStage.show();
+				break;
+			case CEO:
+				WindowStarter.createWindow(primaryStage, this, "/gui/EktCeoHomePage.fxml", null, "CEO Home Page");
+				primaryStage.show();
+				break;
+				
+			case DIVISION_MANAGER:
+				WindowStarter.createWindow(primaryStage, this, "/gui/EktDivisionManagerHomePage.fxml", null, "Female Division Manager Home Page");
+				primaryStage.show();
+				break;
+				
+			default:
+				throw new UnsupportedOperationException("No valid landing page for system user with role=" + connectedUser.getRole());
 			}
-			
-
-	    	
-
 		}
 		
 		// login failed

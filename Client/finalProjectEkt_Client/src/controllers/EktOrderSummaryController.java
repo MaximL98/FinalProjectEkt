@@ -123,23 +123,17 @@ public class EktOrderSummaryController {
     		productsVbox.getChildren().add(gridPane);
     		borderPane.setCenter(centerScrollBar);
 
-    	
-    }
-    
-    
-    @FXML
-    void getBtnApprove(ActionEvent event) {
-    	Stage primaryStage = new Stage();
-        WindowStarter.createWindow(primaryStage, this, "/gui/EktPaymentForm.fxml", null, "payment");
-        // this was done so that we can use this button
-        primaryStage.setOnCloseRequest(we -> 
-        {
-            System.out.println("Pressed the X button."); 
-            System.exit(0);
-        }
-        );
-        primaryStage.show();
-        ((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //closing primary window
+	@FXML
+	void getBtnApprove(ActionEvent event) {
+		Stage primaryStage = new Stage();
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktPaymentForm.fxml", null, "payment");
+		// this was done so that we can use this button
+		primaryStage.setOnCloseRequest(we -> {
+			System.out.println("Pressed the X button.");
+			System.exit(0);
+		});
+		primaryStage.show();
+		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
     }
 
     @FXML

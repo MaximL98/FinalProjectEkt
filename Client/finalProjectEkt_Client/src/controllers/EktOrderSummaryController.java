@@ -139,6 +139,7 @@ public class EktOrderSummaryController {
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 
+
 	}
 
 	@FXML
@@ -167,17 +168,19 @@ public class EktOrderSummaryController {
 			// Login window//
 			((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 			Stage primaryStage = new Stage();
-			// category is located in a ArrayList
-			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
-					"/gui/EktCatalogForm.fxml", null, ClientController.CurrentProductCategory.get(0));
 
-			ClientController.currentUserCart.keySet().clear();
-			;
+			//category is located in a ArrayList
+			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktCatalogForm.fxml", null, 
+					ClientController.CurrentProductCategory.get(0));
+	
+			ClientController.currentUserCart.keySet().clear();;
+	
+			primaryStage.setOnCloseRequest(we -> 
+				{
+					System.out.println("Pressed the X button.");
+					System.exit(0);
+				});
 
-			primaryStage.setOnCloseRequest(we -> {
-				System.out.println("Pressed the X button.");
-				System.exit(0);
-			});
 			primaryStage.show();
 			//////////////////////
 			((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // hiding primary window

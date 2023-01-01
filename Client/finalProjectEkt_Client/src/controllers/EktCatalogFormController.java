@@ -194,5 +194,20 @@ public class EktCatalogFormController implements Serializable {
   			);
   			primaryStage.show();
   	   }
+  	   
+  	  @FXML
+      void getBtnMyOrders(ActionEvent event) {
+  		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			Stage primaryStage = new Stage();
+			WindowStarter.createWindow(primaryStage, this, "/gui/EktMyOrderFrom.fxml", null, "Ekt My Orders");
+			// this was done so that we can use this button
+			primaryStage.setOnCloseRequest(we -> 
+			{
+				System.out.println("Pressed the X button."); 
+				System.exit(0);
+			}
+			);
+			primaryStage.show();
+      }
 }
 

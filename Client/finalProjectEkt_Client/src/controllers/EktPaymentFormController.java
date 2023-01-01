@@ -89,12 +89,7 @@ public class EktPaymentFormController {
 	
 	private void processOrder(ActionEvent event) {
 		long counter = 0;
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Thread.sleep(2000);
 		nextPage(event, "/gui/OrderReceiptPage.fxml", "EKrut Order Summary");
 	}
  }

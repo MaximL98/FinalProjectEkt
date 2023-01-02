@@ -161,6 +161,7 @@ public class DatabaseController {
 		con = getConnection();
 		PreparedStatement ps;
 		try {
+			System.out.println(sqlStatement);
 			ps = con.prepareStatement(sqlStatement);
 			if(params != null) {
 				for (int i = 0; i < params.length; i++) {
@@ -229,9 +230,6 @@ public class DatabaseController {
 		}
 		return DatabaseOperationsMap.getMap().get(operation).getDatabaseAction(params);
 	}
-	
-	
-
 
 	public static String getSchemaName() {
 		return schemaName;

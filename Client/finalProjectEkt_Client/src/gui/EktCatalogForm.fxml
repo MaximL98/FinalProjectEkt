@@ -105,5 +105,14 @@
          </font>
       </Text>
       <Line endX="320.0" layoutX="400.0" layoutY="248.0" startX="-320.0" stroke="#ff00c8" />
+      <Button fx:id="btnCatalog9" layoutX="335.0" layoutY="656.0" maxHeight="130.0" maxWidth="130.0" minHeight="130.0" minWidth="130.0" mnemonicParsing="false" onAction="#getBtnCatalogAllItems" prefHeight="130.0" prefWidth="130.0" style="-fx-border-color: crimson; -fx-border-radius: 300; -fx-background-color: transparent;">
+         <graphic>
+            <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/allItems.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

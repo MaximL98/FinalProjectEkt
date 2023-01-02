@@ -293,7 +293,7 @@ public class EktProductFormController {
 				productHBox.getChildren().add(productAddToCartVBox);
 				
 				Pane pane = new Pane();
-				pane.setStyle("-fx-border-color: Gold; -fx-border-width: 2px; -fx-border-radius: 10;"
+				pane.setStyle("-fx-border-color: black; -fx-border-width: 3px; -fx-border-radius: 10;"
 						+ " -fx-background-color:   linear-gradient(from 0px 0px to 0px 1500px, pink, yellow); -fx-background-radius: 12");
 
 				pane.getChildren().add(productHBox);
@@ -326,7 +326,7 @@ public class EktProductFormController {
 			////////////////// Dima 31/12 10:50 changed styling into this
 			Border border = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
 			borderPane.setCenter(scrollPane);
-			scrollPane.setStyle("-fx-background-color: transparent; -fx-background:  linear-gradient(from 0px 0px to 0px 1500px, pink, yellow);"
+			scrollPane.setStyle("-fx-background-color: transparent; -fx-background:  linear-gradient(from 0px 0px to 0px 1500px, pink, red);"
 					+ "-fx-border-color: transparent;");
 			scrollPane.setBorder(border);
 			

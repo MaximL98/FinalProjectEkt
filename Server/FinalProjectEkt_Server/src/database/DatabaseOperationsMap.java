@@ -156,12 +156,17 @@ public class DatabaseOperationsMap {
         @Override
         public Object getDatabaseAction(Object[] categoryName) {
             tableName = "product";
-
+            String sqlQuery;
 	        String productCategory = (String)categoryName[0];
-	        String sqlQuery = "Select * FROM " + DatabaseOperationsMap.SCHEMA_EKRUT + "." +
-	            tableName + " Where category = \"" + productCategory + "\" OR subCategory =" + 
-	            " \"" + productCategory + "\";";
-	        
+	        if (productCategory.equals("ALL PRODUCTS")) {
+	        	sqlQuery = "SELECT * FROM " + DatabaseOperationsMap.SCHEMA_EKRUT + "." + tableName;
+	        	System.out.println(sqlQuery);
+	        }
+	        else {
+	        	sqlQuery = "Select * FROM " + DatabaseOperationsMap.SCHEMA_EKRUT + "." +
+	        			tableName + " Where category = \"" + productCategory + "\" OR subCategory =" + 
+	    	            " \"" + productCategory + "\";";
+	        }
 	
 	        //Uses simpler version of execute query with one input string variable (the requested sql query)
 	        ResultSet fetchProductsResultSet = DatabaseController.executeQueryWithResults(sqlQuery, null);

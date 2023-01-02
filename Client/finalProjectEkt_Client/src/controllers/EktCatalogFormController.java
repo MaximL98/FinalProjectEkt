@@ -96,7 +96,7 @@ public class EktCatalogFormController implements Serializable {
   			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
   			Stage primaryStage = new Stage();
   			//category.text"Healthy";
-  			ClientController.CurrentProductCategory.add(0 ,"Healthy");
+  			ClientController.CurrentProductCategory.add(0 ,"HEALTHY");
   			//ClientController.CurrentProductCategory = changeSt;
   			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, "Healthy");
   			primaryStage.setOnCloseRequest(we -> 
@@ -113,7 +113,7 @@ public class EktCatalogFormController implements Serializable {
   		private void getBtnCatalog0_1(ActionEvent event)  {
   			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
   			Stage primaryStage = new Stage();
-  			String category = "Soft drinks";
+  			String category = "SOFT DRINKS";
   			ClientController.CurrentProductCategory.add(0 ,category);
   			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, category);
   			primaryStage.show();
@@ -123,7 +123,7 @@ public class EktCatalogFormController implements Serializable {
   		private void getBtnCatalog0_2(ActionEvent event)  {
   			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
   			Stage primaryStage = new Stage();
-  			String category = "Fruits";
+  			String category = "FRUITS";
   			ClientController.CurrentProductCategory.add(0 ,category);
   			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, category);
   			primaryStage.show();
@@ -133,7 +133,7 @@ public class EktCatalogFormController implements Serializable {
   		private void getBtnCatalog0_3(ActionEvent event)  {
   			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
   			Stage primaryStage = new Stage();
-  			String category = "Vegetables";
+  			String category = "VEGETABLES";
   			ClientController.CurrentProductCategory.add(0 ,category);
   			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, category);
   			primaryStage.show();
@@ -143,7 +143,7 @@ public class EktCatalogFormController implements Serializable {
   		private void getBtnCatalog1_0(ActionEvent event)  {
   			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
   			Stage primaryStage = new Stage();
-  			String category = "Snacks";
+  			String category = "SNACKS";
   			ClientController.CurrentProductCategory.add(0 ,category);
   			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, category);
   			primaryStage.show();
@@ -153,7 +153,7 @@ public class EktCatalogFormController implements Serializable {
   		private void getBtnCatalog1_1(ActionEvent event)  {
   			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
   			Stage primaryStage = new Stage();
-  			String category = "Sandwiches";
+  			String category = "SANDWICHES";
   			ClientController.CurrentProductCategory.add(0 ,category);
   			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, category);
   			primaryStage.show();
@@ -163,7 +163,7 @@ public class EktCatalogFormController implements Serializable {
   		private void getBtnCatalog1_2(ActionEvent event)  {
   			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
   			Stage primaryStage = new Stage();
-  			String category = "Chewing gum";
+  			String category = "CHEWING GUM";
   			ClientController.CurrentProductCategory.add(0 ,category);
   			System.out.println(ClientController.getCurrentSystemUser().getFirstName());
   			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, category);
@@ -174,7 +174,7 @@ public class EktCatalogFormController implements Serializable {
   		private void getBtnCatalog1_3(ActionEvent event)  {
   			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
   			Stage primaryStage = new Stage();
-  			String category = "Dairy";
+  			String category = "DAIRY";
   			ClientController.CurrentProductCategory.add(0 ,category);
   			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, category);
   			primaryStage.show();
@@ -209,5 +209,15 @@ public class EktCatalogFormController implements Serializable {
 			);
 			primaryStage.show();
       }
+  	  
+  	  @FXML 
+  	  void getBtnCatalogAllItems(ActionEvent event) {
+  		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			Stage primaryStage = new Stage();
+			String category = "ALL ITEMS";
+			ClientController.CurrentProductCategory.add(0 ,category);
+			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, category);
+			primaryStage.show();
+  	  }
 }
 

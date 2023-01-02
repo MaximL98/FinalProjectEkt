@@ -18,9 +18,9 @@
                   <Font name="Berlin Sans FB" size="48.0" />
                </font>
             </Text>
-            <Button fx:id="btnBack" layoutX="14.0" layoutY="751.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="32.0" prefWidth="91.0" text="Back">
+            <Button fx:id="btnBack" layoutX="14.0" layoutY="751.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="32.0" prefWidth="91.0" style="-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" text="BACK">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Button>
             <Text fill="RED" layoutX="277.0" layoutY="415.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">

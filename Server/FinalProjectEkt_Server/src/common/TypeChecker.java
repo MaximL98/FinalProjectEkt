@@ -23,7 +23,7 @@ public class TypeChecker {
 			throw new IllegalArgumentException(
 					"Invalid range of parameters for validateInput {"
 							+ Arrays.toString(objects) + ", "
-							+ Arrays.toString(paramTypes.toArray())+"}");
+							+ Arrays.toString(paramTypes.toArray())+", "+ startIdx + "}");
 
 		for(int j=0;j<paramTypes.size();j++) {
 			if(!objects[j + startIdx].getClass().equals(paramTypes.get(j))) {

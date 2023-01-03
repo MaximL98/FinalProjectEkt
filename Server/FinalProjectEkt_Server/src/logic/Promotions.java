@@ -2,6 +2,7 @@ package logic;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 
 /**
  * Project Name: finalProjectEkt_Client
@@ -40,15 +41,21 @@ public class Promotions  implements Serializable{
 	    this.locationID=locationID;
 	    this.promotionId=null;
 	    this.promotionStatus=promotionStatus;
-	   
+
 	}
 	
 	public String getStoreLocation() {
 		return storeLocation;
 	}
+
 	public void setStoreLocation(String storeLocation) {
 		this.storeLocation = storeLocation;
 	}
+	
+	/**
+	 * setting the details of the products
+	 * @param productsDetails
+	 */
 
 	public int getLocationID() {
 		return locationID;

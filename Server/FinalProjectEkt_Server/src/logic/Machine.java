@@ -2,7 +2,7 @@ package logic;
 
 import java.util.ArrayList;
 /**
- * Project Name: finalProjectEkt_Server
+ * Project Name: finalProjectEkt_Client
  * Logic class that contains the details needed to save up for each machine.
  * @author Maxim Lebedinsky
  * @version 16/12/2022
@@ -113,6 +113,14 @@ public class Machine {
 	public String toString() {
 		return "Machine [products=" + products + ", stock=" + stock + ", thresholdLevel=" + thresholdLevel
 				+ ", location=" + location + "]";
+	}
+	
+	public void addProduct(String productToAdd) {
+		products.add(productToAdd);
+	}
+	
+	public void removeProduct(String productToAdd) {
+		products.remove(productToAdd);
 	}
 
 	

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import common.SCCP;
 import common.ServerClientRequestTypes;
+import database.DatabaseController;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -33,21 +34,16 @@ public class EktServer extends AbstractServer
   public void handleMessageFromClient  (Object msg, ConnectionToClient client)
   {
 	  // TODO: this
-	  System.out.println("InEKTsERVER");
 	  if(msg instanceof SCCP) {
 		  
 		  System.out.println("Server got message from client (" +client+"): "+(SCCP)msg);
 		  // now, the magic:
-		  
 		  SCCP response = ServerMessageHandler.getMap().get(((SCCP)msg).getRequestType()).handleMessage((SCCP)msg);
 		  try {
 			  // send to client
-			  System.out.println("test");
 			client.sendToClient(response);
-			System.out.println("test");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.out.println("test");
 			e.printStackTrace();
 		}
 	  }

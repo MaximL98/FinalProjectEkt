@@ -3,17 +3,17 @@ package logic;
 import java.io.Serializable;
 
 /**
- * Project Name: finalProjectEkt_Server
+ * Project Name: finalProjectEkt_Client
  * Logic class that contains the details needed to save up for each system user.
  * @author Maxim Lebedinsky
  * @version 16/12/2022
  */
-
-// Rotem - added implements Serializable.
-// we need to discuss which entities the server needs, and set them all to be "implements Serializable"
-public class SystemUser implements Serializable{
+// added serializble 
+public class SystemUser implements Serializable {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-
 	/**
 	 *system user logic part.
 	 *all the following details, will be saved for each system user
@@ -23,24 +23,32 @@ public class SystemUser implements Serializable{
 	private Integer id;
 	private String phoneNumber;
 	private String emailAddress;
-	private String creditCard;  // Rotem - asking for this to be moved to Customer
+	private String creditCard;
 	private String username;
 	private String password;
+	private Role role;
 	
 	/**
 	 * system user constructor
+	 * @param id
 	 * @param firstName
 	 * @param lastName
-	 * @param id
 	 * @param phoneNumber
 	 * @param emailAddress
 	 * @param creditCard
 	 * @param username
 	 * @param password
+	 * @param roleString TODO
+	 * @throws IllegalArgumentException TODO
 	 */
-	public SystemUser(String firstName, String lastName, Integer id, String phoneNumber, String emailAddress,
-			String creditCard, String username, String password) {
-		super();
+	
+	// Rotem modified constructor (and added another one) to fit the current form of the database
+	// (this means adding the role to the sysuser, and allowing it to be a string or a role in the constructor
+	public SystemUser(Integer id, String firstName, String lastName, String phoneNumber, String emailAddress,
+			String creditCard, String username, String password, String roleString)
+					throws IllegalArgumentException 
+	{
+		//super(); totem temoved it it was unnecc
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.id = id;
@@ -49,7 +57,33 @@ public class SystemUser implements Serializable{
 		this.creditCard = creditCard;
 		this.username = username;
 		this.password = password;
+		// allow inserting a role as string (with input check)
+		try {
+			this.setRole(Role.valueOf(roleString.toUpperCase()));
+		}catch(IllegalArgumentException ex){
+			throw new IllegalArgumentException("Cannot create a SystemUser with role=" + roleString);
+		}
 	}
+
+	// added a constructor with Role input
+	public SystemUser(Integer id, String firstName, String lastName, String phoneNumber, String emailAddress,
+			String creditCard, String username, String password, Role role) {
+		//super(); totem temoved it it was unnecc
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.id = id;
+		this.phoneNumber = phoneNumber;
+		this.emailAddress = emailAddress;
+		this.creditCard = creditCard;
+		this.username = username;
+		this.password = password;
+		// allow inserting a role as itself
+		this.setRole(role);
+
+	}
+	
+
+
 	/**
 	 * getting user first name
 	 * @return user first name
@@ -163,6 +197,7 @@ public class SystemUser implements Serializable{
 		this.password = password;
 	}
 	
+	
 	/**
 	 * toString method, returns system user details
 	 */
@@ -176,16 +211,23 @@ public class SystemUser implements Serializable{
 	}
 	
 	public String sqlFormatObject() {
-		return "(\"" + firstName + "\", "
-				+ "\"" + lastName + "\", " +
-				id + ", " +
+		return "(" + id + ", "
+				+ "\"" + firstName + "\", "
+				+"\""+lastName+ "\", " +
 				"\"" + phoneNumber + "\", " +
 				"\""+emailAddress +"\", " +
 				"\""+creditCard + "\", " +
 				"\""+username + "\", " +
-				"\""+password +"\")";
+				"\""+password +"\", \"" + this.role + "\")";
 	}
-	
-	
-	
+
+	// added getter and setter for ROle
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
 }

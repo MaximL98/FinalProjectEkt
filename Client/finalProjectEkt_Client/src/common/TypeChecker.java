@@ -19,11 +19,12 @@ public class TypeChecker {
 	 * @return true if all objects in range are of the desired types, else false
 	 */
 	public static boolean validate(Object[] objects, ArrayList<Class<?>> paramTypes, int startIdx) {
+		// 
 		if(objects.length < (startIdx + paramTypes.size()))
 			throw new IllegalArgumentException(
 					"Invalid range of parameters for validateInput {"
 							+ Arrays.toString(objects) + ", "
-							+ Arrays.toString(paramTypes.toArray())+"}");
+							+ Arrays.toString(paramTypes.toArray())+", "+ startIdx + "}");
 
 		for(int j=0;j<paramTypes.size();j++) {
 			if(!objects[j + startIdx].getClass().equals(paramTypes.get(j))) {

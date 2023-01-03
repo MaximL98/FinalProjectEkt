@@ -11,11 +11,13 @@ public class WindowStarter {
 	
 	// method to save lines - opens new window
 	// CHANGE:
-	// Stage does not call show here, fucker!
+	// Stage does not call show here, Mister! (yes it was fucker but maybe it seemed too personal to the wrong personnel, so, 
+	//nothing personnel.
+	// )
+	
 	public static void createWindow(Stage primaryStage, Object classObject, 
 			String fxmlAddress, String cssAddress, String windowTitle) 
 					 {
-		
 		Parent root;
 		try {
 			root = FXMLLoader.load(classObject.getClass().getResource(fxmlAddress));
@@ -25,6 +27,7 @@ public class WindowStarter {
 			
 			primaryStage.setTitle(windowTitle);
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

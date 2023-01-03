@@ -22,14 +22,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
+// Rotem - renamed this from CEOPageController (was requested here)
+// 30.12 de(b)t maroz (nik)
 
-///////////////////////////////////////////////////
-///////////////////////////////////////////////////
-//Needs a rename to EktReportSelectFormController//
-///////////////////////////////////////////////////
-///////////////////////////////////////////////////
-
-public class CEOPageController extends Application{
+public class EktReportSelectFormController extends Application{
 	
 	@FXML
 	private Button buttonViewOrderReports;

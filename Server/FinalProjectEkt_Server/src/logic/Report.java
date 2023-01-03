@@ -1,6 +1,6 @@
 package logic;
 /**
- * Project Name: finalProjectEkt_Server
+ * Project Name: finalProjectEkt_Client
  * Logic class that contains the details needed to save up for each report.
  * @author Maxim Lebedinsky
  * @version 16/12/2022
@@ -20,7 +20,6 @@ public class Report {
 	 * @param customerHistogram
 	 */
 	public Report(Integer reportID, Integer stockStatusOfMachines, String customerHistogram) {
-		super();
 		this.reportID = reportID;
 		this.stockStatusOfMachines = stockStatusOfMachines;
 		this.customerHistogram = customerHistogram;

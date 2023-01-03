@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /client/
 /common/
 /controllers/
@@ -7,4 +8,15 @@
 =======
 /gui/
 /bin/
+<<<<<<< HEAD
 >>>>>>> refs/remotes/origin/master
+=======
+=======
+/controllers/
+/logic/
+/client/
+/gui/
+/common/
+/bin/
+>>>>>>> refs/remotes/origin/rotem
+>>>>>>> branch 'master' of https://github.com/rotemlv/FinalProjectEkt.git

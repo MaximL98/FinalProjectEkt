@@ -32,18 +32,20 @@ public class ClientLoginController {
 	
 	
 	public void getConnectToServer(ActionEvent event) throws IOException {
-		System.out.println("Worker is in connect to server");
+		System.out.println("Client is connecting to server");
 		String tmp = txtIP.getText();
 		if(tmp.equals(""))
 			tmp = "localhost";
 		ClientUI.serverIP = tmp;
 		ClientUI.connectToServer();
-		FXMLLoader loader = new FXMLLoader();
 
 		
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
+		// this line is to add stuff to db in a mesudar fashion
+		//WindowStarter.createWindow(primaryStage, this, "/gui/AddUserToDbForm.fxml", null, "dbg");
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
+
 		// this was done so that we can use this button
 		primaryStage.setOnCloseRequest(we -> 
 		{
@@ -52,6 +54,7 @@ public class ClientLoginController {
 		}
 		);
 		primaryStage.show();	 	
+		System.out.println("Client is now connected to server");
 
 		/*Pane root = loader.load(getClass().getResource("/gui/EkrutUserLoginForm.fxml").openStream());
 

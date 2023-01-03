@@ -3,12 +3,12 @@ package logic;
 import java.io.Serializable;
 
 /**
- * Project Name: finalProjectEkt_Server
+ * Project Name: finalProjectEkt_Client
  * Logic class that contains the details needed to save up for each report.
  * @author Maxim Lebedinsky
  * @version 16/12/2022
  */
-public class Product implements Serializable {
+public class Product implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	/**
@@ -84,17 +84,17 @@ public class Product implements Serializable {
 		return "Product [productID=" + productID + ", productName=" + productName + ", costPerUnit=" + costPerUnit
 				+ "]";
 	}
-	public String getSubCategory() {
-		return subCategory;
-	}
-	public void setSubCategory(String subCategory) {
-		this.subCategory = subCategory;
-	}
 	public String getCategory() {
 		return category;
 	}
 	public void setCategory(String category) {
 		this.category = category;
+	}
+	public String getSubCategory() {
+		return subCategory;
+	}
+	public void setSubCategory(String subCategory) {
+		this.subCategory = subCategory;
 	}
 	
 	

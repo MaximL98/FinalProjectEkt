@@ -19,30 +19,34 @@ public class AddUserToDbController {
     private Button btnConnect;
 
     @FXML
-    private TextField creditCardTxt;
+    private TextField txtCreditCard;
 
     @FXML
-    private TextField emailTxt;
+    private TextField txtEmail;
 
     @FXML
-    private TextField firstNameTxt;
+    private TextField txtFirstName;
 
     @FXML
-    private TextField lastNameTxt;
+    private TextField txtLastName;
 
     @FXML
-    private TextField passwordTxt;
+    private TextField txtPassword;
 
     @FXML
-    private TextField phoneNumberTxt;
+    private TextField txtPhoneNumber;
 
     @FXML
-    private TextField userIdTxt;
+    private TextField txtID;
 
     @FXML
-    private TextField usernameTxt;
+    private TextField txtUsername;
 
-	@FXML Text statusLabel;
+	@FXML Text lblStatus;
+
+	@FXML TextField txtRole;
+
+	@FXML Button btnAdd;
 
     @FXML
     public void initialize() {
@@ -134,18 +138,18 @@ public class AddUserToDbController {
 	@FXML
     void getAddUserToDB(ActionEvent event) {
     	int id;
-		statusLabel.setText("Checking input");
+		lblStatus.setText("Checking input");
     	SCCP preparedMessage = new SCCP();
     	if(validFieldInput()) {
-    		id = Integer.valueOf(userIdTxt.getText());
+    		id = Integer.valueOf(txtID.getText());
     		// set message accordingly
     		preparedMessage.setRequestType(ServerClientRequestTypes.ADD);
     		// first field is table name - users here
     		Object[] fill = new Object[3];
     		fill[0] = "systemuser"; // add to table "systemusers" (hard code it elsewhere)
     		fill[1] = false; // add only 1
-    		fill[2] = new Object[] {new SystemUser(firstNameTxt.getText(), lastNameTxt.getText(), id, 
-    				phoneNumberTxt.getText(), emailTxt.getText(), creditCardTxt.getText(), usernameTxt.getText(), passwordTxt.getText())};
+    		fill[2] = new Object[] {new SystemUser(id, txtFirstName.getText(), txtLastName.getText(), 
+    				txtPhoneNumber.getText(), txtEmail.getText(), txtCreditCard.getText(), txtUsername.getText(), txtPassword.getText(), txtRole.getText())};
     		preparedMessage.setMessageSent(fill);
     		
     		// send to server
@@ -154,35 +158,51 @@ public class AddUserToDbController {
     		// check comm for answer:
     		if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
     			// add test that response.messageSent is the array we had in fill[2] (SAME OBJECT)
-    			statusLabel.setText("Successfully added a client!");
+    			lblStatus.setText("Successfully added a " + txtRole.getText()+"!");
+    			// clean all fields:
+    			txtID.setText("");
+    			txtFirstName.setText("");
+    			txtLastName.setText("");
+    			txtPhoneNumber.setText("");
+    			txtEmail.setText("");
+    			txtCreditCard.setText("");
+    			txtUsername.setText("");
+    			txtPassword.setText("");
+    			txtRole.setText("");
+
+
     		}
     		else {
-    			statusLabel.setText("ERROR!"); // add specifics
+    			lblStatus.setText("ERROR!"); // add specifics
     		}
     		
     	}
     	else {
-    		statusLabel.setText("Status: Invalid input");
+    		lblStatus.setText("Status: Invalid input");
     	}
     }
 
 	private boolean validFieldInput() {
 		boolean valid = true;
+		// I forgot to check ID
+		if(txtID.getText().length() < 1) {
+			return false;
+		}
 		// check username and password not empty:
-		if(usernameTxt.getText().length() < 1 || passwordTxt.getText().length() < 1)
+		if(txtUsername.getText().length() < 1 || txtPassword.getText().length() < 1)
 			return false;
 		// check name is letters
-		if(firstNameTxt.getText().length() < 2 || !(firstNameTxt.getText().matches("^[a-zA-Z]*$")))
+		if(txtFirstName.getText().length() < 2 || !(txtFirstName.getText().matches("^[a-zA-Z]*$")))
 			return false;
 		// check email is not empty
-		if(!(emailTxt.getText().contains("@")) || emailTxt.getText().length() < 1)
+		if(!(txtEmail.getText().contains("@")) || txtEmail.getText().length() < 1)
 			return false;
-		// check credit-card is legit (why?)
-		if(!(creditCardTxt.getText().matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])"
+		// check credit-card is legit (why?! we need to remove credit card from user (user needs ONLY user,pass, id, role!))
+		if(false && !(txtCreditCard.getText().matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])"
 				+ "[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$")))
 			return false;
 		// check phone is a number (currently not letters)
-		if(phoneNumberTxt.getText().matches("^[a-zA-Z]*$"))
+		if(txtPhoneNumber.getText().matches("^[a-zA-Z]*$"))
 			return false;
 		
 		return valid;

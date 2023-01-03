@@ -34,9 +34,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
-import logic.OnlineOrder;
 import logic.SystemUser;
-import logic.OnlineOrder.*;
+import logic.OnlineOrder;
 
 public class DeliveryManagerPageController {
 

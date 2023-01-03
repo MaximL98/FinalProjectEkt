@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import logic.Customer;
+import logic.Role;
 
 public class RegisterNewCustomerPageController {
 
@@ -48,6 +49,7 @@ public class RegisterNewCustomerPageController {
     @FXML
     void getBtnRegisterCustomer(ActionEvent event) {
         // Create new Customer object with provided information
+    	int id = 123;
         String name = txtName.getText();
         String surname = txtSurname.getText();
         String email = txtEmail.getText();
@@ -56,7 +58,7 @@ public class RegisterNewCustomerPageController {
         String cvv = txtCVV.getText();
         boolean isSubscriber = chkSubscriber.isSelected();
 
-        Customer newCustomer = new Customer(name, surname, phoneNumber, email, creditCard, name+"."+surname, "");
+        Customer newCustomer = new Customer(name ,surname, id , phoneNumber, email, creditCard, name+"."+surname, Role.CUSTOMER.toString());
         if (isSubscriber) {
             newCustomer.setSubscriberNumber(newCustomer.getSubscriberNumber());;
         }

@@ -44,11 +44,15 @@ public class Customer extends SystemUser{
 	}*/
     //changed by nastya
     // Constructor
-    public Customer(String firstName, String lastName, String phoneNumber, String emailAddress,
-            String creditCard, String username, String password) {
+    //public Customer(String firstName, String lastName, String phoneNumber, String emailAddress,
+            //String creditCard, String username, String password) {
         // Assign the next available customer ID
-        super(firstName, lastName, nextCustomerId++, phoneNumber, emailAddress, creditCard, username, password);
-    }
+        //super(firstName, lastName, nextCustomerId++, phoneNumber, emailAddress, creditCard, username, password);
+    //}
+	public Customer(String firstName, String lastName, Integer id, String phoneNumber, String emailAddress,
+		String creditCard, String username, String password) {	
+		super(id, firstName, lastName, phoneNumber, emailAddress, creditCard, username, password, Role.CUSTOMER);
+	}
 	
 	
 	/**

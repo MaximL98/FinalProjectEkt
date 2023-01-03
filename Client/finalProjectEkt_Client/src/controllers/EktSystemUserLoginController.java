@@ -136,6 +136,7 @@ public class EktSystemUserLoginController {
 			}
 			
 			// le-factored
+			// srs
 			primaryStage.show();
 
 		}

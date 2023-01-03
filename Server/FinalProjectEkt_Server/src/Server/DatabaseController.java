@@ -186,18 +186,6 @@ public class DatabaseController {
 		}
 	}
 	
-	public static ResultSet executQueryWithResults_SimpleWithOneStatement(String sqlStatement) {
-		con = getConnection();
-		
-		try {
-			Statement statement = con.createStatement();
-			ResultSet resultSet = statement.executeQuery(sqlStatement);
-			return resultSet;
-		} catch (SQLException sqle) {	
-		}
-		return null;
-	}
-	
 	public static String getDatabaseUserName() {
 		return dbName;
 	}
@@ -239,12 +227,19 @@ public class DatabaseController {
 	}
 	
 	public static Object handleQuery(DatabaseOperation operation, Object[] params) {
-		Object res = DatabaseOperationsMap.getMap().get(operation).getDatabaseAction(params);
-		if(res instanceof Boolean) {
-			return (boolean)res;
-		}
-		// fail any other case (for now)
-		return res;
+//		Object res = DatabaseOperationsMap.getMap().get(operation).getDatabaseAction(params);
+//		if(res instanceof Boolean) {
+//			return (boolean)res;
+//		}
+//		// fail any other case (for now)
+//		return res;
+		// TODO: add error checking
+				if(!DatabaseOperationsMap.getMap().containsKey(operation)) {
+					throw new UnsupportedOperationException("SQL Controller does not support the operation " + operation + ". Contact your doctor about Levi-tra today!");
+				}
+				return DatabaseOperationsMap.getMap().get(operation).getDatabaseAction(params);
+
+		
 	}
 
 
@@ -270,5 +265,15 @@ public class DatabaseController {
     	// fail any other case (for now)
     	return null;
     }
+    
+	//IGNORE
+	public static ResultSet executQueryWithResults_SimpleWithOneStatement(String sqlStatement) {
+		//Object resultArrayPromotionNames = DatabaseOperationsMap.getMap().get(operation).getDatabaseAction(new Object[] {sqlStatement});
+		//if (resultArrayPromotionNames instanceof ArrayList)
+		//	return (Object) resultArrayPromotionNames;
+		//Make sure to add stuff here later
+		//return null;
+		return null;
+	}
 	
 }

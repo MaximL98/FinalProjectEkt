@@ -1,5 +1,6 @@
 package logic;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
@@ -8,38 +9,69 @@ import java.sql.Date;
  * @author Maxim Lebedinsky,Nastya chesnov,Raz waiss
  * @version 16/12/2022
  */
-public class Promotions {
+public class Promotions  implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	*Promotions logic part.
 	*private fields that will contain: products details, discount amount and location of the promotion
 	*/
-	private String promotionLocation;
+	private String storeLocation;
 	private String promotionName;
 	private String promotionDescription;
-	private String productId;
+	private String productID;
 	private String discountPercentage;
 	private Date startDate;
 	private Date endDate;
-	/**
-	 * Promotions constructor.
-	 * @param productsDetails
-	 * @param discountAmount
-	 * @param promotionLocation
-	 */
-	public Promotions(String promotionName, String promotionDescription, String productId, String discountPercentage, java.sql.Date startDate, java.sql.Date endDate) {
+	private String promotionId;
+	private int locationID;
+	private Boolean promotionStatus;
+	
+	
+	public Promotions(String promotionName,int locationID, String promotionDescription, String productID,String promotionId, String discountPercentage, java.sql.Date startDate, java.sql.Date endDate, Boolean promotionStatus) {
 	    this.promotionName = promotionName;
 	    this.promotionDescription = promotionDescription;
-	    this.productId = productId;
+	    this.productID = productID;
 	    this.discountPercentage = discountPercentage;
 	    this.startDate = startDate;
 	    this.endDate = endDate;
+	    this.locationID=locationID;
+	    this.promotionId=null;
+	    this.promotionStatus=promotionStatus;
+	   
+	}
+	
+	public String getStoreLocation() {
+		return storeLocation;
+	}
+	public void setStoreLocation(String storeLocation) {
+		this.storeLocation = storeLocation;
+	}
+
+	public int getLocationID() {
+		return locationID;
+	}
+	public void setLocationID(int locationID) {
+		this.locationID = locationID;
+	}
+
+	public String getPromotionId() {
+		return promotionId;
+	}
+	public void setPromotionId(String promotionId) {
+		this.promotionId = promotionId;
+	}
+	public Promotions() {
+		// TODO Auto-generated constructor stub
 	}
 	/**
 	 * setting the location of the promotion
 	 * @param promotionLocation
 	 */
-	public void setPromotionLocation(String promotionLocation) {
-		this.promotionLocation = promotionLocation;
+	public void setstoreLocation(String storeLocation) {
+		this.storeLocation = storeLocation;
 	}
 
 	public String getPromotionName() {
@@ -58,12 +90,12 @@ public class Promotions {
 		this.promotionDescription = promotionDescription;
 	}
 
-	public String getProductId() {
-		return productId;
+	public String getproductID() {
+		return productID;
 	}
 
-	public void setProductId(String productId) {
-		this.productId = productId;
+	public void setproductID(String productID) {
+		this.productID = productID;
 	}
 
 	public String getDiscountPercentage() {
@@ -92,12 +124,32 @@ public class Promotions {
 
 	@Override
 	public String toString() {
-		return "Promotions [productsDetails=" + ", promotionLocation=" + promotionLocation
-				+ ", promotionName=" + promotionName + ", promotionDescription=" + promotionDescription + ", productId="
-				+ productId + ", discountPercentage=" + discountPercentage + ", startDate=" + startDate + ", endDate="
-				+ endDate + "]";
+		return "(" + promotionId + ", "
+				+ "\"" + promotionName + "\", "	
+				+"\"" + promotionDescription + "\", " +
+				+locationID +", " +
+				"\""+productID + "\", " +
+				discountPercentage +", " +
+				"\""+startDate + "\", " +
+				"\""+endDate +"\",0)";		
+	}
+
+	public Boolean getPromotionStatus() {
+		return promotionStatus;
+	}
+
+	public void setPromotionStatus(Boolean promotionStatus) {
+		this.promotionStatus = promotionStatus;
 	}
 	
 	
+	//(promotionName, promotionDescription, storeLocation, productID, discountPercentage, startDate, endDate)
 	
+	
+//	public static void main(String[] args) {
+//		Promotions promotion = new Promotions("1","ä","b","c", "123", new Date(0), new Date(1) );
+//		
+//		System.out.println(promotion.toString());
+//		
+//	}
 }

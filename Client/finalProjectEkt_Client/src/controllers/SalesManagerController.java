@@ -47,10 +47,20 @@ public class SalesManagerController {
 
     @FXML
     private void editActivePromotionsHandler(ActionEvent event) {
-    	InactivityChecker inactivityChecker = new InactivityChecker(300000);
+    	InactivityChecker inactivityChecker = new InactivityChecker(300000);//importent
     	inactivityChecker.updateActivityTime();
-    	
-        // Edit active promotions logic goes here
+        // Get the current stage
+        Stage stage = new Stage();
+        WindowStarter.createWindow(stage, new Object(), "/gui/EditActivePromotions.fxml", null, "Promotion Editing");
+        stage.setOnCloseRequest(action -> {
+        	System.out.println("Pressed the X button.");
+        	System.exit(0);
+        });
+        stage.show();
+        ((Stage) ((Node)event.getSource()).getScene().getWindow()).close();
+        Thread inactivityCheckerThread = new Thread(inactivityChecker);//importent
+        inactivityCheckerThread.start();
+        
     }
 
     @FXML

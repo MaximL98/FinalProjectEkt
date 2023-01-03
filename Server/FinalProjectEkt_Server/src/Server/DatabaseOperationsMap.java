@@ -1,6 +1,7 @@
 package Server;
 
 import java.security.InvalidParameterException;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -8,11 +9,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import javafx.scene.control.DatePicker;
 import logic.OnlineOrder;
 import logic.OnlineOrder.Status;
 import logic.OnlineOrder.Type;
 import logic.Product;
+import logic.Promotions;
 import logic.SystemUser;
 
 public class DatabaseOperationsMap {
@@ -169,8 +171,10 @@ public class DatabaseOperationsMap {
 
 			// Uses simpler version of execute query with one input string variable (the
 			// requested sql query)
-			ResultSet fetchProductsResultSet = DatabaseController
-					.executQueryWithResults_SimpleWithOneStatement(sqlQuery);
+			ResultSet fetchProductsResultSet = DatabaseController.executeQueryWithResults(sqlQuery, null);
+
+			// ResultSet fetchProductsResultSet =
+			// DatabaseController.executeQueryWithResults(sqlQuery, null)
 
 			ArrayList<Product> arrayOfProducts = new ArrayList<>();
 			try {
@@ -198,10 +202,8 @@ public class DatabaseOperationsMap {
 			return arrayOfProducts;
 		}
 
-		
-
 	}
-	
+
 	protected static final class DatabaseActionUpdateForUpdateOnlineOrders implements IDatabaseAction {
 
 		private String ONLINE_ORDERS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "online_order";
@@ -215,8 +217,7 @@ public class DatabaseOperationsMap {
 			Object[] orders = (Object[]) params[0];
 			for (Object o : orders) {
 				if (!(o instanceof OnlineOrder))
-					throw new InvalidParameterException(
-							"Error: expected array of Objects that includes OnlineOrders.");
+					throw new InvalidParameterException("Error: expected array of Objects that includes OnlineOrders.");
 				OnlineOrder order = (OnlineOrder) o;
 				String sqlQuery = "UPDATE " + ONLINE_ORDERS_TABLE + " SET " + "typeId = (select statusId FROM "
 						+ ORDER_TYPES_TABLE + "  where typeName = \"" + order.getType().name() + "\"), "
@@ -292,70 +293,56 @@ public class DatabaseOperationsMap {
 
 	}
 
-	protected static final class DatabaseActionAddPromotion implements IDatabaseAction {
-		private String tableName;
-		private Boolean addMany;
-		private Object[] objectsToAdd;
+
+
+	protected static final class DatabaseActionSelectPromotionNames implements IDatabaseAction {
 
 		@Override
 		public Object getDatabaseAction(Object[] params) {
-			if (params.length != 3) {
-				throw new InvalidParameterException("Expected 3 parameters in getDatabaseAction (ADD_PROMOTION)");
-			}
+			String promotionNam = (String) params[0];
+			ResultSet fetchPromotionNames = DatabaseController.executeQueryWithResults(promotionNam, null);
+			return fetchPromotionNames;
+		}
+	}
 
-			setTableName((String) params[0]);
-			setAddMany((Boolean) params[1]);
-			setObjectsToAdd((Object[]) params[2]);
+	// Object[] params contains just the sqlQuery at the [0] index
+	protected static final class DatabaseActionSelectPromotion implements IDatabaseAction {
 
-			String addPromotion = "INSERT INTO " + DatabaseOperationsMap.SCHEMA_EKRUT + "." + getTableName()
-					+ " VALUES ";
-			for (Object o : getObjectsToAdd()) {
-				String currentAddPromotion = (new StringBuilder(addPromotion)).append(o.toString()).append(";")
-						.toString();
-				System.out.println("Writing to SQL:");
-				System.out.println(currentAddPromotion);
-				if (!DatabaseController.executeQuery(currentAddPromotion)) {
-					Boolean tmpAddMany = getAddMany();
-					cleanUp();
-					if (tmpAddMany) {
-						// TODO: add granularity (idea - return a list of objects NOT YET INSERTED)
-						return false;
-					}
-					return false;
+		@Override
+		public Object getDatabaseAction(Object[] params) {
+			String promotionNam = (String) params[0];
+			//String sqlQuery = "SELECT * FROM promotions WHERE promotionName = '\" + promotionNam + \"';";
+			ResultSet fetchPromotionNames = DatabaseController.executeQueryWithResults(promotionNam, null);
+			ArrayList<Promotions> arrayOfPromotions = new ArrayList<>();
+			try {
+				while (fetchPromotionNames.next()) {
+					String promotionName = fetchPromotionNames.getString("promotionName");
+
+					String promotionDescription = fetchPromotionNames.getString("promotionDescription");
+
+					int locationId = Integer.parseInt(fetchPromotionNames.getString("locationId"));
+
+					String productID = fetchPromotionNames.getString("productID");
+
+					String discountPercentage = fetchPromotionNames.getString("discountPercentage");
+
+					Date startDate = fetchPromotionNames.getDate("startDate");
+					Date endDate = fetchPromotionNames.getDate("endDate");
+
+					boolean promotionStatus = fetchPromotionNames.getBoolean("promotionStatus");
+
+					Promotions tempPromtions = new Promotions(promotionName, locationId, promotionDescription,
+							productID, null, discountPercentage, startDate, endDate, promotionStatus);
+
+					System.out.println(tempPromtions.toString());
+
+					arrayOfPromotions.add(tempPromtions);
+
 				}
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
 			}
-			cleanUp();
-			return true;
-		}
-
-		public void cleanUp() {
-			tableName = null;
-			addMany = null;
-			objectsToAdd = null;
-		}
-
-		public String getTableName() {
-			return tableName;
-		}
-
-		public void setTableName(String tableName) {
-			this.tableName = tableName;
-		}
-
-		public Boolean getAddMany() {
-			return addMany;
-		}
-
-		public void setAddMany(Boolean addMany) {
-			this.addMany = addMany;
-		}
-
-		public Object[] getObjectsToAdd() {
-			return objectsToAdd;
-		}
-
-		public void setObjectsToAdd(Object[] objectsToAdd) {
-			this.objectsToAdd = objectsToAdd;
+			return arrayOfPromotions;
 		}
 	}
 
@@ -369,13 +356,14 @@ public class DatabaseOperationsMap {
 			this.put(DatabaseOperation.FETCH_PRODUCTS_BY_CATEGORY, new DatabaseActionSelectForFetchProducts());
 			this.put(DatabaseOperation.FETCH_ONLINE_ORDERS, new DatabaseActionSelectForFetchOnlineOrders());
 			this.put(DatabaseOperation.UPDATE_ONLINE_ORDERS, new DatabaseActionUpdateForUpdateOnlineOrders());
-			this.put(DatabaseOperation.ADD_PROMOTION, new DatabaseActionAddPromotion());
-
+			this.put(DatabaseOperation.SELECT, new DatabaseActionSelectPromotion());
+			this.put(DatabaseOperation.INSERT_PROMOTION_NAMES,  new DatabaseActionSelectPromotionNames());
 		}
 	};
 
 	public static HashMap<DatabaseOperation, IDatabaseAction> getMap() {
 		return map;
 	}
-}
 
+
+}

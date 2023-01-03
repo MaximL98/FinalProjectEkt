@@ -1,15 +1,20 @@
 package Server;
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import common.IServerSideFunction;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import logic.Customer;
 import logic.Product;
+import logic.Promotions;
 import logic.SystemUser;
 
 /**
@@ -178,6 +183,48 @@ public class ServerMessageHandler {
 		}
 	}
 
+	public static final class HandleMessageDisplayPromotions implements IServerSideFunction {
+
+		ArrayList<String> promotionNames = new ArrayList<String>();
+
+		@Override
+		public SCCP handleMessage(SCCP displayPromotionMessage) {
+
+			try {
+				ResultSet resultSet = (ResultSet) DatabaseController
+						.handleQuery(DatabaseOperation.INSERT_PROMOTION_NAMES,new Object[] {"SELECT DISTINCT promotionName FROM promotions;"});
+				resultSet.beforeFirst();
+				while (resultSet.next()) {
+					String promotionName = resultSet.getString("promotionName");
+					promotionNames.add(promotionName);
+				}
+				resultSet.close();
+
+				return new SCCP(ServerClientRequestTypes.DISPLAY, promotionNames);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");
+		}
+
+	}
+
+	public static final class HandleMessageDisplaySelectedPromotions implements IServerSideFunction{
+
+		ArrayList<Promotions> promotions = new ArrayList<>();
+
+		@Override
+		public SCCP handleMessage(SCCP displayPromotionMessage) {
+			String promotionName = (String) displayPromotionMessage.getMessageSent();
+			//promotions = (ArrayList<Promotions>) DatabaseController
+					//.handleQuery(DatabaseOperation.SELECT,new Object[] {"SELECT * FROM promotions WHERE promotionName = '\" + promotionName +"\';"});
+			promotions = (ArrayList<Promotions>) DatabaseController.handleQuery(DatabaseOperation.SELECT, new Object[] {"SELECT * FROM promotions WHERE promotionName = '" + promotionName + "';"});
+			return new SCCP(ServerClientRequestTypes.DISPLAY, promotions);
+		}
+	}
+
 	private static final class HandleMessageUpdateOnlineOrders implements IServerSideFunction {
 		private static final int MESSAGE_OBJECT_ARRAY_SIZE = 1;
 
@@ -241,7 +288,7 @@ public class ServerMessageHandler {
 	private static final class HandleMessageAddPromotion implements IServerSideFunction {
 		// this is defined as a constant since, for adding a promotion, we always want a
 		// 3 element Object array.
-		private static final int MESSAGE_OBJECT_ARRAY_SIZE = 6;
+		private static final int MESSAGE_OBJECT_ARRAY_SIZE = 7;
 
 		@Override
 		public SCCP handleMessage(SCCP message) {
@@ -262,7 +309,7 @@ public class ServerMessageHandler {
 			/// Start input validation
 
 			// verify type
-			if (!(type.equals(ServerClientRequestTypes.ADD_PROMOTION))) {
+			if (!(type.equals(ServerClientRequestTypes.ADD))) {
 				throw new IllegalArgumentException(
 						"Invalid type used in handleMessage, type: " + message.getRequestType());
 			}
@@ -331,9 +378,8 @@ public class ServerMessageHandler {
 			return response;
 		}
 
-		
 	}
-	
+
 	private static HashMap<ServerClientRequestTypes, IServerSideFunction> map = new HashMap<ServerClientRequestTypes, IServerSideFunction>() {
 		private static final long serialVersionUID = 1L;
 		{
@@ -348,6 +394,8 @@ public class ServerMessageHandler {
 			this.put(ServerClientRequestTypes.FETCH_ONLINE_ORDERS, new HandleMessageFetchOnlineOrders());
 			this.put(ServerClientRequestTypes.UPDATE_ONLINE_ORDERS, new HandleMessageUpdateOnlineOrders());
 			this.put(ServerClientRequestTypes.ADD_PROMOTION, new HandleMessageAddPromotion());
+			this.put(ServerClientRequestTypes.DISPLAY_PROMOTIONS, new HandleMessageDisplayPromotions());
+			this.put(ServerClientRequestTypes.DISPLAY_SELECTED_PROMOTIONS, new HandleMessageDisplaySelectedPromotions());
 		}
 	};
 
@@ -355,4 +403,3 @@ public class ServerMessageHandler {
 		return map;
 	}
 }
-

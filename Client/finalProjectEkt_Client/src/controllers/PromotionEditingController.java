@@ -1,7 +1,9 @@
 package controllers;
 
 import java.net.URL;
+import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -54,12 +56,39 @@ public class PromotionEditingController implements Initializable {
 
 	@FXML
 	private void createPromotionHandler() {
+		promotions = new Promotions();
+		//ServerClientRequestTypes.ADD
 		// Get the promotion details from the text fields and date pickers
 		SCCP preparedMessage = new SCCP();
-		preparedMessage.setRequestType(ServerClientRequestTypes.ADD_PROMOTION);
+		preparedMessage.setRequestType(ServerClientRequestTypes.ADD);
 		Object[] fillMessage = new Object[3];
-		//promotions.setDiscountPercentage(txtDiscountPercentage.getText());
-		//....
+		promotions.setDiscountPercentage(txtDiscountPercentage.getText());
+		promotions.setPromotionName(txtPromotionName.getText());
+		promotions.setPromotionDescription(txtPromotionDescription.getText());
+		promotions.setstoreLocation(cbLocation.getSelectionModel().getSelectedItem());
+		int locationNumber;
+		switch (cbLocation.getSelectionModel().getSelectedItem()) {
+		    case "North":
+		        locationNumber =1;
+		        break;
+		    case "South":
+		        locationNumber = 2;
+		        break;
+		    case "United Arab Emirates":
+		        locationNumber = 3;
+		        break;
+		    default:
+		        locationNumber = 0;
+		        break;
+		}
+		promotions.setLocationID(locationNumber);
+		promotions.setproductID(txtProductId.getText());
+		String startDateString = dpPromotionStartDate.getValue().toString();
+		promotions.setStartDate(Date.valueOf(startDateString));
+		String endDateString = dpPromotionEndDate.getValue().toString();
+		promotions.setEndDate(Date.valueOf(endDateString));
+
+
 		fillMessage[0] =  "promotions";
 		fillMessage[1] = false;
 		fillMessage[2] = new Object[] {promotions};
@@ -72,7 +101,7 @@ public class PromotionEditingController implements Initializable {
 
 		// if the response is not the type we expect, something went wrong with server
 		// communication and we throw an exception.
-		if (!(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ADD_PROMOTION))) {
+		if (!(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ADD))) {
 			throw new RuntimeException("Error with server communication: Non expected request type");
 		} else {
 			Alert successMessage = new Alert(AlertType.INFORMATION);
@@ -81,9 +110,13 @@ public class PromotionEditingController implements Initializable {
 			successMessage.setContentText("Promotion created successfully!");
 			successMessage.show();
 		}
+		
 	}
 
 	public void goBackHandler(ActionEvent event) {
+		Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+	    currentStage.close();
+	    
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, new Object(), "/gui/SalesManager.fxml", null, "Sales");
 		primaryStage.show();

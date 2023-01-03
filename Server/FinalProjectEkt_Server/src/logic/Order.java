@@ -20,17 +20,19 @@ public class Order implements Serializable {
 	private String orderID;
 	private Integer totalAmount;
 	private String attribute;
+	private int machineID;
 	/**
 	 * Order constructor.
 	 * @param orderID
 	 * @param totalAmount
 	 * @param attribute
 	 */
-	public Order(String orderID, Integer totalAmount, String attribute) {
+	public Order(String orderID, Integer totalAmount, String attribute, int machineID) {
 		super();
 		this.orderID = orderID;
 		this.totalAmount = totalAmount;
 		this.attribute = attribute;
+		setMachineID(machineID);
 	}
 	/**
 	 * getting order id
@@ -80,6 +82,12 @@ public class Order implements Serializable {
 	@Override
 	public String toString() {
 		return "Order [orderID=" + orderID + ", totalAmount=" + totalAmount + ", attribute=" + attribute + "]";
+	}
+	public int getMachineID() {
+		return machineID;
+	}
+	public void setMachineID(int machineID) {
+		this.machineID = machineID;
 	}
 	
 	

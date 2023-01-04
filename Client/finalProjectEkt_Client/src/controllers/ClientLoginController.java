@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -21,6 +22,8 @@ public class ClientLoginController {
 	@FXML 
 	private Button btnConnect;
 	
+	@FXML
+	private Label hiddenLabel;
 	
 	//start primary stage
 		public void start(Stage primaryStage) throws Exception {
@@ -31,13 +34,24 @@ public class ClientLoginController {
 	
 	
 	
-	public void getConnectToServer(ActionEvent event) throws IOException {
+	public void getConnectToServer(ActionEvent event) {
+		hiddenLabel.setVisible(false);
 		System.out.println("Client is connecting to server");
 		String tmp = txtIP.getText();
 		if(tmp.equals(""))
 			tmp = "localhost";
 		ClientUI.serverIP = tmp;
-		ClientUI.connectToServer();
+		try {
+			ClientUI.connectToServer();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			hiddenLabel.setText("Could not connect to " + tmp + " over port " + 5555);
+			hiddenLabel.setVisible(true);
+			return;
+		}
+			
 
 		
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window

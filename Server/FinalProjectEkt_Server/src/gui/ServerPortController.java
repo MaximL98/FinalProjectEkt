@@ -104,7 +104,6 @@ public class ServerPortController  {
 			// toggle connect button
 			btnConnect.setVisible(false);
 			btnConnect.setDisable(true);
-			
 		}
 	}
 	

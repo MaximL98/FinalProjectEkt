@@ -34,17 +34,11 @@ public class ClientController
   private static Role currentUserRole = null;
 
 
-  public ClientController(String host, int port) 
+  public ClientController(String host, int port) throws IOException
   {
-    try 
-    {
+
       client= new EKTClient(host, port);
-    } 
-    catch(IOException exception) 
-    {
-      System.out.println("Error: Can't setup connection!"+ " Terminating client.");
-      System.exit(1);
-    }
+
   }
 
   public void accept(SCCP msgToServer) 

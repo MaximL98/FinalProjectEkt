@@ -57,7 +57,7 @@ public class DeliveryManagerPageController {
 	private TableColumn<OnlineOrder, LocalDateTime> tblTimeColumn;
 
 	@FXML
-	private TableColumn<OnlineOrder, Status> tblStatusColumn;
+	private TableColumn<OnlineOrder, OnlineOrder.Status> tblStatusColumn;
 
 	@FXML
 	private Button btnBack;
@@ -104,7 +104,7 @@ public class DeliveryManagerPageController {
 			successMessage.show();
 			// remove orders that left in progress status
 			for(OnlineOrder order : orders) {
-				if(order.getStatus() != Status.InProgress)
+				if(order.getStatus() != OnlineOrder.Status.InProgress)
 					deliveryTable.getItems().remove(order);
 			}
 		}
@@ -128,13 +128,13 @@ public class DeliveryManagerPageController {
 		tblOrderNumberColumn.setCellValueFactory(new PropertyValueFactory<OnlineOrder, String>("orderID"));
 		tblDateReceivedColumn.setCellValueFactory(new PropertyValueFactory<OnlineOrder, LocalDate>("dateReceived"));
 		tblTimeColumn.setCellValueFactory(new PropertyValueFactory<OnlineOrder, LocalDateTime>("deliveryTime"));
-		tblStatusColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<Status>(cellData.getValue().getStatus()));
+		tblStatusColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<OnlineOrder.Status>(cellData.getValue().getStatus()));
 		tblStatusColumn.setCellFactory(col -> {
-			ComboBox<Status> combo = new ComboBox<>();
-			combo.getItems().addAll(Status.values());
-			TableCell<OnlineOrder, Status> cell = new TableCell<OnlineOrder, Status>() {
+			ComboBox<OnlineOrder.Status> combo = new ComboBox<>();
+			combo.getItems().addAll(OnlineOrder.Status.values());
+			TableCell<OnlineOrder, OnlineOrder.Status> cell = new TableCell<OnlineOrder, OnlineOrder.Status>() {
 				@Override
-				protected void updateItem(Status status, boolean empty) {
+				protected void updateItem(OnlineOrder.Status status, boolean empty) {
 					super.updateItem(status, empty);
 					if (empty) {
 						setGraphic(null);
@@ -155,7 +155,7 @@ public class DeliveryManagerPageController {
 	private ArrayList<OnlineOrder> getOnlineOrders() {
 		SCCP preparedMessage = new SCCP();
 		preparedMessage.setRequestType(ServerClientRequestTypes.FETCH_ONLINE_ORDERS);
-		preparedMessage.setMessageSent(new String[] { Status.InProgress.name() });
+		preparedMessage.setMessageSent(new String[] { OnlineOrder.Status.InProgress.name() });
 
 		// send to server
 		System.out.println("Client: Sending online orders fetch request to server.");

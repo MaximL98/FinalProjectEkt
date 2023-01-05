@@ -125,7 +125,8 @@ public class EktReportSelectFormController extends Application{
 	
 	
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/CEOPage.fxml"));
+		// Rotem - changed this line - interesting that no one noticed I broke this previously
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/EktReportSelectForm.fxml"));
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.show();

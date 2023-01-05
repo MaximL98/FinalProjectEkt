@@ -63,11 +63,23 @@ public class SalesManagerController {
         
     }
 
+    // Rotem:
+    // I fucxed it to actually work as a log-out button (it used to work like an exit button)
     @FXML
     private void logoutHandler(ActionEvent event) throws Exception {
-    	System.out.println("Sales manager Has Exited The Academic Tool");
-    	ClientUI.clientController.client.closeConnection();
-    	System.exit(0);
-}
+    	// log
+    	System.out.println("Sales manager has logged off");
+	    ((Node)event.getSource()).getScene().getWindow().hide();
+		Stage primaryStage = new Stage();
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
+		// this was done so that we can use this button
+		primaryStage.setOnCloseRequest(we -> 
+		{
+			System.out.println("Pressed the X button."); 
+			System.exit(0);
+		}
+		);
+		primaryStage.show();
+    }
 }
 

@@ -116,6 +116,160 @@ public class ServerMessageHandler {
 		}
 	}
 
+	// Rotem - 1/5/23 - select
+	private static final class HandleMessageSelectFromTable implements IServerSideFunction {
+		/*
+		 * The format sent to this class:
+		 * Object[] {
+		 * tableName: String
+		 * filterColumns (if false: select * from mama, as in ALL COLUMNS): Boolean
+		 * filterColumnsArgs: String
+		 * filterRows (select ? from mama where ass = shit): Boolean
+		 * conditions: String (this is the part where you pass what comes after the "WHERE" in "WHERE ass = shit")
+		 * conditions = null if filterRows is false
+		 * useSpecialArgs: Boolean (self explanatory -read next line)
+		 * specialArgs: String (for example: SORT BY shit_amount, you pass it with the SORT BY inside the string because I can't be bothered to that much of an extent)
+		 * specialArgs = null if useSpecialArgs = false
+		 * }
+		 */
+		// this is defined as a constant since, for selecting from table, we always want a 5 element Object array.
+		private static final int MESSAGE_OBJECT_ARRAY_SIZE = 7;
+		
+		@Override
+		public SCCP handleMessage(SCCP message) {
+			// message should be: Type(ServerClientRequestTypes), Object[]{String_tableName, Boolean_addMany, Object[]_whatToAdd}
+			// preparing response: will eventually contain a type[error or success], and a message[should be the original added object(s)
+			SCCP response = new SCCP();
+			ServerClientRequestTypes type = message.getRequestType();
+			Object tmpMsg = message.getMessageSent();
+			Object[] formattedMessage;
+			
+			
+			// parts of the message:
+			String tableName;
+			Boolean filterColumns;
+			String filterColumnsArgs;
+
+			Boolean filterRows;
+			Boolean useSpecialArgs;
+			String conditions;
+			String specialArgs;
+
+			
+			/// Start input validation
+			// verify type
+			if(!(type.equals(ServerClientRequestTypes.SELECT))) {
+				throw new IllegalArgumentException("Invalid type assigned in ServerMessageHandler map, type: " + message.getRequestType() + " was passed to SELECT");
+			}
+			// verify message format
+			if(tmpMsg instanceof Object[]) {
+				formattedMessage = (Object[])tmpMsg;
+				if(formattedMessage.length != MESSAGE_OBJECT_ARRAY_SIZE) {
+					throw new IllegalArgumentException("Invalid message accepted in handleMessage, message: " 
+				+ message.getMessageSent() + " is an Object array of size != " + MESSAGE_OBJECT_ARRAY_SIZE);
+				}
+				// verify each input
+				
+				// table name:
+				if(!(formattedMessage[0] instanceof String)) {
+					throw new IllegalArgumentException("Invalid value for tableName (String input) in handleMessage.");
+				}
+				// boolean filterColumns
+				if(!(formattedMessage[1] instanceof Boolean)) {
+					throw new IllegalArgumentException("Invalid value for selectAll (Boolean input) in handleMessage.");
+				}
+				filterColumns = (Boolean)formattedMessage[1];
+				if(filterColumns) {
+					// String filterColumnsArgs:
+					if(!(formattedMessage[2] instanceof String)) {
+						throw new IllegalArgumentException("Invalid value for conditions (String input) in handleMessage.");
+					}
+				}
+				// boolean filterRows
+				if(!(formattedMessage[3] instanceof Boolean)) {
+					throw new IllegalArgumentException("Invalid value for filterRows (Boolean input) in handleMessage.");
+				}
+				// check if we want specific rows
+				filterRows = (Boolean)formattedMessage[3];
+				if(filterRows)
+				{
+					// String conditions:
+					if(!(formattedMessage[4] instanceof String)) {
+						throw new IllegalArgumentException("Invalid value for conditions (String input) in handleMessage.");
+					}
+				}
+				// boolean useSpecialArgs
+				if(!(formattedMessage[5] instanceof Boolean)) {
+					throw new IllegalArgumentException("Invalid value for useSpecialArgs (Boolean input) in handleMessage.");
+				}
+				// check if want to use special arguments
+				useSpecialArgs = (Boolean)formattedMessage[5];
+				if(useSpecialArgs) {
+					// string specialArgs
+					if(!(formattedMessage[6] instanceof String)) {
+						throw new IllegalArgumentException("Invalid value for whatToAdd (String input) in handleMessage.");
+					}
+				}
+				// assign proper values to from the rest of the message
+				tableName = (String)formattedMessage[0];
+				filterColumnsArgs = (String)formattedMessage[2];
+				conditions = (String)formattedMessage[4];
+				specialArgs = (String)formattedMessage[6];
+
+			}
+			else {
+				// invalid input branch
+				throw new IllegalArgumentException("Invalid message accepted in handleMessage, message: "
+			+ message.getMessageSent() + " is not of type Object[]");
+			}
+
+			/// End input validation
+			
+			// debug
+			System.out.println("Called server with SELECT. Table name: " + tableName + " query to be performed:");
+			StringBuilder queryBuilder = new StringBuilder("SELECT ");
+			// select what (rows)
+			if(!filterColumns) {
+				queryBuilder.append("*");
+			}
+			else {
+				queryBuilder.append(filterColumnsArgs).append(" ");
+			}
+			// table name:
+			queryBuilder.append("FROM ").append(tableName).append(" ");
+			// select where (columns)
+			if(filterRows)
+			{
+				queryBuilder.append("WHERE ").append(conditions).append(" ");
+			}
+			if(useSpecialArgs) {
+				queryBuilder.append(specialArgs);
+			}
+			queryBuilder.append(";");
+			
+			String query = queryBuilder.toString();
+			System.out.println(query);
+			
+			System.out.println("Calling the DB controller now (UNDER TEST)");
+			ResultSet res = (ResultSet)DatabaseController.handleQuery(DatabaseOperation.SELECT, new Object[] {query});
+			
+			
+			// here, we return the proper message to the client
+			System.out.println("Returning result to client (UNDER TEST)");
+			if(res != null) {
+				response.setRequestType(ServerClientRequestTypes.SELECT);
+				response.setMessageSent(res); // send the ResultSet back to the client 
+			}
+			else {
+				response.setRequestType(ServerClientRequestTypes.ERROR_MESSAGE);
+				// maybe we should create a special type for errors too, and pass a dedicated one that will provide valuable info to the client?
+				response.setMessageSent("ERROR: adding to DB failed"); // TODO: add some valuable information.
+			}
+			return response;
+		}
+	}
+
+	
 	private static final class HandleMessageLogin implements IServerSideFunction{
 
 		// TODO:
@@ -245,7 +399,7 @@ public class ServerMessageHandler {
 			String promotionName = (String) displayPromotionMessage.getMessageSent();
 			//promotions = (ArrayList<Promotions>) DatabaseController
 					//.handleQuery(DatabaseOperation.SELECT,new Object[] {"SELECT * FROM promotions WHERE promotionName = '\" + promotionName +"\';"});
-			promotions = (ArrayList<Promotions>) DatabaseController.handleQuery(DatabaseOperation.SELECT, new Object[] {"SELECT * FROM promotions WHERE promotionName = '" + promotionName + "';"});
+			promotions = (ArrayList<Promotions>) DatabaseController.handleQuery(DatabaseOperation.SELECT_PROMOTION, new Object[] {"SELECT * FROM promotions WHERE promotionName = '" + promotionName + "';"});
 			return new SCCP(ServerClientRequestTypes.DISPLAY, promotions);
 		}
 	}
@@ -423,6 +577,9 @@ public class ServerMessageHandler {
 		this.put(ServerClientRequestTypes.DISPLAY_SELECTED_PROMOTIONS, new HandleMessageDisplaySelectedPromotions());
 		this.put(ServerClientRequestTypes.UPDATE_ONLINE_ORDERS, new HandleMessageUpdateOnlineOrders());
 		this.put(ServerClientRequestTypes.ADD_PROMOTION, new HandleMessageAddPromotion());
+		
+		this.put(ServerClientRequestTypes.SELECT, new HandleMessageSelectFromTable());
+
 	}};
 
 	

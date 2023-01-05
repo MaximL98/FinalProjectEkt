@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.text.Text;
 import logic.SystemUser;
+import javafx.scene.control.TableView;
 
 public class AddUserToDbController {
 

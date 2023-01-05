@@ -16,7 +16,7 @@
 	private String password;
 	-->
 
-<AnchorPane prefHeight="640.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddUserToDbController">
+<AnchorPane prefHeight="640.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddUserToDbController">
    <children>
       <Text layoutX="83.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert user details" />
       <Button fx:id="btnAdd" layoutX="336.0" layoutY="93.0" mnemonicParsing="false" onAction="#getAddUserToDB" text="Add" />
@@ -29,5 +29,6 @@
       <TextField fx:id="txtEmail" layoutX="77.0" layoutY="349.0" promptText="Email" />
       <TextField fx:id="txtCreditCard" layoutX="77.0" layoutY="392.0" promptText="Credit Card" />
       <Text fx:id="lblStatus" layoutX="309.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status: Waiting" />
+      <TextField fx:id="txtRole" layoutX="77.0" layoutY="436.0" promptText="Role" />
    </children>
 </AnchorPane>

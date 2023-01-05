@@ -21,7 +21,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox fx:id="vboxCEO" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CEOPageController">
+<VBox fx:id="vboxCEO" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktReportSelectFormControllerrmController">
    <children>
       <Pane prefHeight="800.0" prefWidth="800.0" style="visibility: 50;">
          <children>

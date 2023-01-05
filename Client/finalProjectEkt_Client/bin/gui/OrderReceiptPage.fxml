@@ -7,21 +7,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
-<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18">
+<VBox xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OrderReceiptPageController">
    <children>
-      <Pane prefHeight="800.0" prefWidth="800.0">
+      <Pane prefHeight="400.0" prefWidth="400.0">
          <children>
-            <Text layoutX="301.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order number XXXXXXXXX complete." />
-            <Text layoutX="329.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Amount paid: XXXXX" />
-            <Text layoutX="265.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order information was sent to XXXXX@XXXX.COM" />
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="324.0" layoutY="325.0" pickOnBounds="true" preserveRatio="true">
+            <Text layoutX="101.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order number XXXXXXXXX complete." />
+            <Text layoutX="129.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Amount paid: XXXXX" />
+            <Text layoutX="66.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order information was sent to XXXXX@XXXX.COM" />
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/checkmark%20(1).png" />
                </image>
             </ImageView>
-            <Button fx:id="btnLogout" layoutX="14.0" layoutY="761.0" mnemonicParsing="false" text="Logout" />
-            <Button fx:id="btnMainMenu" layoutX="709.0" layoutY="761.0" mnemonicParsing="false" text="Main Menu" />
+            <Button fx:id="btnLogout" layoutX="22.0" layoutY="361.0" mnemonicParsing="false" onAction="#getBtnLogout" text="Logout" />
+            <Button fx:id="btnBack" layoutX="282.0" layoutY="361.0" mnemonicParsing="false" onAction="#getBtnBack" text="Back To Catalog" />
          </children>
       </Pane>
    </children>

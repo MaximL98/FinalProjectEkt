@@ -1,6 +1,7 @@
 package Server;
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -252,20 +253,38 @@ public class ServerMessageHandler {
 			
 			System.out.println("Calling the DB controller now (UNDER TEST)");
 			ResultSet res = (ResultSet)DatabaseController.handleQuery(DatabaseOperation.SELECT, new Object[] {query});
-			
-			
-			// here, we return the proper message to the client
-			System.out.println("Returning result to client (UNDER TEST)");
-			if(res != null) {
-				response.setRequestType(ServerClientRequestTypes.SELECT);
-				response.setMessageSent(res); // send the ResultSet back to the client 
-			}
-			else {
+			if(res == null) {
 				response.setRequestType(ServerClientRequestTypes.ERROR_MESSAGE);
 				// maybe we should create a special type for errors too, and pass a dedicated one that will provide valuable info to the client?
 				response.setMessageSent("ERROR: adding to DB failed"); // TODO: add some valuable information.
+				return response;
 			}
-			return response;
+			ResultSetMetaData rsmd;
+			try {
+				rsmd = res.getMetaData();
+				int columnsNumber = rsmd.getColumnCount();
+				ArrayList<ArrayList<Object>> result = new ArrayList<>();
+				while(res.next()) {
+					ArrayList<Object> row = new ArrayList<>();
+					for(int i=0;i<columnsNumber;i++) {
+						row.add(res.getObject(i + 1));
+						
+					}
+					result.add(row);
+				}
+				// here, we return the proper message to the client
+				System.out.println("Returning result to client (UNDER TEST)");
+				response.setRequestType(ServerClientRequestTypes.SELECT);
+				response.setMessageSent(result); // send the ResultSet back to the client 
+				return response;
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			// error - this should never happen
+			return null;
 		}
 	}
 

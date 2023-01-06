@@ -49,32 +49,29 @@ public class TestSelectFromDBProductController {
         
     	SCCP output = new SCCP();
     	output.setRequestType(ServerClientRequestTypes.SELECT);
-    	// tablename, filter columns, what, filter rows, where, usespecial, special
+    	// Arguments passed: {tableName, filterColumns, what, filterRows, where, useSpecial, special}
     	output.setMessageSent(new Object[] {"product", false, null, false, null, false, null});
     	ClientUI.clientController.accept(output);
-    	int ccc = 0;
     	if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.SELECT)) {
     		SCCP answer = ClientController.responseFromServer;
-    		ArrayList<Product> lust = new ArrayList<>();
+    		ArrayList<Product> productArrayList = new ArrayList<>();
     		if(answer.getMessageSent() instanceof ArrayList) {
     			@SuppressWarnings("unchecked")
-				ArrayList<ArrayList<Object>> tmp = (ArrayList<ArrayList<Object>>)answer.getMessageSent();
-    			for(ArrayList<Object> lst : tmp) {
+				ArrayList<ArrayList<Object>> preProcessedOutput = (ArrayList<ArrayList<Object>>)answer.getMessageSent();
+    			for(ArrayList<Object> lst : preProcessedOutput) {
+    				// we expect product to have 5 columns, and act accordion-ly
     				Object[] arr = lst.toArray();
     				System.out.println(Arrays.toString(arr));
-    				System.out.println("cucksuck");
+    				// well...
     				if(arr[4] == null) {
-    					arr[4] = "fuck being in d";
+    					arr[4] = "This is what happens when your ";
     				}
-    				Product p = new Product(arr[0].toString(), arr[1].toString(), arr[2].toString(), arr[3].toString(), arr[4].toString());
-    				lust.add(p);
-    				lblStatus.setText("whore" + ccc++);
+    				productArrayList.add(new Product(arr[0].toString(), arr[1].toString(), arr[2].toString(), arr[3].toString(), arr[4].toString()));
     			}
-				tblProducts.getItems().setAll(lust);
-
+				tblProducts.getItems().setAll(productArrayList);
     		}
     		else {
-    			System.out.println("fuck me");
+    			System.out.println("0 -> 1 implies 1 -> 0");
     		}
     		
     	}

@@ -646,7 +646,11 @@ public class ServerMessageHandler {
 		 * 
 		 */
 		this.put(ServerClientRequestTypes.ADD, new HandleMessageAddToTable());
+		this.put(ServerClientRequestTypes.SELECT, new HandleMessageSelectFromTable());
+		this.put(ServerClientRequestTypes.UPDATE, new HandleMessageUpdateInTable());
 		this.put(ServerClientRequestTypes.LOGIN, new HandleMessageLogin());
+		
+		
 		this.put(ServerClientRequestTypes.FETCH_PRODUCTS_BY_CATEGORY, new HandleMessageFetchProducts());
 		this.put(ServerClientRequestTypes.FETCH_ONLINE_ORDERS, new HandleMessageFetchOnlineOrders());
 		this.put(ServerClientRequestTypes.DISPLAY_PROMOTIONS, new HandleMessageDisplayPromotions());
@@ -654,8 +658,7 @@ public class ServerMessageHandler {
 		this.put(ServerClientRequestTypes.UPDATE_ONLINE_ORDERS, new HandleMessageUpdateOnlineOrders());
 		this.put(ServerClientRequestTypes.ADD_PROMOTION, new HandleMessageAddPromotion());
 		
-		this.put(ServerClientRequestTypes.SELECT, new HandleMessageSelectFromTable());
-		this.put(ServerClientRequestTypes.UPDATE, new HandleMessageUpdateInTable());
+		
 		
 	}};
 

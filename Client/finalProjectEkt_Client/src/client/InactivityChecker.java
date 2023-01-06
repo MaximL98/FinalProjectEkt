@@ -1,9 +1,7 @@
-package common;
+package client;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-
-import client.ClientUI;
 
 public class InactivityChecker implements Runnable {
 

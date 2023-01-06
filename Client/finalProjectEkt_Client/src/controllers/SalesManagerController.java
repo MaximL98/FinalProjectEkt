@@ -3,7 +3,7 @@ package controllers;
 import java.io.IOException;
 
 import client.ClientUI;
-import common.InactivityChecker;
+import client.InactivityChecker;
 import common.WindowStarter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

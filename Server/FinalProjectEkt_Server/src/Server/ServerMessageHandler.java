@@ -118,6 +118,7 @@ public class ServerMessageHandler {
 	}
 
 	// Rotem - 1/5/23 - select
+	// select what from table where what and;
 	private static final class HandleMessageSelectFromTable implements IServerSideFunction {
 		/*
 		 * The format sent to this class:
@@ -288,6 +289,62 @@ public class ServerMessageHandler {
 		}
 	}
 
+	// UPDATE table_name
+	// SET column1 = value1, column2 = value2, ...
+	// WHERE condition; 
+	private static final class HandleMessageUpdateInTable implements IServerSideFunction{
+
+		@Override
+		public SCCP handleMessage(SCCP message) {
+			// The input message should look like:
+			// Object[]{ tableName, setters (String), conditions};
+			// I'm not going to go crazy here, no million billion tests:
+			if(!message.getRequestType().equals(ServerClientRequestTypes.UPDATE)) {
+				throw new IllegalArgumentException("Invalid input to HandleMessageUpdateInTable (Invalid type)");
+			}
+			if(!(message.getMessageSent() instanceof Object[])) {
+				throw new IllegalArgumentException("Invalid input to HandleMessageUpdateInTable (not Object[])");
+			}
+			Object[] input = (Object[])message.getMessageSent();
+			// as I said - 3 arguments stored in
+			if(input.length != 3) {
+				throw new IllegalArgumentException("Invalid input to HandleMessageUpdateInTable (length != 3)");
+			}
+			// get the values:
+			String tableName, setters, conditions;
+			tableName = (String)input[0];
+			setters = (String)input[1];
+			conditions = (String)input[2];
+			
+			StringBuilder sqlQuery = new StringBuilder("UPDATE ");
+			sqlQuery.append(DatabaseController.getSchemaName()).append(".").append(tableName).append(" SET ");
+			sqlQuery.append(setters).append(" WHERE ");
+			sqlQuery.append(conditions).append(";");
+			System.out.println("Sending query to database=" + sqlQuery.toString());
+			
+			// prep response
+			SCCP response = new SCCP();
+			/**
+			 * Now this is important - I can't be bothered to map this inside the database map - for now it's a direct call to the controller.
+			 */
+			
+			boolean b = DatabaseController.executeQuery(sqlQuery.toString());
+			if(!b) {
+				// failure
+				response.setRequestType(ServerClientRequestTypes.ERROR_MESSAGE);
+				// maybe we should create a special type for errors too, and pass a dedicated one that will provide valuable info to the client?
+				response.setMessageSent("ERROR: updating in DB failed"); // TODO: add some valuable information.
+			}
+			else {
+				// socc secc
+				response.setRequestType(ServerClientRequestTypes.ACK);
+				response.setMessageSent(message.getMessageSent());
+			}
+			
+			return response;
+		}
+		
+	}
 	
 	private static final class HandleMessageLogin implements IServerSideFunction{
 
@@ -598,7 +655,8 @@ public class ServerMessageHandler {
 		this.put(ServerClientRequestTypes.ADD_PROMOTION, new HandleMessageAddPromotion());
 		
 		this.put(ServerClientRequestTypes.SELECT, new HandleMessageSelectFromTable());
-
+		this.put(ServerClientRequestTypes.UPDATE, new HandleMessageUpdateInTable());
+		
 	}};
 
 	

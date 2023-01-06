@@ -65,6 +65,10 @@ public class TestSelectFromDBProductController {
     				// well...
     				if(arr[4] == null) {
     					arr[4] = "This is what happens when your ";
+    					// added an Update test here:
+    					System.out.println("Calling a second queer");
+    					ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.UPDATE, new Object[] {"product", "subCategory = \""+arr[4]+"\"","productID = \"" + arr[0]+"\""}));
+    					System.out.println("worked though dinit?");
     				}
     				productArrayList.add(new Product(arr[0].toString(), arr[1].toString(), arr[2].toString(), arr[3].toString(), arr[4].toString()));
     			}

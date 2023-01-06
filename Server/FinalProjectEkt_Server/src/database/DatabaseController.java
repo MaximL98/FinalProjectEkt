@@ -141,13 +141,10 @@ public class DatabaseController {
 
 
 	public static boolean executeQuery(String sqlStatement) {
-		con = getConnection();
-		PreparedStatement ps;
+		// we don't need ps or conn here
 		try {
-			ps = con.prepareStatement(sqlStatement);
-
 			//System.out.println("prepared statement : " + ps.toString());
-			return ps.executeUpdate() > 0;
+			return getConnection().prepareStatement(sqlStatement).executeUpdate() > 0;
 		} catch (Exception e) {
 
 			System.out.println("Query execution failed.");

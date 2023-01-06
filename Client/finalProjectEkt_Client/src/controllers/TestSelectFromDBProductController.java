@@ -50,7 +50,7 @@ public class TestSelectFromDBProductController {
     	SCCP output = new SCCP();
     	output.setRequestType(ServerClientRequestTypes.SELECT);
     	// Arguments passed: {tableName, filterColumns, what, filterRows, where, useSpecial, special}
-    	output.setMessageSent(new Object[] {"product", false, null, true, "category = \"Healthy\"", false, null});
+    	output.setMessageSent(new Object[] {"product", false, null, false, "category = \"Healthy\"", false, null});
     	ClientUI.clientController.accept(output);
     	if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.SELECT)) {
     		SCCP answer = ClientController.responseFromServer;

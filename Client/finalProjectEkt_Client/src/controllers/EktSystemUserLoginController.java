@@ -60,6 +60,12 @@ public class EktSystemUserLoginController {
 	 * TODO: write tests for it
 	 * @param event: not used
 	 */
+	/*
+	 * TODO:
+	 * handle not existing user
+	 * 
+	 * 
+	 */
     @FXML
     void getBtnLogin(ActionEvent event) {
     	String userName, password;

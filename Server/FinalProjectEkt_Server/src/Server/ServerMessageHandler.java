@@ -292,6 +292,7 @@ public class ServerMessageHandler {
 	// UPDATE table_name
 	// SET column1 = value1, column2 = value2, ...
 	// WHERE condition; 
+	// {tablename, "amuda1 = \"something\", amuda2 = else", "id=3"};  
 	private static final class HandleMessageUpdateInTable implements IServerSideFunction{
 
 		@Override

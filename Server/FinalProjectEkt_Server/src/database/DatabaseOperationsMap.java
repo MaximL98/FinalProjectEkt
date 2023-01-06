@@ -20,6 +20,31 @@ import logic.OnlineOrder.Type;
 public class DatabaseOperationsMap {
 	private static String SCHEMA_EKRUT = "ektdb";
 
+	// Rotem added general select to save us all:
+	// you WILL use this:
+	// https://blog.ngopal.com.np/2011/10/19/dyanmic-tableview-data-from-database/
+	// to present the resultset directly to a table on the client side, and save us a lot of time!
+	// (this is why I return the ResultSet directly here)
+	protected static final class DatabaseActionSelect implements IDatabaseAction{
+
+		@Override
+		public Object getDatabaseAction(Object[] params) {
+			ResultSet rs = null;
+			if(params.length != 1) 
+				throw new IllegalArgumentException("Invalid argument cound for database SELECT (pass only 1)");
+			if(!(params[0] instanceof String)) 
+				throw new IllegalArgumentException("Can only accept a string to database SELECT (passed " + params.getClass().getName() + ")");
+			
+			// do it
+			String query = (String)params[0];
+			rs = DatabaseController.executeQueryWithResults(query, null);
+			
+			// return result set
+			return rs;
+		}
+		
+	}
+	
 	// this has to be protected (not private) because we need it in DatabaseController
 	 protected static final class DatabaseActionInsert implements IDatabaseAction{
 		private String tableName;
@@ -98,7 +123,7 @@ public class DatabaseOperationsMap {
 
 		
 	 }
-	
+	 
 	 //Return currently logged in user back to client
 	 protected static final class DatabaseActionSelectForLogin implements IDatabaseAction{
 		private String tableName;
@@ -359,8 +384,13 @@ public class DatabaseOperationsMap {
 			this.put(DatabaseOperation.FETCH_PRODUCTS_BY_CATEGORY, new DatabaseActionSelectForFetchProducts());
 			this.put(DatabaseOperation.FETCH_ONLINE_ORDERS, new DatabaseActionSelectForFetchOnlineOrders());
 			this.put(DatabaseOperation.UPDATE_ONLINE_ORDERS, new DatabaseActionUpdateForUpdateOnlineOrders());
-			this.put(DatabaseOperation.SELECT, new DatabaseActionSelectPromotion());
+			this.put(DatabaseOperation.SELECT_PROMOTION, new DatabaseActionSelectPromotion());
 			this.put(DatabaseOperation.INSERT_PROMOTION_NAMES,  new DatabaseActionSelectPromotionNames());
+
+			this.put(DatabaseOperation.SELECT,  new DatabaseActionSelect());
+
+			
+			
 		}};
 
 	

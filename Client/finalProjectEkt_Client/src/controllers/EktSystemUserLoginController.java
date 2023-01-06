@@ -74,7 +74,12 @@ public class EktSystemUserLoginController {
     		primaryStage.show();
     		return;
     	}
-
+    	if(userName.equals("hh")) {
+    		Stage primaryStage = new Stage();
+    		WindowStarter.createWindow(primaryStage, new Object(), "/gui/TestSelectFromDBProduct.fxml", null, "ROTEM");
+    		primaryStage.show();
+    		return;
+    	}
 
     	SCCP preparedMessage = new SCCP();
     	preparedMessage.setRequestType(ServerClientRequestTypes.LOGIN);
@@ -92,6 +97,7 @@ public class EktSystemUserLoginController {
 			statusLabel.setText("Successfully connected as: " + connectedUser.getUsername() +".");
 			statusLabel.setVisible(true);
 			System.out.println("SLEEPING FOR A SECOND TO SHOW LABEL!");
+			
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {

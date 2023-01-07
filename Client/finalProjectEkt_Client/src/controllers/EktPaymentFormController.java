@@ -27,6 +27,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.Order;
+import logic.Product;
 
 public class EktPaymentFormController {
 	
@@ -51,6 +52,13 @@ public class EktPaymentFormController {
     @FXML
     private Text txtProcessing;
 
+    
+    public void initialize() {
+    	
+    }
+    
+    
+    
     @FXML
     void getBtnChargeMyCreditCard(ActionEvent event) {
     	txtProcessing.setText("PROCESSING...");
@@ -88,6 +96,71 @@ public class EktPaymentFormController {
 	}
 	
 	private void processOrder(ActionEvent event) {
+		//insert to database, table: orders
+		SCCP preparedMessage = new SCCP();
+		
+		preparedMessage.setRequestType(ServerClientRequestTypes.ADD);
+		//name of table, add many?, array of objects (to add),  
+		//ArrayList<Object> fillArrayToOrder = new ArrayList<>();
+		
+		Object[] fillOrder = new Object[3];
+		
+		fillOrder[0] = "orders (total_price, total_quantity, machineID, date_received, deliveryTime, typeId, statusId)";
+		fillOrder[1] = false;
+		fillOrder[2] = new Object[] {"(" + 1 + "," + 1 + "," + 1 + ",\"" + "2023-01-07" + "\"" + ",\"" +"2023-01-08 11:00:00" + "\"" + "," + 1 + "," + 1 + ")"};
+		
+		preparedMessage.setMessageSent(fillOrder); 
+		ClientUI.clientController.accept(preparedMessage);
+		
+		//select from database for MAX orderID
+		preparedMessage = new SCCP();
+		preparedMessage.setRequestType(ServerClientRequestTypes.SELECT);
+		
+		preparedMessage.setMessageSent(new Object[] {"orders", true, "MAX(orderID)", false, null, false, null}); 
+		ClientUI.clientController.accept(preparedMessage);
+		
+		SCCP answer = ClientController.responseFromServer;
+		
+		ArrayList<ArrayList<Object>> preProcessedOutput = (ArrayList<ArrayList<Object>>)answer.getMessageSent();
+		
+		String temp = "";
+		
+		for(ArrayList<Object> lst : preProcessedOutput) {
+			// we expect product to have 5 columns, and act accordion-ly
+			Object[] arr = lst.toArray();
+			System.out.println(Arrays.toString(arr));
+			temp = arr[0].toString();
+			System.out.println(temp);
+		}
+		
+		Integer maxOrderId = Integer.parseInt(temp);
+		
+		//insert to database, table: order_contents
+		preparedMessage = new SCCP();
+		
+		preparedMessage.setRequestType(ServerClientRequestTypes.ADD);
+		//name of table, add many?, array of objects (to add),  
+		ArrayList<Object> fillArrayToOrderContents = new ArrayList<>();
+		
+		Object[] fillOrderContents = new Object[3];
+		
+		fillOrderContents[0] = "order_contents";
+		fillOrderContents[1] = true;
+		
+		int i = 3, j = 4;
+		for(ArrayList<?> order: ClientController.userOrders.values()) {
+			while(j < order.size() - 1){
+				fillArrayToOrderContents.add("(" + maxOrderId + ",\"" + 
+				order.get(i) + "\"" + ",\"" + order.get(j) + "\")");
+				i+=2; j+=2;
+			}
+		}
+
+		fillOrderContents[2] = fillArrayToOrderContents.toArray();
+		
+		preparedMessage.setMessageSent(fillOrderContents); 
+		ClientUI.clientController.accept(preparedMessage);
+		ClientController.orderNumber++;
 		long counter = 0;
 		try {
 			Thread.sleep(2000);
@@ -95,6 +168,12 @@ public class EktPaymentFormController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		nextPage(event, "/gui/OrderReceiptPage.fxml", "EKrut Order Summary");
+		
+		EktProductFormController.itemsInCart = 0;
+		ClientController.currentUserCart.keySet().clear();
+		ClientController.getProductByID.keySet().clear();
+		ClientController.cartPrice.keySet().clear();
+		ClientController.userOrders.keySet().clear();
+		nextPage(event, "/gui/OrderReceiptPage.fxml", "EKrut Order Receipt");
 	}
  }

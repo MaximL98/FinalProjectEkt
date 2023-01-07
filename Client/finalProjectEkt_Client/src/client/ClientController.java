@@ -24,7 +24,10 @@ public class ClientController
   ////// Dima 30/12 20:00
   public static HashMap<String,Product> getProductByID = new HashMap<>();
   ////////////////////////////////////////////////////////////////////
-  
+  //Max 7/1-----------------------------------------------------------------------//
+  public static Integer orderNumber = 8; //for now, change later
+  public static HashMap<Integer, ArrayList<String>> userOrders = new HashMap<>();
+  //------------------------------------------------------------------------------//
   public static ArrayList<Product> arrayOfAddedProductsToGridpane = new ArrayList<>();
 
   public static long orderCounter = 5;

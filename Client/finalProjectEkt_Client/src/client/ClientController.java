@@ -1,5 +1,6 @@
 package client;
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +36,10 @@ public class ClientController
   public static HashMap<Product, Double> cartPrice = new HashMap<>();
   public EKTClient client;
   private static Role currentUserRole = null;
+  
+  /////////////Dima 6/1/2023 21:00
+  private static ArrayList<String> machineID_AndReportType = new ArrayList<>();
+  private static ArrayList<LocalDate> requestedOrderDates = new ArrayList<>();
 
 
   public ClientController(String host, int port) throws IOException
@@ -76,6 +81,22 @@ public class ClientController
 	public static Role getCurrentUserRole() {
 		// gets the 'role' variable of this class
 		return currentUserRole;
+	}
+
+	public static ArrayList<String> getMachineID_AndReportType() {
+		return machineID_AndReportType;
+	}
+
+	public static void setMachineID_AndReportType(ArrayList<String> machineID_AndReportType) {
+		ClientController.machineID_AndReportType = machineID_AndReportType;
+	}
+
+	public static ArrayList<LocalDate> getRequestedOrderDates() {
+		return requestedOrderDates;
+	}
+
+	public static void setRequestedOrderDates(ArrayList<LocalDate> requestedOrderDates) {
+		ClientController.requestedOrderDates = requestedOrderDates;
 	}
 
 

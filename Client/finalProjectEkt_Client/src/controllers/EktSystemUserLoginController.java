@@ -90,21 +90,29 @@ public class EktSystemUserLoginController {
     	String userName, password;
     	userName = txtUsername.getText();
     	password = txtPassword.getText();
-    	// ask to connect
     	System.out.println("Test");
+    	
+    	/*
+    	 * TODO
+    	 * Remove this test segment! (when no longer needed)
+    	 */
     	if(userName.equals("q")) {
     		Stage primaryStage = new Stage();
     		WindowStarter.createWindow(primaryStage, new Object(), "/gui/SalesManager.fxml", null, "Sales");
-    		System.out.println("Test");
+    		System.out.println("Moving to SalesManager.fxml for testing.");
     		primaryStage.show();
     		return;
     	}
     	if(userName.equals("hh")) {
     		Stage primaryStage = new Stage();
-    		WindowStarter.createWindow(primaryStage, new Object(), "/gui/TestSelectFromDBProduct.fxml", null, "ROTEM");
+    		WindowStarter.createWindow(primaryStage, new Object(), "/gui/TestSelectFromDBProduct.fxml", null, "Select product from table");
+    		System.out.println("Moving to TestSelectFromDBProduct.fxml for testing.");
     		primaryStage.show();
     		return;
     	}
+    	
+    	
+    	// ask to connect
 
     	SCCP preparedMessage = new SCCP();
     	preparedMessage.setRequestType(ServerClientRequestTypes.LOGIN);

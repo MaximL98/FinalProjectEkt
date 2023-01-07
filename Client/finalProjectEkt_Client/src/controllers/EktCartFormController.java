@@ -202,6 +202,13 @@ public class EktCartFormController {
 				calculateTotalPrice();
 				txtTotalPrice.setText("Cart Total: " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 				txtTotalPrice.setLayoutX(400 - txtTotalPrice.minWidth(0)/2);
+				
+				//Max 7/1
+				if(EktProductFormController.itemsInCart == 0){
+					ClientController.currentUserCart.keySet().clear();
+					ClientController.getProductByID.keySet().clear();
+					ClientController.cartPrice.keySet().clear();
+				}
 
 			});
 			
@@ -235,6 +242,12 @@ public class EktCartFormController {
 					gridpaneIntoVbox.getChildren().remove(addButton);
 					gridpaneIntoVbox.getChildren().remove(removeOneButton);
 					gridpaneIntoVbox.getChildren().remove(productImageView);
+				}
+				//Max 7/1
+				if(EktProductFormController.itemsInCart == 0){
+					ClientController.currentUserCart.keySet().clear();
+					ClientController.getProductByID.keySet().clear();
+					ClientController.cartPrice.keySet().clear();
 				}
 
 			});

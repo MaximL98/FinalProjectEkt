@@ -31,10 +31,12 @@ public class ServerUI extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		ServerPortController serverGuiWindow = new ServerPortController();
 		// override the X button, (possible option: to disable it, like this:
-		//stage.initStyle(StageStyle.UNDECORATED);
+		//
 		// if we want to only allow the X button to stay:
-		// primaryStage.initStyle(StageStyle.UTILITY);
+		// 
 		//)
+//		primaryStage.initStyle(StageStyle.UNDECORATED);
+//		primaryStage.initStyle(StageStyle.UTILITY);
 		primaryStage.setOnCloseRequest(we -> {
 	    	System.out.println("X button has been clicked!");
 

@@ -2,6 +2,7 @@ package Server;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import database.*;
 import logic.Customer;
 import logic.Product;
 import logic.Promotions;
+import logic.Role;
 import logic.SystemUser;
 /**
  * ServerMessageHandler: a wrapper class for a HashMap - map operation types to operations
@@ -209,7 +211,7 @@ public class ServerMessageHandler {
 				if(useSpecialArgs) {
 					// string specialArgs
 					if(!(formattedMessage[6] instanceof String)) {
-						throw new IllegalArgumentException("Invalid value for whatToAdd (String input) in handleMessage.");
+						throw new IllegalArgumentException("Invalid value for specialArgs (String input) in handleMessage.");
 					}
 				}
 				// assign proper values to from the rest of the message
@@ -273,6 +275,8 @@ public class ServerMessageHandler {
 					}
 					result.add(row);
 				}
+				// Rotem added in 7.1
+				res.close();
 				// here, we return the proper message to the client
 				System.out.println("Returning result to client (UNDER TEST)");
 				response.setRequestType(ServerClientRequestTypes.SELECT);
@@ -372,6 +376,180 @@ public class ServerMessageHandler {
 			}
 			// we know that something wrong occurred
 			return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");		
+		}
+		
+	}
+	
+	
+	/**
+	 * TODO: fuck me this is full of cursin
+	 * @author Rotem
+	 *
+	 */
+	// EK LOGIN (Electronic Turk machine login)
+	private static final class HandleMessageLoginEK implements IServerSideFunction{
+		private static final int SYSTEM_USER_TABLE_COL_COUNT = 9;
+
+		// TODO:
+		// we need to modify this queer, we need to ask the DB for an entry with username,
+		// if not found, we return error "no such user",
+		// else, we compare passwords HERE (too bad, too much work 2 queers for one action)
+		// if true, connect,
+		// else, respond "wrong password"
+		@Override
+		public SCCP handleMessage(SCCP loginMessage) {
+			// we are supposed to get this object:
+			// SCCP(
+			// ServerClientRequestTypes EK_LOGIN (or LOGIN_EK), new Object[]{"username", "password"}
+			// )
+			SCCP responseFromServer = new SCCP();
+
+			String username = (String)((Object[])loginMessage.getMessageSent())[0];
+			String password = (String)((Object[])loginMessage.getMessageSent())[1];
+			
+			System.out.println("cock sucking got "+username + ", " + password + "and working onit");
+			Object res = DatabaseController.
+					handleQuery(DatabaseOperation.SELECT, 
+							new Object[]{"SELECT * FROM systemuser WHERE username = '" + username + "' AND password = '" + password+"';"});
+			if(!(res instanceof ResultSet)) {
+				throw new RuntimeException("Improbable error in LoginEK");
+			}
+			ResultSet rs = (ResultSet)res;
+			ResultSetMetaData rsmd;
+				try {
+					rsmd = rs.getMetaData();
+					int columnsNumber = rsmd.getColumnCount();
+					ArrayList<ArrayList<Object>> result = new ArrayList<>();
+					while(rs.next()) {
+						ArrayList<Object> row = new ArrayList<>();
+						for(int i=0;i<columnsNumber;i++) {
+							row.add(rs.getObject(i + 1));
+						}
+						result.add(row);
+					}
+					// close rs
+					rs.close();
+					System.out.println("cock sucking finished working on first queer");
+					// now, we expect result to be of size 1, and contain an array list with 2 columns! (else, we have an invalid login attempt)
+					if(result.size() != 1) {
+						// invalid login
+						responseFromServer.setRequestType(ServerClientRequestTypes.ERROR_MESSAGE);
+						responseFromServer.setMessageSent("Invalid input for login");
+						return responseFromServer;
+					}
+					if(result.get(0).size() != SYSTEM_USER_TABLE_COL_COUNT) {
+						throw new SQLDataException("We expect a table with "+SYSTEM_USER_TABLE_COL_COUNT+" columns for EVERY USER - Illegal database state");
+					}
+					String roleString = (String)result.get(0).get(8);
+					try{
+						Role role = Role.getRoleFromString(roleString);
+						SystemUser su = new SystemUser(
+								(Integer)result.get(0).get(0),
+								result.get(0).get(1).toString(),
+								result.get(0).get(2).toString(),
+								result.get(0).get(3).toString(), 
+								result.get(0).get(4).toString(), 
+								result.get(0).get(5).toString(), 
+								username, 
+								password, 
+								role);
+								
+						if(validEKConfigRole(role)) {
+							System.out.println("cock sucking role is OK so working on 2nd queery");
+							// now, check if it is already logged in (... you know what I want to say)
+							ResultSet rs2 = (ResultSet)DatabaseController.
+									handleQuery(DatabaseOperation.SELECT, 
+											new Object[]{"SELECT username FROM logged_users WHERE username = '" + username + "'"});
+							try {
+								rsmd = rs2.getMetaData();
+								int columnsNumber2 = rsmd.getColumnCount();
+								ArrayList<ArrayList<Object>> result2 = new ArrayList<>();
+								while(rs2.next()) {
+									ArrayList<Object> row2 = new ArrayList<>();
+									for(int i=0;i<columnsNumber2;i++) {
+										row2.add(rs2.getObject(i + 1));
+									}
+									result.add(row2);
+								}
+								// close rs2
+								System.out.println("cock sucking finishged working on 2nd queery");
+								rs2.close();
+								// now, we expect result to be of size 1, and contain an array list with 2 columns! (else, we have an invalid login attempt)
+								if(result2.size() == 0) {
+									System.out.println("query 2 is fine, working on 3");
+									// we don't have user in table, good!
+									// append username to this table and shut up and close
+									boolean tmp = (Boolean)DatabaseController.handleQuery(DatabaseOperation.INSERT, new Object[] {"logged_users", false, new Object[]{"('"+username+"')"}});
+									if(!tmp) {
+										throw new IllegalStateException("Should never happen (crashed adding "+username+" to db, even though we know he wasn't there).");
+									}
+									System.out.println("FINISHED FUCKING WORKIING ON 3, got boolean " + tmp);
+									responseFromServer.setRequestType(ServerClientRequestTypes.ACK);
+									responseFromServer.setMessageSent(su); // pass the SystemUser object of the currently logged in user!
+									return responseFromServer;
+								}
+								else {
+									// user aleady logged in
+									responseFromServer.setRequestType(ServerClientRequestTypes.ERROR_MESSAGE);
+									responseFromServer.setMessageSent("Cannot login twice for user user");
+									return responseFromServer;
+								}
+									
+								
+							}catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+
+						}
+						
+					}catch(IllegalArgumentException ex) {
+						throw new SQLDataException("We expect Role(typeOfUser column) to be of a set of available roles "
+								+ "(role='"+roleString+"' does not exist)");
+					}
+					// 
+
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			if(res instanceof SystemUser) {
+				// we already know now that the user exists and has inserted the correct password
+				return new SCCP(ServerClientRequestTypes.LOGIN, (SystemUser)res);
+			}
+			// we know that something wrong occurred
+			return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");		
+		}
+
+		private boolean validEKConfigRole(Role role) {
+			// TODO Auto-generated method stub
+			/*
+			 * TODO: add checks for each type - SUBSCRIBER, OVER_TIPULI . . .
+			 */
+			return role.equals(Role.CUSTOMER);
+		}
+		
+	}
+
+	
+	/**
+	 * VERY IMPORTANT: INSERT THIS CALL ANYWHERE YOU ACTUALLY LOG OFF, INCLUDING ANY X BUTTONS
+	 * @author Rotem
+	 *
+	 */
+	// simple - get username, remove it from table
+	private static final class HandleMessageLogout implements IServerSideFunction{
+
+		@Override
+		public SCCP handleMessage(SCCP message) {
+			/**
+			 * TODO: move this call to a dedicated "DELETE" handleQuery implementation in DatabaseOperationsMap
+			 */
+			String sqlQuery = "DELETE FROM " +DatabaseController.getSchemaName()+".logged_users WHERE (username = '"+ message.getMessageSent()+"');";
+			Boolean tmp = DatabaseController.executeQuery(sqlQuery);
+			SCCP response = new SCCP(ServerClientRequestTypes.ACK, tmp);
+			return response;
 		}
 		
 	}
@@ -650,7 +828,9 @@ public class ServerMessageHandler {
 		this.put(ServerClientRequestTypes.SELECT, new HandleMessageSelectFromTable());
 		this.put(ServerClientRequestTypes.UPDATE, new HandleMessageUpdateInTable());
 		this.put(ServerClientRequestTypes.LOGIN, new HandleMessageLogin());
-		
+		this.put(ServerClientRequestTypes.EK_LOGIN, new HandleMessageLoginEK());
+		this.put(ServerClientRequestTypes.LOGOUT, new HandleMessageLogout());
+
 		
 		this.put(ServerClientRequestTypes.FETCH_PRODUCTS_BY_CATEGORY, new HandleMessageFetchProducts());
 		this.put(ServerClientRequestTypes.FETCH_ONLINE_ORDERS, new HandleMessageFetchOnlineOrders());

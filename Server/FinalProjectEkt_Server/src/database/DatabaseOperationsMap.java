@@ -1,5 +1,6 @@
 package database;
 
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -25,6 +26,10 @@ public class DatabaseOperationsMap {
 	// https://blog.ngopal.com.np/2011/10/19/dyanmic-tableview-data-from-database/
 	// to present the resultset directly to a table on the client side, and save us a lot of time!
 	// (this is why I return the ResultSet directly here)
+	/*
+	 * Damn, I just saw this comment again - yeah you can't do this, ResultSet isn't serializable.
+	 * So, I have no good reason to return it, except snakes!
+	 */
 	protected static final class DatabaseActionSelect implements IDatabaseAction{
 
 		@Override

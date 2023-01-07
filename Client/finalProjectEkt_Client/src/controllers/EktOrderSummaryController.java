@@ -131,11 +131,7 @@ public class EktOrderSummaryController {
 	void getBtnApprove(ActionEvent event) {
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktPaymentForm.fxml", null, "payment");
-		// this was done so that we can use this button
-		primaryStage.setOnCloseRequest(we -> {
-			System.out.println("Pressed the X button.");
-			System.exit(0);
-		});
+
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 
@@ -147,11 +143,7 @@ public class EktOrderSummaryController {
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktCartForm.fxml", null, "Ekt Cart");
-		// this was done so that we can use this button
-		primaryStage.setOnCloseRequest(we -> {
-			System.out.println("Pressed the X button.");
-			System.exit(0);
-		});
+
 		primaryStage.show();
 	}
 
@@ -175,11 +167,7 @@ public class EktOrderSummaryController {
 	
 			ClientController.currentUserCart.keySet().clear();;
 	
-			primaryStage.setOnCloseRequest(we -> 
-				{
-					System.out.println("Pressed the X button.");
-					System.exit(0);
-				});
+
 
 			primaryStage.show();
 			//////////////////////

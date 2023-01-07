@@ -5,12 +5,15 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Date;
 
+import client.ClientController;
+import common.WindowStarter;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -134,8 +137,13 @@ public class EktReportSelectFormController extends Application{
 	}
 	
 	public void getBtnLogout(ActionEvent event) throws Exception {
-		
-		//Implelent logout
-	}
+		ClientController.sendLogoutRequest();
+	    	// move to new window
+	    	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			Stage primaryStage = new Stage();
+			WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
+
+			primaryStage.show();	
+		}
 	
 }

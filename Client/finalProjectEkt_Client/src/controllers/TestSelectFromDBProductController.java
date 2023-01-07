@@ -52,7 +52,7 @@ public class TestSelectFromDBProductController {
     	// Arguments passed: {tableName, filterColumns, what, filterRows, where, useSpecial, special}
     	output.setMessageSent(new Object[] {"product", false, null, false, "category = \"Healthy\"", false, null});
     	ClientUI.clientController.accept(output);
-    	if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.SELECT)) {
+    	if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
     		SCCP answer = ClientController.responseFromServer;
     		ArrayList<Product> productArrayList = new ArrayList<>();
     		if(answer.getMessageSent() instanceof ArrayList) {

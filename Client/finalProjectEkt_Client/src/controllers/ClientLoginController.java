@@ -42,9 +42,7 @@ public class ClientLoginController {
 	void initialize() {
 		cmbTezura.getItems().add("EK");
 		cmbTezura.getItems().add("OL");
-		cmbTezura.getItems().add("אמא של סריוגה");
 		cmbTezura.setValue("OL");
-		
 	}
 	
 	//start primary stage
@@ -87,12 +85,7 @@ public class ClientLoginController {
 		
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
-		// this is so that we can use this button
-		primaryStage.setOnCloseRequest(we -> 
-		{
-			System.out.println("Pressed the X button."); 
-			System.exit(0);
-		});
+
 		
 		switch(ClientController.getLaunchConfig()) {
 		case OL:

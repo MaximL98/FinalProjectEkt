@@ -99,12 +99,7 @@ public class EktCatalogFormController implements Serializable {
   			ClientController.CurrentProductCategory.add(0 ,"HEALTHY");
   			//ClientController.CurrentProductCategory = changeSt;
   			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null, "Healthy");
-  			primaryStage.setOnCloseRequest(we -> 
-  			{
-  				System.out.println("Pressed the X button."); 
-  				System.exit(0);
-  			}
-  			);
+
   			
   			primaryStage.show();  			
   		}
@@ -182,16 +177,14 @@ public class EktCatalogFormController implements Serializable {
 
   	    @FXML
   	    void getBtnLogout(ActionEvent event) {
+  	    	// actually log the user out
+  	    	ClientController.sendLogoutRequest();
+  	    	
+  	    	// move to new window
   	    	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
   			Stage primaryStage = new Stage();
   			WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
-  			// this was done so that we can use this button
-  			primaryStage.setOnCloseRequest(we -> 
-  			{
-  				System.out.println("Pressed the X button."); 
-  				System.exit(0);
-  			}
-  			);
+
   			primaryStage.show();
   	   }
   	   
@@ -200,13 +193,7 @@ public class EktCatalogFormController implements Serializable {
   		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
 			WindowStarter.createWindow(primaryStage, this, "/gui/EktMyOrderFrom.fxml", null, "Ekt My Orders");
-			// this was done so that we can use this button
-			primaryStage.setOnCloseRequest(we -> 
-			{
-				System.out.println("Pressed the X button."); 
-				System.exit(0);
-			}
-			);
+
 			primaryStage.show();
       }
   	  

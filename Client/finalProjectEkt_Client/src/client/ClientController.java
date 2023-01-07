@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import common.SCCP;
+import common.ServerClientRequestTypes;
 import logic.Product;
 import logic.Role;
 import logic.SystemUser;
@@ -85,6 +86,14 @@ public class ClientController
 
 	public static void setLaunchConfig(Configuration launchConfig) {
 		ClientController.launchConfig = launchConfig;
+	}
+
+	public static void sendLogoutRequest() {
+		System.out.println("Logout operation started.");
+		if( getCurrentSystemUser() != null) {
+			System.out.println("Processing a log-out request from client (user="+getCurrentSystemUser().getUsername()+").");
+			ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.LOGOUT, getCurrentSystemUser().getUsername()));
+		}
 	}
 
 

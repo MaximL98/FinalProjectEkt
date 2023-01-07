@@ -11,6 +11,9 @@ import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -34,9 +37,23 @@ public class EktSystemUserLoginController {
 	@FXML 
 	Label statusLabel;
 	
-	// this does not fucking work, naturally
+	
+	/**
+	 * This event grabs the enter key when we are on the password field.
+	 * @param ae
+	 */
+	@FXML
+	public void onEnter(ActionEvent ae){
+	   getBtnLogin(ae);
+	}
+	
+	
 	@FXML
 	private void initialize() {
+		
+		
+		// attempt to have the label re-written every few seconds. (failure)
+		/*
 	    ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
 
 	    Runnable task = new Runnable() {
@@ -51,8 +68,8 @@ public class EktSystemUserLoginController {
 	    };
 	    statusLabel.setVisible(true);
 	    statusLabel.setText("Standing by for login");
-	    exec.scheduleAtFixedRate(task, 1, 1, TimeUnit.SECONDS);
-
+	    exec.scheduleAtFixedRate(task, 1, Integer.MAX_VALUE, TimeUnit.SECONDS);
+		*/
 	}
 	
 	/**
@@ -118,13 +135,7 @@ public class EktSystemUserLoginController {
 			((Node)event.getSource()).getScene().getWindow().hide();
 			// prepare the new stage:
 			Stage primaryStage = new Stage();
-			// this was done so that we can use this button
-			primaryStage.setOnCloseRequest(we -> 
-			{
-				System.out.println("Pressed the X button."); 
-				System.exit(0);
-			}
-			);
+
 			// switch based on the current user's role
 			switch(connectedUser.getRole()) {
 			case CUSTOMER:

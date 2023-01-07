@@ -47,7 +47,9 @@ public class EktSystemUserLoginController {
 	   getBtnLogin(ae);
 	}
 	
-	
+	/*
+	 * This method does nothing
+	 */
 	@FXML
 	private void initialize() {
 		

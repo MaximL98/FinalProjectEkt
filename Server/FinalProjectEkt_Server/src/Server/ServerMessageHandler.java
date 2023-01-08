@@ -388,7 +388,7 @@ public class ServerMessageHandler {
 	// EK LOGIN (Electronic Turk machine login)
 	private static final class HandleMessageLoginEK implements IServerSideFunction{
 		private static final int SYSTEM_USER_TABLE_COL_COUNT = 9;
-
+		List<Role> VALID_ROLES = Arrays.asList(new Role[] {Role.SUBSCRIBER, Role.CUSTOMER, Role.LOGISTICS_EMPLOYEE});
 		// TODO:
 		// we need to modify this queer, we need to ask the DB for an entry with username,
 		// if not found, we return error "no such user",
@@ -454,7 +454,7 @@ public class ServerMessageHandler {
 								role);
 								
 						if(validEKConfigRole(role)) {
-							System.out.println("cock sucking role is OK so working on 2nd queery");
+							System.out.println("Role " + role + " is valid, continuing");
 							// now, check if it is already logged in (... you know what I want to say)
 							ResultSet rs2 = (ResultSet)DatabaseController.
 									handleQuery(DatabaseOperation.SELECT, 
@@ -471,18 +471,18 @@ public class ServerMessageHandler {
 									result.add(row2);
 								}
 								// close rs2
-								System.out.println("cock sucking finishged working on 2nd queery");
+								System.out.println("Wrote second query's result: " + result);
 								rs2.close();
 								// now, we expect result to be of size 1, and contain an array list with 2 columns! (else, we have an invalid login attempt)
 								if(result2.size() == 0) {
-									System.out.println("query 2 is fine, working on 3");
+									System.out.println("Result for second query is empty (which is valid) - continuing");
 									// we don't have user in table, good!
 									// append username to this table and shut up and close
 									boolean tmp = (Boolean)DatabaseController.handleQuery(DatabaseOperation.INSERT, new Object[] {"logged_users", false, new Object[]{"('"+username+"')"}});
 									if(!tmp) {
 										throw new IllegalStateException("Should never happen (crashed adding "+username+" to db, even though we know he wasn't there).");
 									}
-									System.out.println("FINISHED FUCKING WORKIING ON 3, got boolean " + tmp);
+									System.out.println("Tried to add user to logged_users, was successful? (1 or 0): " + tmp);
 									responseFromServer.setRequestType(ServerClientRequestTypes.ACK);
 									responseFromServer.setMessageSent(su); // pass the SystemUser object of the currently logged in user!
 									return responseFromServer;
@@ -499,38 +499,32 @@ public class ServerMessageHandler {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-
 						}
 						
 					}catch(IllegalArgumentException ex) {
 						throw new SQLDataException("We expect Role(typeOfUser column) to be of a set of available roles "
 								+ "(role='"+roleString+"' does not exist)");
 					}
-					// 
-
-					
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			if(res instanceof SystemUser) {
-				// we already know now that the user exists and has inserted the correct password
-				return new SCCP(ServerClientRequestTypes.LOGIN, (SystemUser)res);
-			}
 			// we know that something wrong occurred
 			return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");		
 		}
 
+		/**
+		 * Check if a given Role is valid for the EK configuration
+		 * @param role
+		 * @return
+		 */
 		private boolean validEKConfigRole(Role role) {
-			// TODO Auto-generated method stub
-			/*
-			 * TODO: add checks for each type - SUBSCRIBER, OVER_TIPULI . . .
-			 */
-			return role.equals(Role.CUSTOMER);
+			return VALID_ROLES.contains(role);
 		}
 		
 	}
 
+	
 	
 	/**
 	 * VERY IMPORTANT: INSERT THIS CALL ANYWHERE YOU ACTUALLY LOG OFF, INCLUDING ANY X BUTTONS
@@ -548,6 +542,29 @@ public class ServerMessageHandler {
 			Boolean tmp = DatabaseController.executeQuery(sqlQuery);
 			SCCP response = new SCCP(ServerClientRequestTypes.ACK, tmp);
 			return response;
+		}
+		
+	}
+	
+	/*
+	 * This class returns List<String> for all machine names in the database
+	 */
+	private static final class HandleMessageGetMachineNames implements IServerSideFunction{
+
+		@Override
+		public SCCP handleMessage(SCCP message) {
+			
+			@SuppressWarnings("unchecked")
+			ArrayList<ArrayList<Object>> result = (ArrayList<ArrayList<Object>>)DatabaseController.
+					handleQuery(DatabaseOperation.GENERIC_SELECT, new Object[]{"SELECT machineName FROM machine;"});
+			List<String> preparedList = new ArrayList<>();
+			for(List<Object> row : result) {
+				if(row.size() != 1) {
+					throw new IllegalStateException("Every machine must have a name!");
+				}
+				preparedList.add(row.get(0).toString());
+			}
+			return new SCCP(ServerClientRequestTypes.ACK, preparedList);
 		}
 		
 	}
@@ -828,6 +845,7 @@ public class ServerMessageHandler {
 		this.put(ServerClientRequestTypes.LOGIN, new HandleMessageLogin());
 		this.put(ServerClientRequestTypes.EK_LOGIN, new HandleMessageLoginEK());
 		this.put(ServerClientRequestTypes.LOGOUT, new HandleMessageLogout());
+		this.put(ServerClientRequestTypes.REQUEST_ALL_MACHINES, new HandleMessageGetMachineNames());
 
 		
 		this.put(ServerClientRequestTypes.FETCH_PRODUCTS_BY_CATEGORY, new HandleMessageFetchProducts());

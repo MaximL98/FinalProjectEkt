@@ -33,6 +33,7 @@ public class _EKConfigurationLoginFrameController {
     @FXML
     void getBtnLoginEK(ActionEvent event) {
     	// verify that the user type is either customer or tipuli worker (kita tifulit yantu)
+		statusLabel.setVisible(false);
     	String userName, password, nextScreenPath = null;
     	userName = txtUsername.getText();
     	password = pwdField.getText();
@@ -55,6 +56,9 @@ public class _EKConfigurationLoginFrameController {
 			case CUSTOMER:
 				nextScreenPath = "/gui/_EKConfigurationCustomerHomeArea.fxml";
 				break;
+			case LOGISTICS_EMPLOYEE:
+				nextScreenPath = "/gui/_EKConfigurationLogisticsEmployeeFrame.fxml";
+				break;
 				
 				/*
 				 * TODO:
@@ -63,6 +67,7 @@ public class _EKConfigurationLoginFrameController {
 				 */
 			default:
 				statusLabel.setText("EK Configuration only supports customers and machine maintenance employees.");
+				statusLabel.setVisible(true);
 				return;
 				
 			}

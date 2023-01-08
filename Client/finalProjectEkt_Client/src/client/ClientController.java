@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import common.SCCP;
+import common.ServerClientRequestTypes;
 import logic.Product;
 import logic.Role;
 import logic.SystemUser;
@@ -17,6 +18,9 @@ public class ClientController
   public static int DEFAULT_PORT ;
   public static ArrayList<ConnectionToClient> clients = new ArrayList<ConnectionToClient>();
   public static SCCP responseFromServer = new SCCP(); 
+  private static Configuration launchConfig = null;
+  
+  // Controller specific fields - TODO: move these to dedicated controllers, and use setters to these controllers here (I will show example )
   private static SystemUser connectedSystemUser = null;
   public static ArrayList<String> CurrentProductCategory = new ArrayList<>();
   //Map that holds the current cart contents of the user
@@ -31,7 +35,8 @@ public class ClientController
   //------------------------------------------------------------------------------//
   public static ArrayList<Product> arrayOfAddedProductsToGridpane = new ArrayList<>();
 
-  public static long orderCounter = 5;
+  public static long orderCounter = 5;   // TODO: remove this
+  
   public static Double orderTotalPrice = new Double(0.0);
   public static HashMap<Product, Double> cartPrice = new HashMap<>();
   public EKTClient client;
@@ -81,6 +86,22 @@ public class ClientController
 	public static Role getCurrentUserRole() {
 		// gets the 'role' variable of this class
 		return currentUserRole;
+	}
+
+	public static Configuration getLaunchConfig() {
+		return launchConfig;
+	}
+
+	public static void setLaunchConfig(Configuration launchConfig) {
+		ClientController.launchConfig = launchConfig;
+	}
+
+	public static void sendLogoutRequest() {
+		System.out.println("Logout operation started.");
+		if( getCurrentSystemUser() != null) {
+			System.out.println("Processing a log-out request from client (user="+getCurrentSystemUser().getUsername()+").");
+			ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.LOGOUT, getCurrentSystemUser().getUsername()));
+		}
 	}
 
 	public static ArrayList<String> getMachineID_AndReportType() {

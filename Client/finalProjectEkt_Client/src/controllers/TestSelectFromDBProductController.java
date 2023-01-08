@@ -50,9 +50,9 @@ public class TestSelectFromDBProductController {
     	SCCP output = new SCCP();
     	output.setRequestType(ServerClientRequestTypes.SELECT);
     	// Arguments passed: {tableName, filterColumns, what, filterRows, where, useSpecial, special}
-    	output.setMessageSent(new Object[] {"product", false, null, false, null, false, null});
+    	output.setMessageSent(new Object[] {"product", false, null, false, "category = \"Healthy\"", false, null});
     	ClientUI.clientController.accept(output);
-    	if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.SELECT)) {
+    	if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
     		SCCP answer = ClientController.responseFromServer;
     		ArrayList<Product> productArrayList = new ArrayList<>();
     		if(answer.getMessageSent() instanceof ArrayList) {
@@ -70,6 +70,7 @@ public class TestSelectFromDBProductController {
     					ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.UPDATE, new Object[] {"product", "subCategory = \""+arr[4]+"\"","productID = \"" + arr[0]+"\""}));
     					System.out.println("worked though dinit?");
     				}
+    				// now look here,  ni - it's important - if you ain't (only) using strings, remove the toString calls here!!!!!!
     				productArrayList.add(new Product(arr[0].toString(), arr[1].toString(), arr[2].toString(), arr[3].toString(), arr[4].toString()));
     			}
 				tblProducts.getItems().setAll(productArrayList);

@@ -1,8 +1,10 @@
 package database;
 
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import common.ServerClientRequestTypes;
 import logic.OnlineOrder;
 import logic.Product;
 import logic.Promotions;
@@ -20,11 +23,10 @@ import logic.OnlineOrder.Type;
 public class DatabaseOperationsMap {
 	private static String SCHEMA_EKRUT = "ektdb";
 
-	// Rotem added general select to save us all:
-	// you WILL use this:
-	// https://blog.ngopal.com.np/2011/10/19/dyanmic-tableview-data-from-database/
-	// to present the resultset directly to a table on the client side, and save us a lot of time!
-	// (this is why I return the ResultSet directly here)
+
+	// I recommend not using this one - it returns ResultSet to server so you have to parse it
+	// use GenericSelect instead (call the map with GENERIC_SELECT), and you will get 
+	// an array list of rows from the DB.
 	protected static final class DatabaseActionSelect implements IDatabaseAction{
 
 		@Override
@@ -44,6 +46,76 @@ public class DatabaseOperationsMap {
 		}
 		
 	}
+	
+	/*
+	 * This one returns TO THE SERVER the following object:
+	 * ArrayList<ArrayList<Object>>
+	 * Where the outer ArrayList contains each row received from the DB, and the inner contains the chosen columns for each row
+	 * TESTED! (works)
+	 */
+	protected static final class DatabaseActionGenericSelect implements IDatabaseAction{
+
+		@Override
+		public Object getDatabaseAction(Object[] params) {
+			ResultSet rs = null;
+			if(params.length != 1) 
+				throw new IllegalArgumentException("Invalid argument cound for database GENERIC SELECT (pass only 1)");
+			if(!(params[0] instanceof String)) 
+				throw new IllegalArgumentException("Can only accept a string to database GENERIC SELECT (passed " + params.getClass().getName() + ")");
+			
+			// do it
+			String query = (String)params[0];
+			rs = DatabaseController.executeQueryWithResults(query, null);
+			ResultSetMetaData rsmd;
+			try {
+				rsmd = rs.getMetaData();
+				int columnsNumber = rsmd.getColumnCount();
+				ArrayList<ArrayList<Object>> result = new ArrayList<>();
+				while(rs.next()) {
+					ArrayList<Object> row = new ArrayList<>();
+					for(int i=0;i<columnsNumber;i++) {
+						row.add(rs.getObject(i + 1));
+						
+					}
+					result.add(row);
+				}
+				rs.close();
+				// here, we return to the server
+				return result;
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// return result set
+			return null;
+		}
+		
+	}
+
+	/*
+	 * Generic update query: "update table tablename set setters where condition;"
+	 */
+	protected static final class DatabaseActionGenericUpdate implements IDatabaseAction{
+
+		@Override
+		public Object getDatabaseAction(Object[] params) {
+			// get the values:
+			String tableName, setters, conditions;
+			tableName = (String)params[0];
+			setters = (String)params[1];
+			conditions = (String)params[2];
+			
+			StringBuilder sqlQuery = new StringBuilder("UPDATE ");
+			sqlQuery.append(DatabaseController.getSchemaName()).append(".").append(tableName).append(" SET ");
+			sqlQuery.append(setters).append(" WHERE ");
+			sqlQuery.append(conditions).append(";");
+			System.out.println("Sending query to database=" + sqlQuery.toString());
+			return DatabaseController.executeQuery(sqlQuery.toString());
+		}
+		
+	}
+	
 	
 	// this has to be protected (not private) because we need it in DatabaseController
 	 protected static final class DatabaseActionInsert implements IDatabaseAction{
@@ -143,7 +215,6 @@ public class DatabaseOperationsMap {
 			String sqlQuery ="SELECT * FROM " +DatabaseOperationsMap.SCHEMA_EKRUT+"."+tableName+
 			 " WHERE username = \"" + user + "\" AND password = \"" + pass + "\";";
 			ResultSet queryResult  = DatabaseController.executeQueryWithResults(sqlQuery, null);
-			Boolean flag = false;
 			SystemUser connectedUser = null;
 			try {
 				queryResult.next();
@@ -167,7 +238,6 @@ public class DatabaseOperationsMap {
 					  String retPass = queryResult.getString(8);
 					  
 					  String role = queryResult.getString(9);
-					  flag = true;
 					  connectedUser = new SystemUser(idNew, fname, lname, fone, email, cc, retUser, retPass, role.toLowerCase());
 				  }
 				  queryResult.close();
@@ -179,7 +249,6 @@ public class DatabaseOperationsMap {
 			return connectedUser; 
 			
 		}
-
 
 	}
 	 
@@ -388,6 +457,10 @@ public class DatabaseOperationsMap {
 			this.put(DatabaseOperation.INSERT_PROMOTION_NAMES,  new DatabaseActionSelectPromotionNames());
 
 			this.put(DatabaseOperation.SELECT,  new DatabaseActionSelect());
+			this.put(DatabaseOperation.UPDATE,  new DatabaseActionGenericUpdate());
+
+			// TODO: test this
+			this.put(DatabaseOperation.GENERIC_SELECT,  new DatabaseActionGenericSelect());
 
 			
 			

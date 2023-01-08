@@ -1,5 +1,6 @@
 package controllers;
 
+import client.ClientController;
 import common.WindowStarter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,19 +27,17 @@ public class EktRegionalManagerHomePageController {
 		
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktReportSelectForm.fxml", null, "Reviews");
-		// this was done so that we can use this button
-		primaryStage.setOnCloseRequest(we -> 
-		{
-			System.out.println("Pressed the X button."); 
-			System.exit(0);
-		}
-		);
+
 		primaryStage.show();
 		((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //closing primary window
 	}
 
 	@FXML public void getLogoutBtn(ActionEvent event) {
-		throw new UnsupportedOperationException("Logout is bad");
-		
-	}
+		ClientController.sendLogoutRequest();
+	    	// move to new window
+	    	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			Stage primaryStage = new Stage();
+			WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
+
+			primaryStage.show();	}
 }

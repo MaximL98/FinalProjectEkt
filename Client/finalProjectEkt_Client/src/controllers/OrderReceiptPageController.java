@@ -41,31 +41,23 @@ public class OrderReceiptPageController {
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktCatalogForm.fxml",
 				null, "Ekt Catalog");
-		primaryStage.setOnCloseRequest(we -> {
-			System.out.println("Pressed the X button.");
-			System.exit(0);
-		});
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // hiding primary window
 	}
 
 	@FXML
 	void getBtnLogout(ActionEvent event) {
+		// log the user out:
+		ClientController.sendLogoutRequest();
+		
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktSystemUserLoginForm.fxml",
 				null, "Login");
-		primaryStage.setOnCloseRequest(we -> {
-			System.out.println("Pressed the X button.");
-			System.exit(0);
-		});
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // hiding primary window
 	}
 
-	
 	private void SendEmail(String CustomerEmail) {
-
-
 	        final String username = EktEmailUsername;
 	        final String password = EktEmailPassword;
 

@@ -292,11 +292,6 @@ public class EktCartFormController {
 		//category is located in a ArrayList
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktProductForm.fxml", null, ClientController.CurrentProductCategory.get(0));
 		vboxCart.getChildren().clear();
-		primaryStage.setOnCloseRequest(we -> 
-			{
-				System.out.println("Pressed the X button."); 
-				System.exit(0);
-			});
 		primaryStage.show();
 		
 		
@@ -328,12 +323,6 @@ public class EktCartFormController {
 			ClientController.currentUserCart.keySet().clear();
 			ClientController.getProductByID.keySet().clear();
 			ClientController.cartPrice.keySet().clear();
-
-			primaryStage.setOnCloseRequest(we -> 
-				{
-					System.out.println("Pressed the X button."); 
-					System.exit(0);
-				});
 			primaryStage.show();
 			//////////////////////
 			((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
@@ -359,12 +348,6 @@ public class EktCartFormController {
     	
     			ClientController.currentUserCart.keySet().clear();
     			
-    			
-    			primaryStage.setOnCloseRequest(we -> 
-    				{
-    					System.out.println("Pressed the X button."); 
-    					System.exit(0);
-    				});
     			primaryStage.show();
     			//////////////////////
     			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
@@ -378,11 +361,7 @@ public class EktCartFormController {
 			//category is located in a ArrayList
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktOrderSummary.fxml", null, "Order Summary");
 			vboxCart.getChildren().clear();
-			primaryStage.setOnCloseRequest(we -> 
-				{
-					System.out.println("Pressed the X button."); 
-					System.exit(0);
-				});
+
 			primaryStage.show();
 		}
 

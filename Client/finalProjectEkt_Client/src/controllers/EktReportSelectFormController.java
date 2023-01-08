@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 import client.ClientController;
+
 import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
@@ -224,6 +225,9 @@ public class EktReportSelectFormController extends Application{
 		primaryStage.show();
 	}
 	
+	/*
+	 * Rotem: merge master into rotem - I chose Dima version here, I used logout function but this is just a back-button.
+	 */
 	public void getBtnLogout(ActionEvent event) throws Exception {
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page");
@@ -234,7 +238,6 @@ public class EktReportSelectFormController extends Application{
 		primaryStage.show();  
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 		
-		//Implelent logout
 	}
 
 	

@@ -341,13 +341,7 @@ public class EktProductFormController {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog");
-		// this was done so that we can use this button
-		primaryStage.setOnCloseRequest(we -> 
-		{
-			System.out.println("Pressed the X button."); 
-			System.exit(0);
-		}
-		);
+
 		primaryStage.show();
 	}
 	
@@ -356,11 +350,7 @@ public class EktProductFormController {
         ((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
         Stage primaryStage = new Stage();
         WindowStarter.createWindow(primaryStage, this, "/gui/EktCartForm.fxml", null, "Ekt Cart");
-        primaryStage.setOnCloseRequest(we -> 
-            {
-            System.out.println("Pressed the X button."); 
-            System.exit(0);
-            });
+
 
         primaryStage.show();
     }

@@ -21,5 +21,5 @@ public enum Role {
 	public String toString() {
 		return this.name().toLowerCase();
 	}
-	
+
 }

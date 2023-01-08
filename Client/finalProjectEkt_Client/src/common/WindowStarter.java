@@ -2,6 +2,8 @@ package common;
 
 import java.io.IOException;
 
+import client.ClientController;
+import client.ClientUI;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,10 +30,26 @@ public class WindowStarter {
 			primaryStage.setTitle(windowTitle);
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
+			
+			primaryStage.setOnCloseRequest(we -> 
+			{
+				System.out.println("Pressed the X button."); 
+				if(ClientController.getCurrentSystemUser() != null) {
+					System.out.println("Logging off user " +  ClientController.getCurrentSystemUser().getUsername());
+					ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.LOGOUT, ClientController.getCurrentSystemUser().getUsername()));
+				}
+				System.out.println("Shutting down client."); 
+				System.exit(0);
+			}
+			);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		   
 	}
+	
+	
+	
 }

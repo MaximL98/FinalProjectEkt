@@ -539,7 +539,7 @@ public class ServerMessageHandler {
 			 * TODO: move this call to a dedicated "DELETE" handleQuery implementation in DatabaseOperationsMap
 			 */
 			String sqlQuery = "DELETE FROM " +DatabaseController.getSchemaName()+".logged_users WHERE (username = '"+ message.getMessageSent()+"');";
-			Boolean tmp = DatabaseController.executeQuery(sqlQuery);
+			Boolean tmp = DatabaseSimpleOperation.executeQuery(sqlQuery);
 			SCCP response = new SCCP(ServerClientRequestTypes.ACK, tmp);
 			return response;
 		}

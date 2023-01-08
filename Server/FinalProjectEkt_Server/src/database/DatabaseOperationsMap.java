@@ -39,7 +39,7 @@ public class DatabaseOperationsMap {
 			
 			// do it
 			String query = (String)params[0];
-			rs = DatabaseController.executeQueryWithResults(query, null);
+			rs = DatabaseSimpleOperation.executeQueryWithResults(query, null);
 			
 			// return result set
 			return rs;
@@ -65,7 +65,7 @@ public class DatabaseOperationsMap {
 			
 			// do it
 			String query = (String)params[0];
-			rs = DatabaseController.executeQueryWithResults(query, null);
+			rs = DatabaseSimpleOperation.executeQueryWithResults(query, null);
 			ResultSetMetaData rsmd;
 			try {
 				rsmd = rs.getMetaData();
@@ -111,7 +111,7 @@ public class DatabaseOperationsMap {
 			sqlQuery.append(setters).append(" WHERE ");
 			sqlQuery.append(conditions).append(";");
 			System.out.println("Sending query to database=" + sqlQuery.toString());
-			return DatabaseController.executeQuery(sqlQuery.toString());
+			return DatabaseSimpleOperation.executeQuery(sqlQuery.toString());
 		}
 		
 	}
@@ -146,7 +146,7 @@ public class DatabaseOperationsMap {
 				String currentAddToTable = (new StringBuilder(addToTable)).append(o.toString()).append(";").toString();
 				System.out.println("Writing to SQL:");
 				System.out.println(currentAddToTable);
-				if(!DatabaseController.executeQuery(currentAddToTable)) {
+				if(!DatabaseSimpleOperation.executeQuery(currentAddToTable)) {
 					Boolean tmpAddMany = getAddMany();
 					cleanUp(); // careful with this line
 					if(tmpAddMany) {
@@ -214,7 +214,7 @@ public class DatabaseOperationsMap {
 
 			String sqlQuery ="SELECT * FROM " +DatabaseOperationsMap.SCHEMA_EKRUT+"."+tableName+
 			 " WHERE username = \"" + user + "\" AND password = \"" + pass + "\";";
-			ResultSet queryResult  = DatabaseController.executeQueryWithResults(sqlQuery, null);
+			ResultSet queryResult  = DatabaseSimpleOperation.executeQueryWithResults(sqlQuery, null);
 			SystemUser connectedUser = null;
 			try {
 				queryResult.next();
@@ -272,7 +272,7 @@ public class DatabaseOperationsMap {
 	        }
 	
 	        //Uses simpler version of execute query with one input string variable (the requested sql query)
-	        ResultSet fetchProductsResultSet = DatabaseController.executeQueryWithResults(sqlQuery, null);
+	        ResultSet fetchProductsResultSet = DatabaseSimpleOperation.executeQueryWithResults(sqlQuery, null);
 	        
 	        ArrayList<Product> arrayOfProducts = new ArrayList<>();
 	        try {
@@ -323,7 +323,7 @@ public class DatabaseOperationsMap {
 							+ order.getStatus().name() + "\"), " + "deliveryTime = '"
 							+ Timestamp.valueOf(order.getDeliveryTime()).toString() + "' " + "WHERE orderId = \""
 							+ order.getOrderID() + "\";";
-					boolean success = DatabaseController.executeQuery(sqlQuery);
+					boolean success = DatabaseSimpleOperation.executeQuery(sqlQuery);
 					if (!success)
 						return success;
 				}
@@ -360,7 +360,7 @@ public class DatabaseOperationsMap {
 
 				// Uses simpler version of execute query with one input string variable (the
 				// requested sql query)
-				ResultSet fetchOnlineOrdersResultSet = DatabaseController
+				ResultSet fetchOnlineOrdersResultSet = DatabaseSimpleOperation
 						.executeQueryWithResults(sqlQuery, null);
 
 				ArrayList<OnlineOrder> orders = new ArrayList<>();
@@ -396,7 +396,7 @@ public class DatabaseOperationsMap {
 			@Override
 			public Object getDatabaseAction(Object[] params) {
 				String promotionNam = (String) params[0];
-				ResultSet fetchPromotionNames = DatabaseController.executeQueryWithResults(promotionNam, null);
+				ResultSet fetchPromotionNames = DatabaseSimpleOperation.executeQueryWithResults(promotionNam, null);
 				return fetchPromotionNames;
 			}
 		}
@@ -408,7 +408,7 @@ public class DatabaseOperationsMap {
 			public Object getDatabaseAction(Object[] params) {
 				String promotionNam = (String) params[0];
 				//String sqlQuery = "SELECT * FROM promotions WHERE promotionName = '\" + promotionNam + \"';";
-				ResultSet fetchPromotionNames = DatabaseController.executeQueryWithResults(promotionNam, null);
+				ResultSet fetchPromotionNames = DatabaseSimpleOperation.executeQueryWithResults(promotionNam, null);
 				ArrayList<Promotions> arrayOfPromotions = new ArrayList<>();
 				try {
 					while (fetchPromotionNames.next()) {

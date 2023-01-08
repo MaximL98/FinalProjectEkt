@@ -19,7 +19,18 @@ import client.ClientController;
 
 public class EktCatalogFormController implements Serializable {
 	/**
+	 * Advanced TODO after we're done: add support for variable categories.
+	 * Implementation idea:
+	 * Remove the buttons from fxml, leave just a pane with an HBox or something, and in initialize() do:
+	 * query all categories from a dedicated table, run in a loop:
+	 * i = 1
+	 * for category in categories:
+	 * 	insertToHBoxInPane(category)
+	 * 	if (i++) % 5 == 0
+	 * 		createNewHBox()
+	 * 		moveToNextRow()
 	 * 
+	 * Something like that.
 	 */
 	private static final long serialVersionUID = 1L;
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationLogisticsEmployeeController">
+   <children>
+      <Pane prefHeight="470.0" prefWidth="800.0">
+         <children>
+            <ImageView fitHeight="93.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/TheBetterLogo.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="txtWelcomeText" layoutX="232.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome name!" textAlignment="CENTER">
+               <font>
+                  <Font name="OpenSymbol" size="44.0" />
+               </font>
+            </Text>
+            <Button fx:id="btnRestockAll" layoutX="55.0" layoutY="138.0" mnemonicParsing="false" onAction="#getBtnRestockAll" prefHeight="124.0" prefWidth="691.0" text="Restock products">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
+            <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="314.0" layoutY="408.0" prefHeight="34.0" prefWidth="144.0" text="test" textAlignment="CENTER" visible="false" />
+            <Button fx:id="btnPartialRestock" layoutX="55.0" layoutY="301.0" mnemonicParsing="false" onAction="#getBtnPartialRestock" prefHeight="124.0" prefWidth="691.0" text="Partial restock">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

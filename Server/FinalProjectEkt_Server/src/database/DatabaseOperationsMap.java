@@ -12,13 +12,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import common.ServerClientRequestTypes;
-import logic.OnlineOrder;
-import logic.Product;
-import logic.Promotions;
-import logic.SystemUser;
-import logic.OnlineOrder.Status;
-import logic.OnlineOrder.Type;
+import logic.*;
+import logic.OnlineOrder.*;
 
 public class DatabaseOperationsMap {
 	private static String SCHEMA_EKRUT = "ektdb";
@@ -441,7 +436,134 @@ public class DatabaseOperationsMap {
 				return arrayOfPromotions;
 			}
 		}
+		protected static final class DatabaseActionSelectForFetchMachines implements IDatabaseAction {
+			private static final String MACHINES_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + ".machine";
+			private static final String LOCATIONS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + ".locations";
+			@Override
+			public Object getDatabaseAction(Object[] machineLocations) {
+				ArrayList<Machine> machines = new ArrayList<>();
 
+				// init locationsArr to empty array
+				Location[] locationsArr = new Location[] {};
+				// if location array passed, set it to locationsArr.
+				if (machineLocations[0] instanceof Location[]) {
+					locationsArr = (Location[]) machineLocations[0];
+				}
+				StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM ");
+				sqlBuilder.append(MACHINES_TABLE);
+				sqlBuilder.append(" LEFT JOIN ");
+				sqlBuilder.append(LOCATIONS_TABLE);
+				sqlBuilder.append(" ON ");
+				sqlBuilder.append(LOCATIONS_TABLE);
+				sqlBuilder.append(".locationID = ");
+				sqlBuilder.append(MACHINES_TABLE);
+				sqlBuilder.append(".locationId");
+
+				if (locationsArr.length > 0) {
+					sqlBuilder.append(" WHERE locationName in(");
+					for (Location location : locationsArr) {
+						if (location instanceof Location) {
+							sqlBuilder.append("\"");
+							sqlBuilder.append(location.name());
+							sqlBuilder.append("\",");
+						}
+					}
+					// delete last comma
+					sqlBuilder.deleteCharAt(sqlBuilder.lastIndexOf(","));
+					sqlBuilder.append(")");
+				}
+				sqlBuilder.append(";");
+
+				ResultSet fetchMachinesResultSet = DatabaseController.executeQueryWithResults(sqlBuilder.toString(), null);
+				try {
+					while (fetchMachinesResultSet.next()) {
+						int machineId = fetchMachinesResultSet.getInt("machineId");
+						int threshold = fetchMachinesResultSet.getInt("threshold_level");
+						String locationName = fetchMachinesResultSet.getString("locationName");
+						String machineName = fetchMachinesResultSet.getString("machineName");
+						machines.add(new Machine(machineId, machineName, threshold, Location.valueOf(locationName)));
+					}
+				} catch (SQLException sqle) {
+					sqle.printStackTrace();
+				}
+				return machines;
+			}
+
+		}
+		protected static final class DatabaseActionSelectForFetchProductsInMachine implements IDatabaseAction {
+			private static final String PRODUCTS_IN_MACHINE_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + ".products_in_machine";
+			private static final String PRODUCTS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "product";
+
+			@Override
+			public Object getDatabaseAction(Object[] params) {
+				ArrayList<ProductInMachine> products = new ArrayList<>();
+				if (!(params[0] instanceof Machine)) {
+					throw new InvalidParameterException("FetchProductsInMachine: Expected parameter of type 'Machine'.");
+				}
+				Machine machine = (Machine) params[0];
+				StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM ");
+				sqlBuilder.append(PRODUCTS_IN_MACHINE_TABLE);
+				sqlBuilder.append(" LEFT JOIN ");
+				sqlBuilder.append(PRODUCTS_TABLE);
+				sqlBuilder.append(" ON ");
+				sqlBuilder.append(PRODUCTS_TABLE);
+				sqlBuilder.append(".productID = ");
+				sqlBuilder.append(PRODUCTS_IN_MACHINE_TABLE);
+				sqlBuilder.append(".productID");
+				sqlBuilder.append(" WHERE machineID = ");
+				sqlBuilder.append(machine.getMachineId());
+				sqlBuilder.append(";");
+
+				ResultSet fetchProductsInMachineResultSet = DatabaseController
+						.executeQueryWithResults(sqlBuilder.toString(), null);
+				try {
+					while (fetchProductsInMachineResultSet.next()) {
+						String productID = fetchProductsInMachineResultSet.getString("productID");
+						String productName = fetchProductsInMachineResultSet.getString("productName");
+						String costPerUnit = fetchProductsInMachineResultSet.getString("costPerUnit");
+						int stock = fetchProductsInMachineResultSet.getInt("stock");
+						products.add(new ProductInMachine(new Product(productID, productName, costPerUnit, "", ""), machine,
+								stock));
+					}
+				} catch (SQLException sqle) {
+					sqle.printStackTrace();
+				}
+				return products;
+
+			}
+
+		}
+		protected static final class DatabaseActionUpdateForUpdateProductsInMachine implements IDatabaseAction {
+			private static final String PRODUCTS_IN_MACHINE_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + ".products_in_machine";
+
+			@Override
+			public Object getDatabaseAction(Object[] params) {
+				Object[] products = (Object[]) params[0];
+				StringBuilder sqlBuilder = new StringBuilder();
+				for (Object o : products) {
+					if (!(o instanceof ProductInMachine))
+						throw new InvalidParameterException(
+								"UpdateProductsInMachine: expected ProductInMachine objects in params[0]");
+					ProductInMachine product = (ProductInMachine) o;
+					// queries to update the products in machine
+					sqlBuilder = new StringBuilder("UPDATE ");
+					sqlBuilder.append(PRODUCTS_IN_MACHINE_TABLE);
+					sqlBuilder.append(" SET stock = ");
+					sqlBuilder.append(product.getStock());
+					sqlBuilder.append(" WHERE machineID = ");
+					sqlBuilder.append(product.getMachine().getMachineId());
+					sqlBuilder.append(" and productID = \"");
+					sqlBuilder.append(product.getProduct().getProductID());
+					sqlBuilder.append("\";");
+					boolean success = DatabaseController.executeQuery(sqlBuilder.toString());
+					if (!success)
+						return success;
+				}
+				return true;
+			}
+
+		}
+		
 	
 	 private static HashMap<DatabaseOperation, IDatabaseAction> map = new HashMap<DatabaseOperation, IDatabaseAction>(){
 		 
@@ -455,7 +577,10 @@ public class DatabaseOperationsMap {
 			this.put(DatabaseOperation.UPDATE_ONLINE_ORDERS, new DatabaseActionUpdateForUpdateOnlineOrders());
 			this.put(DatabaseOperation.SELECT_PROMOTION, new DatabaseActionSelectPromotion());
 			this.put(DatabaseOperation.INSERT_PROMOTION_NAMES,  new DatabaseActionSelectPromotionNames());
-
+			this.put(DatabaseOperation.FETCH_MACHINES_BY_LOCATION, new DatabaseActionSelectForFetchMachines());
+			this.put(DatabaseOperation.FETCH_PRODUCTS_IN_MACHINE, new DatabaseActionSelectForFetchProductsInMachine());
+			this.put(DatabaseOperation.UPDATE_PRODUCTS_IN_MACHINE,
+					new DatabaseActionUpdateForUpdateProductsInMachine());
 			this.put(DatabaseOperation.SELECT,  new DatabaseActionSelect());
 			this.put(DatabaseOperation.UPDATE,  new DatabaseActionGenericUpdate());
 

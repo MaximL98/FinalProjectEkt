@@ -5,6 +5,7 @@ import java.io.IOException;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import database.DatabaseController;
+import database.DatabaseSimpleOperation;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -85,7 +86,12 @@ public class EktServer extends AbstractServer
 	  System.out.println("Executing query="+query);
 	  
 	  	// remove logged users from the logged_users table
-	  	DatabaseController.executeQuery(query);
+	  if(DatabaseSimpleOperation.executeQuery(query)) {
+		  System.out.println("Executed query successfully!");
+	  }
+	  else {
+		  System.out.println("Failure - verify database contents manually!");
+	  }
 		// handle open connections
 		for(Thread c : ServerUI.getEktServerObject().getClientConnections()) {
 			ConnectionToClient cConn = (ConnectionToClient)c;

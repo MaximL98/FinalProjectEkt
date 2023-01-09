@@ -1,10 +1,13 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.List;
 
 import client.ClientController;
 import client.ClientUI;
 import client.Configuration;
+import common.SCCP;
+import common.ServerClientRequestTypes;
 import common.WindowStarter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import logic.Machine;
 import javafx.scene.control.ComboBox;
 
 /**
@@ -37,6 +41,8 @@ public class ClientLoginController {
 	private Label hiddenLabel;
 	
 	@FXML ComboBox<String> cmbTezura;
+	@FXML ComboBox<String> cmbMachines;
+	@FXML Button btnFinish;
 	
 	@FXML
 	void initialize() {
@@ -71,6 +77,29 @@ public class ClientLoginController {
 		try {
 			ClientUI.connectToServer();
 			
+			if(cmbTezura.getValue().equals("EK")) {
+				// expose the option to select a machine!
+				cmbMachines.setVisible(true);
+				btnFinish.setVisible(true);
+				// get all machines:
+				List<String> machines;
+				try {
+					machines = getExistingMachinesFromServer();
+					// insert them to the box:
+					for(String machine: machines) {
+						cmbMachines.getItems().add(machine);
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				hiddenLabel.setText("Please choose a machine and click Finish");
+				hiddenLabel.setVisible(true);
+				
+				System.out.println("Client message: Please choose a machine and click Finish");
+				return;
+			}
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,20 +114,20 @@ public class ClientLoginController {
 		
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
 
 		
-		switch(ClientController.getLaunchConfig()) {
+		/*switch(ClientController.getLaunchConfig()) {
 		case OL:
-			WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
 			break;
 		case EK:
-			WindowStarter.createWindow(primaryStage, this, "/gui/_EKConfigurationLoginFrame.fxml", null, "Login");
+			
 
 			//throw new UnsupportedOperationException("EK Conf is not supported yet");
 			break;
 		default:
 			throw new IllegalStateException("This should never happen");
-		}
+		}*/
 		
 		System.out.println("Client is now connected to server");
 		primaryStage.show();	 	
@@ -117,5 +146,35 @@ public class ClientLoginController {
 
 	@FXML public void setTezura(ActionEvent event) {
 		System.out.println("Switched to " + cmbTezura.getValue());
+	}
+
+	private List<String> getExistingMachinesFromServer() throws IOException {
+		ClientUI.clientController.client.openConnection();
+		ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.REQUEST_ALL_MACHINES, ""));
+		ClientUI.clientController.client.closeConnection();
+
+		// we want to check the response from server
+		if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)){
+			// we want the List<String> where each string is the name of a machine
+			@SuppressWarnings("unchecked")
+			List<String> tmp = (List<String>)ClientController.responseFromServer.getMessageSent();
+			return tmp;
+		}
+		else{
+			System.out.println("FAILURE");
+		}
+		return null;
+	}
+
+	@FXML public void chooseMachine(ActionEvent event) {
+		System.out.println("Chose machine " + cmbMachines.getValue());
+		ClientController._EkCurrentMachineName = cmbMachines.getValue();
+	}
+
+	@FXML public void getFinishEkConfig(ActionEvent event) {
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		WindowStarter.createWindow(primaryStage, this, "/gui/_EKConfigurationLoginFrame.fxml", null, "Login");
+		primaryStage.show();
 	}
 }

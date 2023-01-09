@@ -46,6 +46,9 @@ public class ClientController
   private static ArrayList<String> machineID_AndReportType = new ArrayList<>();
   private static ArrayList<LocalDate> requestedOrderDates = new ArrayList<>();
 
+  // Rotem added for now (8.1)
+  public static String _EkCurrentMachineName;
+
 
   public ClientController(String host, int port) throws IOException
   {

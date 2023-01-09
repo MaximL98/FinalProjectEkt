@@ -85,8 +85,6 @@ public class _EKConfigurationLoginFrameController {
 		((Node)event.getSource()).getScene().getWindow().hide();
 		// prepare the new stage:
 		Stage primaryStage = new Stage();
-
-		System.out.println("Trying to run cock sucking path: " + nextScreenPath);
 		WindowStarter.createWindow(primaryStage, new Object(), nextScreenPath, null, "Customer Home Frame");
 		primaryStage.show();
     }

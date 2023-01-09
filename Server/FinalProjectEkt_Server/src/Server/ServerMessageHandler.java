@@ -428,7 +428,7 @@ public class ServerMessageHandler {
 					}
 					// close rs
 					rs.close();
-					System.out.println("cock sucking finished working on first queer");
+					System.out.println("Finished working on first queery");
 					// now, we expect result to be of size 1, and contain an array list with 2 columns! (else, we have an invalid login attempt)
 					if(result.size() != 1) {
 						// invalid login
@@ -468,7 +468,8 @@ public class ServerMessageHandler {
 									for(int i=0;i<columnsNumber2;i++) {
 										row2.add(rs2.getObject(i + 1));
 									}
-									result.add(row2);
+									// ROTEM FIXED THIS - OF COURSE IT WAS F 
+									result2.add(row2);
 								}
 								// close rs2
 								System.out.println("Wrote second query's result: " + result);

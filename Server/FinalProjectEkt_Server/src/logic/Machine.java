@@ -1,130 +1,200 @@
 package logic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+
 /**
- * Project Name: finalProjectEkt_Client
- * Logic class that contains the details needed to save up for each machine.
+ * Project Name: finalProjectEkt_Client Logic class that contains the details
+ * needed to save up for each machine.
+ * 
  * @author Maxim Lebedinsky
  * @version 16/12/2022
  */
-public class Machine {
+public class Machine implements Serializable {
 	/**
-	*Machine logic part.
-	*private fields that will contain: list of products, stock, threshold level, status and location of the machine
-	*/
-	private ArrayList<String> products = new ArrayList<>();
-	private Integer stock; //if its stock for each product separately, change to ArrayList<Intger>...
+	 * 
+	 */
+	private static final long serialVersionUID = -2396441473921458334L;
+	/**
+	 * Machine logic part. private fields that will contain: list of products and
+	 * their stock, name, threshold level, status and location of the machine
+	 */
+	private int machineId;
+	private String machineName;
+	private ArrayList<ProductInMachine> products = new ArrayList<>();
 	private Integer thresholdLevel;
 	/**
-	 * field for machine status
-	 * True => Done
-	 * False => NotDone
+	 * field for machine status True => Done False => NotDone
 	 */
 	private boolean status;
-	private String location;
+	private Location location;
+
 	/**
 	 * Machine constructor.
+	 * 
+	 * @param machineId
+	 * @param machineName
 	 * @param products
-	 * @param stock
 	 * @param thresholdLevel
 	 * @param location
 	 */
-	public Machine(ArrayList<String> products, Integer stock, Integer thresholdLevel, String location) {
-		super();
-		this.products = products;
-		this.stock = stock;
+	public Machine(int machineId, String machineName, Integer thresholdLevel, Location location) {
+		this.machineId = machineId;
+		this.machineName = machineName;
 		this.thresholdLevel = thresholdLevel;
 		this.location = location;
 	}
+
 	/**
 	 * getting list of products that the machine contain
+	 * 
 	 * @return products
 	 */
-	public ArrayList<String> getProducts() {
+	public ArrayList<ProductInMachine> getProducts() {
 		return products;
 	}
+
 	/**
 	 * setting the products list
+	 * 
 	 * @param products
 	 */
-	public void setProducts(ArrayList<String> products) {
+	public void setProducts(ArrayList<ProductInMachine> products) {
 		this.products = products;
 	}
+
 	/**
 	 * getting the stock of a product
+	 * 
 	 * @return stock
 	 */
-	public Integer getStock() {
-		return stock;
+	public int getStock(Product product) {
+		// find product in machine products
+		ProductInMachine productToGet = getProductInMachine(product);
+		if (productToGet != null) {
+			return productToGet.getStock();
+		}
+		// if not found return stock 0.
+		return 0;
 	}
+
 	/**
 	 * setting the stock of a product
+	 * 
 	 * @param stock
 	 */
-	public void setStock(Integer stock) {
-		this.stock = stock;
+	public void setStock(Product product, int stock) {
+		// find product in machine products and set the stock.
+		ProductInMachine productToUpdate = getProductInMachine(product);
+		if (productToUpdate != null) {
+			productToUpdate.setStock(stock);
+		}
 	}
+
 	/**
 	 * getting the Threshold level
+	 * 
 	 * @return thresholdLevel
 	 */
 	public Integer getThresholdLevel() {
 		return thresholdLevel;
 	}
+
 	/**
 	 * setting the threshold level
+	 * 
 	 * @param thresholdLevel
 	 */
 	public void setThresholdLevel(Integer thresholdLevel) {
 		this.thresholdLevel = thresholdLevel;
 	}
+
 	/**
 	 * getting machine location
+	 * 
 	 * @return location
 	 */
-	public String getLocation() {
+	public Location getLocation() {
 		return location;
 	}
+
 	/**
 	 * setting machine location
+	 * 
 	 * @param location
 	 */
-	public void setLocation(String location) {
+	public void setLocation(Location location) {
 		this.location = location;
 	}
+
 	/**
 	 * checking machine status
+	 * 
 	 * @return status (true, false)
 	 */
 	public boolean isStatus() {
 		return status;
 	}
+
 	/**
 	 * setting machine status (Done, NotDone)
+	 * 
 	 * @param status
 	 */
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
+
 	/**
-	 * toString method, returns machine details
-	 */	
-	@Override
-	public String toString() {
-		return "Machine [products=" + products + ", stock=" + stock + ", thresholdLevel=" + thresholdLevel
-				+ ", location=" + location + "]";
-	}
-	
-	public void addProduct(String productToAdd) {
-		products.add(productToAdd);
-	}
-	
-	public void removeProduct(String productToAdd) {
-		products.remove(productToAdd);
+	 * @return the machineId
+	 */
+	public int getMachineId() {
+		return machineId;
 	}
 
-	
-	
-	
-	
+	/**
+	 * toString method, returns machine details
+	 */
+	@Override
+	public String toString() {
+		return machineName;
+	}
+
+	public ProductInMachine getProductInMachine(Product productToGet) {
+		for (ProductInMachine p : products) {
+			if (p.getProduct().equals(productToGet)) {
+				return p;
+			}
+		}
+		return null;
+	}
+
+	public void addProduct(Product productToAdd, int initialStock) {
+		// product already in machine
+		if (getProductInMachine(productToAdd) != null)
+			return;
+		products.add(new ProductInMachine(productToAdd, this, initialStock));
+	}
+
+	public void removeProduct(Product productToRemove) {
+		ProductInMachine productInMachineToRemove = getProductInMachine(productToRemove);
+		if (productInMachineToRemove != null) {
+			products.remove(productInMachineToRemove);
+		}
+	}
+
+	/**
+	 * @return the machineName
+	 */
+	public String getMachineName() {
+		return machineName;
+	}
+
+	/**
+	 * @param machineName the machineName to set
+	 */
+	public void setMachineName(String machineName) {
+		this.machineName = machineName;
+	}
+
 }

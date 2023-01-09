@@ -43,12 +43,4 @@ if __name__ == "__main__":
     compare_logic()
     input("enter to exit")
 
-# a = "C:\\Users\\Rotem\\Desktop\\compareFilesTest\\New folder"
-# b = "C:\\Users\\Rotem\\Desktop\\compareFilesTest\\New folder - Copy"
-#
-# compare_directories(a, b)
 
-# compare_directories("C:\\Users\\Rotem\\Desktop\\Lab_Debugging (VS-Charp)",
-#                     "C:\\Users\\Rotem\\Desktop\\The Sopranos\\"
-#                     "The Sopranos - Complete 2nd Season [DVDRip.XviD][h33t][big_dad_e]")
-#

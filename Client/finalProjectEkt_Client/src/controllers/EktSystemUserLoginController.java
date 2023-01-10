@@ -103,6 +103,13 @@ public class EktSystemUserLoginController {
     		primaryStage.show();
     		return;
     	}
+    	if(userName.equals("user")) {
+    		Stage primaryStage = new Stage();
+    		WindowStarter.createWindow(primaryStage, new Object(), "/gui/InventoryRestockWorkerPage.fxml", null, "Inventory Restock");
+    		System.out.println("Moving to InventoryRestockWorkerPage.fxml for testing.");
+    		primaryStage.show();
+    		return;
+    	}
     	if(userName.equals("hh")) {
     		Stage primaryStage = new Stage();
     		WindowStarter.createWindow(primaryStage, new Object(), "/gui/TestSelectFromDBProduct.fxml", null, "Select product from table");

@@ -829,6 +829,95 @@ public class ServerMessageHandler {
 
 	}
 
+	private static final class HandleMessageFetchMachines implements IServerSideFunction {
+
+		@Override
+		public SCCP handleMessage(SCCP fetchMachinesMessage) {
+			Object resultSetMachines = DatabaseController.handleQuery(
+					DatabaseOperation.FETCH_MACHINES_BY_LOCATION,
+					new Object[] { fetchMachinesMessage.getMessageSent() });
+
+			if (resultSetMachines instanceof ArrayList) {
+				return new SCCP(ServerClientRequestTypes.FETCH_MACHINES_BY_LOCATION, resultSetMachines);
+			}
+			return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");
+		}
+	}
+	
+	private static final class HandleMessageFetchProductsInMachine implements IServerSideFunction {
+
+		@Override
+		public SCCP handleMessage(SCCP fetchMachinesMessage) {
+			Object resultSetProducts = DatabaseController.handleQuery(
+					DatabaseOperation.FETCH_PRODUCTS_IN_MACHINE,
+					new Object[] { fetchMachinesMessage.getMessageSent() });
+
+			if (resultSetProducts instanceof ArrayList) {
+				return new SCCP(ServerClientRequestTypes.FETCH_PRODUCTS_IN_MACHINE, resultSetProducts);
+			}
+			return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");
+		}
+	}
+	
+	private static final class HandleMessageUpdateProductsInMachine implements IServerSideFunction {
+		private static final int MESSAGE_OBJECT_ARRAY_SIZE = 1;
+
+		@Override
+		public SCCP handleMessage(SCCP message) {
+			ServerClientRequestTypes type = message.getRequestType();
+			SCCP response = new SCCP();
+			Object tmpMsg = message.getMessageSent();
+			Object[] formattedMessage;
+
+			// parts of the message:
+			Object[] productsToUpdate;
+
+			/// Start input validation
+
+			// verify type
+			if (!(type.equals(ServerClientRequestTypes.UPDATE_PRODUCTS_IN_MACHINE))) {
+				throw new IllegalArgumentException(
+						"Invalid type used in handleMessage, type: " + message.getRequestType());
+			}
+			// verify message format
+			if (tmpMsg instanceof Object[]) {
+				formattedMessage = (Object[]) tmpMsg;
+				if (formattedMessage.length != MESSAGE_OBJECT_ARRAY_SIZE) {
+					throw new IllegalArgumentException("Invalid message accepted in handleMessage, message: "
+							+ message.getMessageSent() + " is an Object array of size != " + MESSAGE_OBJECT_ARRAY_SIZE);
+				}
+				// verify each input
+
+				// objects to update
+				if (!(formattedMessage[0] instanceof Object[])) {
+					throw new IllegalArgumentException("Invalid value for machinesToUpdate (Object[] input) in handleMessage.");
+				}
+
+				// assign proper values to parts of the message
+				productsToUpdate = (Object[]) formattedMessage[0];
+
+			} else {
+				// invalid input branch
+				throw new IllegalArgumentException("Invalid message accepted in handleMessage, message: "
+						+ message.getMessageSent() + " is not of type Object[]");
+			}
+
+			boolean res = (boolean) DatabaseController.handleQuery(DatabaseOperation.UPDATE_PRODUCTS_IN_MACHINE,
+					new Object[] { productsToUpdate });
+			if (res) {
+				response.setRequestType(ServerClientRequestTypes.ACK);
+				response.setMessageSent(productsToUpdate); // send the array of objects we sent to add to the db, to
+															// indicate success
+			} else {
+				response.setRequestType(ServerClientRequestTypes.ERROR_MESSAGE);
+				// idea - maybe we should create a special type for errors too, and pass a
+				// dedicated one that will provide valuable info to the client?
+				response.setMessageSent("ERROR: updaing DB failed"); // TODO: add some valuable information.
+			}
+			return response;
+		}
+	}
+	
 	private static HashMap<ServerClientRequestTypes, IServerSideFunction> map = 
 			new HashMap<ServerClientRequestTypes, IServerSideFunction>() {
 
@@ -846,8 +935,9 @@ public class ServerMessageHandler {
 		this.put(ServerClientRequestTypes.EK_LOGIN, new HandleMessageLoginEK());
 		this.put(ServerClientRequestTypes.LOGOUT, new HandleMessageLogout());
 		this.put(ServerClientRequestTypes.REQUEST_ALL_MACHINES, new HandleMessageGetMachineNames());
-
-		
+		this.put(ServerClientRequestTypes.FETCH_MACHINES_BY_LOCATION, new HandleMessageFetchMachines());
+		this.put(ServerClientRequestTypes.FETCH_PRODUCTS_IN_MACHINE, new HandleMessageFetchProductsInMachine());
+		this.put(ServerClientRequestTypes.UPDATE_PRODUCTS_IN_MACHINE, new HandleMessageUpdateProductsInMachine());
 		this.put(ServerClientRequestTypes.FETCH_PRODUCTS_BY_CATEGORY, new HandleMessageFetchProducts());
 		this.put(ServerClientRequestTypes.FETCH_ONLINE_ORDERS, new HandleMessageFetchOnlineOrders());
 		this.put(ServerClientRequestTypes.DISPLAY_PROMOTIONS, new HandleMessageDisplayPromotions());

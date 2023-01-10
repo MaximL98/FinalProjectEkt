@@ -1,95 +1,138 @@
 package logic;
 
 import java.io.Serializable;
+import java.time.*;
 
 /**
- * Project Name: finalProjectEkt_Server
- * Logic class that contains the details needed to save up for each order.
+ * Project Name: finalProjectEkt_Client Logic class that contains the details
+ * needed to save up for each order.
+ * 
  * @author Maxim Lebedinsky
  * @version 16/12/2022
  */
 public class Order implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
+	public enum Type {
+		Pickup, Delivery;
+	}
+
+	public enum Status {
+		InProgress("In Progress"), Complete("Complete"), Cancelled("Cancelled"),
+		RequestedCancellation("Requested Cancellation");
+
+		String statusString;
+
+		Status(String statusString) {
+			this.statusString = statusString;
+		}
+
+		@Override
+		public String toString() {
+			return statusString;
+		}
+	}
+	
+
 	/**
-	*Order logic part.
-	*private fields that will contain order's: id, total amount (of products), attribute
-	*/
-	private String orderID;
+	 * Order logic part. private fields that will contain order entity: ID, total
+	 * price, total amount of this order, the machine this order is for, the date
+	 * when the order was received, the estimated delivery time for the order.
+	 */
+
+	private Integer orderID;
+	private Integer totalPrice;
 	private Integer totalAmount;
-	private String attribute;
-	private int machineID;
-	/**
-	 * Order constructor.
-	 * @param orderID
-	 * @param totalAmount
-	 * @param attribute
-	 */
-	public Order(String orderID, Integer totalAmount, String attribute, int machineID) {
-		super();
+	private Machine machine;
+	private LocalDate dateReceived;
+	private LocalDateTime deliveryTime;
+	private Status status;
+	private Type type;
+	
+	public Order(Integer orderID, Integer totalPrice, Integer totalAmount, Machine machine, LocalDate dateReceived,
+			LocalDateTime deliveryTime, Status status, Type type) {
 		this.orderID = orderID;
+		this.totalPrice = totalPrice;
 		this.totalAmount = totalAmount;
-		this.attribute = attribute;
-		setMachineID(machineID);
+		this.machine = machine;
+		this.dateReceived = dateReceived;
+		this.deliveryTime = deliveryTime;
+		this.setStatus(status);
+		this.setType(type);
 	}
-	/**
-	 * getting order id
-	 * @return orderID
-	 */
-	public String getOrderID() {
-		return orderID;
+	
+	public Integer getTotalPrice() {
+		return totalPrice;
 	}
-	/**
-	 * setting order id
-	 * @param orderID
-	 */
-	public void setOrderID(String orderID) {
-		this.orderID = orderID;
+
+	public void setTotalPrice(Integer totalPrice) {
+		this.totalPrice = totalPrice;
 	}
-	/**
-	 * getting order total amount
-	 * @return totalAmount
-	 */
+
 	public Integer getTotalAmount() {
 		return totalAmount;
 	}
-	/**
-	 * setting order total amount
-	 * @param totalAmount
-	 */
+
 	public void setTotalAmount(Integer totalAmount) {
 		this.totalAmount = totalAmount;
 	}
-	/**
-	 * getting order attribute
-	 * @return attribute
-	 */
-	public String getAttribute() {
-		return attribute;
+
+	public Machine getMachine() {
+		return machine;
 	}
-	/**
-	 * setting order attribute
-	 * @param attribute
-	 */
-	public void setAttribute(String attribute) {
-		this.attribute = attribute;
+
+	public LocalDateTime getDeliveryTime() {
+		return deliveryTime;
 	}
+
+	public void setDeliveryTime(LocalDateTime deliveryTime) {
+		this.deliveryTime = deliveryTime;
+	}
+
+	public Integer getOrderID() {
+		return orderID;
+	}
+
+	public LocalDate getDateReceived() {
+		return dateReceived;
+	}
+
+	/**
+	 * @return the status
+	 */
+	public Status getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public Type getType() {
+		return type;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(Type type) {
+		this.type = type;
+	}
+
 	/**
 	 * toString method, returns order details
-	 */	
+	 */
 	@Override
 	public String toString() {
-		return "Order [orderID=" + orderID + ", totalAmount=" + totalAmount + ", attribute=" + attribute + "]";
+		return "Order [orderID=" + orderID + ", totalPrice=" + totalPrice + ", totalAmount=" + totalAmount
+				+ ", machine name=" + machine + "dateReceived=" + dateReceived + "deliveryTime="
+				+ deliveryTime + "]";
 	}
-	public int getMachineID() {
-		return machineID;
-	}
-	public void setMachineID(int machineID) {
-		this.machineID = machineID;
-	}
-	
-	
-	
+
 }

@@ -35,15 +35,14 @@ public class EktSystemUserLoginController {
     	String userName, password;
     	userName = txtUsername.getText();
     	password = txtPassword.getText();
-    	// ask to connect
-    	System.out.println("Test");
-    	if(userName.equals("q")) {
-    		Stage primaryStage = new Stage();
-    		WindowStarter.createWindow(primaryStage, new Object(), "/gui/SalesManager.fxml", null, "Sales");
-    		System.out.println("Test");
-    		primaryStage.show();
-    		return;
-    	}
+    	System.out.println(userName + " " + password);
+    	
+//    	if (userName.equals("q")){
+//    		Stage primaryStage = new Stage();
+//    		WindowStarter.createWindow(primaryStage, this, "/gui/SalesDepartmentWorker.fxml", null, "Ekt Sales Department Worker");
+//			primaryStage.show();
+//			return;
+//    	}
     	
     	SCCP preparedMessage = new SCCP();
     	preparedMessage.setRequestType(ServerClientRequestTypes.LOGIN);
@@ -134,6 +133,16 @@ public class EktSystemUserLoginController {
 				
 			case DIVISION_MANAGER:
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktDivisionManagerHomePage.fxml", null, "Female Division Manager Home Page");
+				primaryStage.show();
+				break;
+			
+			case SALES_MANAGER:
+				WindowStarter.createWindow(primaryStage, this, "/gui/SalesManager.fxml", null, "Sales Manager");
+				primaryStage.show();
+				break;
+				
+			case SALES_WORKER:
+				WindowStarter.createWindow(primaryStage, this, "/gui/SalesDepartmentWorker.fxml", null, "Ekt Sales Department Worker");
 				primaryStage.show();
 				break;
 				

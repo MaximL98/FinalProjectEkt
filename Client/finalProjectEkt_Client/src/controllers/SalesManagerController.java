@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 
+import client.ClientController;
 import client.ClientUI;
 import common.InactivityChecker;
 import common.WindowStarter;
@@ -12,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class SalesManagerController {
@@ -24,6 +26,9 @@ public class SalesManagerController {
 
     @FXML
     private Button btnLogout;
+    @FXML
+    private Text txtSalesManager;
+
 
     @FXML
     private void addNewPromotionHandler(ActionEvent event) throws IOException {
@@ -69,5 +74,11 @@ public class SalesManagerController {
     	ClientUI.clientController.client.closeConnection();
     	System.exit(0);
 }
+    
+    @FXML
+    public void initialize() {
+    	txtSalesManager.setText("Hello, " + ClientController.getCurrentSystemUser().getFirstName() + "!");
+    	txtSalesManager.setLayoutX(400-(txtSalesManager.minWidth(0)/2));
+    }
 }
 

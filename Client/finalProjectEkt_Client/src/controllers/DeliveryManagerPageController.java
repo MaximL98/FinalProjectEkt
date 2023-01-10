@@ -36,6 +36,7 @@ import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 import logic.SystemUser;
 import logic.OnlineOrder;
+import logic.OnlineOrder.Status;
 
 public class DeliveryManagerPageController {
 

@@ -1,7 +1,7 @@
 package common;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Class: InputValidator
@@ -18,7 +18,7 @@ public class TypeChecker {
 	 * @param startIdx - the first index of objects to compare with the 0th index of paramTypes
 	 * @return true if all objects in range are of the desired types, else false
 	 */
-	public static boolean validate(Object[] objects, ArrayList<Class<?>> paramTypes, int startIdx) {
+	public static boolean validate(Object[] objects, List<Class<?>> paramTypes, int startIdx) {
 		if(objects.length < (startIdx + paramTypes.size()))
 			throw new IllegalArgumentException(
 					"Invalid range of parameters for validateInput {"

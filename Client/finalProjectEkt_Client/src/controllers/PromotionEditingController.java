@@ -1,12 +1,6 @@
 package controllers;
 
-import java.net.URL;
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-
 import client.ClientController;
 import client.ClientUI;
 import common.SCCP;
@@ -22,9 +16,36 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import logic.Promotions;
-import javafx.fxml.Initializable;
 
-public class PromotionEditingController implements Initializable {
+/**
+ * Yeah I'm not the author here, but I am here:
+ * We don't need the object "promotion", we need to show a table to the user and let them select products, and allow it to enter different percentages 
+ * FOR EACH ONE.
+ * Now after selecting all that they can enter a discount name and description (optional),
+ * and the DB gets the following query:
+ * for product in chosenProducts:
+ * 	insert into table ProductInDiscount (null, *product, start, end, percentage)
+ * this is where the addMany shit I did makes sense. 
+ * The way it should work is this:
+ * 
+ * Show a table with all products, the original price, and the final price (after applying all discounts, according to some agreed-upon order)
+ *  This should be done in initialize() after modifying the DB (again . . .) -->^ 
+ * Let user select each row in the table, when selected (by right click) - open a new column with a percentage for the new discount (or new price)
+ * When finished, grab text from text boxes "promotion name" "description" and send these, along each product, to be added to the ProductInDiscount table
+ * Key is auto incremented, we never remove shit from there (as when grabbing discounts we should only use ones inside the date range)
+ * 
+ * 
+ * TLDR: I didn't mess with this file any yet, but I suggest we change it
+ * 
+ * Never mind, I just did (not really important):
+ * I fixed the initialize() call; 
+ * jfx has a specific shinitialize function, without the bloat and the unneeded import, we use it elsewhere so I replaced it here.
+ * 
+ * @author Rotem
+ *
+ */
+
+public class PromotionEditingController {
 	@FXML
 	private TextField txtPromotionName;
 
@@ -54,6 +75,12 @@ public class PromotionEditingController implements Initializable {
 	@FXML
 	private Button btnGoBack;
 
+	@FXML
+	private void initialize() {
+		String[] items = { "North", "South", "United Arab Emirates" };
+		cbLocation.getItems().addAll(items);
+	}
+	
 	@FXML
 	private void createPromotionHandler() {
 		promotions = new Promotions();
@@ -122,9 +149,4 @@ public class PromotionEditingController implements Initializable {
 		primaryStage.show();
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		String[] items = { "North", "South", "United Arab Emirates" };
-		cbLocation.getItems().addAll(items);
-	}
 }

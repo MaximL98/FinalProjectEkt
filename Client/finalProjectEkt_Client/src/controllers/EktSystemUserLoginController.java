@@ -1,18 +1,25 @@
 package controllers;
 
+// Rotem-specific imports
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import client.ClientController;
 import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import logic.Role;
 import logic.SystemUser;
 import javafx.scene.control.Label;
 
@@ -26,15 +33,64 @@ public class EktSystemUserLoginController {
 
     @FXML
     private TextField txtUsername;
-
+    
 	@FXML 
 	Label statusLabel;
 	
+	
+	/**
+	 * This event grabs the enter key when we are on the password field.
+	 * @param ae
+	 */
+	@FXML
+	public void onEnter(ActionEvent ae){
+	   getBtnLogin(ae);
+	}
+	
+	/*
+	 * This method does nothing
+	 */
+	@FXML
+	private void initialize() {
+		
+		
+		// attempt to have the label re-written every few seconds. (failure)
+		/*
+	    ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
+
+	    Runnable task = new Runnable() {
+		    int secondsToWait = 3;
+	        @Override
+	        public void run() {
+	            secondsToWait--;
+	            if (secondsToWait == 0) {
+	                exec.shutdown();
+	            }
+	        }
+	    };
+	    statusLabel.setVisible(true);
+	    statusLabel.setText("Standing by for login");
+	    exec.scheduleAtFixedRate(task, 1, Integer.MAX_VALUE, TimeUnit.SECONDS);
+		*/
+	}
+	
+	/**
+	 * This is the login method for a system user
+	 * TODO: write tests for it
+	 * @param event: not used
+	 */
+	/*
+	 * TODO:
+	 * handle not existing user
+	 * 
+	 * 
+	 */
     @FXML
     void getBtnLogin(ActionEvent event) {
     	String userName, password;
     	userName = txtUsername.getText();
     	password = txtPassword.getText();
+<<<<<<< HEAD
     	System.out.println(userName + " " + password);
     	
 //    	if (userName.equals("q")){
@@ -43,10 +99,36 @@ public class EktSystemUserLoginController {
 //			primaryStage.show();
 //			return;
 //    	}
+=======
+    	System.out.println("Test");
     	
+    	/*
+    	 * TODO
+    	 * Remove this test segment! (when no longer needed)
+    	 */
+    	if(userName.equals("q")) {
+    		Stage primaryStage = new Stage();
+    		WindowStarter.createWindow(primaryStage, new Object(), "/gui/SalesManager.fxml", null, "Sales");
+    		System.out.println("Moving to SalesManager.fxml for testing.");
+    		primaryStage.show();
+    		return;
+    	}
+    	if(userName.equals("hh")) {
+    		Stage primaryStage = new Stage();
+    		WindowStarter.createWindow(primaryStage, new Object(), "/gui/TestSelectFromDBProduct.fxml", null, "Select product from table");
+    		System.out.println("Moving to TestSelectFromDBProduct.fxml for testing.");
+    		primaryStage.show();
+    		return;
+    	}
+>>>>>>> branch 'master' of https://github.com/rotemlv/FinalProjectEkt.git
+    	
+    	
+    	// ask to connect
+
     	SCCP preparedMessage = new SCCP();
     	preparedMessage.setRequestType(ServerClientRequestTypes.LOGIN);
     	preparedMessage.setMessageSent(new String[] {userName, password});
+    	// request the login:
 		// send to server
     	System.out.println("Client: Sending login request to server as " + userName+".");
 		ClientUI.clientController.accept(preparedMessage);
@@ -59,6 +141,7 @@ public class EktSystemUserLoginController {
 			statusLabel.setText("Successfully connected as: " + connectedUser.getUsername() +".");
 			statusLabel.setVisible(true);
 			System.out.println("SLEEPING FOR A SECOND TO SHOW LABEL!");
+			
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
@@ -73,67 +156,32 @@ public class EktSystemUserLoginController {
 			((Node)event.getSource()).getScene().getWindow().hide();
 			// prepare the new stage:
 			Stage primaryStage = new Stage();
-			// this was done so that we can use this button
-			primaryStage.setOnCloseRequest(we -> 
-			{
-				System.out.println("Pressed the X button."); 
-				System.exit(0);
-			}
-			);
+
 			// switch based on the current user's role
 			switch(connectedUser.getRole()) {
 			case CUSTOMER:
-				/*
-				 *  This is an example for a home page
-				String path = "";
-				String title = "";
-				path = "/gui/EktCustomerHomeAreaForm.fxml";
-				title = "Customer home page";
-					System.out.println("Successfully connected as: " + connectedUser.getUsername() +".");
-	    		// added here:
-	    		// check user role (SHOULD BE INSERTED TO THE TABLE)
-		    	// and set current role for fetching the correct new window			
-				// load the new window:
-				((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-				Stage primaryStage = new Stage();
-				WindowStarter.createWindow(primaryStage, this, path, null, title);
-				// this was done so that we can use this button					primaryStage.setOnCloseRequest(we -> 
-				{
-					System.out.println("Pressed the X button."); 
-					System.exit(0);					
-				}
-				);
-				primaryStage.show();
-				*/
 				// TODO: replace this with a legit home area for cumsoomer
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog");
-
-				primaryStage.show();
 				break;
 				
 			case REGIONAL_MANAGER:
-
+				// TODO: same as customer
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page");
-				primaryStage.show();
 				break;
 				
 			case LOGISTICS_MANAGER:
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktLogisticsManagerHomePage.fxml", null, "Logistics Manager Home Page");
-				primaryStage.show();
 				break;
 				
 			case SERVICE_REPRESENTATIVE:
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepresentativeHomePage.fxml", null, "Service Rep Home Page");
-				primaryStage.show();
 				break;
 			case CEO:
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktCeoHomePage.fxml", null, "CEO Home Page");
-				primaryStage.show();
 				break;
 				
 			case DIVISION_MANAGER:
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktDivisionManagerHomePage.fxml", null, "Female Division Manager Home Page");
-				primaryStage.show();
 				break;
 			
 			case SALES_MANAGER:
@@ -149,14 +197,45 @@ public class EktSystemUserLoginController {
 			default:
 				throw new UnsupportedOperationException("No valid landing page for system user with role=" + connectedUser.getRole());
 			}
+			
+			// le-factored
+			// srs
+			primaryStage.show();
+
 		}
 		
 		// login failed
 		else {
 			statusLabel.setText("ERROR!"); // add specifics
-			statusLabel.setVisible(true);
+			//statusLabel.setVisible(true);
 		}    
 		
     }
-
 }
+
+// dead code:
+// this here code is here as it helps me insert peppo to the DB via this java app.
+// to use it - stick it in case CUSTOMER in the switch inside getBtnLogin
+
+/*
+ *  This is an example for a home page
+String path = "";
+String title = "";
+path = "/gui/EktCustomerHomeAreaForm.fxml";
+title = "Customer home page";
+	System.out.println("Successfully connected as: " + connectedUser.getUsername() +".");
+// added here:
+// check user role (SHOULD BE INSERTED TO THE TABLE)
+// and set current role for fetching the correct new window			
+// load the new window:
+((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+Stage primaryStage = new Stage();
+WindowStarter.createWindow(primaryStage, this, path, null, title);
+// this was done so that we can use this button					primaryStage.setOnCloseRequest(we -> 
+{
+	System.out.println("Pressed the X button."); 
+	System.exit(0);					
+}
+);
+primaryStage.show();
+*/

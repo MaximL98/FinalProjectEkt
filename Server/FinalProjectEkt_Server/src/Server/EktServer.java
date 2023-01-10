@@ -5,12 +5,20 @@ import java.io.IOException;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import database.DatabaseController;
+import database.DatabaseSimpleOperation;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
 public class EktServer extends AbstractServer 
 {
 
+	/**
+	 * Rotem: added these fields to help the server overcome "attacks" (repeated, fast clicks by one client)
+	 * So that we don't send queries to the database when the current query is identical to the last one. 
+	 * NOT YET IN USE
+	 */
+	private static SCCP lastReceived, lastSent;
+	
   public EktServer(int port) 
   {
 	  // create the server
@@ -73,8 +81,17 @@ public class EktServer extends AbstractServer
   }  
   
   protected void handleForcedShutdown() {
-		// TODO (probably): move the logic and the loop to a method in EktServer
-	  // DONE (test)
+	  System.out.println("Logging off all connected users!");
+	  String query = "DELETE FROM "+DatabaseController.getSchemaName()+".logged_users WHERE username!=\"\"";
+	  System.out.println("Executing query="+query);
+	  
+	  	// remove logged users from the logged_users table
+	  if(DatabaseSimpleOperation.executeQuery(query)) {
+		  System.out.println("Executed query successfully!");
+	  }
+	  else {
+		  System.out.println("Failure - verify database contents manually!");
+	  }
 		// handle open connections
 		for(Thread c : ServerUI.getEktServerObject().getClientConnections()) {
 			ConnectionToClient cConn = (ConnectionToClient)c;

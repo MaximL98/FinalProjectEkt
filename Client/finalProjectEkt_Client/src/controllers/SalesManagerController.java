@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import client.ClientController;
 import client.ClientUI;
-import common.InactivityChecker;
+import client.InactivityChecker;
 import common.WindowStarter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,10 +37,6 @@ public class SalesManagerController {
         // Get the current stage
         Stage stage = new Stage();
         WindowStarter.createWindow(stage, new Object(), "/gui/PromotionEditing.fxml", null, "Promotion Editing");
-        stage.setOnCloseRequest(action -> {
-        	System.out.println("Pressed the X button.");
-        	System.exit(0);
-        });
         stage.show();
         ((Stage) ((Node)event.getSource()).getScene().getWindow()).close();
         Thread inactivityCheckerThread = new Thread(inactivityChecker);//importent
@@ -57,10 +53,7 @@ public class SalesManagerController {
         // Get the current stage
         Stage stage = new Stage();
         WindowStarter.createWindow(stage, new Object(), "/gui/EditActivePromotions.fxml", null, "Promotion Editing");
-        stage.setOnCloseRequest(action -> {
-        	System.out.println("Pressed the X button.");
-        	System.exit(0);
-        });
+
         stage.show();
         ((Stage) ((Node)event.getSource()).getScene().getWindow()).close();
         Thread inactivityCheckerThread = new Thread(inactivityChecker);//importent
@@ -68,8 +61,11 @@ public class SalesManagerController {
         
     }
 
+    // Rotem:
+    // I fucxed it to actually work as a log-out button (it used to work like an exit button)
     @FXML
     private void logoutHandler(ActionEvent event) throws Exception {
+<<<<<<< HEAD
     	System.out.println("Sales manager Has Exited The Academic Tool");
     	ClientUI.clientController.client.closeConnection();
     	System.exit(0);
@@ -79,6 +75,17 @@ public class SalesManagerController {
     public void initialize() {
     	txtSalesManager.setText("Hello, " + ClientController.getCurrentSystemUser().getFirstName() + "!");
     	txtSalesManager.setLayoutX(400-(txtSalesManager.minWidth(0)/2));
+=======
+    	// actually do the logout:
+    	ClientController.sendLogoutRequest();
+    	
+    	// log
+    	System.out.println("Sales manager has logged off");
+	    ((Node)event.getSource()).getScene().getWindow().hide();
+		Stage primaryStage = new Stage();
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
+		primaryStage.show();
+>>>>>>> branch 'master' of https://github.com/rotemlv/FinalProjectEkt.git
     }
 }
 

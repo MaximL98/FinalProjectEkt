@@ -58,6 +58,7 @@ import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
+
 public class EktProductFormController {
 	
     @FXML
@@ -326,6 +327,7 @@ public class EktProductFormController {
 			////////////////// Dima 31/12 10:50 changed styling into this
 			Border border = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
 			borderPane.setCenter(scrollPane);
+			System.out.println("WARNING HAPPENS HERE:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
 			scrollPane.setStyle("-fx-background-color: transparent; -fx-background:  linear-gradient(from 0px 0px to 0px 1500px, pink, red);"
 					+ "-fx-border-color: transparent;");
 			scrollPane.setBorder(border);
@@ -341,13 +343,7 @@ public class EktProductFormController {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog");
-		// this was done so that we can use this button
-		primaryStage.setOnCloseRequest(we -> 
-		{
-			System.out.println("Pressed the X button."); 
-			System.exit(0);
-		}
-		);
+
 		primaryStage.show();
 	}
 	
@@ -356,11 +352,7 @@ public class EktProductFormController {
         ((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
         Stage primaryStage = new Stage();
         WindowStarter.createWindow(primaryStage, this, "/gui/EktCartForm.fxml", null, "Ekt Cart");
-        primaryStage.setOnCloseRequest(we -> 
-            {
-            System.out.println("Pressed the X button."); 
-            System.exit(0);
-            });
+
 
         primaryStage.show();
     }

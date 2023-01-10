@@ -8,6 +8,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
+/**
+ * This controller (and UI) is meant to be used as the customer home page - currently not in use
+ * @author Rotem
+ *
+ */
+
 public class EktCustomerHomeAreaController{
 
     @FXML

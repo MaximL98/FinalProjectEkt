@@ -120,67 +120,6 @@ public class DatabaseController {
 		}
 	}
 
-	public static boolean executeQuery(String sqlStatement, Object[] params) {
-		con = getConnection();
-		PreparedStatement ps;
-		try {
-			ps = con.prepareStatement(sqlStatement);
-			for (int i = 0; i < params.length; i++) {
-				ps.setObject(i+1, params[i]);
-			}
-			//System.out.println("prepared statement : " + ps.toString());
-			return ps.executeUpdate() > 0;
-		} catch (Exception e) {
-
-			System.out.println("Query execution failed.");
-			System.out.println("Exception message : " + e.getMessage());
-
-			return false; 
-		}
-	}
-
-
-	public static boolean executeQuery(String sqlStatement) {
-		con = getConnection();
-		PreparedStatement ps;
-		try {
-			ps = con.prepareStatement(sqlStatement);
-
-			//System.out.println("prepared statement : " + ps.toString());
-			return ps.executeUpdate() > 0;
-		} catch (Exception e) {
-
-			System.out.println("Query execution failed.");
-			System.out.println("Exception message : " + e.getMessage());
-
-			return false; 
-		}
-	}
-	
-	public static ResultSet executeQueryWithResults(String sqlStatement, Object[] params) {
-		con = getConnection();
-		PreparedStatement ps;
-		try {
-			System.out.println(sqlStatement);
-			ps = con.prepareStatement(sqlStatement);
-			if(params != null) {
-				for (int i = 0; i < params.length; i++) {
-					ps.setObject(i+1, params[i]);
-				}
-			}
-			System.out.println("SQL to execute: "+sqlStatement);
-			//System.out.println("prepared statement : " + ps.toString());
-
-			return ps.executeQuery();
-		} catch (Exception e) {
-
-			System.out.println("Query execution failed.");
-			System.out.println("Exception message : " + e.getMessage());
-
-			return null;
-		}
-	}
-	
 	public static String getDatabaseUserName() {
 		return dbName;
 	}
@@ -213,7 +152,7 @@ public class DatabaseController {
 				String currentAddToTable = (new StringBuilder(addToTable)).append(o.toString()).append(";").toString();
 				System.out.println("Tring to sql:");
 				System.out.println(currentAddToTable);
-				if(!executeQuery(currentAddToTable)) {
+				if(!DatabaseSimpleOperation.executeQuery(currentAddToTable)) {
 					return false; // TODO: add granularity
 				}
 			}

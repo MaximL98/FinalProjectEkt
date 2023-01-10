@@ -1,7 +1,9 @@
 package controllers;
 
 import java.text.DecimalFormat;
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import client.ClientController;
@@ -48,6 +50,8 @@ public class EktOrderSummaryController {
 
 	private GridPane gridPane;
 
+	private ArrayList<String> OrderInformation = new ArrayList<>(); 
+	
 	public void initialize() {
 		VBox productsVbox = new VBox();
 		ScrollPane centerScrollBar = new ScrollPane(productsVbox);
@@ -71,9 +75,15 @@ public class EktOrderSummaryController {
 		gridPane.setPrefSize(800 - 2, 550);
 		gridPane.setVgap(5);
 		//////////////////////////////////////////////////////
-
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+		LocalDateTime now = LocalDateTime.now();  
+		OrderInformation.add(dtf.format(now));
+		OrderInformation.add(ClientController.orderNumber.toString());
+		OrderInformation.add("Items in order:");
+		
 		int i = 0, j = 0;
 		for (Product product : ClientController.getProductByID.values()) {
+			
 			if (!(ClientController.cartPrice.get(product) == 0.0)) {
 				String currentProductID = product.getProductID();
 				Text productName = new Text("" + product.getProductName());
@@ -117,11 +127,20 @@ public class EktOrderSummaryController {
 //			GridPane.setHalignment(emptySpace, HPos.CENTER);
 				i++;
 				j = 0;
+				
+				//Max 7/1: add product name in order to array
+				OrderInformation.add(product.getProductName());
+				OrderInformation.add(quantityNum.toString());
 			}
 		}
 		txtOrderTotal.setText("ORDER TOTAL: " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 		txtOrderTotal.setLayoutX(400 - txtOrderTotal.minWidth(0) / 2);
 		ClientController.orderTotalPrice = totalPrice;
+		OrderInformation.add("\nAt a total price of " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
+		//Max 7/1: Add to user order hash map the items in the order!
+		ClientController.userOrders.put(ClientController.orderNumber, OrderInformation);
+		
+		
 		productsVbox.getChildren().add(gridPane);
 		borderPane.setCenter(centerScrollBar);
 
@@ -131,11 +150,7 @@ public class EktOrderSummaryController {
 	void getBtnApprove(ActionEvent event) {
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktPaymentForm.fxml", null, "payment");
-		// this was done so that we can use this button
-		primaryStage.setOnCloseRequest(we -> {
-			System.out.println("Pressed the X button.");
-			System.exit(0);
-		});
+
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 
@@ -147,11 +162,7 @@ public class EktOrderSummaryController {
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktCartForm.fxml", null, "Ekt Cart");
-		// this was done so that we can use this button
-		primaryStage.setOnCloseRequest(we -> {
-			System.out.println("Pressed the X button.");
-			System.exit(0);
-		});
+
 		primaryStage.show();
 	}
 
@@ -175,11 +186,7 @@ public class EktOrderSummaryController {
 	
 			ClientController.currentUserCart.keySet().clear();;
 	
-			primaryStage.setOnCloseRequest(we -> 
-				{
-					System.out.println("Pressed the X button.");
-					System.exit(0);
-				});
+
 
 			primaryStage.show();
 			//////////////////////

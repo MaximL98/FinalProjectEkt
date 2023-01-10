@@ -3,28 +3,48 @@ package Server;
 import gui.ServerPortController;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class ServerUI extends Application {
 	final public static int DEFAULT_PORT = 5555;
 	private static EktServer serverObject;
 
-	public static void main( String args[] ) throws Exception
+	/**
+	 * This is the main function for the server side of the EKT project.
+	 * main calls the JavaFX function start, where the main server GUI window is loaded.
+	 * @param args - these are the command-line arguments passed to the server application on start-up. (currently, 1/4/23 no arguments)
+	 */
+	public static void main(String args[])
 	   {   
+		try {
 		 launch(args);
-	  } // end main
+		}catch(Exception ex) {
+			System.out.println("JavaFX Application ServerUI threw an exception and stopped running. Exception: " + ex.getMessage());
+			ex.printStackTrace();
+		}
+	  } 
 	
+	/**
+	 * This method override the JavaFX start method - it calls the server-side GUI controller and loads the window shown to the user.
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub				  		
-		ServerPortController aFrame = new ServerPortController(); // create StudentFrame
+		ServerPortController serverGuiWindow = new ServerPortController();
+		// override the X button, (possible option: to disable it, like this:
+		//
+		// if we want to only allow the X button to stay:
+		// 
+		//)
+//		primaryStage.initStyle(StageStyle.UNDECORATED);
+//		primaryStage.initStyle(StageStyle.UTILITY);
 		primaryStage.setOnCloseRequest(we -> {
 	    	System.out.println("X button has been clicked!");
 
-		    if(serverObject != null) {
+		    if(serverObject != null && serverObject.isListening()) {
 		    		serverForcedShutdown();
 		    }
 		}); 
-		aFrame.start(primaryStage);
+		serverGuiWindow.start(primaryStage);
 	}
 	
 	public static void runServer(String p)
@@ -38,7 +58,7 @@ public class ServerUI extends Application {
 	        }
 	        catch(Throwable t)
 	        {
-	        	System.out.println("ERROR - Could not connect!");
+	        	System.out.println("ERROR - Could not connect! Message: " + t.getLocalizedMessage());
 	        }
 	    	
 	        serverObject = new EktServer(port);

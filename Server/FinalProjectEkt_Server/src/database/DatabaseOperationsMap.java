@@ -1,8 +1,10 @@
 package database;
 
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -10,16 +12,106 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import logic.OnlineOrder;
-import logic.Product;
-import logic.Promotions;
-import logic.SystemUser;
-import logic.OnlineOrder.Status;
-import logic.OnlineOrder.Type;
+import logic.*;
+import logic.OnlineOrder.*;
 
 public class DatabaseOperationsMap {
 	private static String SCHEMA_EKRUT = "ektdb";
 
+
+	// I recommend not using this one - it returns ResultSet to server so you have to parse it
+	// use GenericSelect instead (call the map with GENERIC_SELECT), and you will get 
+	// an array list of rows from the DB.
+	protected static final class DatabaseActionSelect implements IDatabaseAction{
+
+		@Override
+		public Object getDatabaseAction(Object[] params) {
+			ResultSet rs = null;
+			if(params.length != 1) 
+				throw new IllegalArgumentException("Invalid argument cound for database SELECT (pass only 1)");
+			if(!(params[0] instanceof String)) 
+				throw new IllegalArgumentException("Can only accept a string to database SELECT (passed " + params.getClass().getName() + ")");
+			
+			// do it
+			String query = (String)params[0];
+			rs = DatabaseSimpleOperation.executeQueryWithResults(query, null);
+			
+			// return result set
+			return rs;
+		}
+		
+	}
+	
+	/*
+	 * This one returns TO THE SERVER the following object:
+	 * ArrayList<ArrayList<Object>>
+	 * Where the outer ArrayList contains each row received from the DB, and the inner contains the chosen columns for each row
+	 * TESTED! (works)
+	 */
+	protected static final class DatabaseActionGenericSelect implements IDatabaseAction{
+
+		@Override
+		public Object getDatabaseAction(Object[] params) {
+			ResultSet rs = null;
+			if(params.length != 1) 
+				throw new IllegalArgumentException("Invalid argument cound for database GENERIC SELECT (pass only 1)");
+			if(!(params[0] instanceof String)) 
+				throw new IllegalArgumentException("Can only accept a string to database GENERIC SELECT (passed " + params.getClass().getName() + ")");
+			
+			// do it
+			String query = (String)params[0];
+			rs = DatabaseSimpleOperation.executeQueryWithResults(query, null);
+			ResultSetMetaData rsmd;
+			try {
+				rsmd = rs.getMetaData();
+				int columnsNumber = rsmd.getColumnCount();
+				ArrayList<ArrayList<Object>> result = new ArrayList<>();
+				while(rs.next()) {
+					ArrayList<Object> row = new ArrayList<>();
+					for(int i=0;i<columnsNumber;i++) {
+						row.add(rs.getObject(i + 1));
+						
+					}
+					result.add(row);
+				}
+				rs.close();
+				// here, we return to the server
+				return result;
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// return result set
+			return null;
+		}
+		
+	}
+
+	/*
+	 * Generic update query: "update table tablename set setters where condition;"
+	 */
+	protected static final class DatabaseActionGenericUpdate implements IDatabaseAction{
+
+		@Override
+		public Object getDatabaseAction(Object[] params) {
+			// get the values:
+			String tableName, setters, conditions;
+			tableName = (String)params[0];
+			setters = (String)params[1];
+			conditions = (String)params[2];
+			
+			StringBuilder sqlQuery = new StringBuilder("UPDATE ");
+			sqlQuery.append(DatabaseController.getSchemaName()).append(".").append(tableName).append(" SET ");
+			sqlQuery.append(setters).append(" WHERE ");
+			sqlQuery.append(conditions).append(";");
+			System.out.println("Sending query to database=" + sqlQuery.toString());
+			return DatabaseSimpleOperation.executeQuery(sqlQuery.toString());
+		}
+		
+	}
+	
+	
 	// this has to be protected (not private) because we need it in DatabaseController
 	 protected static final class DatabaseActionInsert implements IDatabaseAction{
 		private String tableName;
@@ -49,7 +141,7 @@ public class DatabaseOperationsMap {
 				String currentAddToTable = (new StringBuilder(addToTable)).append(o.toString()).append(";").toString();
 				System.out.println("Writing to SQL:");
 				System.out.println(currentAddToTable);
-				if(!DatabaseController.executeQuery(currentAddToTable)) {
+				if(!DatabaseSimpleOperation.executeQuery(currentAddToTable)) {
 					Boolean tmpAddMany = getAddMany();
 					cleanUp(); // careful with this line
 					if(tmpAddMany) {
@@ -98,7 +190,7 @@ public class DatabaseOperationsMap {
 
 		
 	 }
-	
+	 
 	 //Return currently logged in user back to client
 	 protected static final class DatabaseActionSelectForLogin implements IDatabaseAction{
 		private String tableName;
@@ -117,8 +209,7 @@ public class DatabaseOperationsMap {
 
 			String sqlQuery ="SELECT * FROM " +DatabaseOperationsMap.SCHEMA_EKRUT+"."+tableName+
 			 " WHERE username = \"" + user + "\" AND password = \"" + pass + "\";";
-			ResultSet queryResult  = DatabaseController.executeQueryWithResults(sqlQuery, null);
-			Boolean flag = false;
+			ResultSet queryResult  = DatabaseSimpleOperation.executeQueryWithResults(sqlQuery, null);
 			SystemUser connectedUser = null;
 			try {
 				queryResult.next();
@@ -142,7 +233,6 @@ public class DatabaseOperationsMap {
 					  String retPass = queryResult.getString(8);
 					  
 					  String role = queryResult.getString(9);
-					  flag = true;
 					  connectedUser = new SystemUser(idNew, fname, lname, fone, email, cc, retUser, retPass, role.toLowerCase());
 					  System.out.println(role);
 				  }
@@ -155,7 +245,6 @@ public class DatabaseOperationsMap {
 			return connectedUser; 
 			
 		}
-
 
 	}
 	 
@@ -179,7 +268,7 @@ public class DatabaseOperationsMap {
 	        }
 	
 	        //Uses simpler version of execute query with one input string variable (the requested sql query)
-	        ResultSet fetchProductsResultSet = DatabaseController.executeQueryWithResults(sqlQuery, null);
+	        ResultSet fetchProductsResultSet = DatabaseSimpleOperation.executeQueryWithResults(sqlQuery, null);
 	        
 	        ArrayList<Product> arrayOfProducts = new ArrayList<>();
 	        try {
@@ -230,7 +319,7 @@ public class DatabaseOperationsMap {
 							+ order.getStatus().name() + "\"), " + "deliveryTime = '"
 							+ Timestamp.valueOf(order.getDeliveryTime()).toString() + "' " + "WHERE orderId = \""
 							+ order.getOrderID() + "\";";
-					boolean success = DatabaseController.executeQuery(sqlQuery);
+					boolean success = DatabaseSimpleOperation.executeQuery(sqlQuery);
 					if (!success)
 						return success;
 				}
@@ -267,7 +356,7 @@ public class DatabaseOperationsMap {
 
 				// Uses simpler version of execute query with one input string variable (the
 				// requested sql query)
-				ResultSet fetchOnlineOrdersResultSet = DatabaseController
+				ResultSet fetchOnlineOrdersResultSet = DatabaseSimpleOperation
 						.executeQueryWithResults(sqlQuery, null);
 
 				ArrayList<OnlineOrder> orders = new ArrayList<>();
@@ -303,7 +392,7 @@ public class DatabaseOperationsMap {
 			@Override
 			public Object getDatabaseAction(Object[] params) {
 				String promotionNam = (String) params[0];
-				ResultSet fetchPromotionNames = DatabaseController.executeQueryWithResults(promotionNam, null);
+				ResultSet fetchPromotionNames = DatabaseSimpleOperation.executeQueryWithResults(promotionNam, null);
 				return fetchPromotionNames;
 			}
 		}
@@ -316,7 +405,7 @@ public class DatabaseOperationsMap {
 			public Object getDatabaseAction(Object[] params) {
 				String promotionNam = (String) params[0];
 				//String sqlQuery = "SELECT * FROM promotions WHERE promotionName = '\" + promotionNam + \"';";
-				ResultSet fetchPromotionNames = DatabaseController.executeQueryWithResults(promotionNam, null);
+				ResultSet fetchPromotionNames = DatabaseSimpleOperation.executeQueryWithResults(promotionNam, null);
 				ArrayList<Promotions> arrayOfPromotions = new ArrayList<>();
 				try {
 					while (fetchPromotionNames.next()) {
@@ -342,9 +431,19 @@ public class DatabaseOperationsMap {
 				return arrayOfPromotions;
 			}
 		}
+<<<<<<< HEAD
 		
 		protected static final class DatabaseActionUpdatePromotionStatus implements IDatabaseAction{
+=======
+		protected static final class DatabaseActionSelectForFetchMachines implements IDatabaseAction {
+			private static final String MACHINES_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + ".machine";
+			private static final String LOCATIONS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + ".locations";
+			@Override
+			public Object getDatabaseAction(Object[] machineLocations) {
+				ArrayList<Machine> machines = new ArrayList<>();
+>>>>>>> branch 'master' of https://github.com/rotemlv/FinalProjectEkt.git
 
+<<<<<<< HEAD
 			@Override
 			public Object getDatabaseAction(Object[] params) {
 				String sqlQuery = (String) params[0];
@@ -352,6 +451,130 @@ public class DatabaseOperationsMap {
 			}			
 		}
 		
+=======
+				// init locationsArr to empty array
+				Location[] locationsArr = new Location[] {};
+				// if location array passed, set it to locationsArr.
+				if (machineLocations[0] instanceof Location[]) {
+					locationsArr = (Location[]) machineLocations[0];
+				}
+				StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM ");
+				sqlBuilder.append(MACHINES_TABLE);
+				sqlBuilder.append(" LEFT JOIN ");
+				sqlBuilder.append(LOCATIONS_TABLE);
+				sqlBuilder.append(" ON ");
+				sqlBuilder.append(LOCATIONS_TABLE);
+				sqlBuilder.append(".locationID = ");
+				sqlBuilder.append(MACHINES_TABLE);
+				sqlBuilder.append(".locationId");
+
+				if (locationsArr.length > 0) {
+					sqlBuilder.append(" WHERE locationName in(");
+					for (Location location : locationsArr) {
+						if (location instanceof Location) {
+							sqlBuilder.append("\"");
+							sqlBuilder.append(location.name());
+							sqlBuilder.append("\",");
+						}
+					}
+					// delete last comma
+					sqlBuilder.deleteCharAt(sqlBuilder.lastIndexOf(","));
+					sqlBuilder.append(")");
+				}
+				sqlBuilder.append(";");
+
+				ResultSet fetchMachinesResultSet = DatabaseSimpleOperation.executeQueryWithResults(sqlBuilder.toString(), null);
+				try {
+					while (fetchMachinesResultSet.next()) {
+						int machineId = fetchMachinesResultSet.getInt("machineId");
+						int threshold = fetchMachinesResultSet.getInt("threshold_level");
+						String locationName = fetchMachinesResultSet.getString("locationName");
+						String machineName = fetchMachinesResultSet.getString("machineName");
+						machines.add(new Machine(machineId, machineName, threshold, Location.valueOf(locationName)));
+					}
+				} catch (SQLException sqle) {
+					sqle.printStackTrace();
+				}
+				return machines;
+			}
+
+		}
+		protected static final class DatabaseActionSelectForFetchProductsInMachine implements IDatabaseAction {
+			private static final String PRODUCTS_IN_MACHINE_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + ".products_in_machine";
+			private static final String PRODUCTS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "product";
+
+			@Override
+			public Object getDatabaseAction(Object[] params) {
+				ArrayList<ProductInMachine> products = new ArrayList<>();
+				if (!(params[0] instanceof Machine)) {
+					throw new InvalidParameterException("FetchProductsInMachine: Expected parameter of type 'Machine'.");
+				}
+				Machine machine = (Machine) params[0];
+				StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM ");
+				sqlBuilder.append(PRODUCTS_IN_MACHINE_TABLE);
+				sqlBuilder.append(" LEFT JOIN ");
+				sqlBuilder.append(PRODUCTS_TABLE);
+				sqlBuilder.append(" ON ");
+				sqlBuilder.append(PRODUCTS_TABLE);
+				sqlBuilder.append(".productID = ");
+				sqlBuilder.append(PRODUCTS_IN_MACHINE_TABLE);
+				sqlBuilder.append(".productID");
+				sqlBuilder.append(" WHERE machineID = ");
+				sqlBuilder.append(machine.getMachineId());
+				sqlBuilder.append(";");
+
+				ResultSet fetchProductsInMachineResultSet = DatabaseSimpleOperation
+						.executeQueryWithResults(sqlBuilder.toString(), null);
+				try {
+					while (fetchProductsInMachineResultSet.next()) {
+						String productID = fetchProductsInMachineResultSet.getString("productID");
+						String productName = fetchProductsInMachineResultSet.getString("productName");
+						String costPerUnit = fetchProductsInMachineResultSet.getString("costPerUnit");
+						int stock = fetchProductsInMachineResultSet.getInt("stock");
+						products.add(new ProductInMachine(new Product(productID, productName, costPerUnit, "", ""), machine,
+								stock));
+					}
+				} catch (SQLException sqle) {
+					sqle.printStackTrace();
+				}
+				return products;
+
+			}
+
+		}
+		protected static final class DatabaseActionUpdateForUpdateProductsInMachine implements IDatabaseAction {
+			private static final String PRODUCTS_IN_MACHINE_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + ".products_in_machine";
+
+			@Override
+			public Object getDatabaseAction(Object[] params) {
+				Object[] products = (Object[]) params[0];
+				StringBuilder sqlBuilder = new StringBuilder();
+				for (Object o : products) {
+					if (!(o instanceof ProductInMachine))
+						throw new InvalidParameterException(
+								"UpdateProductsInMachine: expected ProductInMachine objects in params[0]");
+					ProductInMachine product = (ProductInMachine) o;
+					// queries to update the products in machine
+					sqlBuilder = new StringBuilder("UPDATE ");
+					sqlBuilder.append(PRODUCTS_IN_MACHINE_TABLE);
+					sqlBuilder.append(" SET stock = ");
+					sqlBuilder.append(product.getStock());
+					sqlBuilder.append(" WHERE machineID = ");
+					sqlBuilder.append(product.getMachine().getMachineId());
+					sqlBuilder.append(" and productID = \"");
+					sqlBuilder.append(product.getProduct().getProductID());
+					sqlBuilder.append("\";");
+					boolean success = DatabaseSimpleOperation.executeQuery(sqlBuilder.toString());
+					if (!success)
+						return success;
+				}
+				return true;
+			}
+
+		}
+		
+	
+>>>>>>> branch 'master' of https://github.com/rotemlv/FinalProjectEkt.git
 	 private static HashMap<DatabaseOperation, IDatabaseAction> map = new HashMap<DatabaseOperation, IDatabaseAction>(){
 		 
 		private static final long serialVersionUID = 1L;
@@ -362,9 +585,22 @@ public class DatabaseOperationsMap {
 			this.put(DatabaseOperation.FETCH_PRODUCTS_BY_CATEGORY, new DatabaseActionSelectForFetchProducts());
 			this.put(DatabaseOperation.FETCH_ONLINE_ORDERS, new DatabaseActionSelectForFetchOnlineOrders());
 			this.put(DatabaseOperation.UPDATE_ONLINE_ORDERS, new DatabaseActionUpdateForUpdateOnlineOrders());
-			this.put(DatabaseOperation.SELECT, new DatabaseActionSelectPromotion());
+			this.put(DatabaseOperation.SELECT_PROMOTION, new DatabaseActionSelectPromotion());
 			this.put(DatabaseOperation.INSERT_PROMOTION_NAMES,  new DatabaseActionSelectPromotionNames());
+<<<<<<< HEAD
 			this.put(DatabaseOperation.UPDATE_PROMOTION_STATUS,  new DatabaseActionUpdatePromotionStatus());
+=======
+			this.put(DatabaseOperation.FETCH_MACHINES_BY_LOCATION, new DatabaseActionSelectForFetchMachines());
+			this.put(DatabaseOperation.FETCH_PRODUCTS_IN_MACHINE, new DatabaseActionSelectForFetchProductsInMachine());
+			this.put(DatabaseOperation.UPDATE_PRODUCTS_IN_MACHINE,
+					new DatabaseActionUpdateForUpdateProductsInMachine());
+			this.put(DatabaseOperation.SELECT,  new DatabaseActionSelect());
+			this.put(DatabaseOperation.UPDATE,  new DatabaseActionGenericUpdate());
+
+			// TODO: test this
+			this.put(DatabaseOperation.GENERIC_SELECT,  new DatabaseActionGenericSelect());
+
+>>>>>>> branch 'master' of https://github.com/rotemlv/FinalProjectEkt.git
 			
 			
 		}};

@@ -1,9 +1,10 @@
-package common;
+package client;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import client.ClientUI;
+import common.SCCP;
+import common.ServerClientRequestTypes;
 
 public class InactivityChecker implements Runnable {
 
@@ -44,10 +45,19 @@ public class InactivityChecker implements Runnable {
         }
     }
 
+    /**
+     * ROTEM: added (7.1) a server request for log-out (I assume this function is called when a user is connected)
+     */
     private void logoutUser() {
     	System.out.println("Innactive for 5 min. you have been logged out.");
     	try {
+			if(ClientController.getCurrentSystemUser() != null) {
+				ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.LOGOUT, ClientController.getCurrentSystemUser().getUsername()));
+			}
+			
 			ClientUI.clientController.client.closeConnection();
+			// TODO:
+			// move the client to the login page
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

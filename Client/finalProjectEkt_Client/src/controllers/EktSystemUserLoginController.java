@@ -90,8 +90,8 @@ public class EktSystemUserLoginController {
     	String userName, password;
     	userName = txtUsername.getText();
     	password = txtPassword.getText();
-    	System.out.println("Test");
-    	
+    	System.out.println(userName + " " + password);
+    	    	
     	/*
     	 * TODO
     	 * Remove this test segment! (when no longer needed)
@@ -171,6 +171,16 @@ public class EktSystemUserLoginController {
 				
 			case DIVISION_MANAGER:
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktDivisionManagerHomePage.fxml", null, "Female Division Manager Home Page");
+				break;
+			
+			case SALES_MANAGER:
+				WindowStarter.createWindow(primaryStage, this, "/gui/SalesManager.fxml", null, "Sales Manager");
+				primaryStage.show();
+				break;
+				
+			case SALES_WORKER:
+				WindowStarter.createWindow(primaryStage, this, "/gui/SalesDepartmentWorker.fxml", null, "Ekt Sales Department Worker");
+				primaryStage.show();
 				break;
 				
 			default:

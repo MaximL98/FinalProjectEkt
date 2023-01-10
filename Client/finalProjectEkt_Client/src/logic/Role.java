@@ -9,9 +9,10 @@ package logic;
  */
 
 public enum Role {
+	CUSTOMER, REGIONAL_MANAGER, LOGISTICS_MANAGER, SERVICE_REPRESENTATIVE, CEO, DIVISION_MANAGER, SALES_MANAGER, SALES_WORKER,
 	// Rotem: added the logistics employee AND SUBSCRIBER - he is the one to actually re stock the machines.
 	// ?
-	CUSTOMER, REGIONAL_MANAGER, LOGISTICS_MANAGER, SERVICE_REPRESENTATIVE, CEO, DIVISION_MANAGER, LOGISTICS_EMPLOYEE, SUBSCRIBER; 
+	LOGISTICS_EMPLOYEE, SUBSCRIBER; 
 	
 	// get role object from string
 	public static Role getRoleFromString(String roleAsString) {

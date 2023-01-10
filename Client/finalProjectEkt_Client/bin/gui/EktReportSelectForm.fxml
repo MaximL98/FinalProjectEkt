@@ -23,9 +23,9 @@
 
 <VBox fx:id="vboxCEO" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktReportSelectFormController">
    <children>
-      <Pane prefHeight="800.0" prefWidth="800.0" style="visibility: 50;">
+      <Pane prefHeight="800.0" prefWidth="800.0" style="visibility: 50; -fx-background-color: linear-gradient(from 0px 0px to 0px 1500px, pink, yellow);">
          <children>
-            <Text layoutX="312.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Reports">
+            <Text layoutX="301.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Reports">
                <font>
                   <Font name="Yu Gothic Light" size="33.0" />
                </font>
@@ -43,7 +43,7 @@
               </rowConstraints>
                <children>
                   <DatePicker fx:id="endDateOrderReports" prefHeight="33.0" prefWidth="180.0" style="-fx-border-radius: 50;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <ComboBox fx:id="comboBoxOrderReports" prefHeight="33.0" prefWidth="180.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" GridPane.rowIndex="1">
+                  <ComboBox fx:id="comboBoxOrderReports" prefHeight="33.0" prefWidth="180.0" style="-fx-background-radius: 50; -fx-border-radius: 50; -fx-border-color: crimson;" GridPane.rowIndex="1">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -79,7 +79,7 @@
             </GridPane>
             <Line endX="250.0" layoutX="400.0" layoutY="100.0" startX="-250.0" stroke="#4d26cd" style="-fx-opacity: 0.5;" />
             <Line endX="350.0" layoutX="400.0" layoutY="280.0" startX="-350.0" stroke="#4d26cd" style="-fx-opacity: 0.5;" />
-            <Text layoutX="288.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inventory Reports">
+            <Text layoutX="276.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inventory Reports">
                <font>
                   <Font name="Yu Gothic Light" size="33.0" />
                </font>
@@ -126,7 +126,7 @@
                </children>
             </GridPane>
             <Line endX="350.0" layoutX="400.0" layoutY="460.0" startX="-350.0" stroke="#4d26cd" style="-fx-opacity: 0.5;" />
-            <Text layoutX="229.0" layoutY="510.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Activity Reports">
+            <Text layoutX="218.0" layoutY="510.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Activity Reports">
                <font>
                   <Font name="Yu Gothic Light" size="33.0" />
                </font>

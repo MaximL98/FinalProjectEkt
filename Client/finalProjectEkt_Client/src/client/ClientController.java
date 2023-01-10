@@ -48,6 +48,8 @@ public class ClientController
 
   // Rotem added for now (8.1)
   public static String _EkCurrentMachineName;
+  // Rotem added also (10.1)
+  public static int _EkCurrentMachineID;
 
 
   public ClientController(String host, int port) throws IOException

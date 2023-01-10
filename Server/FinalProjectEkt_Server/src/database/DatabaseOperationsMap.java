@@ -522,8 +522,12 @@ public class DatabaseOperationsMap {
 						String productName = fetchProductsInMachineResultSet.getString("productName");
 						String costPerUnit = fetchProductsInMachineResultSet.getString("costPerUnit");
 						int stock = fetchProductsInMachineResultSet.getInt("stock");
+						// ROTEM >>>
+						int maxStock = fetchProductsInMachineResultSet.getInt("max_stock");
+						// ROTEM!!!
+						// added maxStock here because we do need it!
 						products.add(new ProductInMachine(new Product(productID, productName, costPerUnit, "", ""), machine,
-								stock));
+								stock, maxStock));
 					}
 				} catch (SQLException sqle) {
 					sqle.printStackTrace();

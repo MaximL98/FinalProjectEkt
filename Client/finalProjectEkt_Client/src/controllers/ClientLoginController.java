@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import client.ClientController;
@@ -172,6 +173,21 @@ public class ClientLoginController {
 	}
 
 	@FXML public void getFinishEkConfig(ActionEvent event) {
+		// send query to get the machine ID (yeah yeah):
+		SCCP msg = new SCCP(ServerClientRequestTypes.SELECT, 
+				new Object[]{"machine", true, "machineId", true, "machineName = '" +ClientController._EkCurrentMachineName+ "'", false, null});
+		ClientUI.clientController.accept(msg);
+		if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
+			@SuppressWarnings("unchecked")
+			ArrayList<ArrayList<Object>> tmp= (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
+			System.out.println(tmp);
+			ClientController._EkCurrentMachineID = (Integer.valueOf(tmp.get(0).get(0).toString()));
+			System.out.println("Machine ID set to " + ClientController._EkCurrentMachineID);
+		}
+		else {
+			throw new RuntimeException("Error getting machine ID from database");
+		}
+		
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, this, "/gui/_EKConfigurationLoginFrame.fxml", null, "Login");

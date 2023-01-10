@@ -20,6 +20,7 @@ import logic.Machine;
 import logic.Product;
 import logic.ProductInMachine;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 
 public class _EKConfigurationPartialRestockController {
@@ -49,6 +50,11 @@ public class _EKConfigurationPartialRestockController {
 	@FXML TableColumn<ProductTableClass, Integer> colCurrentStock;
 
 	@FXML TableColumn<ProductTableClass, Integer> colMaxStock;
+	
+	@FXML
+	Button change;
+	@FXML
+	TextField changeTextField;
 
     @FXML
     private void initialize() {
@@ -62,6 +68,9 @@ public class _EKConfigurationPartialRestockController {
     	
     	// fuck
     	tblProducts.setEditable(true);
+    	tblProducts.getSelectionModel().setCellSelectionEnabled(true);
+    	//tblProducts.getColumns().setAll(firstDataColumn, secondDataColumn);
+        
     	//colMaxStock.setCellFactory(TextFieldTableCell.forTableColumn());
     	
 		// send this query:

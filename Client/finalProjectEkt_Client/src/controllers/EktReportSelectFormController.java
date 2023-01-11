@@ -251,7 +251,7 @@ public class EktReportSelectFormController extends Application{
 	 */
 	public void getBtnLogout(ActionEvent event) throws Exception {
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page");
+		//WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page");
 		primaryStage.setOnCloseRequest(we -> {
 			System.out.println("Pressed the X button."); 
 			System.exit(0);

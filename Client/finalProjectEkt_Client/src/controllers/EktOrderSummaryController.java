@@ -24,6 +24,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import logic.Product;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -170,13 +171,14 @@ public class EktOrderSummaryController {
 	void getBtnClose(ActionEvent event) {
 		// Alert window
 		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.initStyle(StageStyle.UNDECORATED);
 		alert.setTitle("Cancel Order");
 		alert.setHeaderText("This action will remove all items from the order!");
 		alert.setContentText("Are you sure you want to continue?");
 		Optional<ButtonType> result = alert.showAndWait();
 
 		if (result.get() == ButtonType.OK) {
-			// Login window//
+			System.out.println("Canceling Order...");
 			((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 			Stage primaryStage = new Stage();
 
@@ -184,13 +186,24 @@ public class EktOrderSummaryController {
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktCatalogForm.fxml", null, 
 					ClientController.CurrentProductCategory.get(0));
 	
+			EktProductFormController.itemsInCart = 0;
+			ClientController.getProductByID.keySet().clear();
+			ClientController.cartPrice.keySet().clear();
 			ClientController.currentUserCart.keySet().clear();;
-	
-
-
 			primaryStage.show();
 			//////////////////////
 			((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // hiding primary window
+		}
+		
+		else if (result.get() == ButtonType.CANCEL) {
+			System.out.println("Cancel Order was canceled");
+			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			Stage primaryStage = new Stage();
+			//category is located in a ArrayList
+			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktOrderSummary.fxml", null, "Order Summary");
+
+			primaryStage.show();
+
 		}
 	}
 }

@@ -12,13 +12,7 @@ import ocsf.server.ConnectionToClient;
 public class EktServer extends AbstractServer 
 {
 
-	/**
-	 * Rotem: added these fields to help the server overcome "attacks" (repeated, fast clicks by one client)
-	 * So that we don't send queries to the database when the current query is identical to the last one. 
-	 * NOT YET IN USE
-	 */
-	private static SCCP lastReceived, lastSent;
-	
+
   public EktServer(int port) 
   {
 	  // create the server
@@ -59,6 +53,13 @@ public class EktServer extends AbstractServer
 		  // error
 		  System.out.println("ERROR! Server got message from " + client +
 				  " not of type SCCP! message: "+ msg +" type of message: "+ (msg.getClass()));
+		  // Rotem @ 11.1 -> added crash response in this case:
+			try {
+				client.sendToClient(new SCCP(ServerClientRequestTypes.CRASH, "Invalid communications protocol"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	  }
   }
    
@@ -69,8 +70,8 @@ public class EktServer extends AbstractServer
   protected void serverStarted()
   {
 	  System.out.println ("Server listening for connections on port " + getPort());
-
   }
+  
   /**
    * This method overrides the one in the superclass.  Called
    * when the server stops listening for connections.
@@ -104,12 +105,8 @@ public class EktServer extends AbstractServer
 			}
 		}
 		
-		// TODO: move this to EktServer too (just call a new method there and remove everything from here)
-		// DONE (test)
-		// disconnect from DB (not needed, taken care of in the serverStopped method)
-		//DatabaseController.closeDBController();
 		
-		// close the server
+		// close the server (closing the DB is done inside serverStopped() )
 		try {
 			this.close();
 		} catch (IOException e) {

@@ -10,6 +10,11 @@ import java.util.ArrayList;
  * @author Maxim Lebedinsky
  * @version 16/12/2022
  */
+
+/*
+ * ROTEM ADDED MAX STOCK HERE ALSO 
+ */
+
 public class Machine implements Serializable {
 	/**
 	 * 
@@ -169,11 +174,11 @@ public class Machine implements Serializable {
 		return null;
 	}
 
-	public void addProduct(Product productToAdd, int initialStock) {
+	public void addProduct(Product productToAdd, int initialStock, int maxStock) {
 		// product already in machine
 		if (getProductInMachine(productToAdd) != null)
 			return;
-		products.add(new ProductInMachine(productToAdd, this, initialStock));
+		products.add(new ProductInMachine(productToAdd, this, initialStock, maxStock));
 	}
 
 	public void removeProduct(Product productToRemove) {

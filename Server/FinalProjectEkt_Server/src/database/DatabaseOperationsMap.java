@@ -234,6 +234,7 @@ public class DatabaseOperationsMap {
 					  
 					  String role = queryResult.getString(9);
 					  connectedUser = new SystemUser(idNew, fname, lname, fone, email, cc, retUser, retPass, role.toLowerCase());
+					  System.out.println(role);
 				  }
 				  queryResult.close();
 
@@ -395,6 +396,7 @@ public class DatabaseOperationsMap {
 				return fetchPromotionNames;
 			}
 		}
+		
 
 		// Object[] params contains just the sqlQuery at the [0] index
 		protected static final class DatabaseActionSelectPromotion implements IDatabaseAction {
@@ -407,28 +409,21 @@ public class DatabaseOperationsMap {
 				ArrayList<Promotions> arrayOfPromotions = new ArrayList<>();
 				try {
 					while (fetchPromotionNames.next()) {
+						String promotionID = fetchPromotionNames.getString("promotionId");
 						String promotionName = fetchPromotionNames.getString("promotionName");
-
 						String promotionDescription = fetchPromotionNames.getString("promotionDescription");
-
 						int locationId = Integer.parseInt(fetchPromotionNames.getString("locationId"));
-
 						String productID = fetchPromotionNames.getString("productID");
-
 						String discountPercentage = fetchPromotionNames.getString("discountPercentage");
-
 						Date startDate = fetchPromotionNames.getDate("startDate");
 						Date endDate = fetchPromotionNames.getDate("endDate");
-
 						boolean promotionStatus = fetchPromotionNames.getBoolean("promotionStatus");
 
-						Promotions tempPromtions = new Promotions(promotionName, locationId, promotionDescription,
-								productID, null, discountPercentage, startDate, endDate, promotionStatus);
+						Promotions tempPromtions = new Promotions(promotionID, promotionName, promotionDescription,
+								locationId, productID, discountPercentage, startDate, endDate, promotionStatus);
 
 						System.out.println(tempPromtions.toString());
-
 						arrayOfPromotions.add(tempPromtions);
-
 					}
 				} catch (SQLException sqle) {
 					sqle.printStackTrace();
@@ -436,13 +431,21 @@ public class DatabaseOperationsMap {
 				return arrayOfPromotions;
 			}
 		}
+		
+		protected static final class DatabaseActionUpdatePromotionStatus implements IDatabaseAction{
+			@Override
+			public Object getDatabaseAction(Object[] params) {
+				String sqlQuery = (String) params[0];
+				return DatabaseSimpleOperation.executeQuery(sqlQuery);
+			}			
+		}
+
 		protected static final class DatabaseActionSelectForFetchMachines implements IDatabaseAction {
 			private static final String MACHINES_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + ".machine";
 			private static final String LOCATIONS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + ".locations";
 			@Override
 			public Object getDatabaseAction(Object[] machineLocations) {
 				ArrayList<Machine> machines = new ArrayList<>();
-
 				// init locationsArr to empty array
 				Location[] locationsArr = new Location[] {};
 				// if location array passed, set it to locationsArr.
@@ -522,8 +525,12 @@ public class DatabaseOperationsMap {
 						String productName = fetchProductsInMachineResultSet.getString("productName");
 						String costPerUnit = fetchProductsInMachineResultSet.getString("costPerUnit");
 						int stock = fetchProductsInMachineResultSet.getInt("stock");
+						// ROTEM >>>
+						int maxStock = fetchProductsInMachineResultSet.getInt("max_stock");
+						// ROTEM!!!
+						// added maxStock here because we do need it!
 						products.add(new ProductInMachine(new Product(productID, productName, costPerUnit, "", ""), machine,
-								stock));
+								stock, maxStock));
 					}
 				} catch (SQLException sqle) {
 					sqle.printStackTrace();
@@ -572,20 +579,26 @@ public class DatabaseOperationsMap {
 		{
 			this.put(DatabaseOperation.INSERT, new DatabaseActionInsert());
 			this.put(DatabaseOperation.USER_LOGIN, new DatabaseActionSelectForLogin());
-			this.put(DatabaseOperation.FETCH_PRODUCTS_BY_CATEGORY, new DatabaseActionSelectForFetchProducts());
-			this.put(DatabaseOperation.FETCH_ONLINE_ORDERS, new DatabaseActionSelectForFetchOnlineOrders());
-			this.put(DatabaseOperation.UPDATE_ONLINE_ORDERS, new DatabaseActionUpdateForUpdateOnlineOrders());
-			this.put(DatabaseOperation.SELECT_PROMOTION, new DatabaseActionSelectPromotion());
-			this.put(DatabaseOperation.INSERT_PROMOTION_NAMES,  new DatabaseActionSelectPromotionNames());
-			this.put(DatabaseOperation.FETCH_MACHINES_BY_LOCATION, new DatabaseActionSelectForFetchMachines());
-			this.put(DatabaseOperation.FETCH_PRODUCTS_IN_MACHINE, new DatabaseActionSelectForFetchProductsInMachine());
-			this.put(DatabaseOperation.UPDATE_PRODUCTS_IN_MACHINE,
-					new DatabaseActionUpdateForUpdateProductsInMachine());
 			this.put(DatabaseOperation.SELECT,  new DatabaseActionSelect());
 			this.put(DatabaseOperation.UPDATE,  new DatabaseActionGenericUpdate());
-
-			// TODO: test this
 			this.put(DatabaseOperation.GENERIC_SELECT,  new DatabaseActionGenericSelect());
+			
+			this.put(DatabaseOperation.FETCH_PRODUCTS_BY_CATEGORY, new DatabaseActionSelectForFetchProducts());
+			this.put(DatabaseOperation.FETCH_ONLINE_ORDERS, new DatabaseActionSelectForFetchOnlineOrders());
+			this.put(DatabaseOperation.FETCH_MACHINES_BY_LOCATION, new DatabaseActionSelectForFetchMachines());
+			this.put(DatabaseOperation.FETCH_PRODUCTS_IN_MACHINE, new DatabaseActionSelectForFetchProductsInMachine());
+
+			this.put(DatabaseOperation.SELECT_PROMOTION, new DatabaseActionSelectPromotion());
+
+			this.put(DatabaseOperation.UPDATE_ONLINE_ORDERS, new DatabaseActionUpdateForUpdateOnlineOrders());
+			this.put(DatabaseOperation.UPDATE_PROMOTION_STATUS,  new DatabaseActionUpdatePromotionStatus());
+			this.put(DatabaseOperation.UPDATE_PRODUCTS_IN_MACHINE,
+					new DatabaseActionUpdateForUpdateProductsInMachine());
+			
+			this.put(DatabaseOperation.INSERT_PROMOTION_NAMES,  new DatabaseActionSelectPromotionNames());
+
+			
+
 
 			
 			
@@ -595,6 +608,7 @@ public class DatabaseOperationsMap {
 	public static HashMap<DatabaseOperation, IDatabaseAction> getMap() {
 		return map;
 	}
+
 	
 }
 

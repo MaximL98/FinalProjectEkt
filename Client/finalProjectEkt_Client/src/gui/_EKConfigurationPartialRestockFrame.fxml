@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationPartialRestockController">
+   <children>
+      <Pane prefHeight="470.0" prefWidth="800.0">
+         <children>
+            <ImageView fitHeight="93.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/TheBetterLogo.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="txtWelcomeText" layoutX="175.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please choose an order" textAlignment="CENTER">
+               <font>
+                  <Font name="OpenSymbol" size="44.0" />
+               </font>
+            </Text>
+            <Button fx:id="btnFinishRestock" layoutX="54.0" layoutY="366.0" mnemonicParsing="false" onAction="#getBtnFinishRestock" prefHeight="59.0" prefWidth="693.0" text="Finish">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
+            <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="314.0" layoutY="408.0" prefHeight="34.0" prefWidth="144.0" text="test" textAlignment="CENTER" visible="false" />
+            <Button fx:id="btnCancel" layoutX="673.0" layoutY="45.0" mnemonicParsing="false" onAction="#getBtnCancel" prefHeight="34.0" prefWidth="102.0" text="Cancel" />
+            <TableView fx:id="tblProducts" layoutX="54.0" layoutY="123.0" prefHeight="210.0" prefWidth="693.0">
+              <columns>
+                <TableColumn fx:id="colProdID" prefWidth="166.0" text="Product ID" />
+                <TableColumn fx:id="colProdName" prefWidth="168.0" text="Product Name" />
+                  <TableColumn fx:id="colCurrentStock" prefWidth="172.0" text="Current stock" />
+                  <TableColumn fx:id="colMaxStock" onEditCommit="#onEditChanged" prefWidth="186.0" text="New stock" />
+              </columns>
+            </TableView>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

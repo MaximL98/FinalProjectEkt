@@ -428,7 +428,7 @@ public class ServerMessageHandler {
 					}
 					// close rs
 					rs.close();
-					System.out.println("cock sucking finished working on first queer");
+					System.out.println("Finished working on first queery");
 					// now, we expect result to be of size 1, and contain an array list with 2 columns! (else, we have an invalid login attempt)
 					if(result.size() != 1) {
 						// invalid login
@@ -468,7 +468,8 @@ public class ServerMessageHandler {
 									for(int i=0;i<columnsNumber2;i++) {
 										row2.add(rs2.getObject(i + 1));
 									}
-									result.add(row2);
+									// ROTEM FIXED THIS - OF COURSE IT WAS F 
+									result2.add(row2);
 								}
 								// close rs2
 								System.out.println("Wrote second query's result: " + result);
@@ -622,8 +623,8 @@ public class ServerMessageHandler {
 
 		@Override
 		public SCCP handleMessage(SCCP fetchOnlineOrdersMessage) {
-			Object resultSetOnlineOrders = DatabaseController.handleQuery(
-					DatabaseOperation.FETCH_ONLINE_ORDERS, new Object[] { fetchOnlineOrdersMessage.getMessageSent() });
+			Object resultSetOnlineOrders = DatabaseController.handleQuery(DatabaseOperation.FETCH_ONLINE_ORDERS,
+					new Object[] { fetchOnlineOrdersMessage.getMessageSent() });
 
 			if (resultSetOnlineOrders instanceof ArrayList) {
 				return new SCCP(ServerClientRequestTypes.FETCH_ONLINE_ORDERS, resultSetOnlineOrders);
@@ -640,8 +641,9 @@ public class ServerMessageHandler {
 		public SCCP handleMessage(SCCP displayPromotionMessage) {
 
 			try {
-				ResultSet resultSet = (ResultSet) DatabaseController
-						.handleQuery(DatabaseOperation.INSERT_PROMOTION_NAMES,new Object[] {"SELECT DISTINCT promotionName FROM promotions;"});
+				ResultSet resultSet = (ResultSet) DatabaseController.handleQuery(
+						DatabaseOperation.INSERT_PROMOTION_NAMES,
+						new Object[] { "SELECT DISTINCT promotionName FROM promotions;" });
 				resultSet.beforeFirst();
 				while (resultSet.next()) {
 					String promotionName = resultSet.getString("promotionName");
@@ -660,16 +662,20 @@ public class ServerMessageHandler {
 
 	}
 
-	public static final class HandleMessageDisplaySelectedPromotions implements IServerSideFunction{
+	public static final class HandleMessageDisplaySelectedPromotions implements IServerSideFunction {
 
-		ArrayList<Promotions> promotions = new ArrayList<>();
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public SCCP handleMessage(SCCP displayPromotionMessage) {
+			ArrayList<Promotions> promotions;
+
 			String promotionName = (String) displayPromotionMessage.getMessageSent();
-			//promotions = (ArrayList<Promotions>) DatabaseController
-					//.handleQuery(DatabaseOperation.SELECT,new Object[] {"SELECT * FROM promotions WHERE promotionName = '\" + promotionName +"\';"});
-			promotions = (ArrayList<Promotions>) DatabaseController.handleQuery(DatabaseOperation.SELECT_PROMOTION, new Object[] {"SELECT * FROM promotions WHERE promotionName = '" + promotionName + "';"});
+			// promotions = (ArrayList<Promotions>) DatabaseController
+			// .handleQuery(DatabaseOperation.SELECT,new Object[] {"SELECT * FROM promotions
+			// WHERE promotionName = '\" + promotionName +"\';"});
+			promotions = (ArrayList<Promotions>) DatabaseController.handleQuery(DatabaseOperation.SELECT,
+					new Object[] { "SELECT * FROM promotions WHERE promotionName = '" + promotionName + "';" });
 			return new SCCP(ServerClientRequestTypes.DISPLAY, promotions);
 		}
 	}
@@ -828,6 +834,33 @@ public class ServerMessageHandler {
 		}
 
 	}
+	
+	private static final class HandleMessageDisplayPromotionsToActive implements IServerSideFunction {
+		ArrayList<Promotions> promotionNames = new ArrayList<Promotions>();
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public SCCP handleMessage(SCCP message) {
+				Integer workerID =  (Integer) message.getMessageSent();
+				promotionNames= (ArrayList<Promotions>) DatabaseController
+						.handleQuery(DatabaseOperation.SELECT,new Object[] {"SELECT * FROM promotions WHERE locationId = (SELECT locationId FROM manager_location WHERE idRegionalManager = " + workerID + ");"});
+					
+
+				return new SCCP(ServerClientRequestTypes.DISPLAY, promotionNames);
+		}
+	}
+	
+	private static final class HandleMessageUpdateStatus implements IServerSideFunction {
+
+		@Override
+		public SCCP handleMessage(SCCP message) {
+				String promotionID = (String) message.getMessageSent();
+				return new SCCP(ServerClientRequestTypes.UPDATE_PROMOTION_STATUS, DatabaseController.handleQuery(DatabaseOperation.UPDATE_PROMOTION_STATUS, new Object[] {"UPDATE promotions\n"
+						+ "SET promotionStatus = NOT promotionStatus\n"
+						+ "WHERE promotionId = '"+promotionID+"';\n"
+						+ ""}));
+		}
+	}
 
 	private static HashMap<ServerClientRequestTypes, IServerSideFunction> map = 
 			new HashMap<ServerClientRequestTypes, IServerSideFunction>() {
@@ -855,6 +888,9 @@ public class ServerMessageHandler {
 		this.put(ServerClientRequestTypes.UPDATE_ONLINE_ORDERS, new HandleMessageUpdateOnlineOrders());
 		this.put(ServerClientRequestTypes.ADD_PROMOTION, new HandleMessageAddPromotion());
 		
+		this.put(ServerClientRequestTypes.UPDATE_PROMOTION_STATUS, new HandleMessageUpdateStatus());
+		this.put(ServerClientRequestTypes.DISPLAY_PROMOTIONS_TO_ACTIVE,
+				new HandleMessageDisplayPromotionsToActive());
 		
 		
 	}};

@@ -14,11 +14,14 @@ public class ProductInMachine implements Serializable {
 	private Machine machine;
 	// how much of it is there in the machine.
 	private int stock;
+	// Rotem added: How much TOTAL is allowed? max_stock?
+	private int maxStock;
 	
-	public ProductInMachine(Product product, Machine machine, int stock) {
+	public ProductInMachine(Product product, Machine machine, int stock, int maxStock) {
 		this.product = product;
 		this.machine = machine;
 		this.stock = stock;
+		this.maxStock = maxStock;
 	}
 
 	public int getStock() {
@@ -35,6 +38,14 @@ public class ProductInMachine implements Serializable {
 
 	public Machine getMachine() {
 		return machine;
+	}
+
+	public int getMaxStock() {
+		return maxStock;
+	}
+
+	public void setMaxStock(int maxStock) {
+		this.maxStock = maxStock;
 	}
 
 	

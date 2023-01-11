@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.ByteArrayInputStream;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -7,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import client.ClientController;
+import client.ClientUI;
+import common.SCCP;
+import common.ServerClientRequestTypes;
 import common.WindowStarter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -102,8 +106,37 @@ public class EktOrderSummaryController {
 				quantity.setFont(new Font(18));
 				sum.setFont(new Font(18));
 
-				String pathToImage = "controllers/Images/" + ((Product) product).getProductID() + ".png";
-				ImageView productImageView = new ImageView(new Image(pathToImage));
+				
+				////////////////////////////////////////
+				
+				//getting files (images) for product from database, based on product id
+				SCCP getImageFromDatabase = new SCCP();
+				
+				getImageFromDatabase.setRequestType(ServerClientRequestTypes.SELECT);
+				//Search for products for the correct catalog
+				
+				getImageFromDatabase.setMessageSent(new Object[] {"files", false, null , true, "file_name = '" + ((Product) product).getProductID() + ".png'" , false, null});
+				//Log message
+				System.out.println("Client: Sending " + "Product Files" + " to server.");
+				
+				Image img = null;
+				ClientUI.clientController.accept(getImageFromDatabase);
+				if (ClientController.responseFromServer.getRequestType().equals
+						(ServerClientRequestTypes.ACK)) {
+					//[[file_id, file, file_name] , [...]]
+					@SuppressWarnings("unchecked")
+					ArrayList<ArrayList<Object>> arrayOfFiles = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
+					
+					for(ArrayList<Object> file: arrayOfFiles) {
+						System.out.println("The file is = " + file.toString());
+						img = new Image(new ByteArrayInputStream((byte[])file.get(1)));
+					}
+				}
+				
+				////////////////////////////////////////
+
+		
+				ImageView productImageView = new ImageView(img);
 				productImageView.setFitHeight(75);
 				productImageView.setFitWidth(75);
 				productImageView.setTranslateX(20);

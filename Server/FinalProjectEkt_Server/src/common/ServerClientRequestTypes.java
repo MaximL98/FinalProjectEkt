@@ -20,6 +20,7 @@ public enum ServerClientRequestTypes {
 	
 	//FETCH_MACHINES_BY_LOCATION, FETCH_PRODUCTS_IN_MACHINE, UPDATE_PRODUCTS_IN_MACHINE; 
 	//these belong to daniel but I removed them (ONLY INSERT HERE WHAT IS IMPLEMENTED IN ServerMessageHandler!!!!!)
+
 	
 	/*
 	 * Legend:

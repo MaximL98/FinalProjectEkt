@@ -102,7 +102,10 @@ public class EktPaymentFormController {
 		
 		fillOrder[0] = "orders (total_price, total_quantity, machineID, date_received, deliveryTime, typeId, statusId)";
 		fillOrder[1] = false;
-		fillOrder[2] = new Object[] {"(" + 1 + "," + 1 + "," + 1 + ",\"" + "2023-01-07" + "\"" + ",\"" +"2023-01-08 11:00:00" + "\"" + "," + 1 + "," + 1 + ")"};
+		fillOrder[2] = new Object[] {"(" + ClientController.orderTotalPrice + "," + 
+		ClientController.orderTotalQuantity + "," + 1 + ",\"" + 
+		ClientController.orderDateReceived + "\"" + ",\"" + ClientController.orderDeliveryTime + 
+				"\"" + "," + 1 + "," + 1 + ")"};
 		
 		preparedMessage.setMessageSent(fillOrder); 
 		ClientUI.clientController.accept(preparedMessage);

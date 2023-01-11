@@ -49,6 +49,11 @@ public class ClientController
   // Rotem added for now (8.1)
   public static String _EkCurrentMachineName;
 
+  
+  //Maxim Added (11.1)
+  public static Integer orderTotalQuantity;
+  public static String orderDateReceived;
+  public static String orderDeliveryTime;
 
   public ClientController(String host, int port) throws IOException
   {

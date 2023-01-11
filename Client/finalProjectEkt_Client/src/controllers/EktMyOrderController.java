@@ -1,6 +1,21 @@
 package controllers;
 
+import java.awt.Desktop;
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import client.ClientController;
 import client.ClientUI;
@@ -52,23 +67,21 @@ public class EktMyOrderController {
 		preparedMessage.setRequestType(ServerClientRequestTypes.SELECT);
 		//Search for products for the correct catalog
 		
-		preparedMessage.setMessageSent(new Object[] {"orders", false, null , true, "statusId = 1" , false, null});
+		preparedMessage.setMessageSent(new Object[] {"orders", false, null , false, null , true, "LEFT JOIN order_contents on orders.orderID = order_contents.orderID"});
 		//Log message
 		System.out.println("Client: Sending " + "order" + " to server.");
 		
 		ClientUI.clientController.accept(preparedMessage);
 		if (ClientController.responseFromServer.getRequestType().equals
-				(ServerClientRequestTypes.SELECT)) {
+				(ServerClientRequestTypes.ACK)) {
 			ArrayList<?> arrayOfOrders = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
 			
 			for(Object order: arrayOfOrders) {
-				System.out.println(order.toString());
+				
+				System.out.println("The order is = " + order.toString());
 			}
 
 		}
-			
-		
-		
 		borderPaneInProgress.setCenter(centerScrollBar);
 	}
 
@@ -80,5 +93,4 @@ public class EktMyOrderController {
 
 		primaryStage.show();
 	}
-
 }

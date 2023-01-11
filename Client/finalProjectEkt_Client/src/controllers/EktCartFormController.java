@@ -30,6 +30,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import logic.Product;
 
 public class EktCartFormController {
@@ -307,13 +308,15 @@ public class EktCartFormController {
 		alert.setTitle("Clear Cart");
 		alert.setHeaderText("This action will remove all items from the cart");
 		alert.setContentText("Are you sure you want to continue?");
+		alert.initStyle(StageStyle.UNDECORATED);
 		Optional<ButtonType> result = alert.showAndWait();
 
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 
 		if (result.get() == ButtonType.OK) {
+			System.out.println("Cleaning cart...");
 			EktProductFormController.itemsInCart = 0;
-			//Login window//
+			
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
 			//category is located in a ArrayList
@@ -323,6 +326,15 @@ public class EktCartFormController {
 			ClientController.currentUserCart.keySet().clear();
 			ClientController.getProductByID.keySet().clear();
 			ClientController.cartPrice.keySet().clear();
+			primaryStage.show();
+			//////////////////////
+			((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
+		}
+		else if(result.get() == ButtonType.CANCEL) {
+			System.out.println("Clear cart was canceled");
+			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			Stage primaryStage = new Stage();
+	        WindowStarter.createWindow(primaryStage, this, "/gui/EktCartForm.fxml", null, "Ekt Cart");
 			primaryStage.show();
 			//////////////////////
 			((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window

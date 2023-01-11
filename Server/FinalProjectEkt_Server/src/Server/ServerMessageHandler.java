@@ -674,7 +674,7 @@ public class ServerMessageHandler {
 			// promotions = (ArrayList<Promotions>) DatabaseController
 			// .handleQuery(DatabaseOperation.SELECT,new Object[] {"SELECT * FROM promotions
 			// WHERE promotionName = '\" + promotionName +"\';"});
-			promotions = (ArrayList<Promotions>) DatabaseController.handleQuery(DatabaseOperation.SELECT,
+			promotions = (ArrayList<Promotions>) DatabaseController.handleQuery(DatabaseOperation.SELECT_PROMOTION,
 					new Object[] { "SELECT * FROM promotions WHERE promotionName = '" + promotionName + "';" });
 			return new SCCP(ServerClientRequestTypes.DISPLAY, promotions);
 		}

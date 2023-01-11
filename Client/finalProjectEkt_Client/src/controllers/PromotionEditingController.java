@@ -128,7 +128,7 @@ public class PromotionEditingController {
 
 		// if the response is not the type we expect, something went wrong with server
 		// communication and we throw an exception.
-		if (!(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ADD))) {
+		if (!(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK))) {
 			throw new RuntimeException("Error with server communication: Non expected request type");
 		} else {
 			Alert successMessage = new Alert(AlertType.INFORMATION);

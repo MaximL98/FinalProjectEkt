@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -40,46 +41,54 @@ import logic.Machine;
 public class EktReportSelectFormController extends Application{
 	private ArrayList<?> machinesList;
 	
-	@FXML
-	private Button buttonViewOrderReports;
-	
-	@FXML
-	private Button buttonViewInventoryReports;
-	
-	@FXML
-	private Button buttonViewCustomerReports;
-	
-	@FXML 
-	private DatePicker startDateOrderReports;
-	
-	@FXML 
-	private DatePicker endDateOrderReports;
-	
-	@FXML 
-	private DatePicker startDateCustomerReports;
-	
-	@FXML 
-	private DatePicker endDateCustomerReports;
-	
-	@FXML
-	private Text orderErrorMessage;
-	
-	@FXML
-	private Text inventoryErrorMessage;
-	
-	@FXML
-	private Text customerErrorMessage;
-	
-	@FXML 
-	private ComboBox<String> comboBoxOrderReports;
-	
-	@FXML 
-	private ComboBox<String> comboBoxInventoryReports;
-	
-	@FXML 
-	private ComboBox<String> comboBoxCustomerReports;
+    @FXML
+    private Button btnBack;
 
-	@FXML VBox vboxCEO;
+    @FXML
+    private Button buttonViewCustomerReports;
+
+    @FXML
+    private Button buttonViewInventoryReports;
+
+    @FXML
+    private Button buttonViewOrderReports;
+
+    @FXML
+    private ComboBox<String> comboBoxCustomerReports;
+
+    @FXML
+    private ComboBox<String> comboBoxInventoryReports;
+
+    @FXML
+    private ComboBox<String> comboBoxMonthCustomerReports;
+
+    @FXML
+    private ComboBox<String> comboBoxMonthOrderReports;
+
+    @FXML
+    private ComboBox<String> comboBoxOrderReports;
+
+    @FXML
+    private ComboBox<String> comboBoxYearCustomerReports;
+
+    @FXML
+    private ComboBox<String> comboBoxYearOrderReports;
+
+    @FXML
+    private Text customerErrorMessage;
+
+    @FXML
+    private Text inventoryErrorMessage;
+
+    @FXML
+    private Text orderErrorMessage;
+
+    @FXML
+    private Text txtRegion;
+
+    @FXML
+    private VBox vboxCEO;
+
 	
 	@FXML
 	public void initialize() {
@@ -94,18 +103,31 @@ public class EktReportSelectFormController extends Application{
 		//Setup InventoryReports combo box
 		ObservableList<String> comboInventory = FXCollections.observableArrayList();
 		
-		
 		//Setup CustomerReports combo box
 		ObservableList<String> comboCustomers = FXCollections.observableArrayList();
 		
-		startDateCustomerReports.setStyle("-fx-primary-color: crimson;");
-		endDateCustomerReports.setStyle("-fx-background: crimson;");
-		startDateOrderReports.setStyle("-fx-background: crimson;");
-		endDateOrderReports.setStyle("-fx-background: crimson;");
+		ObservableList<String> comboMonths = FXCollections.observableArrayList(
+			"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+		
+		ObservableList<String> comboYears = FXCollections.observableArrayList();
+		
+		int year = Year.now().getValue();
+		for (int i = 0; i < 10; i++) {
+			comboYears.add("" + year--);
+		}
+		//Set months and years for the combo boxes
+		comboBoxMonthOrderReports.setItems(comboMonths);
+		comboBoxYearOrderReports.setItems(comboYears);
+		comboBoxMonthCustomerReports.setItems(comboMonths);
+		comboBoxYearCustomerReports.setItems(comboYears);
+		
+		txtRegion.setText(ClientController.getCurrentUserRegion() + " Region");
+		txtRegion.setLayoutX(400 - (txtRegion.minWidth(0))/2);
 		
 		SCCP fetchMachines = new SCCP();
 		fetchMachines.setRequestType(ServerClientRequestTypes.SELECT);
-		fetchMachines.setMessageSent(new Object[] {"machine", false, null, false, null, true, "LEFT JOIN locations on machine.locationId = locations.locationID ORDER BY locationName;"});
+		fetchMachines.setMessageSent(new Object[] {"machine", false, null, false, null, true, "LEFT JOIN locations on machine.locationId = locations.locationID WHERE locations.locationName = \""
+				+ ClientController.getCurrentUserRegion() + "\" ORDER BY locationName;"});
 		
 		ClientUI.clientController.accept(fetchMachines);
 		
@@ -113,36 +135,36 @@ public class EktReportSelectFormController extends Application{
 		machinesList = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
 		
 		for (ArrayList<Object> machine : (ArrayList<ArrayList<Object>>)machinesList) {
-			comboOrders.add((String) machine.get(5) + "-" + (String) machine.get(3));
-			comboInventory.add((String) machine.get(5)+ "-" + (String) machine.get(3));
-			comboCustomers.add((String) machine.get(5) + "-" + (String) machine.get(3));
+			comboOrders.add((String) machine.get(4) + "-" + (String) machine.get(2));
+			comboInventory.add((String) machine.get(4)+ "-" + (String) machine.get(2));
+			comboCustomers.add((String) machine.get(4) + "-" + (String) machine.get(2));
 		}
+		
 		//Set combo boxes of 
 		comboBoxOrderReports.setItems(comboOrders);
 		comboBoxInventoryReports.setItems(comboInventory);
 		comboBoxCustomerReports.setItems(comboCustomers);
-		
 	}
-	
 	
 	public void getBtnOrderReports(ActionEvent event) throws Exception {
 		
-		LocalDate startLocalDate = startDateOrderReports.getValue();
-		LocalDate endLocalDate = endDateOrderReports.getValue();
+		String month = (String) comboBoxMonthOrderReports.getSelectionModel().getSelectedItem();
+		String year = (String) comboBoxYearOrderReports.getSelectionModel().getSelectedItem();
 		
-		if (startLocalDate == null || endLocalDate == null || comboBoxOrderReports.getSelectionModel().isEmpty() == true) {
+		if (comboBoxMonthOrderReports.getSelectionModel().isEmpty() || 
+				comboBoxYearOrderReports.getSelectionModel().isEmpty() || comboBoxOrderReports.getSelectionModel().isEmpty() ){
 			orderErrorMessage.setText("Please fill in all empty fields");
 			return;
 		}
 		
 		String[] locationAndMachineName = comboBoxOrderReports.getValue().split("-");
 		
-		ClientController.getMachineID_AndReportType().add("Orders"); //Add type of report to view to the array
-		ClientController.getMachineID_AndReportType().add(locationAndMachineName[0]); //Add chosen location to the array
-		ClientController.getMachineID_AndReportType().add(locationAndMachineName[1]); //Add chosen machineName to the array
+		ClientController.getMachineID_TypeOfReport_Dates().add("Orders"); //Add type of report to view to the array
+		ClientController.getMachineID_TypeOfReport_Dates().add(locationAndMachineName[0]); //Add chosen location to the array
+		ClientController.getMachineID_TypeOfReport_Dates().add(locationAndMachineName[1]); //Add chosen machineName to the array
 		//Add the chosen dates to view reports
-		ClientController.getRequestedOrderDates().add(startDateOrderReports.getValue());
-		ClientController.getRequestedOrderDates().add(endDateOrderReports.getValue());
+		ClientController.getMachineID_TypeOfReport_Dates().add(comboBoxMonthOrderReports.getValue());
+		ClientController.getMachineID_TypeOfReport_Dates().add(comboBoxYearOrderReports.getValue());
 
 
 		
@@ -155,11 +177,8 @@ public class EktReportSelectFormController extends Application{
 		});
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
-
 		//Implement Order reports
 	}
-	
-	
 	
 	public void getBtnInventoryReports(ActionEvent event) throws Exception {
 		
@@ -170,10 +189,10 @@ public class EktReportSelectFormController extends Application{
 		
 		String[] locationAndMachineName = comboBoxInventoryReports.getValue().split("-");
 		
-		ClientController.getMachineID_AndReportType().add("Inventory"); //Add type of report to view to the array
-		ClientController.getMachineID_AndReportType().add(locationAndMachineName[0]); //Add chosen location to the array
-		ClientController.getMachineID_AndReportType().add(locationAndMachineName[1]); //Add chosen machineName to the array
-
+		ClientController.getMachineID_TypeOfReport_Dates().add("Inventory"); //Add type of report to view to the array
+		ClientController.getMachineID_TypeOfReport_Dates().add(locationAndMachineName[0]); //Add chosen location to the array
+		ClientController.getMachineID_TypeOfReport_Dates().add(locationAndMachineName[1]); //Add chosen machineName to the array
+		
 		
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
@@ -189,19 +208,21 @@ public class EktReportSelectFormController extends Application{
 	}
 	
 	public void getBtnCustomerReports(ActionEvent event) throws Exception {
-		LocalDate startLocalDate = startDateCustomerReports.getValue();
-		LocalDate endLocalDate = endDateCustomerReports.getValue();
+		String month = comboBoxMonthCustomerReports.getValue();
+		String year = comboBoxYearCustomerReports.getValue();
 		
-		if (startLocalDate == null || endLocalDate == null || comboBoxCustomerReports.getSelectionModel().isEmpty() == true) {
+		if (month == null || year == null || comboBoxCustomerReports.getSelectionModel().isEmpty() == true) {
 			customerErrorMessage.setText("Please fill in all empty fields");
 			return;
 		}
 		
 		String[] locationAndMachineName = comboBoxCustomerReports.getValue().split("-");
 		
-		ClientController.getMachineID_AndReportType().add("Customer"); //Add type of report to view to the array
-		ClientController.getMachineID_AndReportType().add(locationAndMachineName[0]); //Add chosen location to the array
-		ClientController.getMachineID_AndReportType().add(locationAndMachineName[1]); //Add chosen machineName to the array
+		ClientController.getMachineID_TypeOfReport_Dates().add("Customer"); //Add type of report to view to the array
+		ClientController.getMachineID_TypeOfReport_Dates().add(locationAndMachineName[0]); //Add chosen location to the array
+		ClientController.getMachineID_TypeOfReport_Dates().add(locationAndMachineName[1]); //Add chosen machineName to the array
+		ClientController.getMachineID_TypeOfReport_Dates().add(month);
+		ClientController.getMachineID_TypeOfReport_Dates().add(year);
 		
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
@@ -240,5 +261,4 @@ public class EktReportSelectFormController extends Application{
 		
 	}
 
-	
 }

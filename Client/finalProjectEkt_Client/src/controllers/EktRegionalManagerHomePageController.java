@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 /*
  * Rotem:
@@ -19,8 +20,29 @@ import javafx.stage.Stage;
 public class EktRegionalManagerHomePageController {
 	
 	@FXML
-	private Button btnReviewReports;
-	@FXML Button btnLogout;
+    private Button btnAcceptCustomers;
+
+    @FXML
+    private Button btnLogout;
+
+    @FXML
+    private Button btnReviewReports;
+
+    @FXML
+    private Button btnSetThreshold;
+
+    @FXML
+    private Text txtManagerWelcome;
+
+    @FXML
+    void getBtnAcceptCustomers(ActionEvent event) {
+    	//Implement
+    }
+
+    @FXML
+    void getBtnSetThreshold(ActionEvent event) {
+    	//Implement
+    }
 	
 	@FXML
 	public void getBtnReviewReports(ActionEvent event) {

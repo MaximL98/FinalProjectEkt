@@ -41,6 +41,7 @@ import logic.Product;
 import java.awt.Scrollbar;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.ResultSet;
@@ -49,6 +50,9 @@ import java.util.ArrayList;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 
 
@@ -233,10 +237,41 @@ public class EktProductFormController {
 				
 				productDetails.setAlignment(Pos.CENTER);
 				
-				String pathToImage = "controllers/Images/" + ((Product) product).getProductID() + ".png";
-				ImageView productImageView = new ImageView(new Image(pathToImage));
-				productImageView.setFitHeight(150);
-				productImageView.setFitWidth(150);
+				/////////////////////////////////////////////TEST///////////////////
+				SCCP preparedMessage1 = new SCCP();
+				
+				preparedMessage1.setRequestType(ServerClientRequestTypes.SELECT);
+				//Search for products for the correct catalog
+				
+				preparedMessage1.setMessageSent(new Object[] {"files", false, null , true, "file_name = '" + ((Product) product).getProductID() + ".png'" , false, null});
+				//Log message
+				System.out.println("Client: Sending " + "FILES" + " to server.");
+				
+				//String path = "D:\\finalProjectEkt\\WHOLEPROJECT\\Client\\finalProjectEkt_Client\\src\\controllers\\Images\\";
+				
+				ClientUI.clientController.accept(preparedMessage1);
+				if (ClientController.responseFromServer.getRequestType().equals
+						(ServerClientRequestTypes.ACK)) {
+					//[[file_id, file, file_name] , [...]]
+					ArrayList<ArrayList<Object>> arrayOfFiles = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
+					
+					for(ArrayList<Object> file: arrayOfFiles) {
+						System.out.println("The file is = " + file.toString());
+						Image img = new Image(new ByteArrayInputStream((byte[])file.get(1)));
+						ImageView productImageView = new ImageView(img);
+						productImageView.setFitHeight(150);
+						productImageView.setFitWidth(150);
+						productHBox.getChildren().add(productImageView);
+
+					}
+
+				}
+		////////////////////////////////////////////////////////////////////
+				
+				//String pathToImage = "controllers/Images/" + ((Product) product).getProductID() + ".png";
+				
+				//ImageView productImageView = new ImageView(new Image(pathToImage));
+				
 				///////////////////////////////////////
 					
 				//AddToCart Button + amountTxt
@@ -290,7 +325,6 @@ public class EktProductFormController {
 				productDetails.setPrefSize(150, 150);
 				
 				productHBox.getChildren().add(productDetails);
-				productHBox.getChildren().add(productImageView);
 				productHBox.getChildren().add(productAddToCartVBox);
 				
 				Pane pane = new Pane();

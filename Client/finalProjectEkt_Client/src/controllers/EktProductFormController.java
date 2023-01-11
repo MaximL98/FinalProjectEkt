@@ -237,22 +237,22 @@ public class EktProductFormController {
 				
 				productDetails.setAlignment(Pos.CENTER);
 				
-				/////////////////////////////////////////////TEST///////////////////
-				SCCP preparedMessage1 = new SCCP();
+				//getting files (images) for product from database, based on product id
+				SCCP getImageFromDatabase = new SCCP();
 				
-				preparedMessage1.setRequestType(ServerClientRequestTypes.SELECT);
+				getImageFromDatabase.setRequestType(ServerClientRequestTypes.SELECT);
 				//Search for products for the correct catalog
 				
-				preparedMessage1.setMessageSent(new Object[] {"files", false, null , true, "file_name = '" + ((Product) product).getProductID() + ".png'" , false, null});
+				getImageFromDatabase.setMessageSent(new Object[] {"files", false, null , true, "file_name = '" + ((Product) product).getProductID() + ".png'" , false, null});
 				//Log message
-				System.out.println("Client: Sending " + "FILES" + " to server.");
+				System.out.println("Client: Sending " + "Product Files" + " to server.");
 				
-				//String path = "D:\\finalProjectEkt\\WHOLEPROJECT\\Client\\finalProjectEkt_Client\\src\\controllers\\Images\\";
 				
-				ClientUI.clientController.accept(preparedMessage1);
+				ClientUI.clientController.accept(getImageFromDatabase);
 				if (ClientController.responseFromServer.getRequestType().equals
 						(ServerClientRequestTypes.ACK)) {
 					//[[file_id, file, file_name] , [...]]
+					@SuppressWarnings("unchecked")
 					ArrayList<ArrayList<Object>> arrayOfFiles = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
 					
 					for(ArrayList<Object> file: arrayOfFiles) {
@@ -266,14 +266,7 @@ public class EktProductFormController {
 					}
 
 				}
-		////////////////////////////////////////////////////////////////////
 				
-				//String pathToImage = "controllers/Images/" + ((Product) product).getProductID() + ".png";
-				
-				//ImageView productImageView = new ImageView(new Image(pathToImage));
-				
-				///////////////////////////////////////
-					
 				//AddToCart Button + amountTxt
 				VBox productAddToCartVBox = new VBox();
 				

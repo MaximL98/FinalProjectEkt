@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 // Rotem-specific imports
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -79,6 +80,7 @@ public class EktSystemUserLoginController {
 	 * TODO: write tests for it
 	 * @param event: not used
 	 */
+	@SuppressWarnings("unchecked")
 	/*
 	 * TODO:
 	 * handle not existing user
@@ -156,6 +158,21 @@ public class EktSystemUserLoginController {
 			case REGIONAL_MANAGER:
 				// TODO: same as customer
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page");
+				int currentManagerID = ClientController.getCurrentSystemUser().getId();
+				SCCP getCurrentManagerLocationNameRequestMessage = new SCCP();
+				getCurrentManagerLocationNameRequestMessage.setRequestType(ServerClientRequestTypes.SELECT);
+				getCurrentManagerLocationNameRequestMessage.setMessageSent(new Object[] { "manager_location LEFT JOIN ektdb.locations on locations.locationID = manager_location.locationId", true, "locationName", true, 
+						"idRegionalManager = " + currentManagerID, false, 
+								null
+				});
+				System.out.println(currentManagerID);
+				
+				ClientUI.clientController.accept(getCurrentManagerLocationNameRequestMessage);
+				
+				ArrayList<?> currentManagerLocationName = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
+				String locationName = ((ArrayList<Object>)currentManagerLocationName.get(0)).get(0).toString();
+				System.out.println(locationName);
+				ClientController.setCurrentUserRegion(locationName);
 				break;
 				
 			case LOGISTICS_MANAGER:

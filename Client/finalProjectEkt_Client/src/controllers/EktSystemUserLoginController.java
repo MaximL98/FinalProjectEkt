@@ -135,8 +135,15 @@ public class EktSystemUserLoginController {
 
 			// switch based on the current user's role
 			switch(connectedUser.getRole()) {
+			case SUBSCRIBER:
+				// set subscriber boolean value (true)
+				ClientController.setCustomerIsSubsriber(true);
+				WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog");
+				break;
+				
 			case CUSTOMER:
-				// TODO: replace this with a legit home area for cumsoomer
+				// also set subscriber boolean value (false)
+				ClientController.setCustomerIsSubsriber(false);
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog");
 				break;
 				

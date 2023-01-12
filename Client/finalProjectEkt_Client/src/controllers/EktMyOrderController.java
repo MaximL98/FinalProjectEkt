@@ -235,7 +235,7 @@ public class EktMyOrderController {
 				+ " JOIN product ON order_contents.productID = product.productID", true,
 				  "orders.orderID, machine.machineName,"
 				+ "orders.date_received, product.productName, orders.total_quantity, orders.total_price", 
-				true, "orders.statusId = 3" , true, "ORDER BY orders.orderID"});
+				true, "orders.statusId = 3" , true, "ORDER BY orders.orderID LIMIT 20"});
 		//Log message
 		System.out.println("Client: Sending " + "order" + " to server.");
 		

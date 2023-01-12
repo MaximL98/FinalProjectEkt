@@ -137,7 +137,7 @@ public class EktSystemUserLoginController {
 			switch(connectedUser.getRole()) {
 			case CUSTOMER:
 				// TODO: replace this with a legit home area for cumsoomer
-				WindowStarter.createWindow(primaryStage, this, "/gui/InventoryRestockWorkerPage.fxml", null, "Ekt Catalog");
+				WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog");
 				break;
 				
 			case REGIONAL_MANAGER:

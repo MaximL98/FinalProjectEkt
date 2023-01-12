@@ -118,12 +118,13 @@ public class EditActivePromotionsController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		// Set the cell value factory for each TableColumn object
-		productIdColumn.setCellValueFactory(new PropertyValueFactory<Promotions, String>("productID"));
 		promotionIDColumn.setCellValueFactory(new PropertyValueFactory<Promotions, Integer>("promotionId"));
 		promotionNameColumn.setCellValueFactory(new PropertyValueFactory<Promotions, String>("promotionName"));
 		promotionDescriptionColumn
 				.setCellValueFactory(new PropertyValueFactory<Promotions, String>("promotionDescription"));
 		locationColumn.setCellValueFactory(new PropertyValueFactory<Promotions, Integer>("locationID"));
+		productIdColumn.setCellValueFactory(new PropertyValueFactory<Promotions, String>("productID"));
+
 		//productIdColumn.setCellValueFactory(new PropertyValueFactory<Promotions, String>("productID"));
 		discountPercentageColumn
 				.setCellValueFactory(new PropertyValueFactory<Promotions, Integer>("discountPercentage"));

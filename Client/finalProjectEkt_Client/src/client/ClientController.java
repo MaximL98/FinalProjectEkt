@@ -59,6 +59,9 @@ public class ClientController
   public static Integer orderTotalQuantity;
   public static String orderDateReceived;
   public static String orderDeliveryTime;
+  
+  // rotem 1.12.23
+  private static Boolean customerIsSubsriber=null;
 
   public ClientController(String host, int port) throws IOException
   {
@@ -139,6 +142,15 @@ public class ClientController
 
 	public static void setCurrentUserRegion(String currentUserRegion) {
 		ClientController.currentUserRegion = currentUserRegion;
+	}
+
+	// connected to rotem 1.12.23
+	public static Boolean getCustomerIsSubsriber() {
+		return customerIsSubsriber;
+	}
+
+	public static void setCustomerIsSubsriber(Boolean customerIsSubsriber) {
+		ClientController.customerIsSubsriber = customerIsSubsriber;
 	}
 
 

@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class SalesManagerController {
@@ -25,6 +26,9 @@ public class SalesManagerController {
 
     @FXML
     private Button btnLogout;
+    @FXML
+    private Text txtSalesManager;
+
 
     @FXML
     private void addNewPromotionHandler(ActionEvent event) throws IOException {
@@ -70,6 +74,13 @@ public class SalesManagerController {
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
 		primaryStage.show();
+    }
+    
+    @FXML
+    public void initialize() {
+    	// you can't have a label when it's restock worker (it can't happen)
+    	//txtSalesManager.setText("Hello, " + ClientController.getCurrentSystemUser().getFirstName() + "!");
+    	txtSalesManager.setLayoutX(400-(txtSalesManager.minWidth(0)/2));
     }
 }
 

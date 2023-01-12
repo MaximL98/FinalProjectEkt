@@ -43,12 +43,22 @@ public class ClientController
   private static Role currentUserRole = null;
   
   /////////////Dima 6/1/2023 21:00
-  private static ArrayList<String> machineID_AndReportType = new ArrayList<>();
+  private static ArrayList<String> machineID_TypeOfReport_Dates = new ArrayList<>();
   private static ArrayList<LocalDate> requestedOrderDates = new ArrayList<>();
+  
+  /////////////Dima 11/1/2023 11:50
+  private static String currentUserRegion;
 
   // Rotem added for now (8.1)
   public static String _EkCurrentMachineName;
+  // Rotem added also (10.1)
+  public static int _EkCurrentMachineID;
 
+  
+  //Maxim Added (11.1)
+  public static Integer orderTotalQuantity;
+  public static String orderDateReceived;
+  public static String orderDeliveryTime;
 
   public ClientController(String host, int port) throws IOException
   {
@@ -107,12 +117,12 @@ public class ClientController
 		}
 	}
 
-	public static ArrayList<String> getMachineID_AndReportType() {
-		return machineID_AndReportType;
+	public static ArrayList<String> getMachineID_TypeOfReport_Dates() {
+		return machineID_TypeOfReport_Dates;
 	}
 
-	public static void setMachineID_AndReportType(ArrayList<String> machineID_AndReportType) {
-		ClientController.machineID_AndReportType = machineID_AndReportType;
+	public static void setMachineID_TypeOfReport_Dates(ArrayList<String> machineID_AndReportType) {
+		ClientController.machineID_TypeOfReport_Dates = machineID_AndReportType;
 	}
 
 	public static ArrayList<LocalDate> getRequestedOrderDates() {
@@ -121,6 +131,14 @@ public class ClientController
 
 	public static void setRequestedOrderDates(ArrayList<LocalDate> requestedOrderDates) {
 		ClientController.requestedOrderDates = requestedOrderDates;
+	}
+
+	public static String getCurrentUserRegion() {
+		return currentUserRegion;
+	}
+
+	public static void setCurrentUserRegion(String currentUserRegion) {
+		ClientController.currentUserRegion = currentUserRegion;
 	}
 
 

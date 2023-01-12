@@ -15,6 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -23,7 +24,9 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -60,19 +63,20 @@ public class EktReportDisplayPageController {
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void initialize() {
-		String typeOfReport = ClientController.getMachineID_AndReportType().get(0);
-		nameOfLocation = ClientController.getMachineID_AndReportType().get(1);
-		nameOfMachine = ClientController.getMachineID_AndReportType().get(2);
+		String typeOfReport = ClientController.getMachineID_TypeOfReport_Dates().get(0);
+		nameOfLocation = ClientController.getMachineID_TypeOfReport_Dates().get(1);
+		nameOfMachine = ClientController.getMachineID_TypeOfReport_Dates().get(2);
 		
-		LocalDate startDate = ClientController.getRequestedOrderDates().get(0);
-		LocalDate endDate = ClientController.getRequestedOrderDates().get(1);
 		
-		txtTypeOfReport.setText(typeOfReport + " Report");
+		int month = getMonthNumberByString(ClientController.getMachineID_TypeOfReport_Dates().get(3));
+		int year = Integer.parseInt(ClientController.getMachineID_TypeOfReport_Dates().get(4));
+		
+		txtTypeOfReport.setText(typeOfReport + "Distribution Report");
 		txtLocationName.setText(nameOfLocation);
 		txtMachineName.setText("Machine: " + nameOfMachine);
 		
 		//Clear the array for the next report viewing
-		ClientController.getMachineID_AndReportType().clear();
+		ClientController.getMachineID_TypeOfReport_Dates().clear();
 		
 		//Center the text headers
 		txtTypeOfReport.setLayoutX(400 - (txtTypeOfReport.minWidth(0))/2);
@@ -83,14 +87,20 @@ public class EktReportDisplayPageController {
 		////Create graph or chart
 		switch (typeOfReport) {
 			case "Orders":
+				int monthBeginning = month;
+				int yearBeginning = year;
 				//Fetch data from the database
 				SCCP fetchOrdersMessage = new SCCP();
+				if (month + 1 == 13) {
+					year++;
+					monthBeginning = 1;
+				}
 				fetchOrdersMessage.setRequestType(ServerClientRequestTypes.SELECT);
 				fetchOrdersMessage.setMessageSent(new Object[] {"machine", true, "orderID, total_price, total_quantity, typeId",
 						false, null, true, "LEFT JOIN ektdb.orders on machine.machineId = orders.machineID"
 								+ " LEFT JOIN ektdb.locations on locations.locationID = machine.locationId "
-								+ "WHERE total_quantity IS NOT NULL AND date_received >= \"" + startDate + "\" AND date_received <= \""
-								+ endDate + "\" AND machineName = \"" + nameOfMachine + "\";" });
+								+ "WHERE total_quantity IS NOT NULL AND date_received >= \"" + yearBeginning + "-" +  monthBeginning + "-01" + "\" AND date_received < \""
+								+ year + "-" +  month + "-1" + "\" AND machineName = \"" + nameOfMachine + "\";" });
 				
 				ClientUI.clientController.accept(fetchOrdersMessage);
 				
@@ -135,22 +145,23 @@ public class EktReportDisplayPageController {
 								continue;
 						}
 					}
-					//Create an observeable list for the pie chart
+					//Create an observable list for the pie chart
 					ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList( 
 						new PieChart.Data("Pickup Orders: " + pickupOrdersCounter, pickupOrdersCounter),
 						new PieChart.Data("Delivery Orders: " + deliveryOrdersCounter, deliveryOrdersCounter),
 						new PieChart.Data("Local Orders: " + localOrdersCounter, localOrdersCounter)
 					);
 					pChart = new PieChart(pieData);
+					pChart.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
 					borderPane.setCenter(pChart);
 				}
-				Text txtProfits = new Text("Profits: " + profits);
-				txtProfits.setFont(Font.font("Berlin Sans FB", 20));
+				Text txtProfits = new Text("Profits: " + profits + "$");
+				txtProfits.setFont(Font.font("Berlin Sans FB", 22));
 				Text txtorderQuantity = new Text("Order quantity: " + orderQuantity);
-				txtorderQuantity.setFont(Font.font("Berlin Sans FB", 20));
-				Text txtamountOfItems = new Text("Products sold:" + amountOfItems);
-				txtamountOfItems.setFont(Font.font("Berlin Sans FB", 20));
-				
+				txtorderQuantity.setFont(Font.font("Berlin Sans FB", 22));
+				Text txtamountOfItems = new Text("Products sold: " + amountOfItems);
+				txtamountOfItems.setFont(Font.font("Berlin Sans FB", 22));
+
 				vboxRight.getChildren().add(txtProfits);
 				vboxRight.getChildren().add(txtorderQuantity);
 				vboxRight.getChildren().add(txtamountOfItems);
@@ -161,16 +172,16 @@ public class EktReportDisplayPageController {
 				SCCP fetchInventoryMessage = new SCCP();
 				fetchInventoryMessage.setRequestType(ServerClientRequestTypes.SELECT);
 				fetchInventoryMessage.setMessageSent(new Object[] {"machine", true, "orderID, total_amount, attribute, typeId",
-						false, null, true, "LEFT JOIN ektdb.orders on machine.machineId = orders.machineID"
-								+ " LEFT JOIN ektdb.locations on locations.locationID = machine.locationId "
-								+ "WHERE attribute IS NOT NULL AND date_received >= \"" + startDate + "\" AND date_received <= \""
-								+ endDate + "\" AND machineName = \"" + nameOfMachine + "\";" });
+						false, null, true, ""});
 				
 				ClientUI.clientController.accept(fetchInventoryMessage);
 				break;
+			case "Customer":
+				
 		}
 		
 	}
+
 
 	@FXML
 	void getBtnBack(ActionEvent event) {
@@ -183,6 +194,39 @@ public class EktReportDisplayPageController {
 		});
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
-
+		
 	}
+	
+	private int getMonthNumberByString(String string) {
+		switch (string) {
+	    case "January":
+	        return 1;
+	    case "February":
+	        return 2;
+	    case "March":
+	        return 3;
+	    case "April":
+	        return 4;
+	    case "May":
+	        return 5;
+	    case "June":
+	        return 6;
+	    case "July":
+	        return 7;
+	    case "August":
+	        return 8;
+	    case "September":
+	        return 9;
+	    case "October":
+	        return 10;
+	    case "November":
+	        return 11;
+	    case "December":
+	        return 12;
+	    default:
+	        return 0;
+	}
+		
+	}
+	
 }

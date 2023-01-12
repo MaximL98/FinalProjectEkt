@@ -1,10 +1,14 @@
 package controllers;
 
+import java.io.ByteArrayInputStream;
 import java.text.DecimalFormat;
-
+import java.util.ArrayList;
 import java.util.Optional;
 
 import client.ClientController;
+import client.ClientUI;
+import common.SCCP;
+import common.ServerClientRequestTypes;
 import common.WindowStarter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,6 +34,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import logic.Product;
 
 public class EktCartFormController {
@@ -124,14 +129,44 @@ public class EktCartFormController {
 			
 			///////////////////////////////////////////////////////
 			
-			Image productImage = new Image("controllers/Images/" + currentProductID + ".png");
-			ImageView productImageView = new ImageView(productImage);
+			//getting files (images) for product from database, based on product id
+			SCCP getImageFromDatabase = new SCCP();
+			
+			getImageFromDatabase.setRequestType(ServerClientRequestTypes.SELECT);
+			//Search for products for the correct catalog
+			
+			getImageFromDatabase.setMessageSent(new Object[] {"files", false, null , true, "file_name = '" + ((Product) product).getProductID() + ".png'" , false, null});
+			//Log message
+			System.out.println("Client: Sending " + "Product Files" + " to server.");
+			
+			Image img = null;
+			ClientUI.clientController.accept(getImageFromDatabase);
+			if (ClientController.responseFromServer.getRequestType().equals
+					(ServerClientRequestTypes.ACK)) {
+				//[[file_id, file, file_name] , [...]]
+				@SuppressWarnings("unchecked")
+				ArrayList<ArrayList<Object>> arrayOfFiles = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
+				
+				for(ArrayList<Object> file: arrayOfFiles) {
+					System.out.println("The file is = " + file.toString());
+					img = new Image(new ByteArrayInputStream((byte[])file.get(1)));
+				}
+
+			}
+			
+			ImageView productImageView = new ImageView(img);
+			
 			productImageView.setFitHeight(75);
 			productImageView.setFitWidth(75);
 			productImageView.setTranslateX(20);
 			productImageView.setTranslateY(0);
 			gridpaneIntoVbox.add(productImageView, j, i);
-						
+			
+			///////////////////////////////////////////////////////
+			//Image productImage = new Image("controllers/Images/" + currentProductID + ".png");
+			//ImageView productImageView = new ImageView(productImage);
+			
+					
 			
 			Text productName = new Text(product.getProductName());
 			Text quantityLabel = new Text("Quantity: " + ClientController.currentUserCart.get(currentProductID));
@@ -184,6 +219,7 @@ public class EktCartFormController {
 			gridpaneIntoVbox.add(removeButton, j, i);
 			GridPane.setHalignment(removeButton, HPos.RIGHT);
 			i++; j = 0;
+			
 			
 			removeButton.setOnAction(action -> {
 				System.out.println("item" + product.getProductName() + " was removed");
@@ -307,13 +343,15 @@ public class EktCartFormController {
 		alert.setTitle("Clear Cart");
 		alert.setHeaderText("This action will remove all items from the cart");
 		alert.setContentText("Are you sure you want to continue?");
+		alert.initStyle(StageStyle.UNDECORATED);
 		Optional<ButtonType> result = alert.showAndWait();
 
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 
 		if (result.get() == ButtonType.OK) {
+			System.out.println("Cleaning cart...");
 			EktProductFormController.itemsInCart = 0;
-			//Login window//
+			
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
 			//category is located in a ArrayList
@@ -323,6 +361,15 @@ public class EktCartFormController {
 			ClientController.currentUserCart.keySet().clear();
 			ClientController.getProductByID.keySet().clear();
 			ClientController.cartPrice.keySet().clear();
+			primaryStage.show();
+			//////////////////////
+			((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
+		}
+		else if(result.get() == ButtonType.CANCEL) {
+			System.out.println("Clear cart was canceled");
+			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			Stage primaryStage = new Stage();
+	        WindowStarter.createWindow(primaryStage, this, "/gui/EktCartForm.fxml", null, "Ekt Cart");
 			primaryStage.show();
 			//////////////////////
 			((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window

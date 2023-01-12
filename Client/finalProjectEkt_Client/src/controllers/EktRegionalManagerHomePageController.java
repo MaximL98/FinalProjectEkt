@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 /*
  * Rotem:
@@ -19,8 +20,34 @@ import javafx.stage.Stage;
 public class EktRegionalManagerHomePageController {
 	
 	@FXML
-	private Button btnReviewReports;
-	@FXML Button btnLogout;
+    private Button btnAcceptCustomers;
+
+    @FXML
+    private Button btnLogout;
+
+    @FXML
+    private Button btnReviewReports;
+
+    @FXML
+    private Button btnSetThreshold;
+
+    @FXML
+    private Text txtManagerWelcome;
+    
+    public void initialize() {
+    	//txtManagerWelcome.setText("Hi " + ClientController.getCurrentSystemUser().getFirstName() + ", glad you are back!");
+    	txtManagerWelcome.setLayoutX(400 - (txtManagerWelcome.minWidth(0))/2);
+    }
+
+    @FXML
+    void getBtnAcceptCustomers(ActionEvent event) {
+    	//Implement
+    }
+
+    @FXML
+    void getBtnSetThreshold(ActionEvent event) {
+    	//Implement
+    }
 	
 	@FXML
 	public void getBtnReviewReports(ActionEvent event) {
@@ -32,12 +59,14 @@ public class EktRegionalManagerHomePageController {
 		((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //closing primary window
 	}
 
-	@FXML public void getLogoutBtn(ActionEvent event) {
+	@FXML 
+	public void getLogoutBtn(ActionEvent event) {
 		ClientController.sendLogoutRequest();
-	    	// move to new window
-	    	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-			Stage primaryStage = new Stage();
-			WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
+    	// move to new window
+    	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
 
-			primaryStage.show();	}
+		primaryStage.show();	
+	}
 }

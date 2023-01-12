@@ -34,7 +34,7 @@ public class _EKConfigurationLoginFrameController {
     void getBtnLoginEK(ActionEvent event) {
     	// verify that the user type is either customer or tipuli worker (kita tifulit yantu)
 		statusLabel.setVisible(false);
-    	String userName, password, nextScreenPath = null;
+    	String userName, password, nextScreenPath = null, nextPathTitle = "Frame";
     	userName = txtUsername.getText();
     	password = pwdField.getText();
     	
@@ -55,9 +55,11 @@ public class _EKConfigurationLoginFrameController {
 			switch(su.getRole()) {
 			case CUSTOMER:
 				nextScreenPath = "/gui/_EKConfigurationCustomerHomeArea.fxml";
+				nextPathTitle = "Customer Home Frame";
 				break;
 			case LOGISTICS_EMPLOYEE:
 				nextScreenPath = "/gui/_EKConfigurationLogisticsEmployeeFrame.fxml";
+				nextPathTitle = "Logistics Employee Frame";
 				break;
 				
 				/*
@@ -85,9 +87,7 @@ public class _EKConfigurationLoginFrameController {
 		((Node)event.getSource()).getScene().getWindow().hide();
 		// prepare the new stage:
 		Stage primaryStage = new Stage();
-
-		System.out.println("Trying to run cock sucking path: " + nextScreenPath);
-		WindowStarter.createWindow(primaryStage, new Object(), nextScreenPath, null, "Customer Home Frame");
+		WindowStarter.createWindow(primaryStage, new Object(), nextScreenPath, null, nextPathTitle);
 		primaryStage.show();
     }
 

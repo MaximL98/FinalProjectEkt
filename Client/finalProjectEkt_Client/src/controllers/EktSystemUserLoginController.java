@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 // Rotem-specific imports
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -79,6 +80,7 @@ public class EktSystemUserLoginController {
 	 * TODO: write tests for it
 	 * @param event: not used
 	 */
+	@SuppressWarnings("unchecked")
 	/*
 	 * TODO:
 	 * handle not existing user
@@ -90,34 +92,12 @@ public class EktSystemUserLoginController {
     	String userName, password;
     	userName = txtUsername.getText();
     	password = txtPassword.getText();
-    	System.out.println("Test");
-    	
+    	System.out.println(userName + " " + password);
+    	    	
     	/*
     	 * TODO
     	 * Remove this test segment! (when no longer needed)
-    	 */
-    	if(userName.equals("q")) {
-    		Stage primaryStage = new Stage();
-    		WindowStarter.createWindow(primaryStage, new Object(), "/gui/SalesManager.fxml", null, "Sales");
-    		System.out.println("Moving to SalesManager.fxml for testing.");
-    		primaryStage.show();
-    		return;
-    	}
-    	if(userName.equals("user")) {
-    		Stage primaryStage = new Stage();
-    		WindowStarter.createWindow(primaryStage, new Object(), "/gui/InventoryRestockWorkerPage.fxml", null, "Inventory Restock");
-    		System.out.println("Moving to InventoryRestockWorkerPage.fxml for testing.");
-    		primaryStage.show();
-    		return;
-    	}
-    	if(userName.equals("hh")) {
-    		Stage primaryStage = new Stage();
-    		WindowStarter.createWindow(primaryStage, new Object(), "/gui/TestSelectFromDBProduct.fxml", null, "Select product from table");
-    		System.out.println("Moving to TestSelectFromDBProduct.fxml for testing.");
-    		primaryStage.show();
-    		return;
-    	}
-    	
+    	 */	
     	
     	// ask to connect
 
@@ -163,6 +143,21 @@ public class EktSystemUserLoginController {
 			case REGIONAL_MANAGER:
 				// TODO: same as customer
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page");
+				int currentManagerID = ClientController.getCurrentSystemUser().getId();
+				SCCP getCurrentManagerLocationNameRequestMessage = new SCCP();
+				getCurrentManagerLocationNameRequestMessage.setRequestType(ServerClientRequestTypes.SELECT);
+				getCurrentManagerLocationNameRequestMessage.setMessageSent(new Object[] { "manager_location LEFT JOIN ektdb.locations on locations.locationID = manager_location.locationId", true, "locationName", true, 
+						"idRegionalManager = " + currentManagerID, false, 
+								null
+				});
+				System.out.println(currentManagerID);
+				
+				ClientUI.clientController.accept(getCurrentManagerLocationNameRequestMessage);
+				
+				ArrayList<?> currentManagerLocationName = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
+				String locationName = ((ArrayList<Object>)currentManagerLocationName.get(0)).get(0).toString();
+				System.out.println(locationName);
+				ClientController.setCurrentUserRegion(locationName);
 				break;
 				
 			case LOGISTICS_MANAGER:
@@ -178,6 +173,16 @@ public class EktSystemUserLoginController {
 				
 			case DIVISION_MANAGER:
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktDivisionManagerHomePage.fxml", null, "Female Division Manager Home Page");
+				break;
+			
+			case SALES_MANAGER:
+				WindowStarter.createWindow(primaryStage, this, "/gui/SalesManager.fxml", null, "Sales Manager");
+				primaryStage.show();
+				break;
+				
+			case SALES_WORKER:
+				WindowStarter.createWindow(primaryStage, this, "/gui/SalesDepartmentWorker.fxml", null, "Ekt Sales Department Worker");
+				primaryStage.show();
 				break;
 				
 			default:

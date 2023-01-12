@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.ByteArrayInputStream;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -7,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import client.ClientController;
+import client.ClientUI;
+import common.SCCP;
+import common.ServerClientRequestTypes;
 import common.WindowStarter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,6 +28,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import logic.Product;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -49,6 +54,8 @@ public class EktOrderSummaryController {
 	private Text txtOrderTotal;
 
 	private GridPane gridPane;
+	
+	private Integer totalQuantity = 0;
 
 	private ArrayList<String> OrderInformation = new ArrayList<>(); 
 	
@@ -76,8 +83,14 @@ public class EktOrderSummaryController {
 		gridPane.setVgap(5);
 		//////////////////////////////////////////////////////
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
-		LocalDateTime now = LocalDateTime.now();  
-		OrderInformation.add(dtf.format(now));
+		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime tomorrow = now.plusDays(1);
+		tomorrow = tomorrow.plusHours(1);
+		
+		ClientController.orderDateReceived = dtf.format(now);
+		ClientController.orderDeliveryTime = dtf.format(tomorrow);
+		
+		OrderInformation.add(ClientController.orderDateReceived);
 		OrderInformation.add(ClientController.orderNumber.toString());
 		OrderInformation.add("Items in order:");
 		
@@ -90,6 +103,7 @@ public class EktOrderSummaryController {
 				productName.setStyle("-fx-font: 20 System; -fx-font-weight: bold;");
 
 				Integer quantityNum = ClientController.currentUserCart.get(currentProductID);
+				totalQuantity += quantityNum;
 				Text quantity = new Text("Quantity: " + (quantityNum).toString());
 				Double costPerUnit = Double.valueOf(product.getCostPerUnit());
 				Double totalSum = quantityNum * costPerUnit;
@@ -101,8 +115,37 @@ public class EktOrderSummaryController {
 				quantity.setFont(new Font(18));
 				sum.setFont(new Font(18));
 
-				String pathToImage = "controllers/Images/" + ((Product) product).getProductID() + ".png";
-				ImageView productImageView = new ImageView(new Image(pathToImage));
+				
+				////////////////////////////////////////
+				
+				//getting files (images) for product from database, based on product id
+				SCCP getImageFromDatabase = new SCCP();
+				
+				getImageFromDatabase.setRequestType(ServerClientRequestTypes.SELECT);
+				//Search for products for the correct catalog
+				
+				getImageFromDatabase.setMessageSent(new Object[] {"files", false, null , true, "file_name = '" + ((Product) product).getProductID() + ".png'" , false, null});
+				//Log message
+				System.out.println("Client: Sending " + "Product Files" + " to server.");
+				
+				Image img = null;
+				ClientUI.clientController.accept(getImageFromDatabase);
+				if (ClientController.responseFromServer.getRequestType().equals
+						(ServerClientRequestTypes.ACK)) {
+					//[[file_id, file, file_name] , [...]]
+					@SuppressWarnings("unchecked")
+					ArrayList<ArrayList<Object>> arrayOfFiles = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
+					
+					for(ArrayList<Object> file: arrayOfFiles) {
+						System.out.println("The file is = " + file.toString());
+						img = new Image(new ByteArrayInputStream((byte[])file.get(1)));
+					}
+				}
+				
+				////////////////////////////////////////
+
+		
+				ImageView productImageView = new ImageView(img);
 				productImageView.setFitHeight(75);
 				productImageView.setFitWidth(75);
 				productImageView.setTranslateX(20);
@@ -139,7 +182,7 @@ public class EktOrderSummaryController {
 		OrderInformation.add("\nAt a total price of " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 		//Max 7/1: Add to user order hash map the items in the order!
 		ClientController.userOrders.put(ClientController.orderNumber, OrderInformation);
-		
+		ClientController.orderTotalQuantity = totalQuantity;
 		
 		productsVbox.getChildren().add(gridPane);
 		borderPane.setCenter(centerScrollBar);
@@ -170,13 +213,14 @@ public class EktOrderSummaryController {
 	void getBtnClose(ActionEvent event) {
 		// Alert window
 		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.initStyle(StageStyle.UNDECORATED);
 		alert.setTitle("Cancel Order");
 		alert.setHeaderText("This action will remove all items from the order!");
 		alert.setContentText("Are you sure you want to continue?");
 		Optional<ButtonType> result = alert.showAndWait();
 
 		if (result.get() == ButtonType.OK) {
-			// Login window//
+			System.out.println("Canceling Order...");
 			((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 			Stage primaryStage = new Stage();
 
@@ -184,13 +228,24 @@ public class EktOrderSummaryController {
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktCatalogForm.fxml", null, 
 					ClientController.CurrentProductCategory.get(0));
 	
+			EktProductFormController.itemsInCart = 0;
+			ClientController.getProductByID.keySet().clear();
+			ClientController.cartPrice.keySet().clear();
 			ClientController.currentUserCart.keySet().clear();;
-	
-
-
 			primaryStage.show();
 			//////////////////////
 			((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // hiding primary window
+		}
+		
+		else if (result.get() == ButtonType.CANCEL) {
+			System.out.println("Cancel Order was canceled");
+			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			Stage primaryStage = new Stage();
+			//category is located in a ArrayList
+			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktOrderSummary.fxml", null, "Order Summary");
+
+			primaryStage.show();
+
 		}
 	}
 }

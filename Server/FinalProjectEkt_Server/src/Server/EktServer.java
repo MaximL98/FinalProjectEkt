@@ -83,7 +83,7 @@ public class EktServer extends AbstractServer
   
   protected void handleForcedShutdown() {
 	  System.out.println("Logging off all connected users!");
-	  String query = "DELETE FROM "+DatabaseController.getSchemaName()+".logged_users WHERE username!=\"\"";
+	  String query = "DELETE FROM "+DatabaseController.getSchemaName()+".logged_users WHERE username!=\"\";";
 	  System.out.println("Executing query="+query);
 	  
 	  	// remove logged users from the logged_users table
@@ -91,7 +91,7 @@ public class EktServer extends AbstractServer
 		  System.out.println("Executed query successfully!");
 	  }
 	  else {
-		  System.out.println("Failure - verify database contents manually!");
+		  System.out.println("Could not find users to remove - verify database contents manually!");
 	  }
 		// handle open connections
 		for(Thread c : ServerUI.getEktServerObject().getClientConnections()) {

@@ -346,8 +346,6 @@ public class EktCartFormController {
 		alert.initStyle(StageStyle.UNDECORATED);
 		Optional<ButtonType> result = alert.showAndWait();
 
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-
 		if (result.get() == ButtonType.OK) {
 			System.out.println("Cleaning cart...");
 			EktProductFormController.itemsInCart = 0;

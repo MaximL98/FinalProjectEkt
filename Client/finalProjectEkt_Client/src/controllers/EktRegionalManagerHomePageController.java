@@ -35,7 +35,7 @@ public class EktRegionalManagerHomePageController {
     private Text txtManagerWelcome;
     
     public void initialize() {
-    	//txtManagerWelcome.setText("Hi " + ClientController.getCurrentSystemUser().getFirstName() + ", glad you are back!");
+    	txtManagerWelcome.setText("Hi " + ClientController.getCurrentSystemUser().getFirstName() + ", glad you are back!");
     	txtManagerWelcome.setLayoutX(400 - (txtManagerWelcome.minWidth(0))/2);
     }
 

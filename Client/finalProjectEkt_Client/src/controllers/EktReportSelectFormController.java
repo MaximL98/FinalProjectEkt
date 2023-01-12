@@ -33,6 +33,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.Machine;
+import logic.Role;
 
 
 // Rotem - renamed this from CEOPageController (was requested here)
@@ -92,11 +93,65 @@ public class EktReportSelectFormController extends Application{
 	
 	@FXML
 	public void initialize() {
-		setUpCEOPage();
+		if (ClientUI.clientController.getCurrentSystemUser().getRole().equals(Role.REGIONAL_MANAGER)) {
+			setUpRegionalManagerPage();
+		} else {
+			setUpDivisionManagerPage();
+		}
+		
 	}
 	
+	
+	private void setUpDivisionManagerPage() {
+		//Setup orderReports combo box
+		ObservableList<String> comboOrders = FXCollections.observableArrayList();
+		
+		//Setup InventoryReports combo box
+		ObservableList<String> comboInventory = FXCollections.observableArrayList();
+		
+		//Setup CustomerReports combo box
+		ObservableList<String> comboCustomers = FXCollections.observableArrayList();
+		
+		ObservableList<String> comboMonths = FXCollections.observableArrayList(
+			"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+		
+		ObservableList<String> comboYears = FXCollections.observableArrayList();
+		
+		int year = Year.now().getValue();
+		for (int i = 0; i < 10; i++) {
+			comboYears.add("" + year--);
+		}
+		//Set months and years for the combo boxes
+		comboBoxMonthOrderReports.setItems(comboMonths);
+		comboBoxYearOrderReports.setItems(comboYears);
+		comboBoxMonthCustomerReports.setItems(comboMonths);
+		comboBoxYearCustomerReports.setItems(comboYears);
+		
+		SCCP fetchMachines = new SCCP();
+		fetchMachines.setRequestType(ServerClientRequestTypes.SELECT);
+		fetchMachines.setMessageSent(new Object[] {"machine", false, null, false, null, true, "LEFT JOIN locations on machine.locationId = locations.locationID"});
+		
+		ClientUI.clientController.accept(fetchMachines);
+		
+		//ClientController.getMessageSent() -> returns ArrayList of ArrayListst of objects
+		machinesList = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
+		
+		for (ArrayList<Object> machine : (ArrayList<ArrayList<Object>>)machinesList) {
+			comboOrders.add((String) machine.get(4) + "-" + (String) machine.get(2));
+			comboInventory.add((String) machine.get(4)+ "-" + (String) machine.get(2));
+			comboCustomers.add((String) machine.get(4) + "-" + (String) machine.get(2));
+		}
+		
+		//Set combo boxes of 
+		comboBoxOrderReports.setItems(comboOrders);
+		comboBoxInventoryReports.setItems(comboInventory);
+		comboBoxCustomerReports.setItems(comboCustomers);
+
+	}
+
+
 	//Setup CEOpage before launch
-	public void setUpCEOPage() {
+	public void setUpRegionalManagerPage() {
 		//Setup orderReports combo box
 		ObservableList<String> comboOrders = FXCollections.observableArrayList();
 		
@@ -251,7 +306,12 @@ public class EktReportSelectFormController extends Application{
 	 */
 	public void getBtnLogout(ActionEvent event) throws Exception {
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page");
+		if (ClientUI.clientController.getCurrentSystemUser().getRole().equals(Role.REGIONAL_MANAGER)) {
+			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page");
+		} else {
+			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktDivisionManagerHomePage.fxml", null, "Regional Manager Home Page");
+
+		}
 		primaryStage.setOnCloseRequest(we -> {
 			System.out.println("Pressed the X button."); 
 			System.exit(0);

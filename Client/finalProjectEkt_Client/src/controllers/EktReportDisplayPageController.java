@@ -194,7 +194,7 @@ public class EktReportDisplayPageController {
 		});
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
-
+		
 	}
 	
 	private int getMonthNumberByString(String string) {

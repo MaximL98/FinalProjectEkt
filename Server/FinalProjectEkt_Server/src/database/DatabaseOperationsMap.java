@@ -596,11 +596,6 @@ public class DatabaseOperationsMap {
 					new DatabaseActionUpdateForUpdateProductsInMachine());
 			
 			this.put(DatabaseOperation.INSERT_PROMOTION_NAMES,  new DatabaseActionSelectPromotionNames());
-
-			
-
-
-			
 			
 		}};
 

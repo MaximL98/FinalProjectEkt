@@ -25,11 +25,6 @@
                         <Font name="Berlin Sans FB" size="36.0" />
                      </font>
                   </Text>
-                  <Button fx:id="btnCancelOrder" layoutX="638.0" layoutY="41.0" mnemonicParsing="false" onAction="#getBtnCancelOrder" prefHeight="20.0" prefWidth="148.0" style="-fx-background-color: #f28484; -fx-border-color: crimson; -fx-background-radius: 300; -fx-border-radius: 300; -fx-border-width: 2;" text="CANCEL ORDER">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Button>
                </children>
             </Pane>
          </top>
@@ -41,12 +36,17 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnOrder" layoutX="601.0" layoutY="41.0" mnemonicParsing="false" onAction="#getBtnOrder" prefHeight="45.0" prefWidth="185.0" style="-fx-background-color: #b6e194; -fx-background-radius: 300; -fx-border-color: green; -fx-border-radius: 300; -fx-border-width: 2;" text="ORDER">
+                  <Button fx:id="btnOrder" layoutX="315.0" layoutY="45.0" mnemonicParsing="false" onAction="#getBtnOrder" prefHeight="45.0" prefWidth="170.0" style="-fx-background-color: #b6e194; -fx-background-radius: 300; -fx-border-color: green; -fx-border-radius: 300; -fx-border-width: 2;" text="ORDER">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Text fx:id="txtTotalPrice" layoutX="300.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CART TOTAL: 0$" y="25.0">
+                  <Button fx:id="btnCancelOrder" layoutX="580.0" layoutY="45.0" mnemonicParsing="false" onAction="#getBtnCancelOrder" prefHeight="45.0" prefWidth="210.0" style="-fx-background-color: #f28484; -fx-border-color: crimson; -fx-background-radius: 300; -fx-border-radius: 300; -fx-border-width: 2;" text="CANCEL ORDER">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Text fx:id="txtTotalPrice" layoutX="300.0" layoutY="-2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CART TOTAL: 0$" y="25.0">
                      <font>
                         <Font name="System Bold" size="26.0" />
                      </font>

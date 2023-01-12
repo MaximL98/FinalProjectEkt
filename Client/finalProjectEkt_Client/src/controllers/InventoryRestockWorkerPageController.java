@@ -201,7 +201,7 @@ public class InventoryRestockWorkerPageController {
 	@FXML
 	void initialize() {
 		ObservableList<Machine> machines = FXCollections
-				.observableArrayList(getMachines(new Location[] { Location.North }));
+				.observableArrayList(getMachines(new Location[] {}));
 		if (machines == null)
 			return;
 		cmbChooseMachine.setItems(machines);

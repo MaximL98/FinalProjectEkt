@@ -59,6 +59,9 @@ public class ClientController
   public static Integer orderTotalQuantity;
   public static String orderDateReceived;
   public static String orderDeliveryTime;
+  //Maxim (12.1)
+  public static String orderType = "";
+  public static String pickupPlace = "";
 
   public ClientController(String host, int port) throws IOException
   {

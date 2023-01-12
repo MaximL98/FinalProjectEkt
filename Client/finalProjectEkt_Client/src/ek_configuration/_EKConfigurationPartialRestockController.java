@@ -96,9 +96,9 @@ public class _EKConfigurationPartialRestockController {
     			Integer maxStock = Integer.valueOf(row.get(3).toString());
     			
     			productsInMachineData.add(new ProductInMachine(new Product(prodId.toString(), prodName, null, null, null),
-    					new Machine(ClientController._EkCurrentMachineID, ClientController._EkCurrentMachineName, null, null),
+    					new Machine(ClientController._EkCurrentMachineID, ClientController._EkCurrentMachineName, null),
     					stock, 
-    					maxStock));
+    					0, maxStock, false));
     			productsInMachineTable.add(new ProductTableClass(prodId, prodName, stock, maxStock));
     			System.out.println(productsInMachineTable);
     		}

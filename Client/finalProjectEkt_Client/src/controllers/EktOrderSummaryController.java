@@ -180,7 +180,7 @@ public class EktOrderSummaryController {
 				j = 0;
 				
 				//Max 7/1: add product name in order to array
-				OrderInformation.add(product.getProductName());
+				OrderInformation.add(product.getProductID());
 				OrderInformation.add(quantityNum.toString());
 			}
 		}

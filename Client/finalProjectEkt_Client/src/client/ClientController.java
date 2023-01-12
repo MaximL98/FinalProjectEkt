@@ -59,9 +59,14 @@ public class ClientController
   public static Integer orderTotalQuantity;
   public static String orderDateReceived;
   public static String orderDeliveryTime;
-  
+
+  //Maxim (12.1)
+  public static String orderType = "";
+  public static String pickupPlace = "";
+
   // rotem 1.12.23
   private static Boolean customerIsSubsriber=null;
+
 
   public ClientController(String host, int port) throws IOException
   {

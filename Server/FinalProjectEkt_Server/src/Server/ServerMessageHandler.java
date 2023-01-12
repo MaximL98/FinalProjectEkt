@@ -340,6 +340,7 @@ public class ServerMessageHandler {
 		// else, respond "wrong password"
 		@Override
 		public SCCP handleMessage(SCCP loginMessage) {
+			System.out.println("Started login process");
 			// we are supposed to get this object:
 			// SCCP(
 			// ServerClientRequestTypes LOGIN, new String[]{"username", "password"}
@@ -349,9 +350,11 @@ public class ServerMessageHandler {
 			System.out.println("Server processing login request for user "+ username);
 			Object res = DatabaseController.
 					handleQuery(DatabaseOperation.USER_LOGIN, new Object[] {"systemuser", loginMessage.getMessageSent()});
+			System.out.println("Sent first login query!");
 			if(res == null) {
 				System.out.println("Server failed login request for user "+ username + " (invalid username or password).");
-				return new SCCP(ServerClientRequestTypes.LOGIN_FAILED_ILLEGAL_INPUT, res);
+				// Rotem 1.12.23 -> fixed a bug -> YOU CAN'T PASS NULL AS MESSAGE SENT!
+				return new SCCP(ServerClientRequestTypes.LOGIN_FAILED_ILLEGAL_INPUT, "Invalid login input");
 			}
 			
 			if(res instanceof SystemUser) {
@@ -361,6 +364,7 @@ public class ServerMessageHandler {
 				String sqlQueryLoggedInTest ="SELECT * FROM logged_users WHERE username = \"" + username+"\";";
 				Object res2 = DatabaseController.
 							handleQuery(DatabaseOperation.GENERIC_SELECT, new Object[] {sqlQueryLoggedInTest});
+				System.out.println("Sent second login query!");
 				@SuppressWarnings("unchecked")
 				ArrayList<ArrayList<Object>> actualResult2 = (ArrayList<ArrayList<Object>>)res2;
 
@@ -372,6 +376,7 @@ public class ServerMessageHandler {
 				}
 				  // else, connect user (and write him in database)!
 				DatabaseController.handleQuery(DatabaseOperation.INSERT, new Object[] {"logged_users", false, new Object[]{"(\""+username+"\")"}});
+				System.out.println("Sent third login query!");
 				System.out.println("Server login request for user "+ username + " completed: user inserted to logged_users table.");
 
 				return new SCCP(ServerClientRequestTypes.LOGIN, (SystemUser)res);
@@ -619,15 +624,15 @@ public class ServerMessageHandler {
     
 	// Handle message of fetching all order types from the order_type table.
 	// fetchProductsMessage.getMessageSent() == "category"
-	private static final class HandleMessageFetchOnlineOrders implements IServerSideFunction {
+	private static final class HandleMessageFetchOrders implements IServerSideFunction {
 
 		@Override
-		public SCCP handleMessage(SCCP fetchOnlineOrdersMessage) {
-			Object resultSetOnlineOrders = DatabaseController.handleQuery(DatabaseOperation.FETCH_ONLINE_ORDERS,
-					new Object[] { fetchOnlineOrdersMessage.getMessageSent() });
+		public SCCP handleMessage(SCCP fetchOrdersMessage) {
+			Object resultSetOrders = DatabaseController.handleQuery(DatabaseOperation.FETCH_ORDERS,
+					new Object[] { fetchOrdersMessage.getMessageSent() });
 
-			if (resultSetOnlineOrders instanceof ArrayList) {
-				return new SCCP(ServerClientRequestTypes.FETCH_ONLINE_ORDERS, resultSetOnlineOrders);
+			if (resultSetOrders instanceof ArrayList) {
+				return new SCCP(ServerClientRequestTypes.FETCH_ORDERS, resultSetOrders);
 			}
 			return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");
 		}
@@ -674,7 +679,7 @@ public class ServerMessageHandler {
 			// promotions = (ArrayList<Promotions>) DatabaseController
 			// .handleQuery(DatabaseOperation.SELECT,new Object[] {"SELECT * FROM promotions
 			// WHERE promotionName = '\" + promotionName +"\';"});
-			promotions = (ArrayList<Promotions>) DatabaseController.handleQuery(DatabaseOperation.SELECT,
+			promotions = (ArrayList<Promotions>) DatabaseController.handleQuery(DatabaseOperation.SELECT_PROMOTION,
 					new Object[] { "SELECT * FROM promotions WHERE promotionName = '" + promotionName + "';" });
 			return new SCCP(ServerClientRequestTypes.DISPLAY, promotions);
 		}
@@ -724,7 +729,7 @@ public class ServerMessageHandler {
 						+ message.getMessageSent() + " is not of type Object[]");
 			}
 
-			boolean res = (boolean) DatabaseController.handleQuery(DatabaseOperation.UPDATE_ONLINE_ORDERS,
+			boolean res = (boolean) DatabaseController.handleQuery(DatabaseOperation.UPDATE_ORDERS,
 					new Object[] { objectsToUpdate });
 			if (res) {
 				response.setRequestType(ServerClientRequestTypes.ACK);
@@ -862,6 +867,95 @@ public class ServerMessageHandler {
 		}
 	}
 
+	private static final class HandleMessageFetchMachines implements IServerSideFunction {
+
+		@Override
+		public SCCP handleMessage(SCCP fetchMachinesMessage) {
+			Object resultSetMachines = DatabaseController.handleQuery(
+					DatabaseOperation.FETCH_MACHINES_BY_LOCATION,
+					new Object[] { fetchMachinesMessage.getMessageSent() });
+
+			if (resultSetMachines instanceof ArrayList) {
+				return new SCCP(ServerClientRequestTypes.FETCH_MACHINES_BY_LOCATION, resultSetMachines);
+			}
+			return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");
+		}
+	}
+	
+	private static final class HandleMessageFetchProductsInMachine implements IServerSideFunction {
+
+		@Override
+		public SCCP handleMessage(SCCP fetchMachinesMessage) {
+			Object resultSetProducts = DatabaseController.handleQuery(
+					DatabaseOperation.FETCH_PRODUCTS_IN_MACHINE,
+					new Object[] { fetchMachinesMessage.getMessageSent() });
+
+			if (resultSetProducts instanceof ArrayList) {
+				return new SCCP(ServerClientRequestTypes.FETCH_PRODUCTS_IN_MACHINE, resultSetProducts);
+			}
+			return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");
+		}
+	}
+	
+	private static final class HandleMessageUpdateProductsInMachine implements IServerSideFunction {
+		private static final int MESSAGE_OBJECT_ARRAY_SIZE = 1;
+
+		@Override
+		public SCCP handleMessage(SCCP message) {
+			ServerClientRequestTypes type = message.getRequestType();
+			SCCP response = new SCCP();
+			Object tmpMsg = message.getMessageSent();
+			Object[] formattedMessage;
+
+			// parts of the message:
+			Object[] productsToUpdate;
+
+			/// Start input validation
+
+			// verify type
+			if (!(type.equals(ServerClientRequestTypes.UPDATE_PRODUCTS_IN_MACHINE))) {
+				throw new IllegalArgumentException(
+						"Invalid type used in handleMessage, type: " + message.getRequestType());
+			}
+			// verify message format
+			if (tmpMsg instanceof Object[]) {
+				formattedMessage = (Object[]) tmpMsg;
+				if (formattedMessage.length != MESSAGE_OBJECT_ARRAY_SIZE) {
+					throw new IllegalArgumentException("Invalid message accepted in handleMessage, message: "
+							+ message.getMessageSent() + " is an Object array of size != " + MESSAGE_OBJECT_ARRAY_SIZE);
+				}
+				// verify each input
+
+				// objects to update
+				if (!(formattedMessage[0] instanceof Object[])) {
+					throw new IllegalArgumentException("Invalid value for machinesToUpdate (Object[] input) in handleMessage.");
+				}
+
+				// assign proper values to parts of the message
+				productsToUpdate = (Object[]) formattedMessage[0];
+
+			} else {
+				// invalid input branch
+				throw new IllegalArgumentException("Invalid message accepted in handleMessage, message: "
+						+ message.getMessageSent() + " is not of type Object[]");
+			}
+
+			boolean res = (boolean) DatabaseController.handleQuery(DatabaseOperation.UPDATE_PRODUCTS_IN_MACHINE,
+					new Object[] { productsToUpdate });
+			if (res) {
+				response.setRequestType(ServerClientRequestTypes.ACK);
+				response.setMessageSent(productsToUpdate); // send the array of objects we sent to add to the db, to
+															// indicate success
+			} else {
+				response.setRequestType(ServerClientRequestTypes.ERROR_MESSAGE);
+				// idea - maybe we should create a special type for errors too, and pass a
+				// dedicated one that will provide valuable info to the client?
+				response.setMessageSent("ERROR: updaing DB failed"); // TODO: add some valuable information.
+			}
+			return response;
+		}
+	}
+	
 	private static HashMap<ServerClientRequestTypes, IServerSideFunction> map = 
 			new HashMap<ServerClientRequestTypes, IServerSideFunction>() {
 
@@ -879,10 +973,11 @@ public class ServerMessageHandler {
 		this.put(ServerClientRequestTypes.EK_LOGIN, new HandleMessageLoginEK());
 		this.put(ServerClientRequestTypes.LOGOUT, new HandleMessageLogout());
 		this.put(ServerClientRequestTypes.REQUEST_ALL_MACHINES, new HandleMessageGetMachineNames());
-
-		
+		this.put(ServerClientRequestTypes.FETCH_MACHINES_BY_LOCATION, new HandleMessageFetchMachines());
+		this.put(ServerClientRequestTypes.FETCH_PRODUCTS_IN_MACHINE, new HandleMessageFetchProductsInMachine());
+		this.put(ServerClientRequestTypes.UPDATE_PRODUCTS_IN_MACHINE, new HandleMessageUpdateProductsInMachine());
 		this.put(ServerClientRequestTypes.FETCH_PRODUCTS_BY_CATEGORY, new HandleMessageFetchProducts());
-		this.put(ServerClientRequestTypes.FETCH_ONLINE_ORDERS, new HandleMessageFetchOnlineOrders());
+		this.put(ServerClientRequestTypes.FETCH_ORDERS, new HandleMessageFetchOrders());
 		this.put(ServerClientRequestTypes.DISPLAY_PROMOTIONS, new HandleMessageDisplayPromotions());
 		this.put(ServerClientRequestTypes.DISPLAY_SELECTED_PROMOTIONS, new HandleMessageDisplaySelectedPromotions());
 		this.put(ServerClientRequestTypes.UPDATE_ONLINE_ORDERS, new HandleMessageUpdateOnlineOrders());

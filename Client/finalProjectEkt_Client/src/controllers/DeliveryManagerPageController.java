@@ -2,10 +2,7 @@ package controllers;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.stream.Collectors;
 
 import client.ClientController;
@@ -13,11 +10,8 @@ import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
-import javafx.application.Application;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -28,37 +22,33 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
-import javafx.util.converter.DefaultStringConverter;
-import logic.SystemUser;
-import logic.OnlineOrder;
-import logic.OnlineOrder.Status;
+import logic.Order;
+import logic.Order.*;
 
 public class DeliveryManagerPageController {
 
-	private ArrayList<OnlineOrder> orders;
+	private ArrayList<Order> orders;
 
 	@FXML
 	private Text welcomeText;
 
 	@FXML
-	private TableView<OnlineOrder> deliveryTable;
+	private TableView<Order> deliveryTable;
 
 	@FXML
-	private TableColumn<OnlineOrder, String> tblOrderNumberColumn;
+	private TableColumn<Order, String> tblOrderNumberColumn;
 
 	@FXML
-	private TableColumn<OnlineOrder, LocalDate> tblDateReceivedColumn;
+	private TableColumn<Order, LocalDate> tblDateReceivedColumn;
 
 	@FXML
-	private TableColumn<OnlineOrder, LocalDateTime> tblTimeColumn;
+	private TableColumn<Order, LocalDateTime> tblTimeColumn;
 
 	@FXML
-	private TableColumn<OnlineOrder, OnlineOrder.Status> tblStatusColumn;
+	private TableColumn<Order, Order.Status> tblStatusColumn;
 
 	@FXML
 	private Button btnBack;
@@ -97,8 +87,8 @@ public class DeliveryManagerPageController {
 			successMessage.setContentText("Orders updated successfully!");
 			successMessage.show();
 			// remove orders that left in progress status
-			for(OnlineOrder order : orders) {
-				if(order.getStatus() != OnlineOrder.Status.InProgress)
+			for(Order order : orders) {
+				if(order.getStatus() != Order.Status.InProgress)
 					deliveryTable.getItems().remove(order);
 			}
 		}
@@ -115,20 +105,20 @@ public class DeliveryManagerPageController {
 
 	@FXML
 	public void initialize() {
-		orders = getOnlineOrders();
+		orders = getOrders();
 		// maybe show popup that says no orders?
 		if (orders == null)
 			return;
-		tblOrderNumberColumn.setCellValueFactory(new PropertyValueFactory<OnlineOrder, String>("orderID"));
-		tblDateReceivedColumn.setCellValueFactory(new PropertyValueFactory<OnlineOrder, LocalDate>("dateReceived"));
-		tblTimeColumn.setCellValueFactory(new PropertyValueFactory<OnlineOrder, LocalDateTime>("deliveryTime"));
-		tblStatusColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<OnlineOrder.Status>(cellData.getValue().getStatus()));
+		tblOrderNumberColumn.setCellValueFactory(new PropertyValueFactory<Order, String>("orderID"));
+		tblDateReceivedColumn.setCellValueFactory(new PropertyValueFactory<Order, LocalDate>("dateReceived"));
+		tblTimeColumn.setCellValueFactory(new PropertyValueFactory<Order, LocalDateTime>("deliveryTime"));
+		tblStatusColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<Order.Status>(cellData.getValue().getStatus()));
 		tblStatusColumn.setCellFactory(col -> {
-			ComboBox<OnlineOrder.Status> combo = new ComboBox<>();
-			combo.getItems().addAll(OnlineOrder.Status.values());
-			TableCell<OnlineOrder, OnlineOrder.Status> cell = new TableCell<OnlineOrder, OnlineOrder.Status>() {
+			ComboBox<Order.Status> combo = new ComboBox<>();
+			combo.getItems().addAll(Order.Status.values());
+			TableCell<Order, Order.Status> cell = new TableCell<Order, Order.Status>() {
 				@Override
-				protected void updateItem(OnlineOrder.Status status, boolean empty) {
+				protected void updateItem(Order.Status status, boolean empty) {
 					super.updateItem(status, empty);
 					if (empty) {
 						setGraphic(null);
@@ -146,10 +136,10 @@ public class DeliveryManagerPageController {
 
 	}
 
-	private ArrayList<OnlineOrder> getOnlineOrders() {
+	private ArrayList<Order> getOrders() {
 		SCCP preparedMessage = new SCCP();
-		preparedMessage.setRequestType(ServerClientRequestTypes.FETCH_ONLINE_ORDERS);
-		preparedMessage.setMessageSent(new String[] { OnlineOrder.Status.InProgress.name() });
+		preparedMessage.setRequestType(ServerClientRequestTypes.FETCH_ORDERS);
+		preparedMessage.setMessageSent(new int[] { Status.InProgress.getStatusId() });
 
 		// send to server
 		System.out.println("Client: Sending online orders fetch request to server.");
@@ -158,26 +148,26 @@ public class DeliveryManagerPageController {
 		// if the response is not the type we expect, something went wrong with server
 		// communication and we throw an exception.
 		if (!(ClientController.responseFromServer.getRequestType()
-				.equals(ServerClientRequestTypes.FETCH_ONLINE_ORDERS))) {
+				.equals(ServerClientRequestTypes.FETCH_ORDERS))) {
 			throw new RuntimeException("Error with server communication: Non expected request type");
 		}
-		// otherwise we create an OnlineOrder arrayList and add the items from response
+		// otherwise we create an Order arrayList and add the items from response
 		// to it.
 		Object response = ClientController.responseFromServer.getMessageSent();
 		ArrayList<?> responseArr = (ArrayList<?>) response;
 		if (responseArr.size() == 0)
 			return null;
-		// return new arrayList with the items from response casted to OnlineOrder.
-		return orders = responseArr.stream().map(x -> (OnlineOrder) x).collect(Collectors.toCollection(ArrayList::new));
+		// return new arrayList with the items from response casted to Order.
+		return orders = responseArr.stream().map(x -> (Order) x).collect(Collectors.toCollection(ArrayList::new));
 	}
 
 	// for testing
 	/*
-	 * public ObservableList<OnlineOrder> getOrders() { ObservableList<OnlineOrder>
-	 * orders = FXCollections.observableArrayList(); orders.add(new OnlineOrder("1",
+	 * public ObservableList<Order> getOrders() { ObservableList<Order>
+	 * orders = FXCollections.observableArrayList(); orders.add(new Order("1",
 	 * 5, "test", "Somewhere", LocalDate.of(2022, Month.DECEMBER, 25),
 	 * LocalDateTime.of(LocalDate.of(2023, Month.JANUARY, 15), LocalTime.of(12, 0)),
-	 * Type.Delivery, Status.Complete)); orders.add(new OnlineOrder("2", 2, "test2",
+	 * Type.Delivery, Status.Complete)); orders.add(new Order("2", 2, "test2",
 	 * "Somewhere", LocalDate.of(2022, Month.DECEMBER, 22),
 	 * LocalDateTime.of(LocalDate.of(2023, Month.JANUARY, 10), LocalTime.of(10, 0)),
 	 * Type.Pickup, Status.Cancelled)); return orders; }

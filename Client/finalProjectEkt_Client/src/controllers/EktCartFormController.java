@@ -18,7 +18,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 
 import javafx.scene.control.ScrollBar;
@@ -29,6 +30,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -47,6 +49,12 @@ public class EktCartFormController {
 
     @FXML
     private Text txtTotalPrice;
+    
+    @FXML
+    private ChoiceBox<String> choiceBox;
+    
+    @FXML
+    private Pane btmPane;
 	
 	private GridPane gridpaneIntoVbox;
 	
@@ -81,12 +89,15 @@ public class EktCartFormController {
 	
 	@FXML
 	public void initialize() {
+		ClientController.orderType = "";
+		ClientController.pickupPlace = "";
 		vboxCart = new VBox();
 		gridpaneIntoVbox  = new GridPane();
 		
 		txtTotalPrice.setText("CART TOTAL: 0$");
 		txtTotalPrice.setLayoutX(400 - txtTotalPrice.minWidth(0)/2);
-
+		
+		
 		final int numCols = 6;
 		Double costPerUnit = 0.0;
 
@@ -99,6 +110,35 @@ public class EktCartFormController {
 		gridpaneIntoVbox.setPrefSize(800 - 10, 550);
 		gridpaneIntoVbox.setHgap(5);;
 		gridpaneIntoVbox.setVgap(5);;
+		
+		choiceBox.getItems().addAll("Pickup","Delivery","Local");
+		ComboBox<String> cb = new ComboBox<>();
+		choiceBox.setOnAction(event ->{
+			if(choiceBox.getValue().equals("Pickup")) {
+				System.out.println("Client Order Type is = " + choiceBox.getValue());
+				ClientController.orderType = choiceBox.getValue();
+				
+				cb.getItems().setAll("Haifa, Downtown","Beer Sheva, Center","Beer Sheva, Downtown",
+						"Kiryat Motzkin, Center", "Kiryat Shmona, Center", "Beer Sheva, Updog", "Abu Dabi, Center",
+						"Abu Naji, Center");
+				cb.setLayoutX(409);
+				cb.setLayoutY(14);
+				
+				btmPane.getChildren().add(cb);
+				System.out.println("pickup place = " + cb.getValue());
+				
+			}
+			else {
+				ClientController.orderType = choiceBox.getValue();
+				btmPane.getChildren().remove(cb);
+				System.out.println("Client Order Type is = " + choiceBox.getValue());
+			}
+		});
+		
+		cb.setOnAction(event ->{
+			ClientController.pickupPlace = cb.getValue();
+		});
+		
 		int i = 0, j = 0;
 		for (Product product: ClientController.getProductByID.values()) {
 	
@@ -399,6 +439,14 @@ public class EktCartFormController {
 
     		}
     	}
+		if(ClientController.orderType.equals("") || 
+				(ClientController.orderType.equals("Pickup") && ClientController.pickupPlace.equals(""))) {
+			//Alert window
+    		Alert alert = new Alert(AlertType.WARNING);
+    		alert.setTitle("Select Order Type");
+    		alert.setHeaderText("You need to select order type before proceeding to order!");
+    		alert.showAndWait();
+		}
 		else {
 			
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window

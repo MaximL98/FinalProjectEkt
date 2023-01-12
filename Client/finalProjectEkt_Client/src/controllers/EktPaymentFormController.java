@@ -26,6 +26,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import logic.CustomerOrder;
 import logic.Order;
 import logic.Product;
 
@@ -57,7 +58,45 @@ public class EktPaymentFormController {
     	
     }
     
+    private Integer getTypeId(String orderType) {
+		switch (orderType) {
+		case "Pickup":
+			return 1;
+		case "Delivery":
+			return 2;
+		case "Local":
+			return 3;
+		}
+    	return null;
+    }
     
+    private Integer getMachineId(String pickupPlace) {
+		
+    	switch (pickupPlace) {
+		case "Haifa, Downtown":
+			return 1;
+		case "Beer Sheva, Center":
+			return 2;
+		case "Beer Sheva, Downtown":
+			return 3;
+		
+	    case "Kiryat Motzkin, Center":
+			return 4;
+		
+		case "Kiryat Shmona, Center":
+			return 5;
+		
+		case "Beer Sheva, Updog":
+			return 6;
+		
+		case "Abu Dabi, Center":
+			return 7;
+		
+		case "Abu Naji, Center":
+			return 8;
+    	}
+    	return null;
+    }
     
     @FXML
     void getBtnChargeMyCreditCard(ActionEvent event) {
@@ -103,9 +142,9 @@ public class EktPaymentFormController {
 		fillOrder[0] = "orders (total_price, total_quantity, machineID, date_received, deliveryTime, typeId, statusId)";
 		fillOrder[1] = false;
 		fillOrder[2] = new Object[] {"(" + ClientController.orderTotalPrice + "," + 
-		ClientController.orderTotalQuantity + "," + 1 + ",\"" + 
+		ClientController.orderTotalQuantity + "," + getMachineId(ClientController.pickupPlace) + ",\"" + 
 		ClientController.orderDateReceived + "\"" + ",\"" + ClientController.orderDeliveryTime + 
-				"\"" + "," + 1 + "," + 1 + ")"};
+				"\"" + "," + getTypeId(ClientController.orderType) + "," + 1 + ")"};
 		
 		preparedMessage.setMessageSent(fillOrder); 
 		ClientUI.clientController.accept(preparedMessage);
@@ -132,6 +171,31 @@ public class EktPaymentFormController {
 		}
 		
 		Integer maxOrderId = Integer.parseInt(temp);
+		
+		////////////////
+		/*
+		 * Rotem: 1.12.23 -> adding an insert to customer_orders (associate a customer with an order in DB)
+		 */
+		
+		ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.ADD, 
+				new Object[] 
+						{"customer_orders", 
+								false, 
+								new Object[] {
+										new CustomerOrder(ClientController.getCurrentSystemUser().getId(), maxOrderId, 1)}}));
+		SCCP rotemRes = ClientController.responseFromServer;
+		if(rotemRes.getRequestType().equals(ServerClientRequestTypes.ACK)) {
+			System.out.println("Updated customer_orders successfully!");
+		}
+		else {
+			System.out.println("Failed in updating customer_orders!");
+		}
+		
+		/*
+		 * End Rotem -> added insert to custoemr_orders
+		 */
+		////////////////
+
 		
 		//insert to database, table: order_contents
 		preparedMessage = new SCCP();

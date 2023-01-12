@@ -42,6 +42,12 @@ import logic.Role;
 public class EktReportSelectFormController extends Application{
 	private ArrayList<?> machinesList;
 	
+	@FXML
+	private Button btnViewOrderReportSingleRegion;
+	
+	@FXML
+	private Button btnViewCustomerReportsSingleRegion;
+	
     @FXML
     private Button btnBack;
 
@@ -217,22 +223,21 @@ public class EktReportSelectFormController extends Application{
 		ClientController.getMachineID_TypeOfReport_Dates().add("Orders"); //Add type of report to view to the array
 		ClientController.getMachineID_TypeOfReport_Dates().add(locationAndMachineName[0]); //Add chosen location to the array
 		ClientController.getMachineID_TypeOfReport_Dates().add(locationAndMachineName[1]); //Add chosen machineName to the array
-		//Add the chosen dates to view reports
+		//Add the chosen date to view reports
 		ClientController.getMachineID_TypeOfReport_Dates().add(comboBoxMonthOrderReports.getValue());
 		ClientController.getMachineID_TypeOfReport_Dates().add(comboBoxYearOrderReports.getValue());
+		
+		for (String s : ClientController.getMachineID_TypeOfReport_Dates()) {
+			System.out.println(s);
+		}
 
 
 		
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
 				"/gui/EktReportDisplayPage.fxml", null, "Ekt Report Display Form");
-		primaryStage.setOnCloseRequest(we -> {
-			System.out.println("Pressed the X button.");
-			System.exit(0);
-		});
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
-		//Implement Order reports
 	}
 	
 	public void getBtnInventoryReports(ActionEvent event) throws Exception {
@@ -321,4 +326,33 @@ public class EktReportSelectFormController extends Application{
 		
 	}
 
+	
+	//Manager pressed on all reports button
+    @FXML
+    void getBtnViewCustomerReportsSingleRegion(ActionEvent event) {
+    	if (comboBoxMonthCustomerReports.getSelectionModel().isEmpty() || comboBoxYearCustomerReports.getSelectionModel().isEmpty()) {
+    		customerErrorMessage.setText("Please fill in all empty fields");
+			return;
+    	}
+    }
+    
+    @FXML
+    void getBtnViewOrderReportSingleRegion(ActionEvent event) {
+    	if (comboBoxMonthOrderReports.getSelectionModel().isEmpty() || comboBoxYearOrderReports.getSelectionModel().isEmpty()) {
+    		orderErrorMessage.setText("Please fill in all empty fields");
+    		return;
+    	}	
+		ClientController.getMachineID_TypeOfReport_Dates().add("Orders"); //Add type of report to view to the array
+		ClientController.getMachineID_TypeOfReport_Dates().add(ClientController.getCurrentUserRegion()); //Add chosen location to the array
+		ClientController.getMachineID_TypeOfReport_Dates().add("ALL_MACHINES"); //Add chosen machineName to the array
+		//Add the chosen date to view reports
+		ClientController.getMachineID_TypeOfReport_Dates().add(comboBoxMonthOrderReports.getValue());
+		ClientController.getMachineID_TypeOfReport_Dates().add(comboBoxYearOrderReports.getValue());
+		
+		Stage primaryStage = new Stage();
+		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
+				"/gui/EktReportDisplayPage.fxml", null, "Ekt Report Display Form");
+		primaryStage.show();
+		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+    }
 }

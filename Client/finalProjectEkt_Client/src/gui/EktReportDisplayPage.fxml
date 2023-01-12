@@ -6,13 +6,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktReportDisplayPageController">
+<AnchorPane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1500px, #e6e6fa, indigo);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktReportDisplayPageController">
    <children>
-      <BorderPane fx:id="borderPane" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1500px, pink, yellow);">
+      <BorderPane fx:id="borderPane" prefHeight="700.0" prefWidth="800.0">
          <top>
             <Pane prefHeight="120.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                <children>
@@ -39,20 +38,15 @@
                </children>
             </Pane>
          </top>
-         <bottom>
-            <Pane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="btnBack" layoutX="14.0" layoutY="91.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="45.0" prefWidth="100.0" style="-fx-background-color: transparent; -fx-border-color: crimson; -fx-border-radius: 10;" text="BACK">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Button>
-               </children>
-            </Pane>
-         </bottom>
-         <left>
-            <VBox fx:id="vboxRight" alignment="CENTER" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-         </left>
       </BorderPane>
+      <Pane fx:id="paneBottom" layoutY="700.0" prefHeight="100.0" prefWidth="800.0">
+         <children>
+            <Button fx:id="btnBack" layoutX="14.0" layoutY="41.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="45.0" prefWidth="100.0" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

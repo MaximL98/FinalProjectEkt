@@ -12,7 +12,9 @@ public enum Role {
 	CUSTOMER, REGIONAL_MANAGER, LOGISTICS_MANAGER, SERVICE_REPRESENTATIVE, CEO, DIVISION_MANAGER, SALES_MANAGER, SALES_WORKER,
 	// Rotem: added the logistics employee AND SUBSCRIBER - he is the one to actually re stock the machines.
 	// ?
-	LOGISTICS_EMPLOYEE, SUBSCRIBER; 
+	LOGISTICS_EMPLOYEE, SUBSCRIBER,
+	UNAPPROVED_CUSTOMER // added Rotem 1.12
+	; 
 	
 	// get role object from string
 	public static Role getRoleFromString(String roleAsString) {

@@ -1,6 +1,7 @@
 package ek_configuration;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import client.ClientController;
 import client.ClientUI;
@@ -10,11 +11,15 @@ import common.WindowStarter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class _EKConfigurationCustomerCollectOrderController {
 	
@@ -52,10 +57,7 @@ public class _EKConfigurationCustomerCollectOrderController {
     		}
     	}
     	ordersByID.getItems().addAll(existingOrdersContents);
-    	if(existingOrdersContents.size() == 0) {
-    		// show a pop up that lets the user know he has no open orders. return user to previous page!
-    		System.out.println("IMPLEMENT THIS!");
-    	}
+
     	
     }
     
@@ -74,14 +76,19 @@ public class _EKConfigurationCustomerCollectOrderController {
     	
     	System.out.println("Enjoy!");
     	// load previous page:
-		// sammy D the current window
 		((Node)event.getSource()).getScene().getWindow().hide();
+
+		goBack(event);
+    }
+
+	private void goBack(ActionEvent event) {
+		// sammy D the current window
 		// prepare the new stage:
 		Stage primaryStage = new Stage();
 		String nextScreenPath = "/gui/_EKConfigurationCustomerHomeArea.fxml";
 		String nextPathTitle = "Customer Home Frame";
 		WindowStarter.createWindow(primaryStage, this, nextScreenPath, null, nextPathTitle);
 		primaryStage.show();
-    }
+	}
 
 }

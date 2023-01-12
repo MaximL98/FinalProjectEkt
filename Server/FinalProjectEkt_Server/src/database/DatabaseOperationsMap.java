@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import logic.*;
-import logic.OnlineOrder.*;
+import logic.Order.*;
 
 public class DatabaseOperationsMap {
 	private static String SCHEMA_EKRUT = "ektdb";
@@ -294,90 +294,101 @@ public class DatabaseOperationsMap {
 	        }
 	        return arrayOfProducts;
         }
+        
 
     }
 	 
 
-		protected static final class DatabaseActionUpdateForUpdateOnlineOrders implements IDatabaseAction {
-
-			private String ONLINE_ORDERS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "online_order";
-			private String ORDER_TYPES_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "order_type";
-			private String ORDER_STATUSES_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "order_status";
-
+		protected static final class DatabaseActionUpdateForUpdateOrders implements IDatabaseAction {
+			private String ORDERS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "orders";
+			
 			@Override
 			public Object getDatabaseAction(Object[] params) {
 				if (!(params[0] instanceof Object[]))
-					throw new InvalidParameterException("Error: expected array of Objects.");
+					throw new InvalidParameterException("Error: expected array of Objects.");                                                            
 				Object[] orders = (Object[]) params[0];
 				for (Object o : orders) {
-					if (!(o instanceof OnlineOrder))
-						throw new InvalidParameterException("Error: expected array of Objects that includes OnlineOrders.");
-					OnlineOrder order = (OnlineOrder) o;
-					String sqlQuery = "UPDATE " + ONLINE_ORDERS_TABLE + " SET " + "typeId = (select statusId FROM "
-							+ ORDER_TYPES_TABLE + "  where typeName = \"" + order.getType().name() + "\"), "
-							+ "statusId = (select statusId FROM " + ORDER_STATUSES_TABLE + "  where statusName = \""
-							+ order.getStatus().name() + "\"), " + "deliveryTime = '"
-							+ Timestamp.valueOf(order.getDeliveryTime()).toString() + "' " + "WHERE orderId = \""
-							+ order.getOrderID() + "\";";
-					boolean success = DatabaseSimpleOperation.executeQuery(sqlQuery);
+					if (!(o instanceof Order))
+						throw new InvalidParameterException("Error: expected array of Objects that includes Order.");
+					Order order = (Order) o;
+					
+					StringBuilder sqlBuilder = new StringBuilder("UPDATE ");
+					sqlBuilder.append(ORDERS_TABLE);
+					sqlBuilder.append(" SET total_price = ");
+					sqlBuilder.append(order.getTotalPrice());
+					sqlBuilder.append(", total_quantity = ");
+					sqlBuilder.append(order.getTotalAmount());
+					sqlBuilder.append(", deliveryTime = '");
+					sqlBuilder.append(Timestamp.valueOf(order.getDeliveryTime()));
+					sqlBuilder.append("', typeId = ");
+					sqlBuilder.append(order.getType().getTypeId());
+					sqlBuilder.append(", statusId = ");
+					sqlBuilder.append(order.getStatus().getStatusId());
+					sqlBuilder.append(" WHERE orderID = ");
+					sqlBuilder.append(order.getOrderID());
+					sqlBuilder.append(";");
+					/*
+					 * String sqlQuery = "UPDATE " + ORDERS_TABLE + " SET " +
+					 * "typeId = (select statusId FROM " + ORDER_TYPES_TABLE +
+					 * "  where typeName = \"" + order.getType().name() + "\"), " +
+					 * "statusId = (select statusId FROM " + ORDER_STATUSES_TABLE +
+					 * "  where statusName = \"" + order.getStatus().name() + "\"), " +
+					 * "deliveryTime = '" + Timestamp.valueOf(order.getDeliveryTime()).toString() +
+					 * "' " + "WHERE orderId = \"" + order.getOrderID() + "\";";
+					 */
+					boolean success = DatabaseSimpleOperation.executeQuery(sqlBuilder.toString());
 					if (!success)
 						return success;
 				}
 				return true;
 			}
-
 		}
 
 		// Class which is used to return a result set of all online orders with the
 		// status name in orderFilters[0]
-		protected static final class DatabaseActionSelectForFetchOnlineOrders implements IDatabaseAction {
-			private String ONLINE_ORDERS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "online_order";
+		protected static final class DatabaseActionSelectForFetchOrders implements IDatabaseAction {
 			private String ORDERS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "orders";
-			private String ORDER_TYPES_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "order_type";
-			private String ORDER_STATUSES_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "order_status";
 			private String MACHINES_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "machine";
-			private String LOCATIONS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "locations";
+			private final String JOIN = " JOIN ";
 
 			@Override
 			public Object getDatabaseAction(Object[] orderFilters) {
-				String sqlQuery = "Select " + ORDERS_TABLE
-						+ ".*, typeName ,statusName, date_recieved, deliveryTime, locationName " + "FROM "
-						+ ONLINE_ORDERS_TABLE + " " + "LEFT JOIN " + ORDERS_TABLE + " " + "ON " + ONLINE_ORDERS_TABLE
-						+ ".orderID = " + ORDERS_TABLE + ".orderID " + "LEFT JOIN " + ORDER_TYPES_TABLE + " " + "ON "
-						+ ONLINE_ORDERS_TABLE + ".typeId = " + ORDER_TYPES_TABLE + ".typeId " + "LEFT JOIN "
-						+ ORDER_STATUSES_TABLE + " " + "ON " + ONLINE_ORDERS_TABLE + ".statusId = " + ORDER_STATUSES_TABLE
-						+ ".statusId " + "LEFT JOIN " + MACHINES_TABLE + " " + "ON " + ORDERS_TABLE + ".machineId = "
-						+ MACHINES_TABLE + ".machineId " + "LEFT JOIN " + LOCATIONS_TABLE + " " + "ON " + MACHINES_TABLE
-						+ ".locationId = " + LOCATIONS_TABLE + ".locationID";
+				StringBuilder sqlBuilder = new StringBuilder("select * from ");
+				sqlBuilder.append(ORDERS_TABLE);
+				sqlBuilder.append(JOIN);
+				sqlBuilder.append(MACHINES_TABLE);
+				sqlBuilder.append(" using(machineId)");
 				if (orderFilters.length > 0) {
-					String statusName = ((String[]) orderFilters[0])[0];
-					sqlQuery += " WHERE statusName = \"" + statusName + "\"";
+					int statusId = ((int[]) orderFilters[0])[0];
+					sqlBuilder.append(" WHERE statusId = ");
+					sqlBuilder.append(statusId);
 				}
+				sqlBuilder.append(";");
 
 				// Uses simpler version of execute query with one input string variable (the
 				// requested sql query)
-				ResultSet fetchOnlineOrdersResultSet = DatabaseSimpleOperation
-						.executeQueryWithResults(sqlQuery, null);
+				ResultSet fetchOrdersResultSet = DatabaseSimpleOperation.executeQueryWithResults(sqlBuilder.toString(),
+						null);
 
-				ArrayList<OnlineOrder> orders = new ArrayList<>();
+				ArrayList<Order> orders = new ArrayList<>();
 				try {
-					while (fetchOnlineOrdersResultSet.next()) {
-						String orderID = fetchOnlineOrdersResultSet.getString("orderID");
-						Integer totalAmount = fetchOnlineOrdersResultSet.getInt("total_amount");
-						String attribute = fetchOnlineOrdersResultSet.getString("attribute");
-						Type type = Type.valueOf(fetchOnlineOrdersResultSet.getString("typeName"));
-						Status status = Status.valueOf(fetchOnlineOrdersResultSet.getString("statusName"));
-						LocalDate dateReceived = fetchOnlineOrdersResultSet.getDate("date_recieved").toLocalDate();
-						LocalDateTime deliveryTime = null;
-						Timestamp deliveryTimeStamp = fetchOnlineOrdersResultSet.getTimestamp("deliveryTime");
-						if (deliveryTimeStamp != null)
-							deliveryTime = deliveryTimeStamp.toLocalDateTime();
-						String location = fetchOnlineOrdersResultSet.getString("locationName");
-						OnlineOrder tempOrder = new OnlineOrder(orderID, totalAmount, attribute, location, dateReceived,
-								deliveryTime, type, status);
-						System.out.println(tempOrder.toString());
-
-						orders.add(tempOrder);
+					while (fetchOrdersResultSet.next()) {
+						Integer orderID = fetchOrdersResultSet.getInt("orderID");
+						Integer totalPrice = fetchOrdersResultSet.getInt("total_price");
+						Integer totalAmount = fetchOrdersResultSet.getInt("total_quantity");
+						
+						int machineId = fetchOrdersResultSet.getInt("machineID");
+						String machineName = fetchOrdersResultSet.getString("machineName");
+						Location location = Location.fromLocationId(fetchOrdersResultSet.getInt("locationId"));
+						new Machine(machineId, machineName, location);
+						
+						Type type = Type.fromTypeId(fetchOrdersResultSet.getInt("typeId"));
+						Status status = Status.fromStatusId(fetchOrdersResultSet.getInt("statusId"));
+						LocalDate dateReceived = fetchOrdersResultSet.getDate("date_received").toLocalDate();
+						Timestamp deliveryTimeStamp = fetchOrdersResultSet.getTimestamp("deliveryTime");
+						LocalDateTime deliveryTime = deliveryTimeStamp != null ? deliveryTimeStamp.toLocalDateTime() : null;
+						
+						orders.add(new Order(orderID, totalPrice, totalAmount, null, dateReceived, deliveryTime, status, type));
 					}
 				} catch (SQLException sqle) {
 					sqle.printStackTrace();
@@ -442,10 +453,11 @@ public class DatabaseOperationsMap {
 
 		protected static final class DatabaseActionSelectForFetchMachines implements IDatabaseAction {
 			private static final String MACHINES_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + ".machine";
-			private static final String LOCATIONS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + ".locations";
+
 			@Override
 			public Object getDatabaseAction(Object[] machineLocations) {
 				ArrayList<Machine> machines = new ArrayList<>();
+
 				// init locationsArr to empty array
 				Location[] locationsArr = new Location[] {};
 				// if location array passed, set it to locationsArr.
@@ -454,21 +466,13 @@ public class DatabaseOperationsMap {
 				}
 				StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM ");
 				sqlBuilder.append(MACHINES_TABLE);
-				sqlBuilder.append(" LEFT JOIN ");
-				sqlBuilder.append(LOCATIONS_TABLE);
-				sqlBuilder.append(" ON ");
-				sqlBuilder.append(LOCATIONS_TABLE);
-				sqlBuilder.append(".locationID = ");
-				sqlBuilder.append(MACHINES_TABLE);
-				sqlBuilder.append(".locationId");
-
+				
 				if (locationsArr.length > 0) {
-					sqlBuilder.append(" WHERE locationName in(");
+					sqlBuilder.append(" WHERE locationId in(");
 					for (Location location : locationsArr) {
 						if (location instanceof Location) {
-							sqlBuilder.append("\"");
-							sqlBuilder.append(location.name());
-							sqlBuilder.append("\",");
+							sqlBuilder.append(location.getLocationId());
+							sqlBuilder.append(",");
 						}
 					}
 					// delete last comma
@@ -477,14 +481,14 @@ public class DatabaseOperationsMap {
 				}
 				sqlBuilder.append(";");
 
-				ResultSet fetchMachinesResultSet = DatabaseSimpleOperation.executeQueryWithResults(sqlBuilder.toString(), null);
+				ResultSet fetchMachinesResultSet = DatabaseSimpleOperation.executeQueryWithResults(sqlBuilder.toString(),
+						null);
 				try {
 					while (fetchMachinesResultSet.next()) {
 						int machineId = fetchMachinesResultSet.getInt("machineId");
-						int threshold = fetchMachinesResultSet.getInt("threshold_level");
-						String locationName = fetchMachinesResultSet.getString("locationName");
+						int locationId = fetchMachinesResultSet.getInt("locationId");
 						String machineName = fetchMachinesResultSet.getString("machineName");
-						machines.add(new Machine(machineId, machineName, threshold, Location.valueOf(locationName)));
+						machines.add(new Machine(machineId, machineName, Location.fromLocationId(locationId)));
 					}
 				} catch (SQLException sqle) {
 					sqle.printStackTrace();
@@ -494,7 +498,8 @@ public class DatabaseOperationsMap {
 
 		}
 		protected static final class DatabaseActionSelectForFetchProductsInMachine implements IDatabaseAction {
-			private static final String PRODUCTS_IN_MACHINE_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + ".products_in_machine";
+			private static final String PRODUCTS_IN_MACHINE_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT
+					+ ".products_in_machine";
 			private static final String PRODUCTS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "product";
 
 			@Override
@@ -525,12 +530,8 @@ public class DatabaseOperationsMap {
 						String productName = fetchProductsInMachineResultSet.getString("productName");
 						String costPerUnit = fetchProductsInMachineResultSet.getString("costPerUnit");
 						int stock = fetchProductsInMachineResultSet.getInt("stock");
-						// ROTEM >>>
-						int maxStock = fetchProductsInMachineResultSet.getInt("max_stock");
-						// ROTEM!!!
-						// added maxStock here because we do need it!
 						products.add(new ProductInMachine(new Product(productID, productName, costPerUnit, "", ""), machine,
-								stock, maxStock));
+								stock, stock, stock, false));
 					}
 				} catch (SQLException sqle) {
 					sqle.printStackTrace();
@@ -584,13 +585,13 @@ public class DatabaseOperationsMap {
 			this.put(DatabaseOperation.GENERIC_SELECT,  new DatabaseActionGenericSelect());
 			
 			this.put(DatabaseOperation.FETCH_PRODUCTS_BY_CATEGORY, new DatabaseActionSelectForFetchProducts());
-			this.put(DatabaseOperation.FETCH_ONLINE_ORDERS, new DatabaseActionSelectForFetchOnlineOrders());
+			this.put(DatabaseOperation.FETCH_ORDERS, new DatabaseActionSelectForFetchOrders());
 			this.put(DatabaseOperation.FETCH_MACHINES_BY_LOCATION, new DatabaseActionSelectForFetchMachines());
 			this.put(DatabaseOperation.FETCH_PRODUCTS_IN_MACHINE, new DatabaseActionSelectForFetchProductsInMachine());
 
 			this.put(DatabaseOperation.SELECT_PROMOTION, new DatabaseActionSelectPromotion());
 
-			this.put(DatabaseOperation.UPDATE_ONLINE_ORDERS, new DatabaseActionUpdateForUpdateOnlineOrders());
+			this.put(DatabaseOperation.UPDATE_ORDERS, new DatabaseActionUpdateForUpdateOrders());
 			this.put(DatabaseOperation.UPDATE_PROMOTION_STATUS,  new DatabaseActionUpdatePromotionStatus());
 			this.put(DatabaseOperation.UPDATE_PRODUCTS_IN_MACHINE,
 					new DatabaseActionUpdateForUpdateProductsInMachine());

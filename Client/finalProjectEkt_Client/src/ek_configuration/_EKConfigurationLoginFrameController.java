@@ -53,7 +53,13 @@ public class _EKConfigurationLoginFrameController {
 			ClientController.setCurrentSystemUser(su);
 			ClientController.setCurrentUserRole(su.getRole());
 			switch(su.getRole()) {
+			case SUBSCRIBER:
+				ClientController.setCustomerIsSubsriber(true);
+				nextScreenPath = "/gui/_EKConfigurationCustomerHomeArea.fxml";
+				nextPathTitle = "Customer Home Frame";
+				break;
 			case CUSTOMER:
+				ClientController.setCustomerIsSubsriber(false);
 				nextScreenPath = "/gui/_EKConfigurationCustomerHomeArea.fxml";
 				nextPathTitle = "Customer Home Frame";
 				break;
@@ -62,11 +68,6 @@ public class _EKConfigurationLoginFrameController {
 				nextPathTitle = "Logistics Employee Frame";
 				break;
 				
-				/*
-				 * TODO:
-				 * add cases for SUBSCRIBER and TIPULI etc...
-				 * 
-				 */
 			default:
 				statusLabel.setText("EK Configuration only supports customers and machine maintenance employees.");
 				statusLabel.setVisible(true);
@@ -80,7 +81,7 @@ public class _EKConfigurationLoginFrameController {
 			statusLabel.setText("Invalid input in login!");
 			return;
 		}
-    	
+    	System.out.println("Login EK -> " + nextScreenPath);
     	// move user to next screen
 		
 		// sammy D the current window

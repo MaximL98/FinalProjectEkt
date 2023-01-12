@@ -20,6 +20,8 @@ public class WindowStarter {
 	public static void createWindow(Stage primaryStage, Object classObject, 
 			String fxmlAddress, String cssAddress, String windowTitle) 
 					 {
+		// added debug print:
+		System.out.println("Loading UI page="+fxmlAddress + ", with css="+cssAddress +" and title="+windowTitle);
 		Parent root;
 		try {
 			root = FXMLLoader.load(classObject.getClass().getResource(fxmlAddress));

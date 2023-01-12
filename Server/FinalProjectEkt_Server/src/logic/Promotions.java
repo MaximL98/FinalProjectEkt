@@ -153,7 +153,7 @@ public class Promotions implements Serializable {
 
 	@Override
 	public String toString() {
-		return "(" + promotionId + ", " + "\"" + promotionName + "\", " + "\"" + promotionDescription + ", "
+		return "(" + promotionId + ", " + "'" + promotionName + "', " + "'" + promotionDescription + "', "
 				+ locationID + ", " + "\"" + productID + "\", " + discountPercentage + ", " + "\"" + startDate + "\", "
 				+ "\"" + endDate + "\",0)";
 	}

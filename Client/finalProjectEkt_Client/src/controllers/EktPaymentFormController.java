@@ -26,6 +26,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import logic.CustomerOrder;
 import logic.Order;
 import logic.Product;
 
@@ -170,6 +171,31 @@ public class EktPaymentFormController {
 		}
 		
 		Integer maxOrderId = Integer.parseInt(temp);
+		
+		////////////////
+		/*
+		 * Rotem: 1.12.23 -> adding an insert to customer_orders (associate a customer with an order in DB)
+		 */
+		
+		ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.ADD, 
+				new Object[] 
+						{"customer_orders", 
+								false, 
+								new Object[] {
+										new CustomerOrder(ClientController.getCurrentSystemUser().getId(), maxOrderId, 1)}}));
+		SCCP rotemRes = ClientController.responseFromServer;
+		if(rotemRes.getRequestType().equals(ServerClientRequestTypes.ACK)) {
+			System.out.println("Updated customer_orders successfully!");
+		}
+		else {
+			System.out.println("Failed in updating customer_orders!");
+		}
+		
+		/*
+		 * End Rotem -> added insert to custoemr_orders
+		 */
+		////////////////
+
 		
 		//insert to database, table: order_contents
 		preparedMessage = new SCCP();

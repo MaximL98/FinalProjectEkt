@@ -340,6 +340,7 @@ public class ServerMessageHandler {
 		// else, respond "wrong password"
 		@Override
 		public SCCP handleMessage(SCCP loginMessage) {
+			System.out.println("Started login process");
 			// we are supposed to get this object:
 			// SCCP(
 			// ServerClientRequestTypes LOGIN, new String[]{"username", "password"}
@@ -349,9 +350,11 @@ public class ServerMessageHandler {
 			System.out.println("Server processing login request for user "+ username);
 			Object res = DatabaseController.
 					handleQuery(DatabaseOperation.USER_LOGIN, new Object[] {"systemuser", loginMessage.getMessageSent()});
+			System.out.println("Sent first login query!");
 			if(res == null) {
 				System.out.println("Server failed login request for user "+ username + " (invalid username or password).");
-				return new SCCP(ServerClientRequestTypes.LOGIN_FAILED_ILLEGAL_INPUT, res);
+				// Rotem 1.12.23 -> fixed a bug -> YOU CAN'T PASS NULL AS MESSAGE SENT!
+				return new SCCP(ServerClientRequestTypes.LOGIN_FAILED_ILLEGAL_INPUT, "Invalid login input");
 			}
 			
 			if(res instanceof SystemUser) {
@@ -361,6 +364,7 @@ public class ServerMessageHandler {
 				String sqlQueryLoggedInTest ="SELECT * FROM logged_users WHERE username = \"" + username+"\";";
 				Object res2 = DatabaseController.
 							handleQuery(DatabaseOperation.GENERIC_SELECT, new Object[] {sqlQueryLoggedInTest});
+				System.out.println("Sent second login query!");
 				@SuppressWarnings("unchecked")
 				ArrayList<ArrayList<Object>> actualResult2 = (ArrayList<ArrayList<Object>>)res2;
 
@@ -372,6 +376,7 @@ public class ServerMessageHandler {
 				}
 				  // else, connect user (and write him in database)!
 				DatabaseController.handleQuery(DatabaseOperation.INSERT, new Object[] {"logged_users", false, new Object[]{"(\""+username+"\")"}});
+				System.out.println("Sent third login query!");
 				System.out.println("Server login request for user "+ username + " completed: user inserted to logged_users table.");
 
 				return new SCCP(ServerClientRequestTypes.LOGIN, (SystemUser)res);

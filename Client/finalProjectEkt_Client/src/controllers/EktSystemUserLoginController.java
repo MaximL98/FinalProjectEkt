@@ -89,6 +89,10 @@ public class EktSystemUserLoginController {
 	 */
     @FXML
     void getBtnLogin(ActionEvent event) {
+		// Rotem 1.12.23
+		// hide the status label until we finish login attempt
+		statusLabel.setVisible(false);
+		
     	String userName, password;
     	userName = txtUsername.getText();
     	password = txtPassword.getText();
@@ -110,7 +114,9 @@ public class EktSystemUserLoginController {
 		ClientUI.clientController.accept(preparedMessage);
 		// check client-side object for answer:
 		// if login succeeded:
-		if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.LOGIN)) {
+		ServerClientRequestTypes responseType = ClientController.responseFromServer.getRequestType();
+		System.out.println("TEST?"+responseType);
+		if(responseType.equals(ServerClientRequestTypes.LOGIN)) {
 			// add test that response.messageSent is the array we had in fill[2] (SAME OBJECT)
 			SystemUser connectedUser =  (SystemUser)ClientController.responseFromServer.getMessageSent();
 			ClientController.setCurrentSystemUser(connectedUser);
@@ -205,9 +211,19 @@ public class EktSystemUserLoginController {
 		}
 		
 		// login failed
+		// Rotem 1.12.23 added granularity
 		else {
-			statusLabel.setText("ERROR!"); // add specifics
+			statusLabel.setVisible(true);
+			if(responseType.equals(ServerClientRequestTypes.LOGIN_FAILED_ILLEGAL_INPUT)) {
+				statusLabel.setText("Invalid input for login");
+			}
+			else if(responseType.equals(ServerClientRequestTypes.LOGIN_FAILED_ALREADY_LOGGED_IN)) {
+				statusLabel.setText("Sorry, user is already logged in");
+			}
+			else {
+			statusLabel.setText("ERROR (unspecified login error)!"); // add specifics
 			//statusLabel.setVisible(true);
+			}
 		}    
 		
     }

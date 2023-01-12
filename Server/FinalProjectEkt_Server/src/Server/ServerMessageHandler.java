@@ -619,15 +619,15 @@ public class ServerMessageHandler {
     
 	// Handle message of fetching all order types from the order_type table.
 	// fetchProductsMessage.getMessageSent() == "category"
-	private static final class HandleMessageFetchOnlineOrders implements IServerSideFunction {
+	private static final class HandleMessageFetchOrders implements IServerSideFunction {
 
 		@Override
-		public SCCP handleMessage(SCCP fetchOnlineOrdersMessage) {
-			Object resultSetOnlineOrders = DatabaseController.handleQuery(DatabaseOperation.FETCH_ONLINE_ORDERS,
-					new Object[] { fetchOnlineOrdersMessage.getMessageSent() });
+		public SCCP handleMessage(SCCP fetchOrdersMessage) {
+			Object resultSetOrders = DatabaseController.handleQuery(DatabaseOperation.FETCH_ORDERS,
+					new Object[] { fetchOrdersMessage.getMessageSent() });
 
-			if (resultSetOnlineOrders instanceof ArrayList) {
-				return new SCCP(ServerClientRequestTypes.FETCH_ONLINE_ORDERS, resultSetOnlineOrders);
+			if (resultSetOrders instanceof ArrayList) {
+				return new SCCP(ServerClientRequestTypes.FETCH_ORDERS, resultSetOrders);
 			}
 			return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");
 		}
@@ -724,7 +724,7 @@ public class ServerMessageHandler {
 						+ message.getMessageSent() + " is not of type Object[]");
 			}
 
-			boolean res = (boolean) DatabaseController.handleQuery(DatabaseOperation.UPDATE_ONLINE_ORDERS,
+			boolean res = (boolean) DatabaseController.handleQuery(DatabaseOperation.UPDATE_ORDERS,
 					new Object[] { objectsToUpdate });
 			if (res) {
 				response.setRequestType(ServerClientRequestTypes.ACK);
@@ -972,7 +972,7 @@ public class ServerMessageHandler {
 		this.put(ServerClientRequestTypes.FETCH_PRODUCTS_IN_MACHINE, new HandleMessageFetchProductsInMachine());
 		this.put(ServerClientRequestTypes.UPDATE_PRODUCTS_IN_MACHINE, new HandleMessageUpdateProductsInMachine());
 		this.put(ServerClientRequestTypes.FETCH_PRODUCTS_BY_CATEGORY, new HandleMessageFetchProducts());
-		this.put(ServerClientRequestTypes.FETCH_ONLINE_ORDERS, new HandleMessageFetchOnlineOrders());
+		this.put(ServerClientRequestTypes.FETCH_ORDERS, new HandleMessageFetchOrders());
 		this.put(ServerClientRequestTypes.DISPLAY_PROMOTIONS, new HandleMessageDisplayPromotions());
 		this.put(ServerClientRequestTypes.DISPLAY_SELECTED_PROMOTIONS, new HandleMessageDisplaySelectedPromotions());
 		this.put(ServerClientRequestTypes.UPDATE_ONLINE_ORDERS, new HandleMessageUpdateOnlineOrders());

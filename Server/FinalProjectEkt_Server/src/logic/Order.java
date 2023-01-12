@@ -2,6 +2,9 @@ package logic;
 
 import java.io.Serializable;
 import java.time.*;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Project Name: finalProjectEkt_Client Logic class that contains the details
@@ -14,25 +17,67 @@ public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public enum Type {
-		Pickup, Delivery;
+		Pickup(1), Delivery(2), Local(3);
+
+		int typeId;
+
+		Type(int typeId) {
+			this.typeId = typeId;
+		}
+
+		private static final Map<Integer, Type> TYPES_BY_TYPE_ID;
+
+		static {
+			TYPES_BY_TYPE_ID = Stream.of(Type.values()).collect(Collectors.toMap(type -> type.typeId, type -> type));
+		}
+
+		public static Type fromTypeId(int typeId) {
+			Type type = TYPES_BY_TYPE_ID.get(typeId);
+			if (type == null) {
+				throw new IllegalArgumentException("Invalid typeId: " + typeId);
+			}
+			return type;
+		}
+
+		public int getTypeId() {
+			return typeId;
+		}
 	}
 
 	public enum Status {
-		InProgress("In Progress"), Complete("Complete"), Cancelled("Cancelled"),
-		RequestedCancellation("Requested Cancellation");
+		InProgress(1, "In Progress"), Complete(2, "Complete"), Cancelled(3, "Cancelled"),
+		RequestedCancellation(4, "Requested Cancellation");
 
+		int statusId;
 		String statusString;
 
-		Status(String statusString) {
+		Status(int statusId, String statusString) {
+			this.statusId = statusId;
 			this.statusString = statusString;
 		}
+		
+		private static final Map<Integer, Status> STATUS_BY_ID;
+	    static {
+	    	STATUS_BY_ID = Stream.of(Status.values()).collect(Collectors.toMap(status -> status.statusId, status -> status));
 
+	    }
+
+	    public static Status fromStatusId(int statusId) {
+	        Status status = STATUS_BY_ID.get(statusId);
+	        if (status == null) {
+	            throw new IllegalArgumentException("Invalid statusId: " + statusId);
+	        }
+	        return status;
+	    }
 		@Override
 		public String toString() {
 			return statusString;
 		}
+
+		public int getStatusId() {
+			return statusId;
+		}
 	}
-	
 
 	/**
 	 * Order logic part. private fields that will contain order entity: ID, total
@@ -48,7 +93,7 @@ public class Order implements Serializable {
 	private LocalDateTime deliveryTime;
 	private Status status;
 	private Type type;
-	
+
 	public Order(Integer orderID, Integer totalPrice, Integer totalAmount, Machine machine, LocalDate dateReceived,
 			LocalDateTime deliveryTime, Status status, Type type) {
 		this.orderID = orderID;
@@ -60,7 +105,7 @@ public class Order implements Serializable {
 		this.setStatus(status);
 		this.setType(type);
 	}
-	
+
 	public Integer getTotalPrice() {
 		return totalPrice;
 	}
@@ -131,8 +176,7 @@ public class Order implements Serializable {
 	@Override
 	public String toString() {
 		return "Order [orderID=" + orderID + ", totalPrice=" + totalPrice + ", totalAmount=" + totalAmount
-				+ ", machine name=" + machine + "dateReceived=" + dateReceived + "deliveryTime="
-				+ deliveryTime + "]";
+				+ ", machine name=" + machine + "dateReceived=" + dateReceived + "deliveryTime=" + deliveryTime + "]";
 	}
 
 }

@@ -184,12 +184,14 @@ public class EktSystemUserLoginController {
 			
 			case SALES_MANAGER:
 				WindowStarter.createWindow(primaryStage, this, "/gui/SalesManager.fxml", null, "Sales Manager");
-				primaryStage.show();
+				// I removed the following line as this one is already called below!
+				//primaryStage.show();
 				break;
 				
 			case SALES_WORKER:
 				WindowStarter.createWindow(primaryStage, this, "/gui/SalesDepartmentWorker.fxml", null, "Ekt Sales Department Worker");
-				primaryStage.show();
+				// I removed the following line as this one is already called below!
+				//primaryStage.show();
 				break;
 				
 			default:

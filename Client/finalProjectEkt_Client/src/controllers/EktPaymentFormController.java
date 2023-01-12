@@ -57,7 +57,45 @@ public class EktPaymentFormController {
     	
     }
     
+    private Integer getTypeId(String orderType) {
+		switch (orderType) {
+		case "Pickup":
+			return 1;
+		case "Delivery":
+			return 2;
+		case "Local":
+			return 3;
+		}
+    	return null;
+    }
     
+    private Integer getMachineId(String pickupPlace) {
+		
+    	switch (pickupPlace) {
+		case "Haifa, Downtown":
+			return 1;
+		case "Beer Sheva, Center":
+			return 2;
+		case "Beer Sheva, Downtown":
+			return 3;
+		
+	    case "Kiryat Motzkin, Center":
+			return 4;
+		
+		case "Kiryat Shmona, Center":
+			return 5;
+		
+		case "Beer Sheva, Updog":
+			return 6;
+		
+		case "Abu Dabi, Center":
+			return 7;
+		
+		case "Abu Naji, Center":
+			return 8;
+    	}
+    	return null;
+    }
     
     @FXML
     void getBtnChargeMyCreditCard(ActionEvent event) {
@@ -103,9 +141,9 @@ public class EktPaymentFormController {
 		fillOrder[0] = "orders (total_price, total_quantity, machineID, date_received, deliveryTime, typeId, statusId)";
 		fillOrder[1] = false;
 		fillOrder[2] = new Object[] {"(" + ClientController.orderTotalPrice + "," + 
-		ClientController.orderTotalQuantity + "," + 1 + ",\"" + 
+		ClientController.orderTotalQuantity + "," + getMachineId(ClientController.pickupPlace) + ",\"" + 
 		ClientController.orderDateReceived + "\"" + ",\"" + ClientController.orderDeliveryTime + 
-				"\"" + "," + 1 + "," + 1 + ")"};
+				"\"" + "," + getTypeId(ClientController.orderType) + "," + 1 + ")"};
 		
 		preparedMessage.setMessageSent(fillOrder); 
 		ClientUI.clientController.accept(preparedMessage);

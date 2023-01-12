@@ -54,6 +54,8 @@ public class EktOrderSummaryController {
 	private Text txtOrderTotal;
 
 	private GridPane gridPane;
+	
+	private Integer totalQuantity = 0;
 
 	private ArrayList<String> OrderInformation = new ArrayList<>(); 
 	
@@ -81,8 +83,14 @@ public class EktOrderSummaryController {
 		gridPane.setVgap(5);
 		//////////////////////////////////////////////////////
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
-		LocalDateTime now = LocalDateTime.now();  
-		OrderInformation.add(dtf.format(now));
+		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime tomorrow = now.plusDays(1);
+		tomorrow = tomorrow.plusHours(1);
+		
+		ClientController.orderDateReceived = dtf.format(now);
+		ClientController.orderDeliveryTime = dtf.format(tomorrow);
+		
+		OrderInformation.add(ClientController.orderDateReceived);
 		OrderInformation.add(ClientController.orderNumber.toString());
 		OrderInformation.add("Items in order:");
 		
@@ -95,6 +103,7 @@ public class EktOrderSummaryController {
 				productName.setStyle("-fx-font: 20 System; -fx-font-weight: bold;");
 
 				Integer quantityNum = ClientController.currentUserCart.get(currentProductID);
+				totalQuantity += quantityNum;
 				Text quantity = new Text("Quantity: " + (quantityNum).toString());
 				Double costPerUnit = Double.valueOf(product.getCostPerUnit());
 				Double totalSum = quantityNum * costPerUnit;
@@ -173,7 +182,7 @@ public class EktOrderSummaryController {
 		OrderInformation.add("\nAt a total price of " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 		//Max 7/1: Add to user order hash map the items in the order!
 		ClientController.userOrders.put(ClientController.orderNumber, OrderInformation);
-		
+		ClientController.orderTotalQuantity = totalQuantity;
 		
 		productsVbox.getChildren().add(gridPane);
 		borderPane.setCenter(centerScrollBar);

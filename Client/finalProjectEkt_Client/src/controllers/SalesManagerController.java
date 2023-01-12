@@ -78,8 +78,8 @@ public class SalesManagerController {
     
     @FXML
     public void initialize() {
-
     	// you can't have a label when it's sales manager (it can't happen sry)
+
     	//txtSalesManager.setText("Hello, " + ClientController.getCurrentSystemUser().getFirstName() + "!");
     	txtSalesManager.setLayoutX(400-(txtSalesManager.minWidth(0)/2));
     }

@@ -1,7 +1,6 @@
 .combo-box .list-cell 
 {
-    -fx-background:  linear-gradient(from 0px 0px to 0px 1500px, pink, yellow);
-    -fx-background-color: transparent;
+    -fx-background-color: #F1FFDD
     -fx-text-fill: -fx-text-base-color;
     -fx-padding: 0 0 0 4;
     -fx-cell-size: 2.5em; 
@@ -19,19 +18,19 @@
     -fx-padding: 4 0 4 5;
 
     /* No alternate highlighting */
-    -fx-background-color: white;
+    -fx-background-color: #F1FFDD;
 }
 
 .combo-box-popup .list-view .list-cell:filled:selected, .combo-box-popup .list-view .list-cell:filled:selected:hover 
 {
     -fx-background: -fx-accent;
-    -fx-background-color: -fx-selection-bar;
+    -fx-background-color: #F1FFDD;
     -fx-text-fill: -fx-selection-bar-text;
 }
 
 .combo-box-popup .list-view .list-cell:filled:hover 
 {
-    -fx-background-color: white;
+    -fx-background-color: #F1FFDD;
     -fx-text-fill: -fx-text-inner-color;
 }
 
@@ -46,16 +45,18 @@
 
 .combo-box-base:hover
 {
+	-fx-background-color : #F1FF00;
     -fx-color: -fx-hover-base;
 }
 
 .combo-box-base:showing 
 {
+	-fx-background-color: #F1FFDD;
     -fx-color: -fx-pressed-base;
 }
 
 .combo-box-base:focused {
-    -fx-background-color: -fx-focus-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-color: #F1FFDD;
     -fx-background-radius: 6.4, 4, 5, 3;
     -fx-background-insets: -1.4, 0, 1, 2;
 }

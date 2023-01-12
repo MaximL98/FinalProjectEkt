@@ -97,22 +97,7 @@ public class EktSystemUserLoginController {
     	/*
     	 * TODO
     	 * Remove this test segment! (when no longer needed)
-    	 */
-    	if(userName.equals("q")) {
-    		Stage primaryStage = new Stage();
-    		WindowStarter.createWindow(primaryStage, new Object(), "/gui/SalesManager.fxml", null, "Sales");
-    		System.out.println("Moving to SalesManager.fxml for testing.");
-    		primaryStage.show();
-    		return;
-    	}
-    	if(userName.equals("hh")) {
-    		Stage primaryStage = new Stage();
-    		WindowStarter.createWindow(primaryStage, new Object(), "/gui/TestSelectFromDBProduct.fxml", null, "Select product from table");
-    		System.out.println("Moving to TestSelectFromDBProduct.fxml for testing.");
-    		primaryStage.show();
-    		return;
-    	}
-    	
+    	 */	
     	
     	// ask to connect
 

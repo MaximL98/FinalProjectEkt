@@ -137,7 +137,6 @@ public class PromotionEditingController {
 			successMessage.setContentText("Promotion created successfully!");
 			successMessage.show();
 		}
-		
 	}
 
 	public void goBackHandler(ActionEvent event) {

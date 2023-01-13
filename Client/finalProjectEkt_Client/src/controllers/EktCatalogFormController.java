@@ -8,7 +8,10 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -22,6 +25,10 @@ import client.ClientController;
 import client.ClientUI;
 
 public class EktCatalogFormController implements Serializable {
+	
+	private static boolean bUserSwitchedConfigurations=true;
+
+	
 	/**
 	 * Advanced TODO after we're done: add support for variable categories.
 	 * Implementation idea: Remove the buttons from fxml, leave just a pane with an
@@ -135,11 +142,40 @@ public class EktCatalogFormController implements Serializable {
 				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(5)).get(0).toString(),
 				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(6)).get(0).toString(),
 				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(7)).get(0).toString());
-		
+
 		cmbMachineName.setOnAction(event ->{
-			ClientController.OLCurrentMachineName = cmbMachineName.getValue();
+			if(!cmbMachineName.getValue().equals(ClientController.OLCurrentMachineName)) {
+				if(ClientController.OLCurrentMachineName != null) {
+					Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+					alert.setTitle("WARNING");
+					alert.setContentText("Changing a machine will clear your cart! Are you sure?");
+
+					alert.showAndWait().ifPresent(type -> {
+                        if (type == ButtonType.OK) {
+                        	EktProductFormController.setMachineSwitchedFlag(true);
+							ClientController.OLCurrentMachineName = cmbMachineName.getValue();
+							bUserSwitchedConfigurations = true;
+							System.out.println("SET MACHINE TO " + ClientController.OLCurrentMachineName);
+                        } else if (type == ButtonType.NO) {
+                        } else {
+                        }
+                });
+					
+				}
+				else {
+					// don't inform user first time
+					EktProductFormController.setMachineSwitchedFlag(true);
+					ClientController.OLCurrentMachineName = cmbMachineName.getValue();
+					bUserSwitchedConfigurations = true;
+				}
+
+			}
 			
 			if(ClientController.OLCurrentMachineName != null) {
+				System.out.println("GOT INSIDE HERE FOCK");
+				// first, drop the flag!
+				bUserSwitchedConfigurations = false;
+				
 				SCCP msg = new SCCP(ServerClientRequestTypes.SELECT, 
 						new Object[]{"machine", true, "machineId", true,
 								"machineName = '" +ClientController.OLCurrentMachineName+ "'", false, null});

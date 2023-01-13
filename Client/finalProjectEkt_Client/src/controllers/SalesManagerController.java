@@ -32,7 +32,7 @@ public class SalesManagerController {
 
     @FXML
     private void addNewPromotionHandler(ActionEvent event) throws IOException {
-    	InactivityChecker inactivityChecker = new InactivityChecker(300000);//importent
+    	InactivityChecker inactivityChecker = new InactivityChecker(300000, event);//importent
     	inactivityChecker.updateActivityTime();
         // Get the current stage
         Stage stage = new Stage();
@@ -48,7 +48,8 @@ public class SalesManagerController {
 
     @FXML
     private void editActivePromotionsHandler(ActionEvent event) {
-    	InactivityChecker inactivityChecker = new InactivityChecker(300000);//importent
+    	// Rotem 1.13 - added event to constructor so that we can actually close the window
+    	InactivityChecker inactivityChecker = new InactivityChecker(300000, event);//importent
     	inactivityChecker.updateActivityTime();
         // Get the current stage
         Stage stage = new Stage();

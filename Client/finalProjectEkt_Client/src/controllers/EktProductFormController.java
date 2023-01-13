@@ -48,6 +48,7 @@ import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -135,8 +136,24 @@ public class EktProductFormController {
     private int gridPaneRow = 0;
     private String nextItemLocation = "left";
     ////////////////////
+
+	private static boolean machineSwitchedFlag = false;
+    
+    // Rotem 1.13:
+    private static HashMap<String, Integer> productsInStockMap = new HashMap<>();
+    
+    // Rotem ^^^
     	
 	public void initialize() throws FileNotFoundException {
+		// if we switch machines - clear the order and so on [please test this! I only Rotem-tested it]
+		if(isMachineSwitchedFlag() ) {
+			productsInStockMap = new HashMap<>();
+			ClientController.currentUserCart = new HashMap<>();
+			ClientController.getProductByID = new HashMap<>();
+			itemsInCart=0;
+			// don't forget to release it
+			setMachineSwitchedFlag(false);
+		}
 		///////////// Dima 31/12 10:00 ////////////
 		GridPane gridPaneProducts = new GridPane();
 		ColumnConstraints columnLeft = new ColumnConstraints();
@@ -216,8 +233,19 @@ public class EktProductFormController {
 				txtProductCostPerUnit.setFont(new Font(18));
 				txtProductCostPerUnit.setFill(Color.BLACK);
 				
+				/*
+				 * Rotem - insert stock to map (for each product in machine)
+				 * Only inserts if nothing inside (like Shimon's mom)
+				 */
+				productsInStockMap.putIfAbsent(((ArrayList<?>)product).get(1).toString(), Integer.valueOf(((ArrayList<?>)product).get(7).toString()));
+				
+				/*
+				 * Rotem ------
+				 */
+				
 				Text txtProductStock = new Text();
-				txtProductStock.setText("Stock: " + ((ArrayList)product).get(7).toString());
+				//txtProductStock.setText("Stock: " + ((ArrayList)product).get(7).toString());
+				txtProductStock.setText("Stock: " + productsInStockMap.get(((ArrayList<?>)product).get(1).toString()));
 				txtProductStock.setFont(new Font(18));
 				txtProductStock.setFill(Color.BLACK);
 				
@@ -302,9 +330,13 @@ public class EktProductFormController {
 				
 				
 				addToCartButton.setOnAction(event -> {
-					txtProductStock.setText("Stock: " + (Integer.valueOf(txtProductStock.getText().substring(7))- 1));
-					
-					if(Integer.valueOf(txtProductStock.getText().substring(7)).equals(0)) {
+					/*
+					 * Rotem -> Added grab from hash map here:
+					 * */
+					int newStock = productsInStockMap.get(((ArrayList<?>)product).get(1).toString()) - 1;
+					txtProductStock.setText("Stock: " + newStock);
+					 productsInStockMap.put(((ArrayList<?>)product).get(1).toString(), newStock);
+					if(newStock == 0) {
 						System.out.println("we reached lvl 0");
 						addToCartButton.setDisable(true);
 					}
@@ -348,8 +380,16 @@ public class EktProductFormController {
 				//////////////////////////////////////////////////////
 				
 				//System.out.println(((Product) product).getProductID());			
-							
+				/*
+				 * One more rotem 1.13: if stock is zero, disable the damned button
+				 */
+				
+				if(productsInStockMap.get(((ArrayList<?>)product).get(1).toString()) == 0) {
+					addToCartButton.setDisable(true);////////////////////////////////////////////////////////////////////////
+				}
 			}
+			
+
 			
 			ScrollPane scrollPane = new ScrollPane(gridPaneProducts);
 			scrollPane.maxHeight(600);
@@ -386,6 +426,14 @@ public class EktProductFormController {
 
         primaryStage.show();
     }
+
+	public static boolean isMachineSwitchedFlag() {
+		return machineSwitchedFlag;
+	}
+
+	public static void setMachineSwitchedFlag(boolean machineSwitchedFlag) {
+		EktProductFormController.machineSwitchedFlag = machineSwitchedFlag;
+	}
 	
 	
 }

@@ -56,12 +56,16 @@ public class DeliveryManagerPageController {
 	@FXML
 	private Button btnUpdate;
 
+	// Rotem 1.13 modified this to actually log-out (it used to go to product catalog)
 	@FXML
 	void getBtnBack(ActionEvent event) {
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		ClientController.sendLogoutRequest();
+    	// move to new window
+    	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog");
-		primaryStage.show();
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
+
+		primaryStage.show();	
 	}
 
 	@FXML

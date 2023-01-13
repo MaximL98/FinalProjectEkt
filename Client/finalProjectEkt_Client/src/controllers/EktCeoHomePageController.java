@@ -1,10 +1,13 @@
 package controllers;
 
 import client.ClientController;
+import common.WindowStarter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class EktCeoHomePageController {
 
@@ -16,16 +19,24 @@ public class EktCeoHomePageController {
     
     @FXML
     private void initialize() {
-    	String tmp = txtGreeting.getText();
-    	System.out.println("We give both first and last name here as a sign of ana rend respekt");
-    	tmp = tmp.replace(", ", ", "+ClientController.getCurrentSystemUser().getFirstName() 
-    			+" " + ClientController.getCurrentSystemUser().getLastName());
-    	txtGreeting.setText(tmp);
+    	// we set greeting to have both first and last name (honor & respect)
+    	txtGreeting.
+    	setText(txtGreeting.getText().
+    			replace(", ", ", "+ClientController.getCurrentSystemUser().getFirstName() 
+    					+" " + ClientController.getCurrentSystemUser().getLastName()));
     }
     
     @FXML
     void getBackBtn(ActionEvent event) {
-    	System.out.println("Don't look back!");
+    	System.out.println("CEO with username="+ClientController.getCurrentSystemUser().getUsername()+" is logging out.");
+    	ClientController.sendLogoutRequest();
+        // move to new window
+        ((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+    	Stage primaryStage = new Stage();
+    	WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
+
+    	primaryStage.show();	
+    	
     }
 
 }

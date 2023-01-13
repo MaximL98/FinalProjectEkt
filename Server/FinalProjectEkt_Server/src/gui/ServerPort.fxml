@@ -15,7 +15,7 @@
       <Button fx:id="btnExit" layoutX="404.0" layoutY="281.0" mnemonicParsing="false" onAction="#getExitBtn" prefHeight="40.0" prefWidth="101.0" text="Exit" />
       <Label layoutX="30.0" layoutY="28.0" text="Port" />
       <Label layoutX="30.0" layoutY="91.0" text="Database User" />
-      <TextField fx:id="databaseUsernameTxt" layoutX="22.0" layoutY="117.0" text="root" />
+      <TextField fx:id="databaseUsernameTxt" layoutX="22.0" layoutY="117.0" onAction="#onEnter" text="root" />
       <Label layoutX="30.0" layoutY="151.0" text="Database Password" />
       <TableView fx:id="clientsTable" layoutX="231.0" layoutY="17.0" prefHeight="109.0" prefWidth="284.0">
         <columns>
@@ -23,7 +23,7 @@
           <TableColumn prefWidth="140.80001831054688" text="State" />
         </columns>
       </TableView>
-      <PasswordField fx:id="databasePasswdTxt" layoutX="22.0" layoutY="177.0" text="fuckyou" />
+      <PasswordField fx:id="databasePasswdTxt" layoutX="22.0" layoutY="177.0" onAction="#onEnter" text="fuckyou" />
       <Button fx:id="addUserToDB" disable="true" layoutX="231.0" layoutY="139.0" mnemonicParsing="false" onAction="#getAddUserToDbBtn" prefHeight="25.0" prefWidth="284.0" text="Add user to database" />
       <Button fx:id="btnDisconnect" disable="true" layoutX="43.0" layoutY="223.0" mnemonicParsing="false" onAction="#clickDisconnectBtn" prefHeight="33.0" prefWidth="116.0" text="Disconnect" visible="false" />
    </children>

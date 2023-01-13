@@ -177,6 +177,7 @@ public class EktProductFormController {
 		SCCP preparedMessage = new SCCP();
 		
 		preparedMessage.setRequestType(ServerClientRequestTypes.FETCH_PRODUCTS_BY_CATEGORY);
+		// SELECT INSTEAD OF FETCH
 		//Search for products for the correct catalog
 		preparedMessage.setMessageSent(productCategory);
 		//Log message

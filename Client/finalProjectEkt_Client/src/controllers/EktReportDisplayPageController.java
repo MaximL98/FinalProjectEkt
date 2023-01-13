@@ -27,6 +27,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
+import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -156,12 +157,18 @@ public class EktReportDisplayPageController {
 
 		nameOfLocation = ClientController.getMachineID_TypeOfReport_Dates().get(1);
 		nameOfMachine = "machineName = \"" + ClientController.getMachineID_TypeOfReport_Dates().get(2) + "\"";
+		
+		String date = "";
+
+		if (!ClientController.getMachineID_TypeOfReport_Dates().get(0).equals("Inventory")) {
+			date = ", " + ClientController.getMachineID_TypeOfReport_Dates().get(3) + " " + ClientController.getMachineID_TypeOfReport_Dates().get(4);
+		}
 
 		if (ClientController.getMachineID_TypeOfReport_Dates().get(2).equals("ALL_MACHINES")) {
-			txtLocationName.setText(ClientController.getCurrentUserRegion());
-			txtMachineName.setText("");
+			txtLocationName.setText(ClientController.getCurrentUserRegion() + date);
+			txtMachineName.setText("All Machines in this region");
 		} else {
-			txtLocationName.setText(ClientController.getCurrentUserRegion());
+			txtLocationName.setText(ClientController.getCurrentUserRegion() + date);
 			txtMachineName.setText("Machine: " + ClientController.getMachineID_TypeOfReport_Dates().get(2));
 		}
 		// Center the text headers
@@ -187,9 +194,28 @@ public class EktReportDisplayPageController {
 
 	@SuppressWarnings("unchecked")
 	private void createCustomreReport() {
+		int month = getMonthNumberByString(ClientController.getMachineID_TypeOfReport_Dates().get(3));
+		int year = Integer.parseInt(ClientController.getMachineID_TypeOfReport_Dates().get(4));
+		int monthBeginning = month;
+		int yearBeginning = year;
+		// Fetch data from the database
+		SCCP fetchOrdersMessage = new SCCP();
+		if (++month == 13) {
+			year++;
+			month = 1;
+		}
+		
+		String machineName = ""; 
+		if(ClientController.getMachineID_TypeOfReport_Dates().get(2).equals("ALL_MACHINES")) {
+			machineName = "";
+		} else {
+			machineName = "machine.machineName = \"" + ClientController.getMachineID_TypeOfReport_Dates().get(2) + "\" AND ";
+		}
+		
+		
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
-		xAxis.setLabel("Number Of Orders");
+		xAxis.setLabel("Number Of Orders Per Customer");
 		xAxis.setTickLabelFill(Color.BLACK);
 		yAxis.setLabel("Number Of Customers");
 		yAxis.setTickLabelFill(Color.BLACK);
@@ -197,13 +223,15 @@ public class EktReportDisplayPageController {
 		XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<>();
 		dataSeries1.setName("Customers");
 		
-		
+		System.out.println("MACHINE NAME: " + machineName + "");
 		TreeMap<Long, Set<Integer>> customersMap = new TreeMap<>();
 		
 		SCCP fetchCustomersFromDatabase = new SCCP();
 		fetchCustomersFromDatabase.setRequestType(ServerClientRequestTypes.SELECT);
 		fetchCustomersFromDatabase.setMessageSent(new Object[] {"customer_orders", true, "customerId, count(*)", false, null, 
-				true, "GROUP BY customerId"});
+				true, "LEFT JOIN ektdb.orders on orders.orderID = customer_orders.orderId LEFT JOIN ektdb.machine on machine.machineId = customer_orders.machineId "
+						+ " WHERE " + machineName + " date_received >= \"" + yearBeginning + "-" + monthBeginning + "-01\"" 
+						+ " AND date_received < \"" + year + "-" + month + "-01\" " + "GROUP BY customerId"});
 		ClientUI.clientController.accept(fetchCustomersFromDatabase);
 		
 		//[(ID, numOrders), (ID, numOrders), (ID, numOrders), ...., (ID, numOrders)]
@@ -227,9 +255,12 @@ public class EktReportDisplayPageController {
 		System.out.println(customersMap.keySet().toString());
 		System.out.println(customersMap.values().toString());
 		
-		Long maxValue = arrayOfNumberOfOrders.get(arrayOfNumberOfOrders.size() - 1);
+		Long maxValue = (long) 1;
+		if (!arrayOfNumberOfOrders.isEmpty()) {
+			maxValue = arrayOfNumberOfOrders.get(arrayOfNumberOfOrders.size() - 1);
+		}
+		
 		Long i;
-		Integer integer2 = new Integer(1);
 		for(i = (long) 1; i <= maxValue; i++) {
 			
 			if (!(customersMap.get(i) == null)) {
@@ -243,7 +274,6 @@ public class EktReportDisplayPageController {
 				+ "-fx-font-color: black; -fx-font: black; -fx-background-color: transparent;");
 		borderPane.setCenter(barChart);
 	}
-	
 	
 	@SuppressWarnings("unchecked")
 	private void createInventoryReport() {
@@ -334,10 +364,10 @@ public class EktReportDisplayPageController {
 		SCCP fetchInventoryMessage = new SCCP();
 		fetchInventoryMessage.setRequestType(ServerClientRequestTypes.SELECT);
 		fetchInventoryMessage.setMessageSent(new Object[] { "products_in_machine", true,
-				"productName, stock, min_stock, max_stock, restock_flag" + ", category", false, null, true,
+				"productName, stock, min_stock, max_stock, restock_flag, category", false, null, true,
 				"LEFT JOIN ektdb.product on products_in_machine.productID = product.productID\r\n"
 						+ "LEFT JOIN ektdb.machine on machine.machineId = products_in_machine.machineID\r\n" + "WHERE "
-						+ nameOfMachine + ";" });
+						+ nameOfMachine + " AND category IS NOT NULL;" });
 		ClientUI.clientController.accept(fetchInventoryMessage);
 
 		XYChart.Series dataSeries1 = new XYChart.Series();
@@ -374,9 +404,12 @@ public class EktReportDisplayPageController {
 		}
 
 		barChart.getData().add(dataSeries1);
-		barChart.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
+		barChart.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-background: linear-gradient(from 0px 0px to 0px 1500px, #CBC3E3, black); "
+				+ "-fx-font-color: black; -fx-font: black; -fx-background-color: transparent;");
 		// Adding data to the table
 		tableViewForProductStockInfo.setItems(data);
+		tableViewForProductStockInfo.setStyle("-fx-font-size: 14; -fx-font-weight: bold; -fx-background: linear-gradient(from 0px 0px to 0px 1500px, #CBC3E3, black); "
+				+ "-fx-font-color: black; -fx-font: black; -fx-background-color: transparent;");
 		tableViewForProductStockInfo.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		tableViewForProductStockInfo.getColumns().addAll(productNameColumn, inStockColumn, minStockColumn,
 				estTimeTillThresholdColumn, estTimeTillEmptyColumn);
@@ -394,10 +427,11 @@ public class EktReportDisplayPageController {
 		int yearBeginning = year;
 		// Fetch data from the database
 		SCCP fetchOrdersMessage = new SCCP();
-		if (month + 1 == 13) {
+		if (++month == 13) {
 			year++;
-			monthBeginning = 1;
+			month = 1;
 		}
+		
 		if (ClientController.getMachineID_TypeOfReport_Dates().get(2).equals("ALL_MACHINES")) {
 			// Show all machines in region
 			nameOfMachine = "";
@@ -412,7 +446,7 @@ public class EktReportDisplayPageController {
 						"LEFT JOIN ektdb.orders on machine.machineId = orders.machineID"
 								+ " LEFT JOIN ektdb.locations on locations.locationID = machine.locationId "
 								+ "WHERE total_quantity IS NOT NULL AND date_received >= \"" + yearBeginning + "-"
-								+ monthBeginning + "-01" + "\" AND date_received < \"" + year + "-" + month + "-1"
+								+ monthBeginning + "-01" + "\" AND date_received < \"" + year + "-" + month + "-01"
 								+ "\"" + nameOfMachine + ";" });
 
 		ClientUI.clientController.accept(fetchOrdersMessage);
@@ -462,7 +496,7 @@ public class EktReportDisplayPageController {
 			ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList(
 					new PieChart.Data("Pickup Orders: " + pickupOrdersCounter, pickupOrdersCounter),
 					new PieChart.Data("Delivery Orders: " + deliveryOrdersCounter, deliveryOrdersCounter),
-					new PieChart.Data("Local Orders: " + localOrdersCounter, localOrdersCounter));
+					new PieChart.Data("  Local Orders: " + localOrdersCounter, localOrdersCounter));
 			pChart = new PieChart(pieData);
 			pChart.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
 			borderPane.setCenter(pChart);
@@ -475,8 +509,20 @@ public class EktReportDisplayPageController {
 		txtamountOfItems.setFont(Font.font("Berlin Sans FB", 22));
 
 		VBox vboxInfo = new VBox();
+		vboxInfo.setMinWidth(800);
+		vboxInfo.setAlignment(Pos.CENTER);
+		
 		vboxInfo.getChildren().add(txtProfits);
+		//This is just to create spacing between lines
+		Text tmpTxt1 = new Text();
+		vboxInfo.getChildren().add(tmpTxt1);
+		
 		vboxInfo.getChildren().add(txtorderQuantity);
+
+		//This is just to create spacing between lines
+		Text tmpTxt2 = new Text();
+		vboxInfo.getChildren().add(tmpTxt2);
+
 		vboxInfo.getChildren().add(txtamountOfItems);
 		borderPane.setBottom(vboxInfo);
 
@@ -495,7 +541,6 @@ public class EktReportDisplayPageController {
 		});
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
-
 	}
 
 	private int getMonthNumberByString(String string) {

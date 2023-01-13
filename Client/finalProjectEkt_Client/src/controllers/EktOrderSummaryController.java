@@ -30,6 +30,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logic.Product;
+import logic.superProduct;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -95,7 +96,7 @@ public class EktOrderSummaryController {
 		OrderInformation.add("Items in order:");
 		
 		int i = 0, j = 0;
-		for (Product product : ClientController.getProductByID.values()) {
+		for (superProduct product : ClientController.getProductByID.values()) {
 			
 			if (!(ClientController.cartPrice.get(product) == 0.0)) {
 				String currentProductID = product.getProductID();
@@ -115,36 +116,8 @@ public class EktOrderSummaryController {
 				quantity.setFont(new Font(18));
 				sum.setFont(new Font(18));
 
-				
-				////////////////////////////////////////
-				
-				//getting files (images) for product from database, based on product id
-				SCCP getImageFromDatabase = new SCCP();
-				
-				getImageFromDatabase.setRequestType(ServerClientRequestTypes.SELECT);
-				//Search for products for the correct catalog
-				
-				getImageFromDatabase.setMessageSent(new Object[] {"files", false, null , true, "file_name = '" + ((Product) product).getProductID() + ".png'" , false, null});
-				//Log message
-				System.out.println("Client: Sending " + "Product Files" + " to server.");
-				
-				Image img = null;
-				ClientUI.clientController.accept(getImageFromDatabase);
-				if (ClientController.responseFromServer.getRequestType().equals
-						(ServerClientRequestTypes.ACK)) {
-					//[[file_id, file, file_name] , [...]]
-					@SuppressWarnings("unchecked")
-					ArrayList<ArrayList<Object>> arrayOfFiles = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
-					
-					for(ArrayList<Object> file: arrayOfFiles) {
-						System.out.println("The file is = " + file.toString());
-						img = new Image(new ByteArrayInputStream((byte[])file.get(1)));
-					}
-				}
-				
-				////////////////////////////////////////
+				Image img = new Image(new ByteArrayInputStream(product.getFile()));
 
-		
 				ImageView productImageView = new ImageView(img);
 				productImageView.setFitHeight(75);
 				productImageView.setFitWidth(75);

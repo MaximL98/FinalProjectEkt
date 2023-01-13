@@ -107,8 +107,8 @@ public class EktServiceRepAddCustomerController {
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
                 	System.out.println("Returning to form (add customer)");
-                	txtUsername.setText("");
                 }
+            	txtUsername.setText("");
             	return;
     		}
     		id = Integer.valueOf(txtID.getText());

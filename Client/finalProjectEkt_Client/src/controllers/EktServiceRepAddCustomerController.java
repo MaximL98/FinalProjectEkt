@@ -1,5 +1,8 @@
 package controllers;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
 import client.ClientController;
 import client.ClientUI;
 import common.SCCP;
@@ -8,11 +11,15 @@ import common.WindowStarter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import logic.Role;
 import logic.SystemUser;
 
@@ -82,6 +89,28 @@ public class EktServiceRepAddCustomerController {
 		lblStatus.setText("Checking input");
     	SCCP preparedMessage = new SCCP();
     	if(validFieldInput()) {
+    		// check if username is taken
+    		ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.SELECT, 
+    				new Object[] {"systemuser", 
+    								true, "username",
+    								true, "username='"+txtUsername.getText()+"'",
+    								false, null}));
+    		@SuppressWarnings("unchecked")
+			ArrayList<ArrayList<Object>> res = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
+    		if(res.size() != 0) {
+        		// show a pop up that lets the user know he has no open orders. return user to previous page!
+        		Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.setTitle("User name taken!");
+                alert.setHeaderText("User name="+txtUsername.getText()+" is already taken, use another one.");
+                alert.setContentText("Return to form.");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                	System.out.println("Returning to form (add customer)");
+                	txtUsername.setText("");
+                }
+            	return;
+    		}
     		id = Integer.valueOf(txtID.getText());
     		// set message accordingly
     		preparedMessage.setRequestType(ServerClientRequestTypes.ADD);

@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.Properties;
@@ -25,15 +26,42 @@ public class OrderReceiptPageController {
 
 	@FXML
 	private Button btnLogout;
+	
+    @FXML
+    private Text txtCustomerEmail;
+
+    @FXML
+    private Text txtOrderNumber;
+
+    @FXML
+    private Text txtOrderTotal;
+    
+    @FXML
+    private Text txtBillingDate;
 
 	
 	private static String EktEmailUsername = "EkrutShop@gmail.com";
 	private static String EktEmailPassword = "dimarotemmaxim";
 	
 	public void initialize() {
+		txtCustomerEmail.setText("Order information was sent to\n" + ClientController.getCurrentSystemUser().getEmailAddress()
+				+ "\n and " + ClientController.getCurrentSystemUser().getPhoneNumber());
+		txtCustomerEmail.setLayoutX(200 - (txtCustomerEmail.minWidth(0) / 2));
+		
+		txtOrderNumber.setText("Order Number: " + ClientController.orderNumber);
+		txtOrderNumber.setLayoutX(200 - (txtOrderNumber.minWidth(0) / 2));
+		
+		txtOrderTotal.setText("Order total: " + ClientController.orderTotalPrice.toString() + "$");
+		txtOrderTotal.setLayoutX(200 - (txtOrderTotal.minWidth(0) / 2));
+		
+//		txtBillingDate.setText("Billing Date: " + ClientController.billingDate);
+//		txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
+
 		//////////IF WE HAVE TIME WE CAN DO IT. I THINK WE CAN DO IT BUT NOT USING A GOOGLE ACCOUNT!
 		String CustomerEmail = "dimakislitsyn96@gmail.com";
 		SendEmail(CustomerEmail);
+		
+		
 	}
 
 	@FXML

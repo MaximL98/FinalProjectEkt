@@ -184,7 +184,9 @@ public class EktProductFormController {
 				"OR product.subCategory =" + "'"+ productCategory + "')" + 
 				" AND products_in_machine.machineID = " + ClientController.OLCurrentMachineID, false, null});
 		
+
 		ClientUI.clientController.accept(testmsg);
+
 		
 		if (ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
 			System.out.println("I got it good");

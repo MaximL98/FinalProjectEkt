@@ -1,14 +1,16 @@
 .tab-pane > .tab-header-area > .headers-region > .tab:top {
-    -fx-border-color: black;
+    -fx-border-color: indigo;
     -fx-border-radius: 5 5 0 0;
-    -fx-background-color: transparent;
+    -fx-border-width: 1 1 5 1;   
+    -fx-background-color: FFB6C1;
     -fx-pref-height: 35px;  
+    -fx-pref-width: 260px;
     -fx-background-insets: 0;
 }
 
 .tab-pane > .tab-header-area > .headers-region > .tab:selected:top {
-    -fx-border-color: #4b0082 #a3a7a8 #a3a7a8 #a3a7a8;
-    -fx-border-width: 5 1 1 1;   
+    -fx-border-color: #4b0082 #4b0082 #a3a7a8 #4b0082;
+    -fx-border-width: 5 5 0 5;   
     -fx-border-radius: 5 5 0 0;
     -fx-background-color: transparent;
     -fx-pref-height: 40px;  

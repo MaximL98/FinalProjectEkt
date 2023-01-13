@@ -10,11 +10,6 @@ import java.util.ArrayList;
  * @author Maxim Lebedinsky
  * @version 16/12/2022
  */
-
-/*
- * ROTEM ADDED MAX STOCK HERE ALSO 
- */
-
 public class Machine implements Serializable {
 	/**
 	 * 
@@ -27,26 +22,14 @@ public class Machine implements Serializable {
 	private int machineId;
 	private String machineName;
 	private ArrayList<ProductInMachine> products = new ArrayList<>();
-	private Integer thresholdLevel;
-	/**
-	 * field for machine status True => Done False => NotDone
-	 */
-	private boolean status;
 	private Location location;
 
 	/**
 	 * Machine constructor.
-	 * 
-	 * @param machineId
-	 * @param machineName
-	 * @param products
-	 * @param thresholdLevel
-	 * @param location
 	 */
-	public Machine(int machineId, String machineName, Integer thresholdLevel, Location location) {
+	public Machine(int machineId, String machineName, Location location) {
 		this.machineId = machineId;
 		this.machineName = machineName;
-		this.thresholdLevel = thresholdLevel;
 		this.location = location;
 	}
 
@@ -97,24 +80,6 @@ public class Machine implements Serializable {
 	}
 
 	/**
-	 * getting the Threshold level
-	 * 
-	 * @return thresholdLevel
-	 */
-	public Integer getThresholdLevel() {
-		return thresholdLevel;
-	}
-
-	/**
-	 * setting the threshold level
-	 * 
-	 * @param thresholdLevel
-	 */
-	public void setThresholdLevel(Integer thresholdLevel) {
-		this.thresholdLevel = thresholdLevel;
-	}
-
-	/**
 	 * getting machine location
 	 * 
 	 * @return location
@@ -132,23 +97,6 @@ public class Machine implements Serializable {
 		this.location = location;
 	}
 
-	/**
-	 * checking machine status
-	 * 
-	 * @return status (true, false)
-	 */
-	public boolean isStatus() {
-		return status;
-	}
-
-	/**
-	 * setting machine status (Done, NotDone)
-	 * 
-	 * @param status
-	 */
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
 
 	/**
 	 * @return the machineId
@@ -174,11 +122,11 @@ public class Machine implements Serializable {
 		return null;
 	}
 
-	public void addProduct(Product productToAdd, int initialStock, int maxStock) {
+	public void addProduct(Product productToAdd, int initialStock, int minStock, int maxStock, boolean restockFlag) {
 		// product already in machine
 		if (getProductInMachine(productToAdd) != null)
 			return;
-		products.add(new ProductInMachine(productToAdd, this, initialStock, maxStock));
+		products.add(new ProductInMachine(productToAdd, this, initialStock, minStock, maxStock, restockFlag));
 	}
 
 	public void removeProduct(Product productToRemove) {

@@ -1,15 +1,8 @@
-#my-button {
-    -fx-border-width: 2;
-    -fx-border-color: #FFE4C4; 
-    -fx-background-color: #FFDAB9;
-    cursor: pointer; // seems like Cursor.HAND
-}
-
-/* I want MouseMoved button background-color effect 
-#my-button:hover {
-    -fx-background-color: #FFC125; 
-}
-
-#my-button:pressed {
-    -fx-background-color: #FFDAB9; 
+.button {
+	-fx-background-color: purple; 
+	-fx-border-color: white;
+	-fx-border-width: 3px;
+	-fx-border-radius: 3;
+	-fx-background-radius: 10;
+	-fx-font-color: white;
 }

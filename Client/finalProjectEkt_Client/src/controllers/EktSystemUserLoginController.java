@@ -189,7 +189,9 @@ public class EktSystemUserLoginController {
 			case DELIVERY_WORKER:
 				WindowStarter.createWindow(primaryStage, this, "/gui/DeliveryManagerPage.fxml", null, "Ekt Delivery Department Worker");
 				break;
-				
+			case INVENTORY_WORKER:
+				WindowStarter.createWindow(primaryStage, this, "/gui/InventoryRestockWorkerPage.fxml", null, "Ekt Inventory Worker");
+				break;
 			default:
 				throw new UnsupportedOperationException("No valid landing page for system user with role=" + connectedUser.getRole());
 			}

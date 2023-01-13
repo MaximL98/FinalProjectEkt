@@ -146,12 +146,7 @@ public class InventoryRestockWorkerPageController {
 	void getBtnBack(ActionEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog");
-		// this was done so that we can use this button
-		primaryStage.setOnCloseRequest(we -> {
-			System.out.println("Pressed the X button.");
-			System.exit(0);
-		});
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
 		primaryStage.show();
 	}
 

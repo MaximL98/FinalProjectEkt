@@ -14,7 +14,7 @@
                <font>
                   <Font size="28.0" />
                </font></Text>
-            <Button fx:id="btnBack" layoutX="14.0" layoutY="761.0" mnemonicParsing="false" onAction="#getBackBtn" text="Back" />
+            <Button fx:id="btnLogout" layoutX="14.0" layoutY="761.0" mnemonicParsing="false" onAction="#getBackLogout" text="Logout" />
             <Button fx:id="btnRegisterCustomer" layoutX="104.0" layoutY="150.0" mnemonicParsing="false" onAction="#getRegisterCustomer" prefHeight="37.0" prefWidth="147.0" text="Register a customer" />
             <Button fx:id="btnMisc" layoutX="104.0" layoutY="217.0" mnemonicParsing="false" onAction="#getBtnMisc" prefHeight="37.0" prefWidth="147.0" text="Slave labor stuff" />
             <Text fx:id="txtGreeting" layoutX="345.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back, " wrappingWidth="440.7890625">

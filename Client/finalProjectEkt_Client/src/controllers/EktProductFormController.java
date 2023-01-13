@@ -37,6 +37,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.Product;
+import logic.superProduct;
 
 import java.awt.Scrollbar;
 import java.io.FileInputStream;
@@ -144,7 +145,7 @@ public class EktProductFormController {
 	    columnRight.setPercentWidth(50);
 	    gridPaneProducts.getColumnConstraints().addAll(columnLeft, columnRight); // each gets 50% of width
 	    
-		gridPaneProducts.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+		gridPaneProducts.setMaxSize(Region.USE_COMPUTED_SIZE - 10, Region.USE_COMPUTED_SIZE);
 		gridPaneProducts.setPrefSize(800 - 10, 600 - 4);
 		gridPaneProducts.setHgap(5);;
 		gridPaneProducts.setVgap(5);;
@@ -174,22 +175,26 @@ public class EktProductFormController {
 		//txtCategoryName.setTextFill(Color.WHITE);
 		txtCategoryName.setLayoutX(400 - (txtCategoryName.minWidth(gridPaneRow))/2);
 		
-		SCCP preparedMessage = new SCCP();
+		SCCP testmsg = new SCCP();
+		testmsg.setRequestType(ServerClientRequestTypes.SELECT);
+		testmsg.setMessageSent(new Object[] {
+				"product JOIN files ON product.productID = files.file_name + '.png'"
+				+ "JOIN products_in_machine ON product.productID = products_in_machine.productID",true, 
+				"product.*, files.file_name, files.file, products_in_machine.stock", true, "(category = " + "'"+ productCategory + "'" + 
+				"OR product.subCategory =" + "'"+ productCategory + "')" + 
+				" AND products_in_machine.machineID = " + ClientController.OLCurrentMachineID, false, null});
 		
-		preparedMessage.setRequestType(ServerClientRequestTypes.FETCH_PRODUCTS_BY_CATEGORY);
-		// SELECT INSTEAD OF FETCH
-		//Search for products for the correct catalog
-		preparedMessage.setMessageSent(productCategory);
-		//Log message
-		System.out.println("Client: Sending " + productCategory + " category to server.");
+
+		ClientUI.clientController.accept(testmsg);
+
 		
-		ClientUI.clientController.accept(preparedMessage);
-		if (ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.FETCH_PRODUCTS_BY_CATEGORY)) {
-			
+		if (ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
+			System.out.println("I got it good");
 			//Might want to check this suppression
 			ArrayList<?> arrayOfProducts = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
-			
+			System.out.println(arrayOfProducts);
 			for(Object product: arrayOfProducts) {
+				System.out.println(product);
 				//Main product hbox
 				HBox productHBox = new HBox();
 				
@@ -197,7 +202,7 @@ public class EktProductFormController {
 				//ProductName + ProductID + ProductPrice
 				VBox productDetails = new VBox();
 				Text txtProductName = new Text();
-				txtProductName.setText(((Product) product).getProductName());
+				txtProductName.setText(((ArrayList)product).get(1).toString());
 				txtProductName.setFont(new Font(18));
 				txtProductName.setFill(Color.BLACK);
 				txtProductName.setStyle("-fx-font: 20 System; -fx-font-weight: bold;");
@@ -207,17 +212,22 @@ public class EktProductFormController {
 				txtProductID.setFont(new Font(18));
 				txtProductID.setFill(Color.BLACK);
 				Text txtProductCostPerUnit = new Text();
-				txtProductCostPerUnit.setText(((Product) product).getCostPerUnit() + "$");
+				txtProductCostPerUnit.setText(((ArrayList)product).get(2).toString() + "$");
 				txtProductCostPerUnit.setFont(new Font(18));
 				txtProductCostPerUnit.setFill(Color.BLACK);
+				
+				Text txtProductStock = new Text();
+				txtProductStock.setText("Stock: " + ((ArrayList)product).get(7).toString());
+				txtProductStock.setFont(new Font(18));
+				txtProductStock.setFill(Color.BLACK);
 				
 				/////// Dima 30/12 18:05//////////////////////////////////////
 				productDetails.getChildren().add(txtProductName);
 				//productDetails.getChildren().add(txtProductID);
-				
+				productDetails.getChildren().add(txtProductStock);
 				//Implement item on sale	
 				//if(ClientController.getcurrentCustomer == Subscriber AND product == ON-SALE -> display item on sale
-				if (((Product) product).getProductID().equals("103")) {
+				if (((ArrayList)product).get(0).toString().equals("103")) {
 					//This is just an example
 					txtProductCostPerUnit.setStrikethrough(true);
 					Text txtSubscriberSale = new Text();
@@ -238,36 +248,12 @@ public class EktProductFormController {
 				
 				productDetails.setAlignment(Pos.CENTER);
 				
-				//getting files (images) for product from database, based on product id
-				SCCP getImageFromDatabase = new SCCP();
-				
-				getImageFromDatabase.setRequestType(ServerClientRequestTypes.SELECT);
-				//Search for products for the correct catalog
-				
-				getImageFromDatabase.setMessageSent(new Object[] {"files", false, null , true, "file_name = '" + ((Product) product).getProductID() + ".png'" , false, null});
-				//Log message
-				System.out.println("Client: Sending " + "Product Files" + " to server.");
-				
-				
-				ClientUI.clientController.accept(getImageFromDatabase);
-				if (ClientController.responseFromServer.getRequestType().equals
-						(ServerClientRequestTypes.ACK)) {
-					//[[file_id, file, file_name] , [...]]
-					@SuppressWarnings("unchecked")
-					ArrayList<ArrayList<Object>> arrayOfFiles = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
-					
-					for(ArrayList<Object> file: arrayOfFiles) {
-						System.out.println("The file is = " + file.toString());
-						Image img = new Image(new ByteArrayInputStream((byte[])file.get(1)));
+						Image img = new Image(new ByteArrayInputStream((byte[])((ArrayList)product).get(6)));
 						ImageView productImageView = new ImageView(img);
 						productImageView.setFitHeight(150);
 						productImageView.setFitWidth(150);
 						productHBox.getChildren().add(productImageView);
-
-					}
-
-				}
-				
+						
 				//AddToCart Button + amountTxt
 				VBox productAddToCartVBox = new VBox();
 				
@@ -283,7 +269,45 @@ public class EktProductFormController {
 				////////////////////////////////////////////
 			
 				
+				
+				
+//				Text amountOfItems = new Text();
+//				amountOfItems.setText("");
+//				amountOfItems.setFont(new Font(18));
+				
+				productAddToCartVBox.getChildren().add(addToCartButton);
+//				productAddToCartVBox.getChildren().add(amountOfItems);
+				//////////////////////////////////////////////////////
+				productAddToCartVBox.setAlignment(Pos.CENTER_RIGHT);
+				productHBox.setAlignment(Pos.CENTER);
+				productHBox.setPrefSize(400, 150);
+				productHBox.minHeight(150);
+				productDetails.setPrefSize(150, 150);
+				
+				productHBox.getChildren().add(productDetails);
+				productHBox.getChildren().add(productAddToCartVBox);
+				
+				BorderPane pane = new BorderPane();
+				pane.minHeight(170);
+				pane.setStyle("-fx-border-color: black; -fx-border-width: 3px; -fx-border-radius: 10;"
+						+ " -fx-background-color:   linear-gradient(from 0px 0px to 0px 1500px, pink, yellow); -fx-background-radius: 12");
+
+				//pane.getChildren().add(productHBox);
+				pane.setCenter(productHBox);
+				DropShadow paneShadow = new DropShadow();
+				paneShadow.setColor(Color.YELLOW);
+				paneShadow.setRadius(1);
+				paneShadow.setSpread(0.001);
+				pane.setEffect(paneShadow);
+				
+				
 				addToCartButton.setOnAction(event -> {
+					txtProductStock.setText("Stock: " + (Integer.valueOf(txtProductStock.getText().substring(7))- 1));
+					
+					if(Integer.valueOf(txtProductStock.getText().substring(7)).equals(0)) {
+						System.out.println("we reached lvl 0");
+						addToCartButton.setDisable(true);
+					}
 					
 					itemsInCart++;
 					if (itemsInCart  == 1) {
@@ -297,40 +321,18 @@ public class EktProductFormController {
 					}
 					//Increment value of the product key in the hash map
 					//If it does not exist, set value to "1"
-					String currentProductID = ((Product)product).getProductID();
-					if (!ClientController.getProductByID.containsKey(currentProductID))
-						ClientController.getProductByID.put(currentProductID, (Product) product);
+					String currentProductID = ((ArrayList<?>)product).get(0).toString();
+
+					if (!ClientController.getProductByID.containsKey(currentProductID)) {
+						superProduct p = new superProduct(((ArrayList<?>)product).get(0).toString(),
+								((ArrayList<?>)product).get(1).toString(), 
+								((ArrayList<?>)product).get(2).toString(),((ArrayList<?>)product).get(3).toString(),
+								(""), ((ArrayList<?>)product).get(5).toString(), (byte[])((ArrayList<?>)product).get(6));
+						ClientController.getProductByID.put(currentProductID, p);
+					}
 					ClientController.currentUserCart.merge(currentProductID, 1, Integer::sum);
 					//Animate add to cart
-					
-
 				});
-				
-//				Text amountOfItems = new Text();
-//				amountOfItems.setText("");
-//				amountOfItems.setFont(new Font(18));
-				
-				productAddToCartVBox.getChildren().add(addToCartButton);
-//				productAddToCartVBox.getChildren().add(amountOfItems);
-				//////////////////////////////////////////////////////
-				productAddToCartVBox.setAlignment(Pos.CENTER_RIGHT);
-				productHBox.setAlignment(Pos.CENTER);
-				productHBox.setPrefSize(400, 150);
-				productDetails.setPrefSize(150, 150);
-				
-				productHBox.getChildren().add(productDetails);
-				productHBox.getChildren().add(productAddToCartVBox);
-				
-				Pane pane = new Pane();
-				pane.setStyle("-fx-border-color: black; -fx-border-width: 3px; -fx-border-radius: 10;"
-						+ " -fx-background-color:   linear-gradient(from 0px 0px to 0px 1500px, pink, yellow); -fx-background-radius: 12");
-
-				pane.getChildren().add(productHBox);
-				DropShadow paneShadow = new DropShadow();
-				paneShadow.setColor(Color.YELLOW);
-				paneShadow.setRadius(1);
-				paneShadow.setSpread(0.001);
-				pane.setEffect(paneShadow);
 				
 				
 				///////// Dima 30/12 17:24 ///////////////////////
@@ -345,12 +347,12 @@ public class EktProductFormController {
 				}
 				//////////////////////////////////////////////////////
 				
-				System.out.println(((Product) product).getProductID());			
+				//System.out.println(((Product) product).getProductID());			
 							
 			}
 			
 			ScrollPane scrollPane = new ScrollPane(gridPaneProducts);
-			scrollPane.prefHeight(600);
+			scrollPane.maxHeight(600);
 			scrollPane.prefWidth(800);
 			////////////////// Dima 31/12 10:50 changed styling into this
 			Border border = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
@@ -365,7 +367,7 @@ public class EktProductFormController {
 			//linear-gradient(from 0px 0px to 0px 1500px, black, crimson);
 		}
 	}
-	
+
 	@FXML
 	void getBtnBack(ActionEvent event) {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window

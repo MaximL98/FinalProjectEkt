@@ -53,7 +53,6 @@ public class ClientController
   public static String _EkCurrentMachineName;
   // Rotem added also (10.1)
   public static int _EkCurrentMachineID;
-
   
   //Maxim Added (11.1)
   public static Integer orderTotalQuantity;

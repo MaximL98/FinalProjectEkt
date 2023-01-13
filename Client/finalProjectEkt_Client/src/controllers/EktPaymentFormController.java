@@ -29,6 +29,7 @@ import javafx.stage.Stage;
 import logic.CustomerOrder;
 import logic.Order;
 import logic.Product;
+import logic.Role;
 
 public class EktPaymentFormController {
 	
@@ -52,10 +53,45 @@ public class EktPaymentFormController {
     
     @FXML
     private Text txtProcessing;
+    
+    @FXML
+    private ComboBox<String> comboBoxBillingDate;
 
     
     public void initialize() {
-    	
+    	if (ClientController.getCustomerIsSubsriber() == true) {
+			btnPayUsingTheEktApp.setDisable(false);
+			comboBoxBillingDate.setDisable(false);
+			ObservableList<String> comboPayment = FXCollections.observableArrayList();
+			String[] nowDate = java.time.LocalDate.now().toString().split("-");
+			comboPayment.add("Now: " + nowDate[2] + "-" + nowDate[1] + "-" + nowDate[0]);
+			ArrayList<String> date = new ArrayList<>();
+			String[] splitDate = java.time.LocalDate.now().toString().split("-");
+			date.add(splitDate[0]);
+			date.add(splitDate[1]);
+			date.add(splitDate[2]);
+			//Set day to 01
+			date.set(2, "01");
+			//If current month is "12" set month = 01 and year = currentYear+1 
+			if (date.get(1).equals("12")) {
+				date.set(1, "01");
+				date.set(0, (Integer.parseInt(date.get(0)) + 1) + "");
+			} else {
+				//Else do month = month+1
+				int month = Integer.parseInt(date.get(1));
+				
+				if (month < 10) {
+					date.set(1, "0" + (month + 1));
+				} else {
+					date.set(1, (month + 1) + "");
+				}
+				
+			}
+			
+			comboPayment.add("Next month: " + date.get(2) + "-" + date.get(1) + "-" + date.get(0));
+			
+			comboBoxBillingDate.setItems(comboPayment);
+		}
     }
     
     private Integer getTypeId(String orderType) {
@@ -100,18 +136,29 @@ public class EktPaymentFormController {
     
     @FXML
     void getBtnChargeMyCreditCard(ActionEvent event) {
+    	String[] date = java.time.LocalDate.now().toString().split("-");
+    	ClientController.billingDate = date[0] + "-" + date[1] + "-" + date[2];
     	txtProcessing.setText("PROCESSING...");
     	processOrder(event);
     }
 
     @FXML
     void getBtnPayUsingTheEktApp(ActionEvent event) {
+    	String[] date = comboBoxBillingDate.getValue().split(" ");
+    	if (date.length == 3) {
+    		ClientController.billingDate = date[2];
+    	} else {
+    		ClientController.billingDate = date[1];
+    	}
     	txtProcessing.setText("PROCESSING...");
     	processOrder(event);
     }
 
     @FXML
     void getBtnPayWithBalance(ActionEvent event) {
+    	String[] date = java.time.LocalDate.now().toString().split("-");
+    	System.out.println(date);
+    	ClientController.billingDate = date[0] + "-" + date[1] + "-" + date[2];
     	txtProcessing.setText("PROCESSING...");
     	processOrder(event);
     }
@@ -163,7 +210,7 @@ public class EktPaymentFormController {
 		String temp = "";
 		
 		for(ArrayList<Object> lst : preProcessedOutput) {
-			// we expect product to have 5 columns, and act accordion-ly
+			// we expect product to have 5 columns, and act accordingly
 			Object[] arr = lst.toArray();
 			System.out.println(Arrays.toString(arr));
 			temp = arr[0].toString();
@@ -171,6 +218,7 @@ public class EktPaymentFormController {
 		}
 		
 		Integer maxOrderId = Integer.parseInt(temp);
+		ClientController.orderNumber = maxOrderId;
 		
 		////////////////
 		/*
@@ -187,6 +235,7 @@ public class EktPaymentFormController {
 						{"customer_orders", 
 								false, 
 								new Object[] {toInsert}}));
+
 		SCCP rotemRes = ClientController.responseFromServer;
 
 		if(rotemRes.getRequestType().equals(ServerClientRequestTypes.ACK)) {
@@ -243,4 +292,5 @@ public class EktPaymentFormController {
 		ClientController.userOrders.keySet().clear();
 		nextPage(event, "/gui/OrderReceiptPage.fxml", "EKrut Order Receipt");
 	}
- }
+
+}

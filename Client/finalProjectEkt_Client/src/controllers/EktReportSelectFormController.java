@@ -214,7 +214,7 @@ public class EktReportSelectFormController extends Application{
 		
 		if (comboBoxMonthOrderReports.getSelectionModel().isEmpty() || 
 				comboBoxYearOrderReports.getSelectionModel().isEmpty() || comboBoxOrderReports.getSelectionModel().isEmpty() ){
-			orderErrorMessage.setText("Please fill in all empty fields");
+			orderErrorMessage.setText("Please fill in all required fields");
 			return;
 		}
 		
@@ -243,7 +243,7 @@ public class EktReportSelectFormController extends Application{
 	public void getBtnInventoryReports(ActionEvent event) throws Exception {
 		
 		if (comboBoxInventoryReports.getSelectionModel().isEmpty() == true) {
-			inventoryErrorMessage.setText("Please fill in all empty fields");
+			inventoryErrorMessage.setText("Please fill in all required fields");
 			return;
 		}
 		
@@ -252,7 +252,6 @@ public class EktReportSelectFormController extends Application{
 		ClientController.getMachineID_TypeOfReport_Dates().add("Inventory"); //Add type of report to view to the array
 		ClientController.getMachineID_TypeOfReport_Dates().add(locationAndMachineName[0]); //Add chosen location to the array
 		ClientController.getMachineID_TypeOfReport_Dates().add(locationAndMachineName[1]); //Add chosen machineName to the array
-		
 		
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
@@ -272,7 +271,7 @@ public class EktReportSelectFormController extends Application{
 		String year = comboBoxYearCustomerReports.getValue();
 		
 		if (month == null || year == null || comboBoxCustomerReports.getSelectionModel().isEmpty() == true) {
-			customerErrorMessage.setText("Please fill in all empty fields");
+			customerErrorMessage.setText("Please fill in all required fields");
 			return;
 		}
 		
@@ -281,8 +280,8 @@ public class EktReportSelectFormController extends Application{
 		ClientController.getMachineID_TypeOfReport_Dates().add("Customer"); //Add type of report to view to the array
 		ClientController.getMachineID_TypeOfReport_Dates().add(locationAndMachineName[0]); //Add chosen location to the array
 		ClientController.getMachineID_TypeOfReport_Dates().add(locationAndMachineName[1]); //Add chosen machineName to the array
-		ClientController.getMachineID_TypeOfReport_Dates().add(month);
-		ClientController.getMachineID_TypeOfReport_Dates().add(year);
+		ClientController.getMachineID_TypeOfReport_Dates().add(comboBoxMonthCustomerReports.getValue());
+		ClientController.getMachineID_TypeOfReport_Dates().add(comboBoxYearCustomerReports.getValue());
 		
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
@@ -331,15 +330,27 @@ public class EktReportSelectFormController extends Application{
     @FXML
     void getBtnViewCustomerReportsSingleRegion(ActionEvent event) {
     	if (comboBoxMonthCustomerReports.getSelectionModel().isEmpty() || comboBoxYearCustomerReports.getSelectionModel().isEmpty()) {
-    		customerErrorMessage.setText("Please fill in all empty fields");
+    		customerErrorMessage.setText("Please fill in all required fields");
 			return;
     	}
+    	ClientController.getMachineID_TypeOfReport_Dates().add("Customer"); //Add type of report to view to the array
+		ClientController.getMachineID_TypeOfReport_Dates().add(ClientController.getCurrentUserRegion()); //Add chosen location to the array
+		ClientController.getMachineID_TypeOfReport_Dates().add("ALL_MACHINES"); //Add chosen machineName to the array
+		//Add the chosen date to view reports
+		ClientController.getMachineID_TypeOfReport_Dates().add(comboBoxMonthCustomerReports.getValue());
+		ClientController.getMachineID_TypeOfReport_Dates().add(comboBoxYearCustomerReports.getValue());
+		
+		Stage primaryStage = new Stage();
+		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
+				"/gui/EktReportDisplayPage.fxml", null, "Ekt Report Display Form");
+		primaryStage.show();
+		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
     }
     
     @FXML
     void getBtnViewOrderReportSingleRegion(ActionEvent event) {
     	if (comboBoxMonthOrderReports.getSelectionModel().isEmpty() || comboBoxYearOrderReports.getSelectionModel().isEmpty()) {
-    		orderErrorMessage.setText("Please fill in all empty fields");
+    		orderErrorMessage.setText("Please fill in all required fields");
     		return;
     	}	
 		ClientController.getMachineID_TypeOfReport_Dates().add("Orders"); //Add type of report to view to the array

@@ -75,6 +75,17 @@ public class ServerPortController  {
 		return databasePasswdTxt.getText();			
 	}
 	
+	@FXML
+	public void onEnter(ActionEvent ae) throws Exception{
+		if(ServerUI.getEktServerObject() != null && ServerUI.getEktServerObject().isListening()) {
+			return;
+		}
+		else {
+		clickConnectBtn(ae);
+		}
+	}
+	
+	@FXML
 	public void clickConnectBtn(ActionEvent event) throws Exception {		
 		// try asking database controller to log in using the text fields
 		String p = getport();

@@ -23,6 +23,8 @@ import logic.Product;
 import logic.Promotions;
 import logic.Role;
 import logic.SystemUser;
+import logic.CustomerOrder;
+
 /**
  * ServerMessageHandler: a wrapper class for a HashMap - map operation types to operations
  * operation types: ServerClientRequestTypes objects
@@ -98,6 +100,7 @@ public class ServerMessageHandler {
 			System.out.println("Called server with ADD.\nTable name: " + tableName + "\nAdd many (boolean): " + addMany+"\nObjects (to add): ");
 			for(Object o : objectsToAdd) {
 				System.out.println(o);
+				System.out.println("Object we add is of class="+o.getClass());
 			}
 			// end debug
 			

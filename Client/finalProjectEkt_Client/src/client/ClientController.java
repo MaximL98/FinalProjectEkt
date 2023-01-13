@@ -66,6 +66,9 @@ public class ClientController
 
   // rotem 1.12.23
   private static Boolean customerIsSubsriber=null;
+  
+  // Dima 13/1/2023
+  public static String billingDate=null;
 
 
   public ClientController(String host, int port) throws IOException

@@ -135,31 +135,32 @@ public class EktServiceRepAddCustomerController {
 
 	// lblId, lblUsername, lblName, lblEmail, lblCreditCard, lblPhone
 	private boolean validFieldInput() {
+		boolean flag = true;
 		// I forgot to check ID
 		if(txtID.getText().length() < 1 || (!txtID.getText().matches("^[0-9]*$"))) {
 			lblId.setText("ID must be numeric and not empty");
-			return false;
+			flag = false;
 		}
 		// check username and password not empty:
 		if(txtUsername.getText().length() < 1 || txtPassword.getText().length() < 1) {
 			lblUsername.setText("User name and password must be non-empty");
-			return false;
+			flag = false;
 		}
 		// check name is letters
 		if(txtFirstName.getText().length() < 2 || !(txtFirstName.getText().matches("^[a-zA-Z]*$")) || 
 				txtLastName.getText().length() < 2 || !(txtLastName.getText().matches("^[a-zA-Z]*$"))) {
 			lblName.setText("First and last name must be alphabetic, non empty ");
-			return false;
+			flag = false;
 		}
 		// check email is not empty
 		if(!(txtEmail.getText().contains("@")) || !(txtEmail.getText().contains(".")) ||  txtEmail.getText().length() < 5) {
 			lblEmail.setText("Email must be of the format x@y.z");
-			return false;
+			flag = false;
 		}
 		// check credit-card is legit (why?! we need to remove credit card from user (user needs ONLY user,pass, id, role!))
 		if (!(txtCreditCard.getText().matches("^[0-9.-]+$"))) {
 			lblCreditCard.setText("Credit card must be numeric and non empty");
-			return false;
+			flag = false;
 		}
 		// proper check (for valid companies)
 		/*if(!(txtCreditCard.getText().matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])"
@@ -169,10 +170,10 @@ public class EktServiceRepAddCustomerController {
 		// check phone is a number (currently not letters)
 		if(!(txtPhoneNumber.getText().matches("^[0-9.-]+$"))) {
 			lblPhone.setText("Phone number must be numeric and non empty");
-			return false;
+			flag = false;
 		
 		}
-		return true;
+		return flag;
 	}
 
 	@FXML public void getBtnGoBack(ActionEvent event) {

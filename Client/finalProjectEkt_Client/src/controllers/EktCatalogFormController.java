@@ -1,5 +1,7 @@
 package controllers;
 
+import common.SCCP;
+import common.ServerClientRequestTypes;
 import common.WindowStarter;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -7,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -16,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import client.ClientController;
+import client.ClientUI;
 
 public class EktCatalogFormController implements Serializable {
 	/**
@@ -86,14 +90,76 @@ public class EktCatalogFormController implements Serializable {
 
 	@FXML
 	private Text txtWelcomeCustomer;
+	
+	@FXML
+	private ComboBox<String> cmbMachineName;
 
+	
 	String productFormFXMLLocation = "/gui/EktProductForm.fxml";
 
+	
 	@FXML
 	public void initialize() {
+		if(ClientController.OLCurrentMachineName == null)
+			setDisableCatalog(true);
+		if(ClientController.OLCurrentMachineName != null)
+			cmbMachineName.setValue(ClientController.OLCurrentMachineName);
+		
 		txtWelcomeCustomer
 				.setText("Hi " + ClientController.getCurrentSystemUser().getFirstName() + ", glad you are back!");
 		txtWelcomeCustomer.setLayoutX(400 - (txtWelcomeCustomer.minWidth(0)) / 2);
+		
+		SCCP getMachines = new SCCP();
+		getMachines.setRequestType(ServerClientRequestTypes.SELECT);
+		getMachines.setMessageSent(new Object[] {"machine", true, "machineName, machineId", false, null, false, null});
+		ClientUI.clientController.accept(getMachines);
+		
+		ArrayList<?> arrayOfMachines = new ArrayList<>();
+		ArrayList<String> machinesNames = new ArrayList<String>();
+		ArrayList<Integer> machinesIds = new ArrayList<Integer>();
+		if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
+			arrayOfMachines = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
+			for(Object machine : arrayOfMachines) {
+				machinesNames.add((String) ((ArrayList<?>)machine).get(0));
+				machinesIds.add((Integer) ((ArrayList<?>)machine).get(1));
+			}
+		}
+
+		
+		cmbMachineName.getItems().setAll(
+				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(0)).get(0).toString(), 
+				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(1)).get(0).toString(),
+				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(2)).get(0).toString(),
+				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(3)).get(0).toString(),
+				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(4)).get(0).toString(),
+				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(5)).get(0).toString(),
+				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(6)).get(0).toString(),
+				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(7)).get(0).toString());
+		
+		cmbMachineName.setOnAction(event ->{
+			ClientController.OLCurrentMachineName = cmbMachineName.getValue();
+			
+			if(ClientController.OLCurrentMachineName != null) {
+				SCCP msg = new SCCP(ServerClientRequestTypes.SELECT, 
+						new Object[]{"machine", true, "machineId", true,
+								"machineName = '" +ClientController.OLCurrentMachineName+ "'", false, null});
+				ClientUI.clientController.accept(msg);
+				if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
+					@SuppressWarnings("unchecked")
+					ArrayList<ArrayList<Object>> tmp= (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
+					System.out.println(tmp);
+					ClientController.OLCurrentMachineID = (Integer.valueOf(tmp.get(0).get(0).toString()));
+					System.out.println("Machine ID set to " + ClientController.OLCurrentMachineID);
+				}
+			}
+			
+			setDisableCatalog(false);
+		;});
+		
+		
+		
+			
+		
 	}
 
 	// Category 1
@@ -227,4 +293,12 @@ public class EktCatalogFormController implements Serializable {
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
+	
+	public void setDisableCatalog(boolean value) {
+		btnCatalog1.setDisable(value);btnCatalog2.setDisable(value);
+		btnCatalog3.setDisable(value);btnCatalog4.setDisable(value);
+		btnCatalog5.setDisable(value);btnCatalog6.setDisable(value);
+		btnCatalog7.setDisable(value);btnCatalog8.setDisable(value);
+	}
+	
 }

@@ -26,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -63,7 +64,6 @@ public class EktRegionalManagerAcceptNewCustomerController {
 			this.phoneNumber = new SimpleStringProperty(phoneNumber);
 			// accept.setGraphic(new ImageView(new Image("controllers/Images/v.png")));
 			accept.setOnAction(ae -> {
-
 				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 				alert.setTitle("Accept Customer");
 				alert.setHeaderText("This action will create a new customer!");
@@ -164,22 +164,35 @@ public class EktRegionalManagerAcceptNewCustomerController {
 
 		// Column 1
 		columnName.setCellValueFactory(cellData -> cellData.getValue().getName());
-
+		columnName.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 		// Column 2
 		columnUserType.setCellValueFactory(cellData -> cellData.getValue().getUserType());
-
+		columnUserType.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 		// Column 3
 		columnID.setCellValueFactory(cellData -> cellData.getValue().getId());
-
+		columnID.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 		// Column 4
 		columnPhoneNumber.setCellValueFactory(cellData -> cellData.getValue().getPhoneNumber());
-		
+		columnPhoneNumber.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 		// Column 5
 		TableColumn<customerToAccept, Button> columnAccept = new TableColumn<>("Accept");
-		columnAccept.setPrefWidth(64);
+		columnAccept.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
+		columnAccept.setPrefWidth(74);
 		columnAccept.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 		columnAccept.setCellFactory(col -> {
-			Button accept = new Button("Accept");
+			Button accept = new Button("ACCEPT");
+			accept.setTextFill(Color.WHITE);
+			accept.getStylesheets().add("/gui/buttonCSS.css");
 			TableCell<customerToAccept, Button> cell = new TableCell<customerToAccept, Button>() {
 				@Override
 				public void updateItem(Button item, boolean empty) {
@@ -228,10 +241,15 @@ public class EktRegionalManagerAcceptNewCustomerController {
 
 		// Column 6
 		TableColumn<customerToAccept, Button> columnDecline = new TableColumn<>("Decline");
-		columnDecline.setPrefWidth(64);
+		columnDecline.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
+		columnDecline.setPrefWidth(74);
 		columnDecline.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 		columnDecline.setCellFactory(col -> {
-			Button decline = new Button("Decline");
+			Button decline = new Button("DECLINE");
+			decline.setTextFill(Color.WHITE);
+			decline.getStylesheets().add("/gui/buttonCSS.css");
 			TableCell<customerToAccept, Button> cell = new TableCell<customerToAccept, Button>() {
 				@Override
 				public void updateItem(Button item, boolean empty) {

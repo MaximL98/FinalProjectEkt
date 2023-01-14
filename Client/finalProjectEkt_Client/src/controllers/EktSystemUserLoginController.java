@@ -113,7 +113,7 @@ public class EktSystemUserLoginController {
 	 */
 	
 	@FXML
-    public Role getBtnLogin(ActionEvent event) {
+    public void getBtnLogin(ActionEvent event) {
 		// Rotem 1.12.23
 		// hide the status label until we finish login attempt
 		statusLabel.setVisible(false);
@@ -163,8 +163,6 @@ public class EktSystemUserLoginController {
 			ClientController.setCurrentUserRole(currentUser.getRole());
 			// TODO: create another map from Role to window-for-role ?
 			
-			// sammy D the current window
-			((Node)event.getSource()).getScene().getWindow().hide();
 			// prepare the new stage:
 			Stage primaryStage = new Stage();
 
@@ -218,6 +216,10 @@ public class EktSystemUserLoginController {
 			case DELIVERY_WORKER:
 				WindowStarter.createWindow(primaryStage, this, "/gui/DeliveryManagerPage.fxml", null, "Ekt Delivery Department Worker", true);
 				break;
+			case UNAPPROVED_CUSTOMER:
+				statusLabel.setText("Uset not yet registered!");
+				return;
+				
 			case INVENTORY_WORKER:
 				WindowStarter.createWindow(primaryStage, this, "/gui/InventoryRestockWorkerPage.fxml", null, "Ekt Inventory Worker", true);
 				break;
@@ -230,7 +232,7 @@ public class EktSystemUserLoginController {
 			// le-factored
 			// srs
 			primaryStage.show();
-
+			((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 		}
 		
 		// login failed
@@ -248,9 +250,6 @@ public class EktSystemUserLoginController {
 			//statusLabel.setVisible(true);
 			}
 		}
-		if (currentUser != null)
-			return currentUser.getRole();
-		return null;
     }
 }
 

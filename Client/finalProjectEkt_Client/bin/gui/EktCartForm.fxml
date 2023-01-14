@@ -10,9 +10,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktCartFormController">
+<AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktCartFormController">
    <children>
-      <BorderPane fx:id="borderPane" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1500px, pink, yellow);">
+      <BorderPane fx:id="borderPane" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);">
          <top>
             <Pane prefHeight="120.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                <children>
@@ -26,7 +26,7 @@
                         <Font name="Berlin Sans FB" size="36.0" />
                      </font>
                   </Text>
-                  <Button fx:id="btnCancelOrder" layoutX="638.0" layoutY="41.0" mnemonicParsing="false" onAction="#getBtnCancelOrder" prefHeight="20.0" prefWidth="148.0" style="-fx-background-color: #f28484; -fx-border-color: crimson; -fx-background-radius: 300; -fx-border-radius: 300; -fx-border-width: 2;" text="CANCEL ORDER">
+                  <Button fx:id="btnCancelOrder" layoutX="638.0" layoutY="41.0" mnemonicParsing="false" onAction="#getBtnCancelOrder" prefHeight="20.0" prefWidth="148.0" style="-fx-background-color: #f28484; -fx-border-color: crimson; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-width: 2;" text="CANCEL ORDER">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
@@ -37,23 +37,23 @@
          <bottom>
             <Pane fx:id="btmPane" prefHeight="100.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="btnBack" layoutX="10.0" layoutY="45.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="45.0" prefWidth="210.0" style="-fx-background-color: transparent; -fx-background-radius: 300; -fx-border-color: black; -fx-border-radius: 300; -fx-border-width: 2;" text="BACK TO SHOPPING">
+                  <Button fx:id="btnBack" layoutX="10.0" layoutY="45.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="45.0" prefWidth="210.0" stylesheets="@buttonCSS.css" text="BACK TO SHOPPING" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnOrder" layoutX="601.0" layoutY="41.0" mnemonicParsing="false" onAction="#getBtnOrder" prefHeight="45.0" prefWidth="185.0" style="-fx-background-color: #b6e194; -fx-background-radius: 300; -fx-border-color: green; -fx-border-radius: 300; -fx-border-width: 2;" text="ORDER">
+                  <Button fx:id="btnOrder" layoutX="601.0" layoutY="45.0" mnemonicParsing="false" onAction="#getBtnOrder" prefHeight="45.0" prefWidth="185.0" style="-fx-background-color: #b6e194; -fx-background-radius: 0; -fx-border-color: green; -fx-border-radius: 0; -fx-border-width: 3;" text="ORDER">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Text fx:id="txtTotalPrice" layoutX="300.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CART TOTAL: 0$" y="25.0">
+                  <Text fx:id="txtTotalPrice" layoutX="300.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CART TOTAL: 0$" y="25.0">
                      <font>
                         <Font name="System Bold" size="26.0" />
                      </font>
                   </Text>
-                  <ChoiceBox fx:id="choiceBox" layoutX="258.0" layoutY="14.0" prefHeight="25.0" prefWidth="123.0" />
-                  <Text fx:id="txtTotalPrice1" layoutX="17.0" layoutY="7.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select order type" y="25.0">
+                  <ChoiceBox fx:id="choiceBox" layoutX="340.0" layoutY="7.0" prefHeight="37.0" prefWidth="147.0" stylesheets="@choiceboxCSS.css" />
+                  <Text fx:id="txtTotalPrice1" layoutX="17.0" layoutY="7.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PLEASE SELECT AN ORDER TYPE:" y="25.0">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>

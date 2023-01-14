@@ -88,8 +88,8 @@ public class EktMyOrderController {
 				+ " JOIN order_contents ON orders.orderID = order_contents.orderID"
 				+ " JOIN product ON order_contents.productID = product.productID", true,
 				  "orders.orderID, machine.machineName,"
-				+ "orders.date_received, product.productName, orders.total_quantity, orders.total_price", 
-				true, "orders.statusId = 1" , true, "ORDER BY orders.orderID"});
+				+ "orders.date_received, product.productName, orders.total_quantity, orders.total_price, orders.statusId", 
+				true, "orders.statusId = 1 OR orders.statusId = 5" , true, "ORDER BY orders.orderID"});
 		//Log message
 		System.out.println("Client: Sending " + "order" + " to server.");
 		
@@ -108,10 +108,22 @@ public class EktMyOrderController {
 					
 					Text quantity = new Text();
 					Text price = new Text();
+					Text txtStatus = new Text();
+					String status = ((ArrayList<?>)order).get(6).toString();
+					Button received = new Button();
 					
 					location.setText("Location: " + ((ArrayList<?>)order).get(1).toString());
 					date.setText("Date: " + ((ArrayList<?>)order).get(2).toString());
 					
+					if(status.equals("5")) {
+						txtStatus.setText("Order Status Delivered");
+						
+						received.setText("Click if you received");
+						received.setLayoutX(15);
+						received.setLayoutY(200);
+						received.setFont(new Font(15));
+						orderPane.getChildren().add(received);
+					}
 					ArrayList<String> productList = new ArrayList<>();
 					
 					for(Object product: arrayOfOrders) 
@@ -164,6 +176,11 @@ public class EktMyOrderController {
 					price.setFont(new Font(18));
 					orderPane.getChildren().add(price);
 					
+					txtStatus.setLayoutX(15);
+					txtStatus.setLayoutY(100);
+					txtStatus.setFont(new Font(18));
+					orderPane.getChildren().add(txtStatus);
+					
 					Button reqToCancel = new Button();
 					reqToCancel.setText("Request to cancel order");
 					reqToCancel.setLayoutX(535);
@@ -213,6 +230,48 @@ public class EktMyOrderController {
 						}
 					});
 					
+					received.setOnAction(event ->{
+						
+						Alert alert = new Alert(AlertType.CONFIRMATION);
+						alert.initStyle(StageStyle.UNDECORATED);
+						alert.setTitle("Order Was Received");
+						alert.setHeaderText("Are you sure you received the order?");
+						alert.setContentText("Are you sure you want to continue?");
+						Optional<ButtonType> result = alert.showAndWait();
+
+						if (result.get() == ButtonType.OK) {
+							System.out.println("Sending requset to update order status...");
+							
+							SCCP preparedMessage = new SCCP();
+							
+							preparedMessage.setRequestType(ServerClientRequestTypes.UPDATE);
+							//name of table, add many?, array of objects (to add),  
+							//ArrayList<Object> fillArrayToOrder = new ArrayList<>();
+							
+							Object[] changeOrderStatus = new Object[3];
+							
+							changeOrderStatus[0] = "orders";
+							changeOrderStatus[1] = "statusId = 6";
+							changeOrderStatus[2] = "orderID = " + ((ArrayList<?>)order).get(0);
+							
+							
+							preparedMessage.setMessageSent(changeOrderStatus); 
+							ClientUI.clientController.accept(preparedMessage);
+							
+							((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+							Stage primaryStage = new Stage();
+
+							WindowStarter.createWindow(primaryStage, this, "/gui/EktMyOrderFrom.fxml", null, "Ekt My Orders", false);
+							primaryStage.show();
+							((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
+							
+						}
+						
+						else if (result.get() == ButtonType.CANCEL) {
+							System.out.println("Order was not received");
+						}
+					});
+					
 					orderTab.setContent(orderPane);
 					orderTab.setText(orderId.toString());
 					
@@ -235,7 +294,7 @@ public class EktMyOrderController {
 				+ " JOIN product ON order_contents.productID = product.productID", true,
 				  "orders.orderID, machine.machineName,"
 				+ "orders.date_received, product.productName, orders.total_quantity, orders.total_price", 
-				true, "orders.statusId = 3" , true, "ORDER BY orders.orderID LIMIT 20"});
+				true, "orders.statusId = 3 OR orders.statusId = 6" , true, "ORDER BY orders.orderID LIMIT 20"});
 		//Log message
 		System.out.println("Client: Sending " + "order" + " to server.");
 		

@@ -22,7 +22,10 @@
                   <Font name="Berlin Sans FB" size="30.0" />
                </font>
             </Text>
-            <Button fx:id="btnLowStockAlerts" layoutX="696.0" layoutY="51.0" mnemonicParsing="false" onAction="#getBtnStockAlerts" stylesheets="@buttonCSS.css" text="alerts" textFill="WHITE" />
+            <Button fx:id="btnLowStockAlerts" layoutX="652.0" layoutY="38.0" mnemonicParsing="false" onAction="#getBtnStockAlerts" stylesheets="@buttonCSS.css" text="ALERTS" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font></Button>
          </children>
       </Pane>
       <Button fx:id="btnLogout" layoutX="14.0" layoutY="744.0" mnemonicParsing="false" onAction="#getLogoutBtn" style="-fx-border-color: white; -fx-background-color: purple; -fx-background-radius: 10; -fx-border-radius: 3; -fx-border-width: 3px;" text="Logout" textFill="WHITE">
@@ -64,7 +67,7 @@
                   <Font name="Berlin Sans FB" size="20.0" />
                </font>
             </Text>
-            <Button fx:id="btnSetThreshold" layoutX="50.0" layoutY="75.0" mnemonicParsing="false" onAction="#getBtnSetThreshold" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: purple; -fx-border-color: white; -fx-border-width: 3px; -fx-border-radius: 3; -fx-background-radius: 10;" text="SET THRESHOLD" textFill="WHITE">
+            <Button fx:id="btnSetThreshold" layoutX="50.0" layoutY="90.0" mnemonicParsing="false" onAction="#getBtnSetThreshold" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: purple; -fx-border-color: white; -fx-border-width: 3px; -fx-border-radius: 3; -fx-background-radius: 10;" text="SET THRESHOLD" textFill="WHITE">
                <font>
                   <Font name="Berlin Sans FB" size="20.0" />
                </font>
@@ -73,12 +76,15 @@
       </Pane>
       <Pane layoutX="450.0" layoutY="475.0" prefHeight="250.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO); -fx-border-color: indigo; -fx-border-width: 5; -fx-background-radius: 20; -fx-border-radius: 10;">
          <children>
-            <Text layoutX="46.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MAYBE NOTHING HERE">
+            <Text layoutX="31.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CANCEL PENDING ORDERS">
                <font>
                   <Font name="Berlin Sans FB" size="20.0" />
                </font>
             </Text>
-            <Button fx:id="btnMaybeNothing" layoutX="124.0" layoutY="160.0" mnemonicParsing="false" onAction="#getBtnMaybeNothing" text="maybe nothing" />
+            <Button fx:id="btnCancelOrders" layoutX="50.0" layoutY="90.0" mnemonicParsing="false" onAction="#getBtnCancelOrders" prefHeight="70.0" prefWidth="200.0" stylesheets="@buttonCSS.css" text="CANCEL ORDERS" textFill="WHITE">
+               <font>
+                  <Font name="Berlin Sans FB" size="20.0" />
+               </font></Button>
          </children>
       </Pane>
    </children>

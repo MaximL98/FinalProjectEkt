@@ -400,7 +400,7 @@ public class DatabaseOperationsMap {
 						int machineId = fetchOrdersResultSet.getInt("machineID");
 						String machineName = fetchOrdersResultSet.getString("machineName");
 						Location location = Location.fromLocationId(fetchOrdersResultSet.getInt("locationId"));
-						new Machine(machineId, machineName, location);
+						new Machine(machineId, machineName, location, 0);
 						
 						Type type = Type.fromTypeId(fetchOrdersResultSet.getInt("typeId"));
 						Status status = Status.fromStatusId(fetchOrdersResultSet.getInt("statusId"));
@@ -508,7 +508,7 @@ public class DatabaseOperationsMap {
 						int machineId = fetchMachinesResultSet.getInt("machineId");
 						int locationId = fetchMachinesResultSet.getInt("locationId");
 						String machineName = fetchMachinesResultSet.getString("machineName");
-						machines.add(new Machine(machineId, machineName, Location.fromLocationId(locationId)));
+						machines.add(new Machine(machineId, machineName, Location.fromLocationId(locationId), 0));
 					}
 				} catch (SQLException sqle) {
 					sqle.printStackTrace();
@@ -531,15 +531,11 @@ public class DatabaseOperationsMap {
 				Machine machine = (Machine) params[0];
 				StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM ");
 				sqlBuilder.append(PRODUCTS_IN_MACHINE_TABLE);
-				sqlBuilder.append(" LEFT JOIN ");
+				sqlBuilder.append(" JOIN ");
 				sqlBuilder.append(PRODUCTS_TABLE);
-				sqlBuilder.append(" ON ");
-				sqlBuilder.append(PRODUCTS_TABLE);
-				sqlBuilder.append(".productID = ");
-				sqlBuilder.append(PRODUCTS_IN_MACHINE_TABLE);
-				sqlBuilder.append(".productID");
-				sqlBuilder.append(" WHERE machineID = ");
+				sqlBuilder.append(" USING(productID) WHERE machineID = ");
 				sqlBuilder.append(machine.getMachineId());
+				sqlBuilder.append(" AND restock_flag = 1");
 				sqlBuilder.append(";");
 
 				ResultSet fetchProductsInMachineResultSet = DatabaseSimpleOperation
@@ -581,6 +577,8 @@ public class DatabaseOperationsMap {
 					sqlBuilder.append(PRODUCTS_IN_MACHINE_TABLE);
 					sqlBuilder.append(" SET stock = ");
 					sqlBuilder.append(product.getStock());
+					sqlBuilder.append(", restock_flag = ");
+					sqlBuilder.append(product.isRestockFlag() ? 1 : 0);
 					sqlBuilder.append(" WHERE machineID = ");
 					sqlBuilder.append(product.getMachine().getMachineId());
 					sqlBuilder.append(" and productID = \"");

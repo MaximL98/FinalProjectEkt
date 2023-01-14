@@ -27,6 +27,7 @@ public class Machine implements Serializable {
 
 	/**
 	 * Machine constructor.
+	 * @param threshold TODO
 	 */
 	public Machine(int machineId, String machineName, Location location, int threshold) {
 		this.machineId = machineId;

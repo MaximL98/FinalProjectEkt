@@ -14,6 +14,7 @@ public enum Role {
 	// ?
 	LOGISTICS_EMPLOYEE, SUBSCRIBER,
 	UNAPPROVED_CUSTOMER, // added Rotem 1.12
+	UNAPPROVED_SUBSCRIBER, //added Max 14/1
 	DELIVERY_WORKER, // added Rotem 1.13 ( sad smiley?)
 	; 
 	

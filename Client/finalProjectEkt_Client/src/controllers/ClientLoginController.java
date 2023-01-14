@@ -23,6 +23,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import logic.Machine;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.CheckBox;
 
 /**
  * Important: Read this - The תצורה is OL - OL = when you buy from home or somewhere - the administrative part of the shistem.
@@ -47,9 +48,19 @@ public class ClientLoginController {
 	@FXML ComboBox<String> cmbTezura;
 	@FXML ComboBox<String> cmbMachines;
 	@FXML Button btnFinish;
+
+	@FXML CheckBox toggleEasyRecognition;
+
+	@FXML TextField txtFastUsr;
+
+	@FXML TextField txtFastPass;
 	
 	@FXML
 	void initialize() {
+		ClientController.setFastRecognitionToggle(false);
+		ClientController.setFastRecognitionUserName(null);;
+		ClientController.setFastRecognitionPassword(null);;
+
 		cmbTezura.getItems().add("EK");
 		cmbTezura.getItems().add("OL");
 		cmbTezura.setValue("OL");
@@ -73,6 +84,12 @@ public class ClientLoginController {
 		
 	
 	public void getConnectToServer(ActionEvent event) {
+		if(ClientController.isFastRecognitionToggle()) {
+			// store user credentials for fast-recognition
+			ClientController.setFastRecognitionUserName(txtFastUsr.getText());
+			ClientController.setFastRecognitionPassword(txtFastPass.getText());
+		}
+		
 		hiddenLabel.setVisible(false);
 		
 		try{
@@ -209,5 +226,27 @@ public class ClientLoginController {
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, this, "/gui/_EKConfigurationLoginFrame.fxml", null, "Login", true);
 		primaryStage.show();
+	}
+
+	@FXML public void easyRecognitionSetter(ActionEvent event) {
+		if(!ClientController.isFastRecognitionToggle()) {
+			System.out.println("Fast recognition simulation on");
+			ClientController.setFastRecognitionToggle(true);
+			txtFastUsr.setVisible(true);
+			txtFastUsr.setDisable(false);
+			txtFastPass.setVisible(true);
+			txtFastPass.setDisable(false);
+			
+		}
+		else {
+			System.out.println("Fast recognition simulation off");
+			ClientController.setFastRecognitionToggle(false);
+			ClientController.setFastRecognitionUserName(null);
+			ClientController.setFastRecognitionPassword(null);
+			txtFastUsr.setVisible(false);
+			txtFastUsr.setDisable(true);
+			txtFastPass.setVisible(false);
+			txtFastPass.setDisable(true);
+		}
 	}
 }

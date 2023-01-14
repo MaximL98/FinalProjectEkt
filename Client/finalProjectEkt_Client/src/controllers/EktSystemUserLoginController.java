@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import logic.Role;
 import logic.SystemUser;
 import javafx.scene.control.Label;
+import javafx.scene.text.Text;
 
 public class EktSystemUserLoginController {
 	
@@ -42,6 +43,10 @@ public class EktSystemUserLoginController {
     
 	@FXML 
 	Label statusLabel;
+
+	@FXML Text lblFastRecognition1;
+
+	@FXML Text lblFastRecognition2;
 	
 	
 	/**
@@ -52,13 +57,28 @@ public class EktSystemUserLoginController {
 	public void onEnter(ActionEvent ae){
 	   getBtnLogin(ae);
 	}
-	
+
 	/*
 	 * This method does nothing
 	 */
 	@FXML
 	private void initialize() {
+		// don't worry, this DOES NOT reset the fast-recognition variables
 		ClientController.resetVars();
+		if(ClientController.isFastRecognitionToggle()) {
+			// set fast recognition
+			lblFastRecognition1.setText("Using fast-recognition");
+			lblFastRecognition2.setText("");
+			txtUsername.setDisable(true);
+			txtPassword.setDisable(true);
+		}
+		else{
+			lblFastRecognition1.setText("USERNAME");
+			lblFastRecognition2.setText("PASSWORD");
+			txtUsername.setDisable(false);
+			txtPassword.setDisable(false);
+		}
+		
 		// attempt to have the label re-written every few seconds. (failure)
 		/*
 	    ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
@@ -101,6 +121,10 @@ public class EktSystemUserLoginController {
     	String userName, password;
     	userName = txtUsername.getText();
     	password = txtPassword.getText();
+    	if(ClientController.isFastRecognitionToggle()) {
+    		userName=ClientController.getFastRecognitionUserName();
+    		password=ClientController.getFastRecognitionPassword();
+    	}
     	System.out.println(userName + " " + password);
     	    	
     	/*
@@ -153,6 +177,10 @@ public class EktSystemUserLoginController {
 				break;
 				
 			case CUSTOMER:
+				if(ClientController.isFastRecognitionToggle()) {
+					// show alert and reload window
+					System.out.println("NOT IMPLEMENTED: alert customer that he is not a subscriber, request regular login");
+				}
 				// also set subscriber boolean value (false)
 				ClientController.setCustomerIsSubsriber(false);
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog", true);
@@ -196,6 +224,8 @@ public class EktSystemUserLoginController {
 			default:
 				throw new UnsupportedOperationException("No valid landing page for system user with role=" + currentUser.getRole());
 			}
+			
+			// disable fast-recognition (simulation)
 			
 			// le-factored
 			// srs

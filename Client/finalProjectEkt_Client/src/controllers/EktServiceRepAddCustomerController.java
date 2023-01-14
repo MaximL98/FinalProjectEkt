@@ -139,7 +139,6 @@ public class EktServiceRepAddCustomerController {
     			txtCreditCard.setText("");
     			txtUsername.setText("");
     			txtPassword.setText("");
-//    			txtRole.setText("");
 
 
     		}

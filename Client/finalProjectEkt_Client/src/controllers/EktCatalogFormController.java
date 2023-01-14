@@ -132,7 +132,7 @@ public class EktCatalogFormController implements Serializable {
 			}
 		}
 
-		
+		System.out.println("arrayOfMachines = " + arrayOfMachines);
 		cmbMachineName.getItems().setAll(
 				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(0)).get(0).toString(), 
 				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(1)).get(0).toString(),

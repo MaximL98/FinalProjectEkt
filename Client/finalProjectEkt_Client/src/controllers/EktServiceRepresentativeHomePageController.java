@@ -19,7 +19,7 @@ public class EktServiceRepresentativeHomePageController {
     private Button btnLogout;
     
     @FXML
-    private Button btnMisc;
+    private Button btnRegisterSubscriber;
     
     @FXML
     private Text txtGreeting;
@@ -61,14 +61,14 @@ public class EktServiceRepresentativeHomePageController {
 		
 	}
 
-	@FXML public void getBtnMisc(ActionEvent event) {
-		// load home area for service rep
-		// sammy D the current window
+
+	@FXML public void getBtnRegisterSubscriber(ActionEvent event) {
 		((Node)event.getSource()).getScene().getWindow().hide();
 		// prepare the new stage:
 		Stage primaryStage = new Stage();
 
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepAddSubscriberForm.fxml", null, "Subscriber Registration Page");
+
 		primaryStage.show();
 	}
 

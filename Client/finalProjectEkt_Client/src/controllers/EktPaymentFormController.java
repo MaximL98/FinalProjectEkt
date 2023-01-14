@@ -105,34 +105,7 @@ public class EktPaymentFormController {
 		}
     	return null;
     }
-    
-    private Integer getMachineId(String pickupPlace) {
-		
-    	switch (pickupPlace) {
-		case "Haifa, Downtown":
-			return 1;
-		case "Beer Sheva, Center":
-			return 2;
-		case "Beer Sheva, Downtown":
-			return 3;
-		
-	    case "Kiryat Motzkin, Center":
-			return 4;
-		
-		case "Kiryat Shmona, Center":
-			return 5;
-		
-		case "Beer Sheva, Updog":
-			return 6;
-		
-		case "Abu Dabi, Center":
-			return 7;
-		
-		case "Abu Naji, Center":
-			return 8;
-    	}
-    	return null;
-    }
+   
     
     @FXML
     void getBtnChargeMyCreditCard(ActionEvent event) {
@@ -186,12 +159,23 @@ public class EktPaymentFormController {
 		
 		Object[] fillOrder = new Object[3];
 		
-		fillOrder[0] = "orders (total_price, total_quantity, machineID, date_received, deliveryTime, typeId, statusId)";
-		fillOrder[1] = false;
-		fillOrder[2] = new Object[] {"(" + ClientController.orderTotalPrice + "," + 
-		ClientController.orderTotalQuantity + "," + getMachineId(ClientController.pickupPlace) + ",\"" + 
-		ClientController.orderDateReceived + "\"" + ",\"" + ClientController.orderDeliveryTime + 
-				"\"" + "," + getTypeId(ClientController.orderType) + "," + 1 + ")"};
+		if(getTypeId(ClientController.orderType) == 2) {
+			fillOrder[0] = "orders (total_price, total_quantity, machineID, date_received, deliveryTime, typeId, statusId)";
+			fillOrder[1] = false;
+			fillOrder[2] = new Object[] {"(" + ClientController.orderTotalPrice + "," + 
+			ClientController.orderTotalQuantity + "," + ClientController.OLCurrentMachineID + ",\"" + 
+			ClientController.orderDateReceived + "\"" + ",\"" + ClientController.orderDeliveryTime + 
+					"\"" + "," + getTypeId(ClientController.orderType) + "," + 1 + ")"};
+		}
+		else {
+			fillOrder[0] = "orders (total_price, total_quantity, machineID, date_received, typeId, statusId)";
+			fillOrder[1] = false;
+			fillOrder[2] = new Object[] {"(" + ClientController.orderTotalPrice + "," + 
+			ClientController.orderTotalQuantity + "," + ClientController.OLCurrentMachineID + ",\"" + 
+			ClientController.orderDateReceived + "\"" 
+					 + "," + getTypeId(ClientController.orderType) + "," + 1 + ")"};
+		}
+		
 		
 		preparedMessage.setMessageSent(fillOrder); 
 		ClientUI.clientController.accept(preparedMessage);

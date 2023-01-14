@@ -46,7 +46,7 @@ public class Order implements Serializable {
 
 	public enum Status {
 		InProgress(1, "In Progress"), Complete(2, "Complete"), Cancelled(3, "Cancelled"),
-		RequestedCancellation(4, "Requested Cancellation");
+		RequestedCancellation(4, "Requested Cancellation"), Delivered(5,"Delivered"),Received(6,"Received");
 
 		int statusId;
 		String statusString;

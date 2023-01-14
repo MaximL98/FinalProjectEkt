@@ -74,13 +74,13 @@ public class EktReportDisplayPageController {
 	private Button btnBack;
 
 	@FXML
-	private Text txtMachineName;
+	public Text txtMachineName;
 
 	@FXML
-	private Text txtLocationName;
+	public Text txtLocationName;
 
 	@FXML
-	private Text txtTypeOfReport;
+	public Text txtTypeOfReport;
 
 	@FXML
 	private Pane paneBottom;

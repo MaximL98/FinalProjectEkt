@@ -22,7 +22,7 @@ public class ClientController
   private static Configuration launchConfig = null;
   
   // Controller specific fields - TODO: move these to dedicated controllers, and use setters to these controllers here (I will show example )
-  private static SystemUser connectedSystemUser = null;
+  private static SystemUser connectedSystemUser = null; // ClientController.getconnectedSystemUser().getID()
   public static ArrayList<String> CurrentProductCategory = new ArrayList<>();
   //Map that holds the current cart contents of the user
   public static HashMap<String,Integer> currentUserCart = new HashMap<>();

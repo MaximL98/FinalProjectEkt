@@ -131,6 +131,7 @@ public class ServerPortController  {
 				 */
 				@Override
 				public void run() {
+					System.out.println("Helper server thread for showing connected clients has been created (and started).");
 					while(ServerUI.getEktServerObject()!=null && ServerUI.getEktServerObject().isListening()) {
 						try {
 							Thread.sleep(1000);
@@ -151,6 +152,7 @@ public class ServerPortController  {
 							
 						}
 					}
+					System.out.println("Helper server thread for showing connected clients has been closed.");
 				}
 			};
 			threadForListeningToClients.start();

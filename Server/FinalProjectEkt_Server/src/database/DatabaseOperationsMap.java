@@ -530,8 +530,11 @@ public class DatabaseOperationsMap {
 						String productName = fetchProductsInMachineResultSet.getString("productName");
 						String costPerUnit = fetchProductsInMachineResultSet.getString("costPerUnit");
 						int stock = fetchProductsInMachineResultSet.getInt("stock");
+						int minStock = fetchProductsInMachineResultSet.getInt("min_stock");
+						int maxStock = fetchProductsInMachineResultSet.getInt("max_stock");
 						products.add(new ProductInMachine(new Product(productID, productName, costPerUnit, "", ""), machine,
-								stock, stock, stock, false));
+								stock, minStock, maxStock, false));
+						//System.out.println("product in machine added:"+products.get(products.size() - 1));
 					}
 				} catch (SQLException sqle) {
 					sqle.printStackTrace();

@@ -1,10 +1,13 @@
 package gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import Server.ServerUI;
 import common.WindowStarter;
 import database.DatabaseController;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +22,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import ocsf.server.ConnectionToClient;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TextArea;
 
 public class ServerPortController  {
 	
@@ -39,13 +44,24 @@ public class ServerPortController  {
 	
 	@FXML TextField databaseUsernameTxt;
 
-	@FXML TableView<ConnectionToClient> clientsTable;
+	@FXML TableView<String> clientsTable;
 
 	@FXML PasswordField databasePasswdTxt;
 
 	@FXML Button addUserToDB;
 
 	@FXML Button btnDisconnect;
+
+	private Thread threadForListeningToClients;
+
+	@FXML TableColumn<Object, String> colClients;
+
+	@FXML TextArea txtClients;
+	
+	@FXML
+	private void initialize() {
+		//colClients.setCellValueFactory(null);
+	}
 	
 	public void start(Stage primaryStage) throws Exception {	
 		// load server window
@@ -104,6 +120,40 @@ public class ServerPortController  {
 		{
 			// start server (this starts connection to database too)
 			ServerUI.runServer(p);
+			
+			// load clients
+			threadForListeningToClients = new Thread() {
+				private Thread[] oldClientList = new Thread[1];
+				private Thread[] newClientList;
+
+				/*
+				 * Rotem: Added a custom listener that lists the active clients at any time
+				 */
+				@Override
+				public void run() {
+					while(ServerUI.getEktServerObject()!=null && ServerUI.getEktServerObject().isListening()) {
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						if(!oldClientList.equals(ServerUI.getEktServerObject().getClientConnections())) {
+							oldClientList=ServerUI.getEktServerObject().getClientConnections();
+							newClientList = ServerUI.getEktServerObject().getClientConnections();
+							txtClients.setText("");
+							for(Thread t : newClientList) {
+								ConnectionToClient client = (ConnectionToClient)t; // please work
+								txtClients.setText(txtClients.getText()
+										+client.getInetAddress().toString().substring(1).replace("/", "")
+										+"\n");
+							}
+							
+						}
+					}
+				}
+			};
+			threadForListeningToClients.start();
 			
 			// allow the user of the server to insert users to the database:
 			addUserToDB.setDisable(false);

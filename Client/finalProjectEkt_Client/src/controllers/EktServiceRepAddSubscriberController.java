@@ -23,7 +23,7 @@ import javafx.stage.StageStyle;
 import logic.Role;
 import logic.SystemUser;
 
-public class EktServiceRepAddCustomerController {
+public class EktServiceRepAddSubscriberController {
 
     @FXML
     private Button btnConnect;
@@ -120,7 +120,7 @@ public class EktServiceRepAddCustomerController {
     		fill[1] = false; // add only 1
     		fill[2] = new Object[] {new SystemUser(id, txtFirstName.getText(), txtLastName.getText(), 
     				txtPhoneNumber.getText(), txtEmail.getText(), txtCreditCard.getText(), 
-    				txtUsername.getText(), txtPassword.getText(), Role.UNAPPROVED_CUSTOMER)};
+    				txtUsername.getText(), txtPassword.getText(), Role.UNAPPROVED_SUBSCRIBER)};
     		preparedMessage.setMessageSent(fill);
     		
     		// send to server

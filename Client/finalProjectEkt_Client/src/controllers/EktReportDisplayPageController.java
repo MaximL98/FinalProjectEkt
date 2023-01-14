@@ -267,45 +267,45 @@ public class EktReportDisplayPageController {
 		TableView<productInTable> tableViewForProductStockInfo = new TableView<productInTable>();
 		tableViewForProductStockInfo.getStylesheets().add("/gui/tableviewCSS.css");
 		tableViewForProductStockInfo
-				.setStyle("-fx-background: PURPLE; -fx-background-color: white; -fx-font-weight: bold;");
+				.setStyle("-fx-background: PURPLE; -fx-background-color: transparent; -fx-font-weight: bold;");
 		tableViewForProductStockInfo.setMinWidth(800);
 
 		// Column 1
 		TableColumn<productInTable, String> productNameColumn = new TableColumn<>("Product Name");
 		productNameColumn.setCellValueFactory(cellData -> cellData.getValue().getpName());
-		productNameColumn.setMinWidth(178);
-		productNameColumn.setStyle(
-				"-fx-font-color: black; -fx-background-color: linear-gradient(to bottom, #FFB6C1, #DDA0DD); -fx-font-weight: bold;");
-
+		productNameColumn.setMinWidth(172);
+		productNameColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 		// Column 2
 		TableColumn<productInTable, String> inStockColumn = new TableColumn<>("In Stock");
 		inStockColumn.setCellValueFactory(cellData -> cellData.getValue().getpStock());
 		inStockColumn.setMinWidth(56);
-		inStockColumn.setStyle(
-				"-fx-font-color: black; -fx-background-color: linear-gradient(to bottom, #FFB6C1, #DDA0DD); -fx-font-weight: bold;");
-
+		inStockColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 		// Column 3
 		TableColumn<productInTable, String> minStockColumn = new TableColumn<>("Threshold");
 		minStockColumn.setCellValueFactory(cellData -> cellData.getValue().getpMinStock());
 		minStockColumn.setMinWidth(56);
-		minStockColumn.setStyle(
-				"-fx-font-color: black; -fx-background-color: linear-gradient(to bottom, #FFB6C1, #DDA0DD); -fx-font-weight: bold;");
-
+		minStockColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 		// Column 4
 		TableColumn<productInTable, String> estTimeTillThresholdColumn = new TableColumn<>(
-				"Will reach threshold in approximately");
+				"Will reach threshold in approxi.");
 		estTimeTillThresholdColumn.setCellValueFactory(cellData -> cellData.getValue().getpThreshold());
-		estTimeTillThresholdColumn.setMinWidth(245);
-		estTimeTillThresholdColumn.setStyle(
-				"-fx-font-color: black; -fx-background-color: linear-gradient(to bottom, #FFB6C1, #DDA0DD); -fx-font-weight: bold;");
-
+		estTimeTillThresholdColumn.setMinWidth(236);
+		estTimeTillThresholdColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 		// Column 5
-		TableColumn<productInTable, String> estTimeTillEmptyColumn = new TableColumn<>("Out-of-stock in approximately");
+		TableColumn<productInTable, String> estTimeTillEmptyColumn = new TableColumn<>("Out-of-stock in approx.");
 		estTimeTillEmptyColumn.setCellValueFactory(cellData -> cellData.getValue().getpOutOfStock());
-		estTimeTillEmptyColumn.setMinWidth(240);
-		estTimeTillEmptyColumn.setStyle(
-				"-fx-font-color: black; -fx-background-color: linear-gradient(to bottom, #FFB6C1, #DDA0DD); -fx-font-weight: bold;");
-
+		estTimeTillEmptyColumn.setMinWidth(232);
+		estTimeTillEmptyColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 		// tableViewForProductStockInfo.getColumns().addAll(productNameColumn, InStock,
 		// estTimeTillThreshold, estTimeTillEmpty);
 		tableViewForProductStockInfo.setMaxHeight(159);
@@ -460,7 +460,7 @@ public class EktReportDisplayPageController {
 
 			for (ArrayList<Object> orders : (ArrayList<ArrayList<Object>>) ordersInCurrentMachine) {
 				amountOfItems += (Integer) orders.get(2);
-				profits += (int) orders.get(1);
+				profits += (double) orders.get(1);
 
 				// Get the 4th column's (typeID) of our SQL query
 				switch (((Integer) orders.get(3))) {

@@ -218,18 +218,18 @@ public class EktCartFormController {
 			/////////////////////// Dima 31/12 10:18
 			removeButton.setPrefSize(50, 50);
 			removeButton.setGraphic(removeItemIconImageView);
-			removeButton.setStyle("-fx-background-color: transparent; -fx-border-color:crimson; "
-					+ "-fx-border-width: 1px; -fx-border-radius: 100");
+			removeButton.setStyle("-fx-background-color: transparent; -fx-border-color: black; "
+					+ "-fx-border-width: 2px; -fx-border-radius: 100");
 			
 			addButton.setPrefSize(50, 50);
 			addButton.setGraphic(addOneToCartIconImageView);
-			addButton.setStyle("-fx-background-color: transparent; -fx-border-color:crimson; "
-					+ "-fx-border-width: 1px; -fx-border-radius: 100");
+			addButton.setStyle("-fx-background-color: transparent; -fx-border-color: green; "
+					+ "-fx-border-width: 2px; -fx-border-radius: 100");
 			
 			removeOneButton.setPrefSize(50, 50);
 			removeOneButton.setGraphic(removeOneFromCartIconImageView);
-			removeOneButton.setStyle("-fx-background-color: transparent; -fx-border-color:crimson; "
-					+ "-fx-border-width: 1px; -fx-border-radius: 100");
+			removeOneButton.setStyle("-fx-background-color: transparent; -fx-border-color: crimson; "
+					+ "-fx-border-width: 2px; -fx-border-radius: 100");
 			///////////////////////////////////////////////////////////////////////
 			
 			j++;
@@ -349,7 +349,7 @@ public class EktCartFormController {
 		
 		scrollPane.prefHeight(600);
 		scrollPane.prefWidth(800);
-		scrollPane.setStyle("-fx-background:  linear-gradient(from -120px -120px to 0px 1620px, pink, yellow); -fx-border-color: transparent;"
+		scrollPane.setStyle("-fx-background:   linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO); -fx-border-color: transparent;"
 				+ "-fx-background-color: transparent;");
 		
 		borderPane.setCenter(scrollPane);

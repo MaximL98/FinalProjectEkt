@@ -29,7 +29,7 @@ public class EktRegionalManagerHomePageController {
     private Button btnLowStockAlerts;
     
     @FXML
-    private Button btnMaybeNothing;
+    private Button btnCancelOrders;
     
 	@FXML
 	private Button btnAcceptCustomers;
@@ -95,8 +95,12 @@ public class EktRegionalManagerHomePageController {
 	}
 	
 	@FXML
-	public void getBtnMaybeNothing(ActionEvent event) {
-		
+	public void getBtnCancelOrders(ActionEvent event) {
+		Stage primaryStage = new Stage();
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktCancelOrdersPage.fxml", null, "Ekt Cancel Order");
+
+		primaryStage.show();
+		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
 	
 	private void setRegionalManagerLocation() {

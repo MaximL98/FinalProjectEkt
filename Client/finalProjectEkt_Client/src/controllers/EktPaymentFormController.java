@@ -3,6 +3,7 @@ package controllers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -261,13 +262,29 @@ public class EktPaymentFormController {
 		preparedMessage.setMessageSent(fillOrderContents); 
 		ClientUI.clientController.accept(preparedMessage);
 		ClientController.orderNumber++;
-		long counter = 0;
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		
+		for(Map.Entry<String, Integer> set : EktProductFormController.productsInStockMap.entrySet()) {
+			
+			SCCP updateStock = new SCCP();
+			updateStock.setRequestType(ServerClientRequestTypes.UPDATE);
+			updateStock.setMessageSent(new Object[] {
+					"products_in_machine", "stock = " + set.getValue(), " machineID = " +ClientController.OLCurrentMachineID 
+							+ " AND productID = " + set.getKey()});
+			
+			ClientUI.clientController.accept(updateStock);
+			System.out.println("For Product " + set.getKey() + "the Stock was updated!");
 		}
+		
+		
+		
+//		long counter = 0;
+//		try {
+//			Thread.sleep(2000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		EktProductFormController.itemsInCart = 0;
 		ClientController.currentUserCart.keySet().clear();

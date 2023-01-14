@@ -143,9 +143,9 @@ public class EktReportSelectFormController extends Application{
 		machinesList = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
 		
 		for (ArrayList<Object> machine : (ArrayList<ArrayList<Object>>)machinesList) {
-			comboOrders.add((String) machine.get(4) + "-" + (String) machine.get(2));
-			comboInventory.add((String) machine.get(4)+ "-" + (String) machine.get(2));
-			comboCustomers.add((String) machine.get(4) + "-" + (String) machine.get(2));
+			comboOrders.add((String) machine.get(5) + "-" + (String) machine.get(2));
+			comboInventory.add((String) machine.get(5)+ "-" + (String) machine.get(2));
+			comboCustomers.add((String) machine.get(5) + "-" + (String) machine.get(2));
 		}
 		
 		//Set combo boxes of 
@@ -196,9 +196,9 @@ public class EktReportSelectFormController extends Application{
 		machinesList = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
 		
 		for (ArrayList<Object> machine : (ArrayList<ArrayList<Object>>)machinesList) {
-			comboOrders.add((String) machine.get(4) + "-" + (String) machine.get(2));
-			comboInventory.add((String) machine.get(4)+ "-" + (String) machine.get(2));
-			comboCustomers.add((String) machine.get(4) + "-" + (String) machine.get(2));
+			comboOrders.add((String) machine.get(5) + "-" + (String) machine.get(2));
+			comboInventory.add((String) machine.get(5)+ "-" + (String) machine.get(2));
+			comboCustomers.add((String) machine.get(5) + "-" + (String) machine.get(2));
 		}
 		
 		//Set combo boxes of 

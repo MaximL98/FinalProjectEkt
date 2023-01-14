@@ -42,6 +42,8 @@ import javafx.stage.Stage;
 import logic.Role;
 
 public class EktReportDisplayPageController {
+	
+	private int machineID = 0; //Used for setting up the re-stock button, not used elsewhere
 
 	@FXML
 	private CategoryAxis xAxis;
@@ -259,36 +261,6 @@ public class EktReportDisplayPageController {
 	
 	@SuppressWarnings("unchecked")
 	private void createInventoryReport() {
-		// Create a button to request a restock only if the current user is a regional manager
-		if (ClientController.getCurrentSystemUser().getRole().equals(Role.REGIONAL_MANAGER)) {
-			requestRestockBtn = new Button("REQUEST RESTOCK");
-			requestRestockBtn.setMinWidth(100);
-			requestRestockBtn.setMinHeight(50);
-			requestRestockBtn.setStyle("-fx-background-color: purple; -fx-border-color: white; -fx-border-width: 3px;"
-					+ "-fx-border-radius: 3; -fx-background-radius: 10; -fx-font: Berlin Sans FB;"
-					+ "-fx-font-size: 20; -fx-text-fill: white;");
-			paneBottom.getChildren().add(requestRestockBtn);
-			requestRestockBtn.setLayoutX(580);
-			requestRestockBtn.setLayoutY(40);
-
-			// Create the alert which asks the manager if they want to create a restock
-			// request for this machine
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Request A Restock?");
-			alert.setHeaderText("Are you sure you would like to request a restock for the "
-					+ ClientController.getMachineID_TypeOfReport_Dates().get(2) + " machine?");
-			alert.setContentText("By clicking \"Confirm\" a request will be sent to the local operational worker.");
-
-			requestRestockBtn.setOnAction(action -> {
-				Optional<ButtonType> option = alert.showAndWait();
-				// If manager decided to create a restock order
-				if (option.get() == ButtonType.OK) {
-					// Implement send to daniel's code
-				} else {
-					return;
-				}
-			});
-		}
 
 		final ObservableList<productInTable> data = FXCollections.observableArrayList();
 
@@ -346,7 +318,7 @@ public class EktReportDisplayPageController {
 		SCCP fetchInventoryMessage = new SCCP();
 		fetchInventoryMessage.setRequestType(ServerClientRequestTypes.SELECT);
 		fetchInventoryMessage.setMessageSent(new Object[] { "products_in_machine", true,
-				"productName, stock, min_stock, max_stock, restock_flag, category", false, null, true,
+				"productName, stock, min_stock, max_stock, restock_flag, category, products_in_machine.machineID", false, null, true,
 				"LEFT JOIN ektdb.product on products_in_machine.productID = product.productID\r\n"
 						+ "LEFT JOIN ektdb.machine on machine.machineId = products_in_machine.machineID\r\n" + "WHERE "
 						+ nameOfMachine + " AND category IS NOT NULL;" });
@@ -364,6 +336,7 @@ public class EktReportDisplayPageController {
 			int max_stock = (int) productInMachine.get(3);
 			int restock_flag = (int) productInMachine.get(4);
 			String category = (String) productInMachine.get(5);
+			machineID = (int) productInMachine.get(6);
 
 			Integer tmpStock = new Integer(stock);
 			dataSeries1.getData().add(new XYChart.Data(productName + ": " + tmpStock, stock));
@@ -373,7 +346,7 @@ public class EktReportDisplayPageController {
 			String outOfStock = null;
 			// This handles the case where the threshold (A.K.A min_stock) has still not
 			// passed
-			if (restock_flag == 0) {
+			if (stock >= min_stock) {
 				threshold = Math.round(InventoryCalculations.valueOf(category).getValue() * 24) + " Hours";
 				outOfStock = Math.round(InventoryCalculations.valueOf(category).getValue() * 29) + " Hours";
 			} else {
@@ -395,6 +368,42 @@ public class EktReportDisplayPageController {
 		tableViewForProductStockInfo.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		tableViewForProductStockInfo.getColumns().addAll(productNameColumn, inStockColumn, minStockColumn,
 				estTimeTillThresholdColumn, estTimeTillEmptyColumn);
+		
+		// Create a button to request a restock only if the current user is a regional manager
+		if (ClientController.getCurrentSystemUser().getRole().equals(Role.REGIONAL_MANAGER)) {
+			requestRestockBtn = new Button("REQUEST RESTOCK");
+			requestRestockBtn.setMinWidth(100);
+			requestRestockBtn.setMinHeight(50);
+			requestRestockBtn.setStyle("-fx-background-color: purple; -fx-border-color: white; -fx-border-width: 3px;"
+					+ "-fx-border-radius: 3; -fx-background-radius: 10; -fx-font: Berlin Sans FB;"
+					+ "-fx-font-size: 20; -fx-text-fill: white;");
+			paneBottom.getChildren().add(requestRestockBtn);
+			requestRestockBtn.setLayoutX(580);
+			requestRestockBtn.setLayoutY(40);
+
+			// Create the alert which asks the manager if they want to create a restock
+			// request for this machine
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Request A Restock?");
+			alert.setHeaderText("Are you sure you would like to request a restock for the "
+					+ ClientController.getMachineID_TypeOfReport_Dates().get(2) + " machine?");
+			alert.setContentText("By clicking \"Confirm\" a request will be sent to the local operational worker.");
+
+			requestRestockBtn.setOnAction(action -> {
+				Optional<ButtonType> option = alert.showAndWait();
+				// If manager decided to create a restock order
+				if (option.get() == ButtonType.OK) {
+					SCCP raiseRestockFlagInDB = new SCCP();
+					raiseRestockFlagInDB.setRequestType(ServerClientRequestTypes.UPDATE);
+					raiseRestockFlagInDB.setMessageSent(new Object[] {"products_in_machine", "products_in_machine.restock_flag = 1",
+							"products_in_machine.machineID = "  + machineID + " AND products_in_machine.stock < products_in_machine.min_stock"});
+					ClientUI.clientController.accept(raiseRestockFlagInDB);
+				} else {
+					return;
+				}
+			});
+		}
+				
 		borderPane.setBottom(tableViewForProductStockInfo);
 		borderPane.setCenter(barChart);
 

@@ -176,7 +176,7 @@ public class EktRegionalManagerAcceptNewCustomerController {
 		
 		// Column 5
 		TableColumn<customerToAccept, Button> columnAccept = new TableColumn<>("Accept");
-		columnAccept.setPrefWidth(65);
+		columnAccept.setPrefWidth(64);
 		columnAccept.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 		columnAccept.setCellFactory(col -> {
 			Button accept = new Button("Accept");
@@ -201,27 +201,34 @@ public class EktRegionalManagerAcceptNewCustomerController {
 						// Accept customer
 						customerToAccept customer = cell.getTableView().getItems().get(cell.getIndex());
 						SimpleStringProperty userType = customer.getUserType();
+						tableUsers.getSelectionModel().clearSelection();
 						SimpleStringProperty id = customer.getId();
-
+						data.remove(cell.getIndex());
 						SCCP updateCustomerToNewCustomer = new SCCP();
 						updateCustomerToNewCustomer.setRequestType(ServerClientRequestTypes.UPDATE);
-						updateCustomerToNewCustomer.setMessageSent(
-								new Object[] { "system_user", "typeOfUser = \"" + userType + "\"", "id = " + id });
+						if (customer.getUserType().getValue().equals("unapproved_customer")) {
+							updateCustomerToNewCustomer.setMessageSent(
+									new Object[] { "systemuser", "typeOfUser = \"customer\"", "id = " + id.getValue() });
+						} else {
+							updateCustomerToNewCustomer.setMessageSent(
+									new Object[] { "systemuser", "typeOfUser = \"subscriber\"", "id = " + id.getValue() });
+						}
+						
+						ClientUI.clientController.accept(updateCustomerToNewCustomer);
 						// send the updateCustomerToNewCustomer to the server
-
 					} else {
 						return;
 					}
 				});
-				customerToAccept customer = cell.getTableView().getItems().get(cell.getIndex());
-				// call a function that updates the database, instead of data.remove(customer)
+//				customerToAccept customer = cell.getTableView().getItems().get(cell.getIndex());
+//				// call a function that updates the database, instead of data.remove(customer)
 			});
 			return cell;
 		});
 
 		// Column 6
 		TableColumn<customerToAccept, Button> columnDecline = new TableColumn<>("Decline");
-		columnDecline.setPrefWidth(65);
+		columnDecline.setPrefWidth(64);
 		columnDecline.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 		columnDecline.setCellFactory(col -> {
 			Button decline = new Button("Decline");
@@ -237,8 +244,28 @@ public class EktRegionalManagerAcceptNewCustomerController {
 				}
 			};
 			decline.setOnAction((event) -> {
-				customerToAccept customer = cell.getTableView().getItems().get(cell.getIndex());
-				// call a function that updates the database, instead of data.remove(customer)
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+				alert.setTitle("Decline Customer");
+				alert.setHeaderText("This action will delete this customer!");
+				alert.setContentText("Continue?");
+				alert.showAndWait().ifPresent(type -> {
+					if (type == ButtonType.OK) {
+						// Accept customer
+						customerToAccept customer = cell.getTableView().getItems().get(cell.getIndex());
+						SimpleStringProperty userType = customer.getUserType();
+						tableUsers.getSelectionModel().clearSelection();
+						SimpleStringProperty id = customer.getId();
+						data.remove(cell.getIndex());
+						SCCP updateCustomerToNewCustomer = new SCCP();
+						updateCustomerToNewCustomer.setRequestType(ServerClientRequestTypes.REMOVE);
+						updateCustomerToNewCustomer.setMessageSent(
+								new Object[] { "systemuser", "", "id = " + id.getValue() });
+						ClientUI.clientController.accept(updateCustomerToNewCustomer);
+						// send the updateCustomerToNewCustomer to the server
+					} else {
+						return;
+					}
+				});
 			});
 			return cell;
 		});

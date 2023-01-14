@@ -644,10 +644,10 @@ public class ServerMessageHandler {
 	public static final class HandleMessageDisplayPromotions implements IServerSideFunction {
 
 		ArrayList<String> promotionNames = new ArrayList<String>();
-
+		
 		@Override
 		public SCCP handleMessage(SCCP displayPromotionMessage) {
-
+			promotionNames = new ArrayList<String>();
 			try {
 				ResultSet resultSet = (ResultSet) DatabaseController.handleQuery(
 						DatabaseOperation.INSERT_PROMOTION_NAMES,

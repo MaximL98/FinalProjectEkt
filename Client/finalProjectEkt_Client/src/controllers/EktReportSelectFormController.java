@@ -61,25 +61,25 @@ public class EktReportSelectFormController extends Application{
     private Button buttonViewOrderReports;
 
     @FXML
-    private ComboBox<String> comboBoxCustomerReports;
+    public ComboBox<String> comboBoxCustomerReports;
 
     @FXML
-    private ComboBox<String> comboBoxInventoryReports;
+    public ComboBox<String> comboBoxInventoryReports;
 
     @FXML
-    private ComboBox<String> comboBoxMonthCustomerReports;
+    public ComboBox<String> comboBoxMonthCustomerReports;
 
     @FXML
-    private ComboBox<String> comboBoxMonthOrderReports;
+    public ComboBox<String> comboBoxMonthOrderReports;
 
     @FXML
-    private ComboBox<String> comboBoxOrderReports;
+    public ComboBox<String> comboBoxOrderReports;
 
     @FXML
-    private ComboBox<String> comboBoxYearCustomerReports;
+    public ComboBox<String> comboBoxYearCustomerReports;
 
     @FXML
-    private ComboBox<String> comboBoxYearOrderReports;
+    public ComboBox<String> comboBoxYearOrderReports;
 
     @FXML
     private Text customerErrorMessage;

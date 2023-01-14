@@ -5,30 +5,48 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="1092.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EditActivePromotionsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EditActivePromotionsController">
 	<children>
-		<Label text="Select a promotion to edit:" />
-		<ComboBox fx:id="cbPromotionNames" layoutX="2.0" layoutY="43.0" />
-		<Button fx:id="btnEditPromotion" layoutX="2.0" layoutY="78.0" onAction="#editPromotionHandler" text="load promotions" />
-		<VBox fx:id="vboxTest" layoutX="5.0" layoutY="111.0" prefHeight="200.0" prefWidth="271.0">
-         <children>
-      		<Button fx:id="btnGoBack" onAction="#goBackHandler" text="Go back" />
-         </children></VBox>
-		<TableView fx:id="promotionTable" layoutX="352.0" layoutY="56.0" prefHeight="371.0" prefWidth="602.0">
+		<Label layoutX="14.0" layoutY="155.0" text="Select a promotion to edit:">
+         <font>
+            <Font name="Berlin Sans FB" size="30.0" />
+         </font></Label>
+		<ComboBox fx:id="cbPromotionNames" layoutX="354.0" layoutY="163.0" prefHeight="25.0" prefWidth="154.0" promptText="Promotion Name" />
+		<Button fx:id="btnEditPromotion" layoutX="529.0" layoutY="159.0" onAction="#editPromotionHandler" prefHeight="25.0" prefWidth="154.0" text="load promotions" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
+		<TableView fx:id="promotionTable" layoutX="71.0" layoutY="206.0" prefHeight="470.0" prefWidth="959.0">
 			<columns>
 			<TableColumn fx:id="promotionIDColumn" prefWidth="98.0" text="promotion id" />
-				<TableColumn fx:id="promotionNameColumn" prefWidth="98.0" text="promotion Name" />
-				<TableColumn fx:id="promotionDescriptionColumn" prefWidth="124.66665649414062" text="promotion Description" />
-				<TableColumn fx:id="productIdColumn" prefWidth="139.33331298828125" text="product Id" />
+				<TableColumn fx:id="promotionNameColumn" prefWidth="114.0" text="promotion Name" />
+				<TableColumn fx:id="promotionDescriptionColumn" prefWidth="147.0" text="promotion Description" />
 				<TableColumn fx:id="locationColumn" prefWidth="118.00006103515625" text="location" />
-				<TableColumn fx:id="discountPercentageColumn" prefWidth="120.0" text="discount Percentage" />
-					<TableColumn fx:id="startDateColumn" prefWidth="120.0" text="start Date" />
+				<TableColumn fx:id="discountPercentageColumn" prefWidth="129.0" text="discount Percentage" />
+					<TableColumn fx:id="startDateColumn" prefWidth="111.0" text="start Date" />
 					<TableColumn fx:id="endDateColumn" prefWidth="120.0" text="end Date" />
 					<TableColumn fx:id="promotionStatusColumn" prefWidth="120.0" text="promotion Status" />
 			</columns>
 		</TableView>
+		<Button fx:id="btnGoBack" layoutX="14.0" layoutY="753.0" onAction="#goBackHandler" prefHeight="33.0" prefWidth="118.0" text="Back">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Label layoutX="372.0" layoutY="14.0" text="Active Promotions">
+         <font>
+            <Font name="Berlin Sans FB" size="36.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="122.0" fitWidth="154.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/Logo.png" />
+         </image>
+      </ImageView>
 	</children>
 </AnchorPane>

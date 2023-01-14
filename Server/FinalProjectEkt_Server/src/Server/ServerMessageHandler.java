@@ -961,6 +961,18 @@ public class ServerMessageHandler {
 		}
 	}
 	
+	private static final class HandleMessageRemove implements IServerSideFunction {
+
+		@Override
+		public SCCP handleMessage(SCCP message) {
+			boolean res = (boolean) DatabaseController.handleQuery(DatabaseOperation.REMOVE, (Object[]) message.getMessageSent());
+			if (res)
+				return new SCCP(ServerClientRequestTypes.ACK, "Success!");
+			return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "User not found in the database!");
+		}
+		
+	}
+	
 	private static HashMap<ServerClientRequestTypes, IServerSideFunction> map = 
 			new HashMap<ServerClientRequestTypes, IServerSideFunction>() {
 
@@ -987,7 +999,7 @@ public class ServerMessageHandler {
 		this.put(ServerClientRequestTypes.DISPLAY_SELECTED_PROMOTIONS, new HandleMessageDisplaySelectedPromotions());
 		this.put(ServerClientRequestTypes.UPDATE_ONLINE_ORDERS, new HandleMessageUpdateOnlineOrders());
 		this.put(ServerClientRequestTypes.ADD_PROMOTION, new HandleMessageAddPromotion());
-		
+		this.put(ServerClientRequestTypes.REMOVE, new HandleMessageRemove());		
 		this.put(ServerClientRequestTypes.UPDATE_PROMOTION_STATUS, new HandleMessageUpdateStatus());
 		this.put(ServerClientRequestTypes.DISPLAY_PROMOTIONS_TO_ACTIVE,
 				new HandleMessageDisplayPromotionsToActive());

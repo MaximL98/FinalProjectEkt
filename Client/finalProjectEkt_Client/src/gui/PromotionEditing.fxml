@@ -1,41 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.collections.FXCollections?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<Pane prefHeight="800.0" prefWidth="800.0"
-	xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="controllers.PromotionEditingController">
+<Pane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PromotionEditingController">
 	<children>
-		<VBox>
+      <Pane prefHeight="120.0" prefWidth="800.0">
+         <children>
+            <ImageView fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/TheBetterLogo.png" />
+               </image>
+            </ImageView>
+            <Text layoutX="178.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back &quot;Sales Manager&quot;">
+               <font>
+                  <Font name="Berlin Sans FB" size="36.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+		<VBox layoutX="38.0" layoutY="141.0" prefHeight="194.0" prefWidth="330.0">
 			<children>
-				<Label text="Create New Promotion" />
-				<TextField fx:id="txtPromotionName"
-					promptText="Promotion name" />
-				<TextField fx:id="txtPromotionDescription"
-					promptText="Promotion description" />
+				<Label text="Create New Promotion">
+               <font>
+                  <Font name="Berlin Sans FB" size="20.0" />
+               </font>
+            </Label>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PROMOTION NAME">
+               <font>
+                  <Font name="Berlin Sans FB" size="14.0" />
+               </font>
+            </Text>
+				<TextField fx:id="txtPromotionName" promptText="Promotion name" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PROMOTION DESCRIPTION">
+               <font>
+                  <Font name="Berlin Sans FB" size="14.0" />
+               </font>
+            </Text>
+				<TextField fx:id="txtPromotionDescription" promptText="Promotion description" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PRODUCT ID" />
 				<TextField fx:id="txtProductId" promptText="Product ID" />
-				<ComboBox fx:id="cbLocation" promptText="Location" />
-				<TextField fx:id="txtDiscountPercentage"
-					promptText="Discount percentage" />
-				<DatePicker fx:id="dpPromotionStartDate"
-					promptText="Promotion start date" />
-				<DatePicker fx:id="dpPromotionEndDate"
-					promptText="Promotion end date" />
-				<Button fx:id="btnCreatePromotion" text="Create promotion"
-					onAction="#createPromotionHandler" />
-				<Button fx:id="btnGoBack" text="Go back"
-					onAction="#goBackHandler" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+				<ComboBox fx:id="cbLocation" promptText="Location" stylesheets="@comboboxCSS.css" />
+				<TextField fx:id="txtDiscountPercentage" promptText="Discount percentage" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+				<DatePicker fx:id="dpPromotionStartDate" prefHeight="25.0" prefWidth="336.0" promptText="Promotion start date" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+				<DatePicker fx:id="dpPromotionEndDate" prefHeight="25.0" prefWidth="336.0" promptText="Promotion end date" />
+				<Button fx:id="btnCreatePromotion" onAction="#createPromotionHandler" text="Create promotion" />
+				<Button fx:id="btnGoBack" onAction="#goBackHandler" text="Go back" />
 
-			</children>
+      			</children>
 		</VBox>
 	</children>
 </Pane>

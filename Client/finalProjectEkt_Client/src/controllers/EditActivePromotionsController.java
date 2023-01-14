@@ -12,6 +12,8 @@ import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
+import controllers.EktRegionalManagerAcceptNewCustomerController.customerToAccept;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -26,6 +29,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import logic.Promotions;
 
@@ -42,8 +46,8 @@ public class EditActivePromotionsController implements Initializable {
 	private TableColumn<Promotions, String> promotionNameColumn;
 	@FXML
 	private TableColumn<Promotions, String> promotionDescriptionColumn;
-	@FXML
-	private TableColumn<Promotions, String> productIdColumn;
+	//@FXML
+	//private TableColumn<Promotions, String> productIdColumn;
 	@FXML
 	private TableColumn<Promotions, Integer> locationColumn;
 	@FXML
@@ -106,7 +110,7 @@ public class EditActivePromotionsController implements Initializable {
 	}
 
 	public void goBackHandler(ActionEvent event) {
-
+		cbPromotionNames.getItems().clear();
 		Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 		currentStage.close();
 
@@ -123,7 +127,7 @@ public class EditActivePromotionsController implements Initializable {
 		promotionDescriptionColumn
 				.setCellValueFactory(new PropertyValueFactory<Promotions, String>("promotionDescription"));
 		locationColumn.setCellValueFactory(new PropertyValueFactory<Promotions, Integer>("locationID"));
-		productIdColumn.setCellValueFactory(new PropertyValueFactory<Promotions, String>("productID"));
+		//productIdColumn.setCellValueFactory(new PropertyValueFactory<Promotions, String>("productID"));
 
 		//productIdColumn.setCellValueFactory(new PropertyValueFactory<Promotions, String>("productID"));
 		discountPercentageColumn
@@ -134,6 +138,50 @@ public class EditActivePromotionsController implements Initializable {
 		promotionTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			// Update the selectedOffer variable with the new selected Offer object
 			selectedPromotion = newValue;
+		});
+		
+		TableColumn<customerToAccept, Button> columnAccept = new TableColumn<>("Activate");
+		columnAccept.setPrefWidth(65);
+		columnAccept.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+		columnAccept.setCellFactory(col -> {
+			Button accept = new Button("Activate");
+			TableCell<customerToAccept, Button> cell = new TableCell<customerToAccept, Button>() {
+				@Override
+				public void updateItem(Button item, boolean empty) {
+					super.updateItem(item, empty);
+					if (empty) {
+						setGraphic(null);
+					} else {
+						setGraphic(accept);
+					}
+				}
+			};
+			accept.setOnAction((event) -> {
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+				alert.setTitle("Activate Promotion");
+				alert.setHeaderText("This action will Activate A New Promotion!");
+				alert.setContentText("Continue?");
+				alert.showAndWait().ifPresent(type -> {
+					if (type == ButtonType.OK) {
+						// Accept customer
+						customerToAccept customer = cell.getTableView().getItems().get(cell.getIndex());
+						SimpleStringProperty userType = customer.getUserType();
+						SimpleStringProperty id = customer.getId();
+
+						SCCP updateCustomerToNewCustomer = new SCCP();
+						updateCustomerToNewCustomer.setRequestType(ServerClientRequestTypes.UPDATE);
+						updateCustomerToNewCustomer.setMessageSent(
+								new Object[] { "system_user", "typeOfUser = \"" + userType + "\"", "id = " + id });
+						// send the updateCustomerToNewCustomer to the server
+
+					} else {
+						return;
+					}
+				});
+				customerToAccept customer = cell.getTableView().getItems().get(cell.getIndex());
+				// call a function that updates the database, instead of data.remove(customer)
+			});
+			return cell;
 		});
 
 		// Connect to the database and retrieve the promotion names

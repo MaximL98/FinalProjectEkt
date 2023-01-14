@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 // Rotem-specific imports
 import java.util.concurrent.Executors;
@@ -20,12 +21,16 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+import logic.Role;
 import logic.SystemUser;
 import javafx.scene.control.Label;
 
 public class EktSystemUserLoginController {
+	
+	private ClientController clientController;
 
+	public SystemUser currentUser = null;
+	
     @FXML
     private Button btnLogin;
 
@@ -45,7 +50,7 @@ public class EktSystemUserLoginController {
 	 */
 	@FXML
 	public void onEnter(ActionEvent ae){
-	   getBtnLogin(ae);
+	   //getBtnLogin(ae);
 	}
 	
 	/*
@@ -53,7 +58,6 @@ public class EktSystemUserLoginController {
 	 */
 	@FXML
 	private void initialize() {
-		
 		
 		// attempt to have the label re-written every few seconds. (failure)
 		/*
@@ -87,8 +91,9 @@ public class EktSystemUserLoginController {
 	 * 
 	 * 
 	 */
-    @FXML
-    void getBtnLogin(ActionEvent event) {
+	
+	@FXML
+    public Role getBtnLogin(ActionEvent event) {
 		// Rotem 1.12.23
 		// hide the status label until we finish login attempt
 		statusLabel.setVisible(false);
@@ -118,9 +123,9 @@ public class EktSystemUserLoginController {
 		System.out.println("TEST?"+responseType);
 		if(responseType.equals(ServerClientRequestTypes.LOGIN)) {
 			// add test that response.messageSent is the array we had in fill[2] (SAME OBJECT)
-			SystemUser connectedUser =  (SystemUser)ClientController.responseFromServer.getMessageSent();
-			ClientController.setCurrentSystemUser(connectedUser);
-			statusLabel.setText("Successfully connected as: " + connectedUser.getUsername() +".");
+			currentUser =  (SystemUser)ClientController.responseFromServer.getMessageSent();
+			ClientController.setCurrentSystemUser(currentUser);
+			statusLabel.setText("Successfully connected as: " + currentUser.getUsername() +".");
 			statusLabel.setVisible(true);
 			System.out.println("SLEEPING FOR A SECOND TO SHOW LABEL!");
 			
@@ -131,7 +136,7 @@ public class EktSystemUserLoginController {
 				e.printStackTrace();
 			}
 			// NOW it's dynamic
-			ClientController.setCurrentUserRole(connectedUser.getRole());
+			ClientController.setCurrentUserRole(currentUser.getRole());
 			// TODO: create another map from Role to window-for-role ?
 			
 			// sammy D the current window
@@ -140,7 +145,7 @@ public class EktSystemUserLoginController {
 			Stage primaryStage = new Stage();
 
 			// switch based on the current user's role
-			switch(connectedUser.getRole()) {
+			switch(currentUser.getRole()) {
 			case SUBSCRIBER:
 				// set subscriber boolean value (true)
 				ClientController.setCustomerIsSubsriber(true);
@@ -167,9 +172,6 @@ public class EktSystemUserLoginController {
 			case SERVICE_REPRESENTATIVE:
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepresentativeHomePage.fxml", null, "Service Rep Home Page");
 				break;
-			case CEO:
-				WindowStarter.createWindow(primaryStage, this, "/gui/EktCeoHomePage.fxml", null, "CEO Home Page");
-				break;
 				
 			case DIVISION_MANAGER:
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktDivisionManagerHomePage.fxml", null, "Female Division Manager Home Page");
@@ -193,7 +195,7 @@ public class EktSystemUserLoginController {
 				WindowStarter.createWindow(primaryStage, this, "/gui/InventoryRestockWorkerPage.fxml", null, "Ekt Inventory Worker");
 				break;
 			default:
-				throw new UnsupportedOperationException("No valid landing page for system user with role=" + connectedUser.getRole());
+				throw new UnsupportedOperationException("No valid landing page for system user with role=" + currentUser.getRole());
 			}
 			
 			// le-factored
@@ -216,8 +218,10 @@ public class EktSystemUserLoginController {
 			statusLabel.setText("ERROR (unspecified login error)!"); // add specifics
 			//statusLabel.setVisible(true);
 			}
-		}    
-		
+		}
+		if (currentUser != null)
+			return currentUser.getRole();
+		return null;
     }
 
 	private void setRegionalManagerLocation() {

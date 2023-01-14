@@ -22,6 +22,7 @@
                   <Font name="Berlin Sans FB" size="30.0" />
                </font>
             </Text>
+            <Button fx:id="btnLowStockAlerts" layoutX="696.0" layoutY="51.0" mnemonicParsing="false" onAction="#getBtnStockAlerts" stylesheets="@buttonCSS.css" text="alerts" textFill="WHITE" />
          </children>
       </Pane>
       <Button fx:id="btnLogout" layoutX="14.0" layoutY="744.0" mnemonicParsing="false" onAction="#getLogoutBtn" style="-fx-border-color: white; -fx-background-color: purple; -fx-background-radius: 10; -fx-border-radius: 3; -fx-border-width: 3px;" text="Logout" textFill="WHITE">
@@ -77,6 +78,7 @@
                   <Font name="Berlin Sans FB" size="20.0" />
                </font>
             </Text>
+            <Button fx:id="btnMaybeNothing" layoutX="124.0" layoutY="160.0" mnemonicParsing="false" onAction="#getBtnMaybeNothing" text="maybe nothing" />
          </children>
       </Pane>
    </children>

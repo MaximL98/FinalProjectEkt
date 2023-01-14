@@ -115,7 +115,7 @@ public class DatabaseOperationsMap {
 	}
 
 	/*
-	 * Generic delete query: "Delete from tablename where condition;"
+	 * Generic delete query: "DELETE FROM tablename WHERE condition;"
 	 */
 	protected static final class DatabaseActionDelete implements IDatabaseAction {
 

@@ -963,10 +963,10 @@ public class ServerMessageHandler {
 
 		@Override
 		public SCCP handleMessage(SCCP message) {
-			boolean res = (boolean) DatabaseController.handleQuery(DatabaseOperation.REMOVE, (Object[]) message.getMessageSent());
+			boolean res = (boolean) DatabaseController.handleQuery(DatabaseOperation.DELETE, (Object[]) message.getMessageSent());
 			if (res)
 				return new SCCP(ServerClientRequestTypes.ACK, "Success!");
-			return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "User not found in the database!");
+			return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "Row found in the database!");
 		}
 		
 	}

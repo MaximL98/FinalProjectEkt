@@ -10,14 +10,14 @@
    <children>
       <Pane prefHeight="800.0" prefWidth="800.0">
          <children>
-            <Text layoutX="227.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Service Representative Page">
+            <Text layoutX="41.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Service Representative Page">
                <font>
                   <Font size="28.0" />
                </font></Text>
             <Button fx:id="btnLogout" layoutX="14.0" layoutY="761.0" mnemonicParsing="false" onAction="#getBackLogout" text="Logout" />
-            <Button fx:id="btnRegisterCustomer" layoutX="104.0" layoutY="150.0" mnemonicParsing="false" onAction="#getRegisterCustomer" prefHeight="37.0" prefWidth="147.0" text="Register a customer" />
-            <Button fx:id="btnMisc" layoutX="104.0" layoutY="217.0" mnemonicParsing="false" onAction="#getBtnMisc" prefHeight="37.0" prefWidth="147.0" text="Slave labor stuff" />
-            <Text fx:id="txtGreeting" layoutX="345.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back, " wrappingWidth="440.7890625">
+            <Button fx:id="btnRegisterCustomer" layoutX="123.0" layoutY="217.0" mnemonicParsing="false" onAction="#getRegisterCustomer" prefHeight="77.0" prefWidth="571.0" text="Register a customer" />
+            <Button fx:id="btnMisc" layoutX="123.0" layoutY="326.0" mnemonicParsing="false" onAction="#getBtnMisc" prefHeight="77.0" prefWidth="571.0" text="Register a subscriber" />
+            <Text fx:id="txtGreeting" layoutX="240.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back, " wrappingWidth="440.7890625">
                <font>
                   <Font size="28.0" />
                </font>

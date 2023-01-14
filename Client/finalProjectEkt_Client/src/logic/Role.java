@@ -14,7 +14,9 @@ public enum Role {
 	// ?
 	LOGISTICS_EMPLOYEE, SUBSCRIBER,
 	UNAPPROVED_CUSTOMER, // added Rotem 1.12
-	DELIVERY_WORKER, // added Rotem 1.13 ( sad smiley?)
+	DELIVERY_WORKER, // Rotem also added 1.13
+	INVENTORY_WORKER, UNAPPROVED_SUBSCRIBER, // added Rotem 1.13 ( sad smiley?)
+	
 	; 
 	
 	// get role object from string

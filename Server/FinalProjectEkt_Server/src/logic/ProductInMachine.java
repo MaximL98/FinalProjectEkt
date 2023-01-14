@@ -1,6 +1,7 @@
 package logic;
 
 import java.io.Serializable;
+import java.util.jar.Attributes.Name;
 
 //Class that represents a product in a machine, that includes that product and it's stock in the machine.
 public class ProductInMachine implements Serializable {
@@ -88,5 +89,12 @@ public class ProductInMachine implements Serializable {
 		this.restockFlag = restockFlag;
 	}
 
+	/**
+	 * ToString
+	 */
+	@Override
+	public String toString() {
+		return product + ", " + machine + ", stock=" + stock + ", mistock=" + minStock + ", maxstock=" + maxStock +", restock flag=" + restockFlag;  
+	}
 	
 }

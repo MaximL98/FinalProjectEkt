@@ -62,7 +62,14 @@ public class EktServiceRepresentativeHomePageController {
 	}
 
 	@FXML public void getBtnMisc(ActionEvent event) {
-		System.out.println("Arbeit macht frei, so step to.");
+		// load home area for service rep
+		// sammy D the current window
+		((Node)event.getSource()).getScene().getWindow().hide();
+		// prepare the new stage:
+		Stage primaryStage = new Stage();
+
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepAddSubscriberForm.fxml", null, "Subscriber Registration Page");
+		primaryStage.show();
 	}
 
 }

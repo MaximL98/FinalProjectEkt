@@ -50,7 +50,7 @@ public class EktSystemUserLoginController {
 	 */
 	@FXML
 	public void onEnter(ActionEvent ae){
-	   //getBtnLogin(ae);
+	   getBtnLogin(ae);
 	}
 	
 	/*
@@ -58,7 +58,7 @@ public class EktSystemUserLoginController {
 	 */
 	@FXML
 	private void initialize() {
-		
+		ClientController.resetVars();
 		// attempt to have the label re-written every few seconds. (failure)
 		/*
 	    ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
@@ -162,7 +162,6 @@ public class EktSystemUserLoginController {
 				// TODO: same as customer
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page");
 				// Rotem 1.13 -> refactored to a method to make this switch easier to analyze
-				setRegionalManagerLocation();
 				break;
 				
 			case LOGISTICS_MANAGER:
@@ -191,7 +190,9 @@ public class EktSystemUserLoginController {
 			case DELIVERY_WORKER:
 				WindowStarter.createWindow(primaryStage, this, "/gui/DeliveryManagerPage.fxml", null, "Ekt Delivery Department Worker");
 				break;
-				
+			case INVENTORY_WORKER:
+				WindowStarter.createWindow(primaryStage, this, "/gui/InventoryRestockWorkerPage.fxml", null, "Ekt Inventory Worker");
+				break;
 			default:
 				throw new UnsupportedOperationException("No valid landing page for system user with role=" + currentUser.getRole());
 			}
@@ -221,24 +222,6 @@ public class EktSystemUserLoginController {
 			return currentUser.getRole();
 		return null;
     }
-
-	private void setRegionalManagerLocation() {
-		int currentManagerID = ClientController.getCurrentSystemUser().getId();
-		SCCP getCurrentManagerLocationNameRequestMessage = new SCCP();
-		getCurrentManagerLocationNameRequestMessage.setRequestType(ServerClientRequestTypes.SELECT);
-		getCurrentManagerLocationNameRequestMessage.setMessageSent(new Object[] { "manager_location LEFT JOIN ektdb.locations on locations.locationID = manager_location.locationId", true, "locationName", true, 
-				"idRegionalManager = " + currentManagerID, false, 
-						null
-		});
-		System.out.println(currentManagerID);
-		
-		ClientUI.clientController.accept(getCurrentManagerLocationNameRequestMessage);
-		
-		ArrayList<?> currentManagerLocationName = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
-		String locationName = ((ArrayList<Object>)currentManagerLocationName.get(0)).get(0).toString();
-		System.out.println(locationName);
-		ClientController.setCurrentUserRegion(locationName);
-	}
 }
 
 // dead code:

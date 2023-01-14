@@ -143,9 +143,9 @@ public class EktReportSelectFormController extends Application{
 		machinesList = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
 		
 		for (ArrayList<Object> machine : (ArrayList<ArrayList<Object>>)machinesList) {
-			comboOrders.add((String) machine.get(4) + "-" + (String) machine.get(2));
-			comboInventory.add((String) machine.get(4)+ "-" + (String) machine.get(2));
-			comboCustomers.add((String) machine.get(4) + "-" + (String) machine.get(2));
+			comboOrders.add((String) machine.get(5) + "-" + (String) machine.get(2));
+			comboInventory.add((String) machine.get(5)+ "-" + (String) machine.get(2));
+			comboCustomers.add((String) machine.get(5) + "-" + (String) machine.get(2));
 		}
 		
 		//Set combo boxes of 
@@ -196,9 +196,9 @@ public class EktReportSelectFormController extends Application{
 		machinesList = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
 		
 		for (ArrayList<Object> machine : (ArrayList<ArrayList<Object>>)machinesList) {
-			comboOrders.add((String) machine.get(4) + "-" + (String) machine.get(2));
-			comboInventory.add((String) machine.get(4)+ "-" + (String) machine.get(2));
-			comboCustomers.add((String) machine.get(4) + "-" + (String) machine.get(2));
+			comboOrders.add((String) machine.get(5) + "-" + (String) machine.get(2));
+			comboInventory.add((String) machine.get(5)+ "-" + (String) machine.get(2));
+			comboCustomers.add((String) machine.get(5) + "-" + (String) machine.get(2));
 		}
 		
 		//Set combo boxes of 
@@ -256,10 +256,6 @@ public class EktReportSelectFormController extends Application{
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
 				"/gui/EktReportDisplayPage.fxml", null, "Ekt Report Display Form");
-		primaryStage.setOnCloseRequest(we -> {
-			System.out.println("Pressed the X button.");
-			System.exit(0);
-		});
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 		
@@ -286,10 +282,6 @@ public class EktReportSelectFormController extends Application{
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
 				"/gui/EktReportDisplayPage.fxml", null, "Ekt Report Display Form");
-		primaryStage.setOnCloseRequest(we -> {
-			System.out.println("Pressed the X button.");
-			System.exit(0);
-		});
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 		
@@ -310,16 +302,12 @@ public class EktReportSelectFormController extends Application{
 	 */
 	public void getBtnLogout(ActionEvent event) throws Exception {
 		Stage primaryStage = new Stage();
-		if (ClientUI.clientController.getCurrentSystemUser().getRole().equals(Role.REGIONAL_MANAGER)) {
+		if (ClientController.getCurrentSystemUser().getRole().equals(Role.REGIONAL_MANAGER)) {
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page");
 		} else {
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktDivisionManagerHomePage.fxml", null, "Regional Manager Home Page");
 
 		}
-		primaryStage.setOnCloseRequest(we -> {
-			System.out.println("Pressed the X button."); 
-			System.exit(0);
-		});
 		primaryStage.show();  
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 		

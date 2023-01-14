@@ -34,10 +34,10 @@
             <Button fx:id="btnCancel" layoutX="673.0" layoutY="45.0" mnemonicParsing="false" onAction="#getBtnCancel" prefHeight="34.0" prefWidth="102.0" text="Cancel" />
             <TableView fx:id="tblProducts" layoutX="54.0" layoutY="123.0" prefHeight="210.0" prefWidth="693.0">
               <columns>
-                <TableColumn fx:id="colProdID" prefWidth="166.0" text="Product ID" />
                 <TableColumn fx:id="colProdName" prefWidth="168.0" text="Product Name" />
                   <TableColumn fx:id="colCurrentStock" prefWidth="172.0" text="Current stock" />
-                  <TableColumn fx:id="colMaxStock" onEditCommit="#onEditChanged" prefWidth="186.0" text="New stock" />
+                  <TableColumn fx:id="colNewStock" prefWidth="192.0" text="New stock" />
+                  <TableColumn fx:id="colMaxStock" prefWidth="158.0" text="Max stock" />
               </columns>
             </TableView>
          </children>

@@ -531,15 +531,11 @@ public class DatabaseOperationsMap {
 				Machine machine = (Machine) params[0];
 				StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM ");
 				sqlBuilder.append(PRODUCTS_IN_MACHINE_TABLE);
-				sqlBuilder.append(" LEFT JOIN ");
+				sqlBuilder.append(" JOIN ");
 				sqlBuilder.append(PRODUCTS_TABLE);
-				sqlBuilder.append(" ON ");
-				sqlBuilder.append(PRODUCTS_TABLE);
-				sqlBuilder.append(".productID = ");
-				sqlBuilder.append(PRODUCTS_IN_MACHINE_TABLE);
-				sqlBuilder.append(".productID");
-				sqlBuilder.append(" WHERE machineID = ");
+				sqlBuilder.append(" USING(productID) WHERE machineID = ");
 				sqlBuilder.append(machine.getMachineId());
+				sqlBuilder.append(" AND restock_flag = 1");
 				sqlBuilder.append(";");
 
 				ResultSet fetchProductsInMachineResultSet = DatabaseSimpleOperation
@@ -550,8 +546,11 @@ public class DatabaseOperationsMap {
 						String productName = fetchProductsInMachineResultSet.getString("productName");
 						String costPerUnit = fetchProductsInMachineResultSet.getString("costPerUnit");
 						int stock = fetchProductsInMachineResultSet.getInt("stock");
+						int minStock = fetchProductsInMachineResultSet.getInt("min_stock");
+						int maxStock = fetchProductsInMachineResultSet.getInt("max_stock");
 						products.add(new ProductInMachine(new Product(productID, productName, costPerUnit, "", ""), machine,
-								stock, stock, stock, false));
+								stock, minStock, maxStock, false));
+						//System.out.println("product in machine added:"+products.get(products.size() - 1));
 					}
 				} catch (SQLException sqle) {
 					sqle.printStackTrace();
@@ -578,6 +577,8 @@ public class DatabaseOperationsMap {
 					sqlBuilder.append(PRODUCTS_IN_MACHINE_TABLE);
 					sqlBuilder.append(" SET stock = ");
 					sqlBuilder.append(product.getStock());
+					sqlBuilder.append(", restock_flag = ");
+					sqlBuilder.append(product.isRestockFlag() ? 1 : 0);
 					sqlBuilder.append(" WHERE machineID = ");
 					sqlBuilder.append(product.getMachine().getMachineId());
 					sqlBuilder.append(" and productID = \"");

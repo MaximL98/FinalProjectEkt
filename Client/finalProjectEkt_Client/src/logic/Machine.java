@@ -35,6 +35,7 @@ public class Machine implements Serializable {
 		this.location = location;
 		this.threshold = threshold;
 	}
+	
 
 	/**
 	 * getting list of products that the machine contain
@@ -151,6 +152,16 @@ public class Machine implements Serializable {
 	 */
 	public void setMachineName(String machineName) {
 		this.machineName = machineName;
+	}
+
+
+	public int getThreshold() {
+		return threshold;
+	}
+
+
+	public void setThreshold(int threshold) {
+		this.threshold = threshold;
 	}
 
 }

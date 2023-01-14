@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1000px, #8ffe09,purple);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktRegionalManagerHomePageController">
+<AnchorPane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktRegionalManagerHomePageController">
    <children>
       <Pane prefHeight="155.0" prefWidth="805.0">
          <children>
@@ -29,7 +29,7 @@
          <font>
             <Font name="Berlin Sans FB" size="20.0" />
          </font></Button>
-      <Pane layoutX="75.0" layoutY="155.0" prefHeight="250.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1500px, pink, purple); -fx-border-color: indigo; -fx-border-width: 5; -fx-background-radius: 20; -fx-border-radius: 10;">
+      <Pane layoutX="75.0" layoutY="155.0" prefHeight="250.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO); -fx-border-color: indigo; -fx-border-width: 5; -fx-background-radius: 20; -fx-border-radius: 10;">
          <children>
             <Button fx:id="btnReviewReports" layoutX="50.0" layoutY="90.0" mnemonicParsing="false" onAction="#getBtnReviewReports" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: purple; -fx-border-color: white; -fx-border-width: 3px; -fx-background-radius: 10; -fx-border-radius: 3;" text="VIEW REPORTS" textFill="WHITE">
                <font>
@@ -43,7 +43,7 @@
             </Text>
          </children>
       </Pane>
-      <Pane layoutX="450.0" layoutY="155.0" prefHeight="250.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1500px, pink, yellow); -fx-border-color: indigo; -fx-border-width: 5; -fx-background-radius: 20; -fx-border-radius: 10;">
+      <Pane layoutX="450.0" layoutY="155.0" prefHeight="250.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO); -fx-border-color: indigo; -fx-border-width: 5; -fx-background-radius: 20; -fx-border-radius: 10;">
          <children>
             <Text layoutX="16.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ACCEPT CUSTOMER REQUESTS">
                <font>
@@ -57,7 +57,7 @@
             </Button>
          </children>
       </Pane>
-      <Pane layoutX="75.0" layoutY="475.0" prefHeight="250.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1500px, pink, yellow); -fx-border-color: indigo; -fx-border-width: 5; -fx-background-radius: 20; -fx-border-radius: 10;">
+      <Pane layoutX="75.0" layoutY="475.0" prefHeight="250.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO); -fx-border-color: indigo; -fx-border-width: 5; -fx-background-radius: 20; -fx-border-radius: 10;">
          <children>
             <Text layoutX="8.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MACHINE RESTOCK THRESHOLD">
                <font>
@@ -71,7 +71,7 @@
             </Button>
          </children>
       </Pane>
-      <Pane layoutX="450.0" layoutY="475.0" prefHeight="250.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1500px, pink, yellow); -fx-border-color: indigo; -fx-border-width: 5; -fx-background-radius: 20; -fx-border-radius: 10;">
+      <Pane layoutX="450.0" layoutY="475.0" prefHeight="250.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO); -fx-border-color: indigo; -fx-border-width: 5; -fx-background-radius: 20; -fx-border-radius: 10;">
          <children>
             <Text layoutX="46.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MAYBE NOTHING HERE">
                <font>

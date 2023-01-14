@@ -61,14 +61,14 @@ public class EktServiceRepresentativeHomePageController {
 		
 	}
 
+
 	@FXML public void getBtnRegisterSubscriber(ActionEvent event) {
-		System.out.println("Arbeit macht frei, so step to.");
-		
 		((Node)event.getSource()).getScene().getWindow().hide();
 		// prepare the new stage:
 		Stage primaryStage = new Stage();
 
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepAddSubscriberForm.fxml", null, "Customer Registration Page");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepAddSubscriberForm.fxml", null, "Subscriber Registration Page");
+
 		primaryStage.show();
 	}
 

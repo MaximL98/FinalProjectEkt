@@ -146,7 +146,8 @@ public class InventoryRestockWorkerPageController {
 	void getBtnBack(ActionEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktLogisticsManagerHomePage.fxml", null,
+				"Logistics Manager Home Page");
 		// this was done so that we can use this button
 		primaryStage.setOnCloseRequest(we -> {
 			System.out.println("Pressed the X button.");
@@ -169,12 +170,19 @@ public class InventoryRestockWorkerPageController {
 				if (stockToAdd > 0) {
 					item.setItemStock(item.getItemStock() + stockToAdd);
 					item.setStockToAdd(0);
+					ProductInMachine product = item.getItem();
+					item.getItem().setRestockFlag(product.getStock() < product.getMinStock());
 					productsToUpdate.add(item.getItem());
 				}
 			}
 		});
 		if (productsToUpdate.size() > 0) {
 			updateProductsInMachine(productsToUpdate.toArray());
+			// clear the hash map and reset the combo selection and table so we get the up
+			// to date data from database
+			machineDataMap.clear();
+			cmbChooseMachine.setValue(null);
+			tblInventory.setItems(null);
 			tblInventory.refresh();
 		}
 	}
@@ -182,6 +190,8 @@ public class InventoryRestockWorkerPageController {
 	@FXML
 	void getComboMachine(ActionEvent event) {
 		Machine selectedMachine = cmbChooseMachine.getValue();
+		if (selectedMachine == null)
+			return;
 		ArrayList<InventoryTableData> inventoryList = machineDataMap.get(selectedMachine);
 		// no products list saved for this machine
 		if (inventoryList == null) {
@@ -201,7 +211,7 @@ public class InventoryRestockWorkerPageController {
 	@FXML
 	void initialize() {
 		ObservableList<Machine> machines = FXCollections
-				.observableArrayList(getMachines(new Location[] {}));
+				.observableArrayList(getMachines(new Location[] { getManagerLocation() }));
 		if (machines == null)
 			return;
 		cmbChooseMachine.setItems(machines);
@@ -317,6 +327,24 @@ public class InventoryRestockWorkerPageController {
 			successMessage.show();
 		}
 		return true;
+	}
+
+	private Location getManagerLocation() {
+		int currentManagerID = ClientController.getCurrentSystemUser().getId();
+		SCCP getCurrentManagerLocationNameRequestMessage = new SCCP();
+		getCurrentManagerLocationNameRequestMessage.setRequestType(ServerClientRequestTypes.SELECT);
+		getCurrentManagerLocationNameRequestMessage.setMessageSent(new Object[] { "manager_location", true,
+				"locationId", true, "idRegionalManager = " + currentManagerID, false, null });
+		System.out.println(currentManagerID);
+
+		ClientUI.clientController.accept(getCurrentManagerLocationNameRequestMessage);
+
+		ArrayList<?> currentManagerLocationName = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
+		Location location = Location.fromLocationId(
+				Integer.parseInt(((ArrayList<Object>) currentManagerLocationName.get(0)).get(0).toString()));
+		System.out.println(location);
+		ClientController.setCurrentUserRegion(location.toString());
+		return location;
 	}
 
 	/*

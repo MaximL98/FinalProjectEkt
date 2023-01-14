@@ -195,7 +195,7 @@ public class _EKConfigurationPartialRestockController {
     }
     
     private void setUpStuff() {
-		Machine selectedMachine = new Machine(ClientController._EkCurrentMachineID, ClientController._EkCurrentMachineName, null);
+		Machine selectedMachine = new Machine(ClientController._EkCurrentMachineID, ClientController._EkCurrentMachineName, null, 0);
 		ArrayList<InventoryTableData> inventoryList = machineDataMap.get(selectedMachine);
 		// no products list saved for this machine
 		if (inventoryList == null) {

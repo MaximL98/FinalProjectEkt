@@ -45,6 +45,11 @@ public class _EKConfigurationLogisticsEmployeeController {
 
     @FXML
     void getBtnRestockAll(ActionEvent event) {
+    	// request initial query:
+    	// SELECT * FROM ektdb.products_in_machine WHERE machineID=9 AND stock!=max_stock;
+    	// if no products are lacking, inform!
+    	
+    	
     	// set all products in current machine to their max stock (This worker came with a SEMI!)
     	ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.UPDATE, new Object[]
     			{"products_in_machine", "stock = max_stock, restock_flag=0", "machineID="+ClientController._EkCurrentMachineID}));

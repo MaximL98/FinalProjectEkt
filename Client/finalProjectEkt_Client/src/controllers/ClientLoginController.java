@@ -33,6 +33,9 @@ import javafx.scene.control.ComboBox;
  */
 
 public class ClientLoginController {
+	// Rotem - moved this in 1.13 outside
+	private List<String> machines=null;
+
 	@FXML
 	private TextField txtIP;
 	@FXML 
@@ -58,7 +61,16 @@ public class ClientLoginController {
 			primaryStage.show();	 	
 		}
 	
-	
+		/**
+		 * This event grabs the enter key when we are on the password field.
+		 * @param ae
+		 */
+		@FXML
+		public void onEnter(ActionEvent ae){
+			
+			getConnectToServer(ae);
+		}
+		
 	
 	public void getConnectToServer(ActionEvent event) {
 		hiddenLabel.setVisible(false);
@@ -83,7 +95,6 @@ public class ClientLoginController {
 				cmbMachines.setVisible(true);
 				btnFinish.setVisible(true);
 				// get all machines:
-				List<String> machines;
 				try {
 					machines = getExistingMachinesFromServer();
 					// insert them to the box:
@@ -169,10 +180,16 @@ public class ClientLoginController {
 
 	@FXML public void chooseMachine(ActionEvent event) {
 		System.out.println("Chose machine " + cmbMachines.getValue());
+		
 		ClientController._EkCurrentMachineName = cmbMachines.getValue();
 	}
 
 	@FXML public void getFinishEkConfig(ActionEvent event) {
+		// check that the chosen machine is valid:
+		if(ClientController._EkCurrentMachineName == null || !machines.contains(ClientController._EkCurrentMachineName)) {
+			System.out.println("Invalid machine choice - please select an existing machine!");
+			return;
+		}
 		// send query to get the machine ID (yeah yeah):
 		SCCP msg = new SCCP(ServerClientRequestTypes.SELECT, 
 				new Object[]{"machine", true, "machineId", true, "machineName = '" +ClientController._EkCurrentMachineName+ "'", false, null});

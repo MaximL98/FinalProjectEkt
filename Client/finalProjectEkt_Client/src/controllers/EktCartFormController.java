@@ -24,6 +24,7 @@ import javafx.scene.control.Label;
 
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
@@ -34,10 +35,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logic.Product;
+import logic.superProduct;
 
 public class EktCartFormController {
 	
@@ -66,6 +69,10 @@ public class EktCartFormController {
 	
 	private Double totalPrice = 0.0;
 	
+	private String deliveryAddress = "";
+	
+	private TextField tf = new TextField();
+	
 	private void calculatePriceToAdd(Double costPerUnit, Integer quantityNum, Product product) {
 		
 		quantityNum = ClientController.currentUserCart.get(product.getProductID());
@@ -91,6 +98,7 @@ public class EktCartFormController {
 	public void initialize() {
 		ClientController.orderType = "";
 		ClientController.pickupPlace = "";
+		
 		vboxCart = new VBox();
 		gridpaneIntoVbox  = new GridPane();
 		
@@ -111,13 +119,15 @@ public class EktCartFormController {
 		gridpaneIntoVbox.setHgap(5);;
 		gridpaneIntoVbox.setVgap(5);;
 		
-		choiceBox.getItems().addAll("Pickup","Delivery","Local");
+		choiceBox.getItems().addAll("Pickup","Delivery");
 		ComboBox<String> cb = new ComboBox<>();
+		Text t = new Text();
 		choiceBox.setOnAction(event ->{
 			if(choiceBox.getValue().equals("Pickup")) {
 				System.out.println("Client Order Type is = " + choiceBox.getValue());
 				ClientController.orderType = choiceBox.getValue();
-				
+				btmPane.getChildren().removeAll(tf,t);
+
 				cb.getItems().setAll("Haifa, Downtown","Beer Sheva, Center","Beer Sheva, Downtown",
 						"Kiryat Motzkin, Center", "Kiryat Shmona, Center", "Beer Sheva, Updog", "Abu Dabi, Center",
 						"Abu Naji, Center");
@@ -128,20 +138,27 @@ public class EktCartFormController {
 				System.out.println("pickup place = " + cb.getValue());
 				
 			}
-			else {
+			else if(choiceBox.getValue().equals("Delivery")) {
 				ClientController.orderType = choiceBox.getValue();
 				btmPane.getChildren().remove(cb);
+				tf.setLayoutX(409);
+				tf.setLayoutY(14);
+				t.setLayoutX(409);
+				t.setLayoutY(11);
+				tf.setPromptText("Please Insert Address");
+				t.setText("Please Insert Address For Delivery");
+				t.setFont(Font.font("Verdana", FontWeight. BOLD, 12));
+				btmPane.getChildren().addAll(tf,t);
 				System.out.println("Client Order Type is = " + choiceBox.getValue());
 			}
 		});
 		
-		cb.setOnAction(event ->{
-			ClientController.pickupPlace = cb.getValue();
-		});
+		cb.setOnAction(event ->{ClientController.pickupPlace = cb.getValue();});
 		
+		
+		System.out.println("deliveryAddress = " + deliveryAddress);
 		int i = 0, j = 0;
-		for (Product product: ClientController.getProductByID.values()) {
-	
+		for (superProduct product: ClientController.getProductByID.values()) {
 			String currentProductID = product.getProductID();
 			calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(currentProductID), product);
 			ClientController.cartPrice.put(product,priceToAdd);
@@ -168,31 +185,8 @@ public class EktCartFormController {
 			removeOneFromCartIconImageView.setFitWidth(30);
 			
 			///////////////////////////////////////////////////////
-			
-			//getting files (images) for product from database, based on product id
-			SCCP getImageFromDatabase = new SCCP();
-			
-			getImageFromDatabase.setRequestType(ServerClientRequestTypes.SELECT);
-			//Search for products for the correct catalog
-			
-			getImageFromDatabase.setMessageSent(new Object[] {"files", false, null , true, "file_name = '" + ((Product) product).getProductID() + ".png'" , false, null});
-			//Log message
-			System.out.println("Client: Sending " + "Product Files" + " to server.");
-			
-			Image img = null;
-			ClientUI.clientController.accept(getImageFromDatabase);
-			if (ClientController.responseFromServer.getRequestType().equals
-					(ServerClientRequestTypes.ACK)) {
-				//[[file_id, file, file_name] , [...]]
-				@SuppressWarnings("unchecked")
-				ArrayList<ArrayList<Object>> arrayOfFiles = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
-				
-				for(ArrayList<Object> file: arrayOfFiles) {
-					System.out.println("The file is = " + file.toString());
-					img = new Image(new ByteArrayInputStream((byte[])file.get(1)));
-				}
 
-			}
+			Image img = new Image(new ByteArrayInputStream(product.getFile()));
 			
 			ImageView productImageView = new ImageView(img);
 			
@@ -417,6 +411,7 @@ public class EktCartFormController {
 	
 	@FXML
 	public void getBtnOrder(ActionEvent event){
+		deliveryAddress = tf.getText();
 		if(emptyCart) {
     		//Alert window
     		Alert alert = new Alert(AlertType.WARNING);
@@ -439,13 +434,16 @@ public class EktCartFormController {
 
     		}
     	}
-		if(ClientController.orderType.equals("") || 
-				(ClientController.orderType.equals("Pickup") && ClientController.pickupPlace.equals(""))) {
+		else if(ClientController.orderType.equals("") || 
+				(ClientController.orderType.equals("Pickup") && ClientController.pickupPlace.equals("") ||
+						(ClientController.orderType.equals("Delivery") && deliveryAddress.equals("")))) {
 			//Alert window
     		Alert alert = new Alert(AlertType.WARNING);
     		alert.setTitle("Select Order Type");
-    		alert.setHeaderText("You need to select order type before proceeding to order!");
+    		alert.setHeaderText("You need to select Order Type And Pickup/Address before proceeding to order!");
+    		alert.initStyle(StageStyle.UNDECORATED);
     		alert.showAndWait();
+    		
 		}
 		else {
 			

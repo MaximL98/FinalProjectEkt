@@ -25,22 +25,23 @@
                   <Font name="OpenSymbol" size="44.0" />
                </font>
             </Text>
-            <TextField fx:id="txtUsername" layoutX="68.0" layoutY="241.0" prefHeight="42.0" prefWidth="316.0" promptText="username">
+            <TextField fx:id="txtUsername" layoutX="68.0" layoutY="241.0" prefHeight="42.0" prefWidth="316.0" promptText="username" onAction="#onEnter">
                <font>
                   <Font size="24.0" />
                </font>
             </TextField>
+                        <PasswordField fx:id="pwdField" layoutX="68.0" layoutY="321.0" prefHeight="51.0" prefWidth="316.0" promptText="password"  onAction="#onEnter">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </PasswordField>
             <Button fx:id="btnLogin" layoutX="448.0" layoutY="241.0" mnemonicParsing="false" onAction="#getBtnLoginEK" prefHeight="131.0" prefWidth="277.0" text="Login">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
             <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="246.0" layoutY="680.0" prefHeight="79.0" prefWidth="334.0" text="test" textAlignment="CENTER" visible="false" />
-            <PasswordField fx:id="pwdField" layoutX="68.0" layoutY="321.0" prefHeight="51.0" prefWidth="316.0" promptText="password">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </PasswordField>
+
          </children>
       </Pane>
    </children>

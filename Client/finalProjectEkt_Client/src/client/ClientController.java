@@ -11,6 +11,7 @@ import common.ServerClientRequestTypes;
 import logic.Product;
 import logic.Role;
 import logic.SystemUser;
+import logic.superProduct;
 import ocsf.server.ConnectionToClient;
 
 public class ClientController
@@ -27,7 +28,7 @@ public class ClientController
   public static HashMap<String,Integer> currentUserCart = new HashMap<>();
   
   ////// Dima 30/12 20:00
-  public static HashMap<String,Product> getProductByID = new HashMap<>();
+  public static HashMap<String,superProduct> getProductByID = new HashMap<>();
   ////////////////////////////////////////////////////////////////////
   //Max 7/1-----------------------------------------------------------------------//
   public static Integer orderNumber = 8; //for now, change later
@@ -54,9 +55,6 @@ public class ClientController
   // Rotem added also (10.1)
   public static int _EkCurrentMachineID;
   
-  //Dima 13/1/2023
-  public static String billingDate = "";
-  
   //Maxim Added (11.1)
   public static Integer orderTotalQuantity;
   public static String orderDateReceived;
@@ -65,9 +63,17 @@ public class ClientController
   //Maxim (12.1)
   public static String orderType = "";
   public static String pickupPlace = "";
+  
+  // Maxim added for now (13.1)
+  public static String OLCurrentMachineName;
+  // Maxim added also (13.1)
+  public static int OLCurrentMachineID;
 
   // rotem 1.12.23
   private static Boolean customerIsSubsriber=null;
+  
+  // Dima 13/1/2023
+  public static String billingDate=null;
 
 
   public ClientController(String host, int port) throws IOException

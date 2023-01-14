@@ -155,6 +155,8 @@ public class EktRegionalManagerAcceptNewCustomerController {
 
 	@FXML
 	private TableView<customerToAccept> tableUsers;
+	
+	@FXML
 
 	@SuppressWarnings("unchecked")
 	public void initialize() {

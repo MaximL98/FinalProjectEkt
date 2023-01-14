@@ -217,7 +217,9 @@ public class EktSystemUserLoginController {
 			//statusLabel.setVisible(true);
 			}
 		}
-		return currentUser.getRole();
+		if (currentUser != null)
+			return currentUser.getRole();
+		return null;
     }
 
 	private void setRegionalManagerLocation() {

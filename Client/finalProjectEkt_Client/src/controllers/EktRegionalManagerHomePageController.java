@@ -20,6 +20,12 @@ import javafx.stage.Stage;
  */
 public class EktRegionalManagerHomePageController {
 
+    @FXML
+    private Button btnLowStockAlerts;
+    
+    @FXML
+    private Button btnMaybeNothing;
+    
 	@FXML
 	private Button btnAcceptCustomers;
 
@@ -34,6 +40,8 @@ public class EktRegionalManagerHomePageController {
 
 	@FXML
 	private Text txtManagerWelcome;
+	
+	
 
 	public void initialize() {
 		txtManagerWelcome
@@ -73,6 +81,16 @@ public class EktRegionalManagerHomePageController {
 
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+	}
+	
+	@FXML
+	public void getBtnStockAlerts(ActionEvent event) {
+		
+	}
+	
+	@FXML
+	public void getBtnMaybeNothing(ActionEvent event) {
+		
 	}
 
 }

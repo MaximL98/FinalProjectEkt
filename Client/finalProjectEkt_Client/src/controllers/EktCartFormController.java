@@ -360,7 +360,7 @@ public class EktCartFormController {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
 		//category is located in a ArrayList
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktProductForm.fxml", null, ClientController.CurrentProductCategory.get(0));
+		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktProductForm.fxml", null, ClientController.CurrentProductCategory.get(0), true);
 		vboxCart.getChildren().clear();
 		primaryStage.show();
 		
@@ -388,7 +388,7 @@ public class EktCartFormController {
 			Stage primaryStage = new Stage();
 			//category is located in a ArrayList
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktCatalogForm.fxml", null, 
-					ClientController.CurrentProductCategory.get(0));
+					ClientController.CurrentProductCategory.get(0), true);
 
 			ClientController.currentUserCart.keySet().clear();
 			ClientController.getProductByID.keySet().clear();
@@ -401,7 +401,7 @@ public class EktCartFormController {
 			System.out.println("Clear cart was canceled");
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
-	        WindowStarter.createWindow(primaryStage, this, "/gui/EktCartForm.fxml", null, "Ekt Cart");
+	        WindowStarter.createWindow(primaryStage, this, "/gui/EktCartForm.fxml", null, "Ekt Cart", true);
 			primaryStage.show();
 			//////////////////////
 			((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
@@ -424,7 +424,7 @@ public class EktCartFormController {
     			Stage primaryStage = new Stage();
     			//category is located in a ArrayList
     			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktProductForm.fxml", null, 
-    					ClientController.CurrentProductCategory.get(0));
+    					ClientController.CurrentProductCategory.get(0), true);
     	
     			ClientController.currentUserCart.keySet().clear();
     			
@@ -450,7 +450,7 @@ public class EktCartFormController {
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
 			//category is located in a ArrayList
-			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktOrderSummary.fxml", null, "Order Summary");
+			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktOrderSummary.fxml", null, "Order Summary", true);
 			vboxCart.getChildren().clear();
 
 			primaryStage.show();

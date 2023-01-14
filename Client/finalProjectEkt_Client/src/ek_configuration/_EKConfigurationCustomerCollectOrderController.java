@@ -87,7 +87,7 @@ public class _EKConfigurationCustomerCollectOrderController {
 		Stage primaryStage = new Stage();
 		String nextScreenPath = "/gui/_EKConfigurationCustomerHomeArea.fxml";
 		String nextPathTitle = "Customer Home Frame";
-		WindowStarter.createWindow(primaryStage, this, nextScreenPath, null, nextPathTitle);
+		WindowStarter.createWindow(primaryStage, this, nextScreenPath, null, nextPathTitle, true);
 		primaryStage.show();
 	}
 

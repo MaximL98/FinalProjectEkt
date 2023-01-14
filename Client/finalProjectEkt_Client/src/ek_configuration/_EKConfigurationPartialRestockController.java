@@ -348,7 +348,7 @@ public class _EKConfigurationPartialRestockController {
 		((Node)event.getSource()).getScene().getWindow().hide();
 		// prepare the new stage:
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, nextScreenPath, null, "Logistics Employee Frame");
+		WindowStarter.createWindow(primaryStage, this, nextScreenPath, null, "Logistics Employee Frame", true);
 		primaryStage.show();
     }
 

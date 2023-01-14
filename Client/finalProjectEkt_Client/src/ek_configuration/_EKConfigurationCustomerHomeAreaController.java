@@ -69,7 +69,7 @@ public class _EKConfigurationCustomerHomeAreaController {
 		// prepare the new stage:
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, new Object(), 
-				"/gui/_EKConfigurationCustomerCollectOrderFrame.fxml", null, "Collect order");
+				"/gui/_EKConfigurationCustomerCollectOrderFrame.fxml", null, "Collect order", true);
 		primaryStage.show();
     }
 

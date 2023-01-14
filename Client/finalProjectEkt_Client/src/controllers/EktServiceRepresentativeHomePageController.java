@@ -45,7 +45,7 @@ public class EktServiceRepresentativeHomePageController {
 		// prepare the new stage:
 		Stage primaryStage = new Stage();
 
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login", true);
 		primaryStage.show();
     }
 
@@ -56,7 +56,7 @@ public class EktServiceRepresentativeHomePageController {
 		// prepare the new stage:
 		Stage primaryStage = new Stage();
 
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepAddCustomerForm.fxml", null, "Customer Registration Page");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepAddCustomerForm.fxml", null, "Customer Registration Page", true);
 		primaryStage.show();
 		
 	}
@@ -68,7 +68,7 @@ public class EktServiceRepresentativeHomePageController {
 		// prepare the new stage:
 		Stage primaryStage = new Stage();
 
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepAddSubscriberForm.fxml", null, "Subscriber Registration Page");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepAddSubscriberForm.fxml", null, "Subscriber Registration Page", true);
 		primaryStage.show();
 	}
 

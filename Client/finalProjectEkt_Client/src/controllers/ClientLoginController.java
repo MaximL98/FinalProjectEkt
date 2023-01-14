@@ -57,7 +57,7 @@ public class ClientLoginController {
 	
 	//start primary stage
 		public void start(Stage primaryStage) throws Exception {
-			WindowStarter.createWindow(primaryStage, this, "/gui/ClientLoginForm.fxml", "/gui/ClientLogin.css", "Login");
+			WindowStarter.createWindow(primaryStage, this, "/gui/ClientLoginForm.fxml", "/gui/ClientLogin.css", "Login", true);
 			primaryStage.show();	 	
 		}
 	
@@ -126,7 +126,7 @@ public class ClientLoginController {
 		
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login", true);
 
 		
 		/*switch(ClientController.getLaunchConfig()) {
@@ -207,7 +207,7 @@ public class ClientLoginController {
 		
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/_EKConfigurationLoginFrame.fxml", null, "Login");
+		WindowStarter.createWindow(primaryStage, this, "/gui/_EKConfigurationLoginFrame.fxml", null, "Login", true);
 		primaryStage.show();
 	}
 }

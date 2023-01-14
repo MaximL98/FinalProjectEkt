@@ -68,7 +68,7 @@ public class OrderReceiptPageController {
 	void getBtnBack(ActionEvent event) {
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktCatalogForm.fxml",
-				null, "Ekt Catalog");
+				null, "Ekt Catalog", true);
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // hiding primary window
 	}
@@ -80,7 +80,7 @@ public class OrderReceiptPageController {
 		
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktSystemUserLoginForm.fxml",
-				null, "Login");
+				null, "Login", true);
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // hiding primary window
 	}

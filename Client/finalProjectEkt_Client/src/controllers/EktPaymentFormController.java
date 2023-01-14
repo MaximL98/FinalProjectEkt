@@ -170,7 +170,7 @@ public class EktPaymentFormController {
 	
 	private void nextPage(ActionEvent event, String fxmlAddress, String windowLabel) {
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), fxmlAddress, null, windowLabel);
+		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), fxmlAddress, null, windowLabel, true);
 
 		primaryStage.show();
 		((Stage)((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window

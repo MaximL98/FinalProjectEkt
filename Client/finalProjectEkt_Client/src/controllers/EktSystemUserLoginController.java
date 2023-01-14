@@ -149,49 +149,49 @@ public class EktSystemUserLoginController {
 			case SUBSCRIBER:
 				// set subscriber boolean value (true)
 				ClientController.setCustomerIsSubsriber(true);
-				WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog");
+				WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog", true);
 				break;
 				
 			case CUSTOMER:
 				// also set subscriber boolean value (false)
 				ClientController.setCustomerIsSubsriber(false);
-				WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog");
+				WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog", true);
 				break;
 				
 			case REGIONAL_MANAGER:
 				// TODO: same as customer
-				WindowStarter.createWindow(primaryStage, this, "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page");
+				WindowStarter.createWindow(primaryStage, this, "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page", true);
 				// Rotem 1.13 -> refactored to a method to make this switch easier to analyze
 				break;
 				
 			case LOGISTICS_MANAGER:
-				WindowStarter.createWindow(primaryStage, this, "/gui/EktLogisticsManagerHomePage.fxml", null, "Logistics Manager Home Page");
+				WindowStarter.createWindow(primaryStage, this, "/gui/EktLogisticsManagerHomePage.fxml", null, "Logistics Manager Home Page", true);
 				break;
 				
 			case SERVICE_REPRESENTATIVE:
-				WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepresentativeHomePage.fxml", null, "Service Rep Home Page");
+				WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepresentativeHomePage.fxml", null, "Service Rep Home Page", true);
 				break;
 				
 			case DIVISION_MANAGER:
-				WindowStarter.createWindow(primaryStage, this, "/gui/EktDivisionManagerHomePage.fxml", null, "Female Division Manager Home Page");
+				WindowStarter.createWindow(primaryStage, this, "/gui/EktDivisionManagerHomePage.fxml", null, "Female Division Manager Home Page", true);
 				break;
 			
 			case SALES_MANAGER:
-				WindowStarter.createWindow(primaryStage, this, "/gui/SalesManager.fxml", null, "Sales Manager");
+				WindowStarter.createWindow(primaryStage, this, "/gui/SalesManager.fxml", null, "Sales Manager", true);
 				// I removed the following line as this one is already called below!
 				//primaryStage.show();
 				break;
 				
 			case SALES_WORKER:
-				WindowStarter.createWindow(primaryStage, this, "/gui/SalesDepartmentWorker.fxml", null, "Ekt Sales Department Worker");
+				WindowStarter.createWindow(primaryStage, this, "/gui/SalesDepartmentWorker.fxml", null, "Ekt Sales Department Worker", true);
 				// I removed the following line as this one is already called below!
 				//primaryStage.show();
 				break;
 			case DELIVERY_WORKER:
-				WindowStarter.createWindow(primaryStage, this, "/gui/DeliveryManagerPage.fxml", null, "Ekt Delivery Department Worker");
+				WindowStarter.createWindow(primaryStage, this, "/gui/DeliveryManagerPage.fxml", null, "Ekt Delivery Department Worker", true);
 				break;
 			case INVENTORY_WORKER:
-				WindowStarter.createWindow(primaryStage, this, "/gui/InventoryRestockWorkerPage.fxml", null, "Ekt Inventory Worker");
+				WindowStarter.createWindow(primaryStage, this, "/gui/InventoryRestockWorkerPage.fxml", null, "Ekt Inventory Worker", true);
 				break;
 			default:
 				throw new UnsupportedOperationException("No valid landing page for system user with role=" + currentUser.getRole());

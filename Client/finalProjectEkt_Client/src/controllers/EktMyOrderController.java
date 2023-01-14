@@ -202,7 +202,7 @@ public class EktMyOrderController {
 							((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 							Stage primaryStage = new Stage();
 
-							WindowStarter.createWindow(primaryStage, this, "/gui/EktMyOrderFrom.fxml", null, "Ekt My Orders");
+							WindowStarter.createWindow(primaryStage, this, "/gui/EktMyOrderFrom.fxml", null, "Ekt My Orders", true);
 							primaryStage.show();
 							((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
 							
@@ -325,7 +325,7 @@ public class EktMyOrderController {
 	void getBtnBack(ActionEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog", true);
 
 		primaryStage.show();
 	}

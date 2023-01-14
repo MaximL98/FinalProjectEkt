@@ -235,7 +235,7 @@ public class EktReportSelectFormController extends Application{
 		
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
-				"/gui/EktReportDisplayPage.fxml", null, "Ekt Report Display Form");
+				"/gui/EktReportDisplayPage.fxml", null, "Ekt Report Display Form", true);
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
@@ -255,7 +255,7 @@ public class EktReportSelectFormController extends Application{
 		
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
-				"/gui/EktReportDisplayPage.fxml", null, "Ekt Report Display Form");
+				"/gui/EktReportDisplayPage.fxml", null, "Ekt Report Display Form", true);
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 		
@@ -281,7 +281,7 @@ public class EktReportSelectFormController extends Application{
 		
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
-				"/gui/EktReportDisplayPage.fxml", null, "Ekt Report Display Form");
+				"/gui/EktReportDisplayPage.fxml", null, "Ekt Report Display Form", true);
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 		
@@ -303,9 +303,9 @@ public class EktReportSelectFormController extends Application{
 	public void getBtnLogout(ActionEvent event) throws Exception {
 		Stage primaryStage = new Stage();
 		if (ClientController.getCurrentSystemUser().getRole().equals(Role.REGIONAL_MANAGER)) {
-			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page");
+			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page", true);
 		} else {
-			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktDivisionManagerHomePage.fxml", null, "Regional Manager Home Page");
+			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktDivisionManagerHomePage.fxml", null, "Regional Manager Home Page", true);
 
 		}
 		primaryStage.show();  
@@ -330,7 +330,7 @@ public class EktReportSelectFormController extends Application{
 		
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
-				"/gui/EktReportDisplayPage.fxml", null, "Ekt Report Display Form");
+				"/gui/EktReportDisplayPage.fxml", null, "Ekt Report Display Form", true);
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
     }
@@ -350,7 +350,7 @@ public class EktReportSelectFormController extends Application{
 		
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
-				"/gui/EktReportDisplayPage.fxml", null, "Ekt Report Display Form");
+				"/gui/EktReportDisplayPage.fxml", null, "Ekt Report Display Form", true);
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
     }

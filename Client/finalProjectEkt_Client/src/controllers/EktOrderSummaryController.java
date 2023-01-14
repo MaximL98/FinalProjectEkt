@@ -197,7 +197,7 @@ public class EktOrderSummaryController {
 	@FXML
 	void getBtnApprove(ActionEvent event) {
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktPaymentForm.fxml", null, "payment");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktPaymentForm.fxml", null, "payment", true);
 
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
@@ -209,7 +209,7 @@ public class EktOrderSummaryController {
 	void getBtnBack(ActionEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktCartForm.fxml", null, "Ekt Cart");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktCartForm.fxml", null, "Ekt Cart", true);
 
 		primaryStage.show();
 	}
@@ -231,7 +231,7 @@ public class EktOrderSummaryController {
 
 			//category is located in a ArrayList
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktCatalogForm.fxml", null, 
-					ClientController.CurrentProductCategory.get(0));
+					ClientController.CurrentProductCategory.get(0), true);
 	
 			EktProductFormController.itemsInCart = 0;
 			ClientController.getProductByID.keySet().clear();
@@ -247,7 +247,7 @@ public class EktOrderSummaryController {
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
 			//category is located in a ArrayList
-			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktOrderSummary.fxml", null, "Order Summary");
+			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktOrderSummary.fxml", null, "Order Summary", true);
 
 			primaryStage.show();
 

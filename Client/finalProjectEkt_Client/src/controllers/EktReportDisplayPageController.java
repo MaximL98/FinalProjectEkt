@@ -525,7 +525,7 @@ public class EktReportDisplayPageController {
 		ClientController.getMachineID_TypeOfReport_Dates().clear();
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
-				"/gui/EktReportSelectForm.fxml", null, "Ekt Report Select Form");
+				"/gui/EktReportSelectForm.fxml", null, "Ekt Report Select Form", true);
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}

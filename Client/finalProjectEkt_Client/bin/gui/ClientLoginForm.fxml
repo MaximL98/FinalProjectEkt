@@ -14,7 +14,7 @@
          <font>
             <Font size="16.0" />
          </font></Text>
-      <TextField fx:id="txtIP" layoutX="71.0" layoutY="44.0" />
+      <TextField fx:id="txtIP" layoutX="71.0" layoutY="44.0" onAction="#onEnter" />
       <Button fx:id="btnConnect" layoutX="115.0" layoutY="80.0" mnemonicParsing="false" onAction="#getConnectToServer" text="Connect" />
       <Label fx:id="hiddenLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="21.0" layoutY="109.0" prefHeight="17.0" prefWidth="249.0" text="Label" textAlignment="CENTER" visible="false" />
       <ComboBox fx:id="cmbTezura" layoutX="70.0" layoutY="197.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#setTezura" prefWidth="150.0" promptText="תצורה (default=OL)" />

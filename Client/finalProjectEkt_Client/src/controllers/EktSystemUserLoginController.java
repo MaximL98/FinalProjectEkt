@@ -50,7 +50,7 @@ public class EktSystemUserLoginController {
 	 */
 	@FXML
 	public void onEnter(ActionEvent ae){
-	   //getBtnLogin(ae);
+	   getBtnLogin(ae);
 	}
 	
 	/*
@@ -58,7 +58,7 @@ public class EktSystemUserLoginController {
 	 */
 	@FXML
 	private void initialize() {
-		
+		ClientController.resetVars();
 		// attempt to have the label re-written every few seconds. (failure)
 		/*
 	    ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
@@ -192,6 +192,9 @@ public class EktSystemUserLoginController {
 				statusLabel.setText("Uset not yet registered!");
 				return;
 				
+			case INVENTORY_WORKER:
+				WindowStarter.createWindow(primaryStage, this, "/gui/InventoryRestockWorkerPage.fxml", null, "Ekt Inventory Worker");
+				break;
 			default:
 				throw new UnsupportedOperationException("No valid landing page for system user with role=" + currentUser.getRole());
 			}

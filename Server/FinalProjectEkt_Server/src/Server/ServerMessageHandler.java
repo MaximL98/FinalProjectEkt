@@ -311,12 +311,14 @@ public class ServerMessageHandler {
 				Object dbAnswer = DatabaseController.handleQuery(DatabaseOperation.UPDATE, input);
 				Boolean dbAnsBoolean = (Boolean)dbAnswer;
 				if(dbAnsBoolean) {
+					System.out.println("UPDATE opeartion failed (or the sql controller just didn't set its return statement properly so maybe ignore me!)");
 					// failure
 					response.setRequestType(ServerClientRequestTypes.ERROR_MESSAGE);
 					// maybe we should create a special type for errors too, and pass a dedicated one that will provide valuable info to the client?
 					response.setMessageSent("ERROR: updating in DB failed"); // TODO: add some valuable information.
 				}
 				else {
+					System.out.println("UPDATE operation success!");
 					// socc secc
 					response.setRequestType(ServerClientRequestTypes.ACK);
 					response.setMessageSent(message.getMessageSent());
@@ -644,10 +646,10 @@ public class ServerMessageHandler {
 	public static final class HandleMessageDisplayPromotions implements IServerSideFunction {
 
 		ArrayList<String> promotionNames = new ArrayList<String>();
-
+		
 		@Override
 		public SCCP handleMessage(SCCP displayPromotionMessage) {
-
+			promotionNames = new ArrayList<String>();
 			try {
 				ResultSet resultSet = (ResultSet) DatabaseController.handleQuery(
 						DatabaseOperation.INSERT_PROMOTION_NAMES,

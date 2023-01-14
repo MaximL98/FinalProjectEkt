@@ -166,6 +166,46 @@ public class ClientController
 		ClientController.customerIsSubsriber = customerIsSubsriber;
 	}
 
+	/**
+	 * This method is used by the login manager to reset user-specific variables
+	 */
+	public static void resetVars() {
+		// TODO Auto-generated method stub
+		  connectedSystemUser = null; // ClientController.getconnectedSystemUser().getID()
+		  CurrentProductCategory = new ArrayList<>();
+		  //Map that holds the current cart contents of the user
+		  currentUserCart = new HashMap<>();
+		  
+		  ////// Dima 30/12 20:00
+		  getProductByID = new HashMap<>();
+		  userOrders = new HashMap<>();
+		  //------------------------------------------------------------------------------//
+		  arrayOfAddedProductsToGridpane = new ArrayList<>();
+		  
+		  orderTotalPrice = new Double(0.0);
+		  cartPrice = new HashMap<>();
+		  currentUserRole = null;
+		  
+		  /////////////Dima 6/1/2023 21:00
+		  machineID_TypeOfReport_Dates = new ArrayList<>();
+		  requestedOrderDates = new ArrayList<>();
+		  
+		  //Maxim (12.1)
+		  orderType = "";
+		  pickupPlace = "";
+		  
+		  // Maxim added for now (13.1)
+		  OLCurrentMachineName=null;
+		  // Maxim added also (13.1)
+		  OLCurrentMachineID=0;
+
+		  // rotem 1.12.23
+		  customerIsSubsriber=null;
+		  
+		  // Dima 13/1/2023
+		  billingDate=null;
+	}
+
 
 }
 //End of ConsoleChat class

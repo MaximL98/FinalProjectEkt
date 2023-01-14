@@ -65,7 +65,12 @@ public class EktRegionalManagerHomePageController {
 
 	@FXML
 	void getBtnSetThreshold(ActionEvent event) {
-		
+		Stage primaryStage = new Stage();
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktRegionalManagerSetThreshold.fxml", null, "Reviews");
+
+		primaryStage.show();
+		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+
 	}
 
 	@FXML
@@ -91,7 +96,11 @@ public class EktRegionalManagerHomePageController {
 	
 	@FXML
 	public void getBtnStockAlerts(ActionEvent event) {
-		
+		Stage primaryStage = new Stage();
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktLowStockAlertTable.fxml", null, "Low Stock Alert Table");
+
+		primaryStage.show();
+		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
 	
 	@FXML

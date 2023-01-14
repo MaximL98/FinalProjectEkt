@@ -153,6 +153,7 @@ public class InventoryRestockWorkerPageController {
 			System.out.println("Pressed the X button.");
 			System.exit(0);
 		});
+
 		primaryStage.show();
 	}
 

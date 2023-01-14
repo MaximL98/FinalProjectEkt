@@ -256,10 +256,6 @@ public class EktReportSelectFormController extends Application{
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
 				"/gui/EktReportDisplayPage.fxml", null, "Ekt Report Display Form");
-		primaryStage.setOnCloseRequest(we -> {
-			System.out.println("Pressed the X button.");
-			System.exit(0);
-		});
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 		
@@ -286,10 +282,6 @@ public class EktReportSelectFormController extends Application{
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
 				"/gui/EktReportDisplayPage.fxml", null, "Ekt Report Display Form");
-		primaryStage.setOnCloseRequest(we -> {
-			System.out.println("Pressed the X button.");
-			System.exit(0);
-		});
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 		
@@ -310,16 +302,12 @@ public class EktReportSelectFormController extends Application{
 	 */
 	public void getBtnLogout(ActionEvent event) throws Exception {
 		Stage primaryStage = new Stage();
-		if (ClientUI.clientController.getCurrentSystemUser().getRole().equals(Role.REGIONAL_MANAGER)) {
+		if (ClientController.getCurrentSystemUser().getRole().equals(Role.REGIONAL_MANAGER)) {
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page");
 		} else {
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktDivisionManagerHomePage.fxml", null, "Regional Manager Home Page");
 
 		}
-		primaryStage.setOnCloseRequest(we -> {
-			System.out.println("Pressed the X button."); 
-			System.exit(0);
-		});
 		primaryStage.show();  
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 		

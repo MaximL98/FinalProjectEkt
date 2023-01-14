@@ -50,7 +50,7 @@ public class EktSystemUserLoginController {
 	 */
 	@FXML
 	public void onEnter(ActionEvent ae){
-	   //getBtnLogin(ae);
+	   getBtnLogin(ae);
 	}
 	
 	/*
@@ -58,7 +58,7 @@ public class EktSystemUserLoginController {
 	 */
 	@FXML
 	private void initialize() {
-		
+		ClientController.resetVars();
 		// attempt to have the label re-written every few seconds. (failure)
 		/*
 	    ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);

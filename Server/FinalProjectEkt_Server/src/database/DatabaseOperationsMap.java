@@ -110,8 +110,28 @@ public class DatabaseOperationsMap {
 		}
 		
 	}
-	
-	
+	/*
+	 * Generic delete query: "Delete from tablename where condition;"
+	 */
+	protected static final class DatabaseActionDelete implements IDatabaseAction {
+
+		@Override
+		public Object getDatabaseAction(Object[] params) {
+			String tableName, setters, conditions;
+			tableName = (String)params[0];
+			setters = (String)params[1];
+			conditions = (String)params[2];
+			
+			StringBuilder sqlQuery = new StringBuilder("DELETE FROM ");
+			sqlQuery.append(DatabaseController.getSchemaName()).append(".").append(tableName);
+			sqlQuery.append(setters).append(" WHERE ");
+			sqlQuery.append(conditions).append(";");
+			System.out.println("Sending query to database=" + sqlQuery.toString());
+			DatabaseSimpleOperation.executeQuery(sqlQuery.toString());
+			return true;
+		}
+	}
+		
 	// this has to be protected (not private) because we need it in DatabaseController
 	 protected static final class DatabaseActionInsert implements IDatabaseAction{
 		private String tableName;
@@ -583,6 +603,7 @@ public class DatabaseOperationsMap {
 			this.put(DatabaseOperation.SELECT,  new DatabaseActionSelect());
 			this.put(DatabaseOperation.UPDATE,  new DatabaseActionGenericUpdate());
 			this.put(DatabaseOperation.GENERIC_SELECT,  new DatabaseActionGenericSelect());
+			this.put(DatabaseOperation.DELETE, new DatabaseActionDelete());
 			
 			this.put(DatabaseOperation.FETCH_PRODUCTS_BY_CATEGORY, new DatabaseActionSelectForFetchProducts());
 			this.put(DatabaseOperation.FETCH_ORDERS, new DatabaseActionSelectForFetchOrders());

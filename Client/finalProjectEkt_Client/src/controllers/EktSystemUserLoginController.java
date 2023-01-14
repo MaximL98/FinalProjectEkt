@@ -27,7 +27,7 @@ import javafx.scene.control.Label;
 
 public class EktSystemUserLoginController {
 	
-	public ClientController clientController;
+	private ClientController clientController;
 
 	public SystemUser currentUser = null;
 	

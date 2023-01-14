@@ -161,21 +161,8 @@ public class EktSystemUserLoginController {
 			case REGIONAL_MANAGER:
 				// TODO: same as customer
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page");
-				int currentManagerID = ClientController.getCurrentSystemUser().getId();
-				SCCP getCurrentManagerLocationNameRequestMessage = new SCCP();
-				getCurrentManagerLocationNameRequestMessage.setRequestType(ServerClientRequestTypes.SELECT);
-				getCurrentManagerLocationNameRequestMessage.setMessageSent(new Object[] { "manager_location LEFT JOIN ektdb.locations on locations.locationID = manager_location.locationId", true, "locationName", true, 
-						"idRegionalManager = " + currentManagerID, false, 
-								null
-				});
-				System.out.println(currentManagerID);
-				
-				ClientUI.clientController.accept(getCurrentManagerLocationNameRequestMessage);
-				
-				ArrayList<?> currentManagerLocationName = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
-				String locationName = ((ArrayList<Object>)currentManagerLocationName.get(0)).get(0).toString();
-				System.out.println(locationName);
-				ClientController.setCurrentUserRegion(locationName);
+				// Rotem 1.13 -> refactored to a method to make this switch easier to analyze
+				setRegionalManagerLocation();
 				break;
 				
 			case LOGISTICS_MANAGER:
@@ -200,6 +187,9 @@ public class EktSystemUserLoginController {
 				WindowStarter.createWindow(primaryStage, this, "/gui/SalesDepartmentWorker.fxml", null, "Ekt Sales Department Worker");
 				// I removed the following line as this one is already called below!
 				//primaryStage.show();
+				break;
+			case DELIVERY_WORKER:
+				WindowStarter.createWindow(primaryStage, this, "/gui/DeliveryManagerPage.fxml", null, "Ekt Delivery Department Worker");
 				break;
 				
 			default:
@@ -229,27 +219,24 @@ public class EktSystemUserLoginController {
 		}
 		return currentUser.getRole();
     }
-	
-	
-//	public Role login(String username, String password) throws IOException {
-//        ClientController clientController = new ClientController("root", 5555);
-//        // send login request to server
-//        SCCP preparedMessage = new SCCP();
-//        preparedMessage.setRequestType(ServerClientRequestTypes.LOGIN);
-//        preparedMessage.setMessageSent(new String[] {username, password});
-//        clientController.accept(preparedMessage);
-//        // get response from server
-//        ServerClientRequestTypes responseType = clientController.responseFromServer.getRequestType();
-//        if(responseType.equals(ServerClientRequestTypes.LOGIN)) {
-//            // process successful login
-//            // ...
-//            return Role.CUSTOMER;
-//        } else {
-//            // process failed login
-//            // ...
-//            return null;
-//        }
-//    }
+
+	private void setRegionalManagerLocation() {
+		int currentManagerID = ClientController.getCurrentSystemUser().getId();
+		SCCP getCurrentManagerLocationNameRequestMessage = new SCCP();
+		getCurrentManagerLocationNameRequestMessage.setRequestType(ServerClientRequestTypes.SELECT);
+		getCurrentManagerLocationNameRequestMessage.setMessageSent(new Object[] { "manager_location LEFT JOIN ektdb.locations on locations.locationID = manager_location.locationId", true, "locationName", true, 
+				"idRegionalManager = " + currentManagerID, false, 
+						null
+		});
+		System.out.println(currentManagerID);
+		
+		ClientUI.clientController.accept(getCurrentManagerLocationNameRequestMessage);
+		
+		ArrayList<?> currentManagerLocationName = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
+		String locationName = ((ArrayList<Object>)currentManagerLocationName.get(0)).get(0).toString();
+		System.out.println(locationName);
+		ClientController.setCurrentUserRegion(locationName);
+	}
 }
 
 // dead code:

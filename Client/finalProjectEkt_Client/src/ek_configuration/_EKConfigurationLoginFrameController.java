@@ -31,6 +31,11 @@ public class _EKConfigurationLoginFrameController {
     private TextField txtUsername;
 
     @FXML
+    void onEnter(ActionEvent ae) {
+    	getBtnLoginEK(ae);
+    }
+    
+    @FXML
     void getBtnLoginEK(ActionEvent event) {
     	// verify that the user type is either customer or tipuli worker (kita tifulit yantu)
 		statusLabel.setVisible(false);

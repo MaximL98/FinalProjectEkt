@@ -33,7 +33,7 @@ public class EktCeoHomePageController {
         // move to new window
         ((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
     	Stage primaryStage = new Stage();
-    	WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login", true);
+    	WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login", false);
 
     	primaryStage.show();	
     	

@@ -31,7 +31,7 @@ public class EktDivisionManagerHomePageController {
     @FXML
     public void getBtnViewReports(ActionEvent event) {
     	Stage primaryStage = new Stage();
-    	WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktReportSelectForm.fxml", null, "Ekt Report Select", true);
+    	WindowStarter.createWindow(primaryStage, this, "/gui/EktReportSelectForm.fxml", null, "Ekt Report Select", true);
     	primaryStage.show();
     	((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
     }
@@ -39,8 +39,10 @@ public class EktDivisionManagerHomePageController {
     @FXML
     void getBtnLogout(ActionEvent event) {
     	Stage primaryStage = new Stage();
-    	WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktSystemUserLoginForm.fxml", null, "Ekt Report Select", true);
+    	// bihiat ze lifnei!!!!
     	ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.LOGOUT, ClientController.getCurrentSystemUser().getUsername()));
+
+    	WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Ekt Report Select", true);
     	primaryStage.show();
     	((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
     	

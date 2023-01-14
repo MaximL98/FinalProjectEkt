@@ -305,7 +305,7 @@ public class EktReportSelectFormController extends Application{
 		if (ClientController.getCurrentSystemUser().getRole().equals(Role.REGIONAL_MANAGER)) {
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktRegionalManagerHomePage.fxml", null, "Regional Manager Home Page", true);
 		} else {
-			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktDivisionManagerHomePage.fxml", null, "Regional Manager Home Page", true);
+			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktDivisionManagerHomePage.fxml", null, "Female Division Manager Home Page", true);
 
 		}
 		primaryStage.show();  

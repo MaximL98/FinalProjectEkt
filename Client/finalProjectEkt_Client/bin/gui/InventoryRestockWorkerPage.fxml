@@ -33,7 +33,7 @@
                </image>
             </ImageView>
             <Button fx:id="btnUpdate" layoutX="374.0" layoutY="708.0" mnemonicParsing="false" onAction="#getBtnUpdate" text="Update" />
-            <Button fx:id="btnLogout" layoutX="14.0" layoutY="761.0" mnemonicParsing="false" onAction="#getBtnBack" text="Logout" />
+            <Button fx:id="btnBack" layoutX="14.0" layoutY="761.0" mnemonicParsing="false" onAction="#getBtnBack" text="Back" />
          </children>
       </Pane>
    </children>

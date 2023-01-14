@@ -145,7 +145,7 @@ public class ServerPortController  {
 							for(Thread t : newClientList) {
 								ConnectionToClient client = (ConnectionToClient)t; // please work
 								txtClients.setText(txtClients.getText()
-										+client.getInetAddress().toString().substring(1).replace("/", "")
+										+client.getInetAddress().toString().replace("/", "")
 										+"\n");
 							}
 							

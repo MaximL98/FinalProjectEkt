@@ -30,7 +30,7 @@
             </Button>
             <TabPane layoutY="131.0" prefHeight="610.0" prefWidth="800.0" styleClass="EktReportSelectFormCSS" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab closable="false" text="                      ORDER REPORTS">
+                <Tab closable="false" text="                     ORDER REPORTS">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="537.0" prefWidth="800.0">
                            <children>
@@ -164,7 +164,7 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab closable="false" text="           CUSTOMER ACTIVITY REPORTS">
+                  <Tab closable="false" text="         CUSTOMER ACTIVITY REPORTS">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="513.0" prefWidth="800.0">
                            <children>
@@ -254,9 +254,9 @@
                   <URL value="@EktReportSelectFormCSS.css" />
                </stylesheets>
             </TabPane>
-            <Text fx:id="txtRegion" layoutX="274.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Region Name&quot;">
+            <Text fx:id="txtRegion" layoutX="249.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Region Name&quot;">
                <font>
-                  <Font name="Berlin Sans FB" size="40.0" />
+                  <Font name="Berlin Sans FB" size="48.0" />
                </font>
             </Text>
             <ImageView fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">

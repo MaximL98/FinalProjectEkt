@@ -1,5 +1,6 @@
 package controllers;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,8 +59,37 @@ public class EktPaymentFormController {
     @FXML
     private ComboBox<String> comboBoxBillingDate;
 
+    private Double accBalance;
     
     public void initialize() {
+    	SCCP getUserBalance = new SCCP();
+    	
+    	getUserBalance = new SCCP();
+    	getUserBalance.setRequestType(ServerClientRequestTypes.SELECT);
+		
+    	getUserBalance.setMessageSent(new Object[] {"customer_balance", true, "balance", true, "id = " + ClientController.getCurrentSystemUser().getId(), false, null}); 
+		ClientUI.clientController.accept(getUserBalance);
+		SCCP answer = ClientController.responseFromServer;
+
+		ArrayList<ArrayList<Object>> preProcessedOutput = (ArrayList<ArrayList<Object>>)answer.getMessageSent();
+		
+		String temp = "";
+		
+		for(ArrayList<Object> lst : preProcessedOutput) {
+			// we expect product to have 5 columns, and act accordingly
+			Object[] arr = lst.toArray();
+			System.out.println(Arrays.toString(arr));
+			temp = arr[0].toString();
+			System.out.println(temp);
+		}
+		
+		accBalance = Double.parseDouble(temp);
+		
+    	
+    	
+    	
+    	txtAccountBalance.setText("ACCOUNT BALANCE: " + new DecimalFormat("##.##").format(accBalance) + "$");
+    	
     	if (ClientController.getCustomerIsSubsriber() == true) {
 			btnPayUsingTheEktApp.setDisable(false);
 			comboBoxBillingDate.setDisable(false);
@@ -134,6 +164,17 @@ public class EktPaymentFormController {
     	System.out.println(date);
     	ClientController.billingDate = date[0] + "-" + date[1] + "-" + date[2];
     	txtProcessing.setText("PROCESSING...");
+    	
+    	Double newBalance = accBalance - ClientController.orderTotalPrice;
+    	
+		SCCP updateStock = new SCCP();
+		updateStock.setRequestType(ServerClientRequestTypes.UPDATE);
+		updateStock.setMessageSent(new Object[] {
+				"customer_balance", "balance = " + new DecimalFormat("##.##").format(newBalance), " id = " +ClientController.getCurrentSystemUser().getId()});
+		
+		ClientUI.clientController.accept(updateStock);
+		System.out.println("Balance was updated from " + new DecimalFormat("##.##").format(accBalance) + "to " + new DecimalFormat("##.##").format(newBalance) + "after order!");
+    	
     	processOrder(event);
     }
 	

@@ -131,7 +131,7 @@ public class EktCartFormController {
 				cb.getItems().setAll("Haifa, Downtown","Beer Sheva, Center","Beer Sheva, Downtown",
 						"Kiryat Motzkin, Center", "Kiryat Shmona, Center", "Beer Sheva, Updog", "Abu Dabi, Center",
 						"Abu Naji, Center");
-				cb.setLayoutX(409);
+				cb.setLayoutX(509);
 				cb.setLayoutY(14);
 				
 				btmPane.getChildren().add(cb);
@@ -141,9 +141,10 @@ public class EktCartFormController {
 			else if(choiceBox.getValue().equals("Delivery")) {
 				ClientController.orderType = choiceBox.getValue();
 				btmPane.getChildren().remove(cb);
-				tf.setLayoutX(409);
+				tf.setLayoutX(509);
 				tf.setLayoutY(14);
-				t.setLayoutX(409);
+				tf.getStylesheets().add("/gui/textfieldCSS.css");
+				t.setLayoutX(509);
 				t.setLayoutY(11);
 				tf.setPromptText("Please Insert Address");
 				t.setText("Please Insert Address For Delivery");

@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
@@ -80,8 +81,21 @@ public class EktServiceRepAddCustomerController {
 
 	@FXML Button btnGoBack;
 	
+    @FXML
+    private Label lblLocation;
+	
+	@FXML
+	private ComboBox<String> cmbLocation;
+	
+	private String userLocation;
 
-
+	public void initialize() {
+		cmbLocation.getItems().addAll("North", "South", "UAE");
+		cmbLocation.setOnAction(event ->{
+			userLocation = cmbLocation.getValue();
+		});
+	}
+	
 	@FXML
     void getAddUserToDB(ActionEvent event) {
 		clearAllLabels();
@@ -140,7 +154,20 @@ public class EktServiceRepAddCustomerController {
     			txtUsername.setText("");
     			txtPassword.setText("");
 
-
+    			
+    			if(userLocation != null) {
+    		    	SCCP addLocation = new SCCP();
+    		    	addLocation.setRequestType(ServerClientRequestTypes.ADD);
+    	    		// first field is table name - users here
+    	    		Object[] fillLocation = new Object[3];
+    	    		fillLocation[0] = "customer_location"; // add to table "customer_location" (hard code it elsewhere)
+    	    		fillLocation[1] = false; // add only 1
+    	    		fillLocation[2] = new Object[] {"(" + id + ", '" + userLocation + "')"};
+    	    		addLocation.setMessageSent(fillLocation);
+    	    		
+    	    		// send to server
+    	    		ClientUI.clientController.accept(addLocation);
+    			}
     		}
     		else {
     			lblStatus.setText("ERROR! Could not add user to database."); // add specifics
@@ -159,6 +186,7 @@ public class EktServiceRepAddCustomerController {
 		lblPhone.setText("");
 		lblEmail.setText("");
 		lblCreditCard.setText("");
+		lblLocation.setText("");
 	}
 
 	// lblId, lblUsername, lblName, lblEmail, lblCreditCard, lblPhone
@@ -200,6 +228,11 @@ public class EktServiceRepAddCustomerController {
 			lblPhone.setText("Phone number must be numeric and non empty");
 			flag = false;
 		
+		}
+		
+		if(cmbLocation.getValue() == null) {
+			lblLocation.setText("ERROR! you need to select locatin");
+			flag = false;
 		}
 		return flag;
 	}

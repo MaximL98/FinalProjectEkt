@@ -35,24 +35,24 @@
             </Pane>
          </top>
          <bottom>
-            <Pane fx:id="btmPane" prefHeight="100.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+            <Pane fx:id="btmPane" prefHeight="118.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="btnBack" layoutX="10.0" layoutY="45.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="45.0" prefWidth="210.0" stylesheets="@buttonCSS.css" text="BACK TO SHOPPING" textFill="WHITE">
+                  <Button fx:id="btnBack" layoutX="14.0" layoutY="62.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="45.0" prefWidth="210.0" stylesheets="@buttonCSS.css" text="BACK TO SHOPPING" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnOrder" layoutX="601.0" layoutY="45.0" mnemonicParsing="false" onAction="#getBtnOrder" prefHeight="45.0" prefWidth="185.0" style="-fx-background-color: #b6e194; -fx-background-radius: 0; -fx-border-color: green; -fx-border-radius: 0; -fx-border-width: 3;" text="ORDER">
+                  <Button fx:id="btnOrder" layoutX="601.0" layoutY="62.0" mnemonicParsing="false" onAction="#getBtnOrder" prefHeight="45.0" prefWidth="185.0" style="-fx-background-color: #b6e194; -fx-background-radius: 0; -fx-border-color: green; -fx-border-radius: 0; -fx-border-width: 3;" text="ORDER">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Text fx:id="txtTotalPrice" layoutX="300.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CART TOTAL: 0$" y="25.0">
+                  <Text fx:id="txtTotalPrice" layoutX="300.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CART TOTAL: 0$" y="25.0">
                      <font>
                         <Font name="System Bold" size="26.0" />
                      </font>
                   </Text>
-                  <ChoiceBox fx:id="choiceBox" layoutX="340.0" layoutY="7.0" prefHeight="37.0" prefWidth="147.0" stylesheets="@choiceboxCSS.css" />
+                  <ChoiceBox fx:id="choiceBox" layoutX="340.0" layoutY="6.0" prefHeight="46.0" prefWidth="150.0" stylesheets="@choiceboxCSS.css" />
                   <Text fx:id="txtTotalPrice1" layoutX="17.0" layoutY="7.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PLEASE SELECT AN ORDER TYPE:" y="25.0">
                      <font>
                         <Font name="System Bold" size="20.0" />

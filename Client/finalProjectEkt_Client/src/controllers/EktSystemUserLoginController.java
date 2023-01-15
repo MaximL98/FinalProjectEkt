@@ -20,6 +20,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import logic.Role;
 import logic.SystemUser;
@@ -217,8 +219,10 @@ public class EktSystemUserLoginController {
 				WindowStarter.createWindow(primaryStage, this, "/gui/DeliveryManagerPage.fxml", null, "Ekt Delivery Department Worker", true);
 				break;
 			case UNAPPROVED_CUSTOMER:
-				statusLabel.setText("Uset not yet registered!");
+				statusLabel.setText("User not yet registered!");
 				return;
+			case UNAPPROVED_SUBSCRIBER:
+				statusLabel.setText("User not yet registered!");
 				
 			case INVENTORY_WORKER:
 				WindowStarter.createWindow(primaryStage, this, "/gui/InventoryRestockWorkerPage.fxml", null, "Ekt Inventory Worker", true);

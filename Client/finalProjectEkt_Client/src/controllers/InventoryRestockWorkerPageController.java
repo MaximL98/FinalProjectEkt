@@ -212,7 +212,7 @@ public class InventoryRestockWorkerPageController {
 	@FXML
 	void initialize() {
 		ObservableList<Machine> machines = FXCollections
-				.observableArrayList(getMachines(new Location[] { getManagerLocation() }));
+				.observableArrayList(getMachines(new Location[] {Location.North, Location.South, Location.UAE} ));
 		if (machines == null)
 			return;
 		cmbChooseMachine.setItems(machines);
@@ -330,23 +330,23 @@ public class InventoryRestockWorkerPageController {
 		return true;
 	}
 
-	private Location getManagerLocation() {
-		int currentManagerID = ClientController.getCurrentSystemUser().getId();
-		SCCP getCurrentManagerLocationNameRequestMessage = new SCCP();
-		getCurrentManagerLocationNameRequestMessage.setRequestType(ServerClientRequestTypes.SELECT);
-		getCurrentManagerLocationNameRequestMessage.setMessageSent(new Object[] { "manager_location", true,
-				"locationId", true, "idRegionalManager = " + currentManagerID, false, null });
-		System.out.println(currentManagerID);
-
-		ClientUI.clientController.accept(getCurrentManagerLocationNameRequestMessage);
-
-		ArrayList<?> currentManagerLocationName = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
-		Location location = Location.fromLocationId(
-				Integer.parseInt(((ArrayList<Object>) currentManagerLocationName.get(0)).get(0).toString()));
-		System.out.println(location);
-		ClientController.setCurrentUserRegion(location.toString());
-		return location;
-	}
+//	private Location getManagerLocation() {
+//		int currentManagerID = ClientController.getCurrentSystemUser().getId();
+//		SCCP getCurrentManagerLocationNameRequestMessage = new SCCP();
+//		getCurrentManagerLocationNameRequestMessage.setRequestType(ServerClientRequestTypes.SELECT);
+//		getCurrentManagerLocationNameRequestMessage.setMessageSent(new Object[] { "manager_location", true,
+//				"locationId", false, "idRegionalManager = " + currentManagerID, false, null });
+//		System.out.println(currentManagerID);
+//
+//		ClientUI.clientController.accept(getCurrentManagerLocationNameRequestMessage);
+//
+//		ArrayList<?> currentManagerLocationName = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
+//		Location location = Location.fromLocationId(
+//				Integer.parseInt(((ArrayList<Object>) currentManagerLocationName.get(0)).get(0).toString()));
+//		System.out.println(location);
+//		ClientController.setCurrentUserRegion(location.toString());
+//		return location;
+//	}
 
 	/*
 	 * for testing

@@ -37,6 +37,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.Product;
+import logic.Role;
 import logic.superProduct;
 
 import java.awt.Scrollbar;
@@ -47,6 +48,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -132,6 +134,37 @@ public class _EKConfigurationProductController {
 
     public static  int itemsInCart = 0;
     
+ private double salePromotionAmount = 1;
+    
+    private void setDiscountAmount() {
+    	//Set the discount amount if any is active
+    	SCCP getDiscountAmount = new SCCP();
+    	getDiscountAmount.setRequestType(ServerClientRequestTypes.SELECT);
+    	getDiscountAmount.setMessageSent(new Object[] { "promotions", true, "promotions.promotionStatus, promotions.discountPercentage",
+    			false, null, true, "JOIN locations ON promotions.locationID = locations.locationID \r\n"
+    					+ "JOIN machine ON promotions.locationID = machine.locationId" + 
+    					" WHERE machine.machineId = " + ClientController.OLCurrentMachineID + ";"
+    	});
+    	ClientUI.clientController.accept(getDiscountAmount);
+    	
+    	ArrayList<?> promotionStatusAndPromotionID = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
+    	
+    	Boolean promotionStatus = false;
+    	double promotionDiscount = 0;
+    	for (ArrayList<Object> promotion: (ArrayList<ArrayList<Object>>) promotionStatusAndPromotionID) {
+    		promotionStatus = new Boolean((boolean) promotion.get(0));
+    		promotionDiscount = (float) promotion.get(1);
+    		//Get only the first active promotion
+    		if (promotionStatus == true)
+    			break;
+    	}
+    	if (promotionStatus == true) {
+    		salePromotionAmount = 1 - (promotionDiscount / 100);
+    	}
+    	
+    	
+    }
+    
     ///// Dima 30/12 17:15
     private int gridPaneRow = 0;
     private String nextItemLocation = "left";
@@ -145,6 +178,8 @@ public class _EKConfigurationProductController {
     // Rotem ^^^
     	
 	public void initialize() throws FileNotFoundException {
+		if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER))
+			setDiscountAmount();
 		// if we switch machines - clear the order and so on [please test this! I only Rotem-tested it]
 		if(isMachineSwitchedFlag() ) {
 			productsInStockMap = new HashMap<>();
@@ -201,10 +236,7 @@ public class _EKConfigurationProductController {
 				"OR product.subCategory =" + "'"+ productCategory + "')" + 
 				" AND products_in_machine.machineID = " + ClientController._EkCurrentMachineID, false, null});
 		
-
 		ClientUI.clientController.accept(testmsg);
-
-		
 		if (ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
 			System.out.println("I got it good");
 			//Might want to check this suppression
@@ -255,11 +287,12 @@ public class _EKConfigurationProductController {
 				productDetails.getChildren().add(txtProductStock);
 				//Implement item on sale	
 				//if(ClientController.getcurrentCustomer == Subscriber AND product == ON-SALE -> display item on sale
-				if (((ArrayList)product).get(0).toString().equals("103")) {
+				if (salePromotionAmount < 1) {
 					//This is just an example
 					txtProductCostPerUnit.setStrikethrough(true);
 					Text txtSubscriberSale = new Text();
-					txtSubscriberSale.setText("ON SALE: 10.90$");
+					Double priceAfterSale = new Double(((ArrayList<?>)product).get(2).toString());
+					txtSubscriberSale.setText("ON SALE: " + (new DecimalFormat("##.##").format((priceAfterSale * salePromotionAmount))).toString() + "$");
 					txtSubscriberSale.setFill(Color.CRIMSON);
 					txtSubscriberSale.setFont(new Font(18));
 					txtSubscriberSale.setStyle("-fx-font: 20 System; -fx-font-weight: bold;");
@@ -292,7 +325,7 @@ public class _EKConfigurationProductController {
 				addToCartImageView.setFitWidth(45);
 				addToCartButton.setPrefSize(50, 50);
 				addToCartButton.setGraphic(addToCartImageView);
-				addToCartButton.setStyle("-fx-background-color: transparent; -fx-border-color:crimson; "
+				addToCartButton.setStyle("-fx-background-color: transparent; -fx-border-color: crimson; "
 						+ "-fx-border-width: 1px; -fx-border-radius: 100");
 				////////////////////////////////////////////
 			
@@ -318,7 +351,7 @@ public class _EKConfigurationProductController {
 				BorderPane pane = new BorderPane();
 				pane.minHeight(170);
 				pane.setStyle("-fx-border-color: black; -fx-border-width: 3px; -fx-border-radius: 10;"
-						+ " -fx-background-color:   linear-gradient(from 0px 0px to 0px 1500px, pink, yellow); -fx-background-radius: 12");
+						+ " -fx-background-color: linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO); -fx-background-radius: 12");
 
 				//pane.getChildren().add(productHBox);
 				pane.setCenter(productHBox);
@@ -356,9 +389,11 @@ public class _EKConfigurationProductController {
 					String currentProductID = ((ArrayList<?>)product).get(0).toString();
 
 					if (!ClientController.getProductByID.containsKey(currentProductID)) {
+						double pricePerProductBeforeDiscount = new Double(((ArrayList<?>)product).get(2).toString());
+						Double priceAfterDiscount = new Double(pricePerProductBeforeDiscount * salePromotionAmount);
 						superProduct p = new superProduct(((ArrayList<?>)product).get(0).toString(),
 								((ArrayList<?>)product).get(1).toString(), 
-								((ArrayList<?>)product).get(2).toString(),((ArrayList<?>)product).get(3).toString(),
+								priceAfterDiscount.toString() ,((ArrayList<?>)product).get(3).toString(),
 								(""), ((ArrayList<?>)product).get(5).toString(), (byte[])((ArrayList<?>)product).get(6));
 						ClientController.getProductByID.put(currentProductID, p);
 					}
@@ -398,7 +433,7 @@ public class _EKConfigurationProductController {
 			Border border = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
 			borderPane.setCenter(scrollPane);
 			System.out.println("WARNING HAPPENS HERE:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
-			scrollPane.setStyle("-fx-background-color: transparent; -fx-background:  linear-gradient(from 0px 0px to 0px 1500px, pink, red);"
+			scrollPane.setStyle("-fx-background-color: transparent; -fx-background:  linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO);"
 					+ "-fx-border-color: transparent;");
 			scrollPane.setBorder(border);
 			

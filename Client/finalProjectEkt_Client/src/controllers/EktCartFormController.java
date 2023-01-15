@@ -40,6 +40,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logic.Product;
+import logic.Role;
 import logic.superProduct;
 
 public class EktCartFormController {
@@ -121,6 +122,7 @@ public class EktCartFormController {
 		
 		choiceBox.getItems().addAll("Pickup","Delivery");
 		ComboBox<String> cb = new ComboBox<>();
+		cb.getStylesheets().add("/gui/comboboxCSS.css");
 		Text t = new Text();
 		choiceBox.setOnAction(event ->{
 			if(choiceBox.getValue().equals("Pickup")) {
@@ -132,7 +134,7 @@ public class EktCartFormController {
 						"Kiryat Motzkin, Center", "Kiryat Shmona, Center", "Beer Sheva, Updog", "Abu Dabi, Center",
 						"Abu Naji, Center");
 				cb.setLayoutX(509);
-				cb.setLayoutY(14);
+				cb.setLayoutY(6);
 				
 				btmPane.getChildren().add(cb);
 				System.out.println("pickup place = " + cb.getValue());
@@ -142,13 +144,14 @@ public class EktCartFormController {
 				ClientController.orderType = choiceBox.getValue();
 				btmPane.getChildren().remove(cb);
 				tf.setLayoutX(509);
-				tf.setLayoutY(14);
+				tf.setLayoutY(22);
 				tf.getStylesheets().add("/gui/textfieldCSS.css");
 				t.setLayoutX(509);
-				t.setLayoutY(11);
+				t.setLayoutY(13);
+				tf.prefWidth(300);
 				tf.setPromptText("Please Insert Address");
 				t.setText("Please Insert Address For Delivery");
-				t.setFont(Font.font("Verdana", FontWeight. BOLD, 12));
+				t.setFont(Font.font("berlin sans fb", FontWeight.NORMAL, 16));
 				btmPane.getChildren().addAll(tf,t);
 				System.out.println("Client Order Type is = " + choiceBox.getValue());
 			}

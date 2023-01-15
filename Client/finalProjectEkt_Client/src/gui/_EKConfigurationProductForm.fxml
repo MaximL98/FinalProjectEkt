@@ -13,11 +13,11 @@
 <AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationProductController">
 
    <children>
-      <BorderPane fx:id="borderPane" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1500px, pink, red);">
+      <BorderPane fx:id="borderPane" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO);">
          <bottom>
             <Pane prefHeight="50.0" prefWidth="800.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="btnBack" layoutX="5.0" layoutY="5.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="39.0" prefWidth="168.0" style="-fx-background-color: transparent; -fx-background-radius: 50; -fx-border-color: black; -fx-border-radius: 10; -fx-border-width: 2;" text="BACK">
+                  <Button fx:id="btnBack" layoutX="5.0" layoutY="5.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="39.0" prefWidth="168.0" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
@@ -33,12 +33,12 @@
                         <Image url="@Images/TheBetterLogo.png" />
                      </image>
                   </ImageView>
-                  <Text fx:id="txtCategoryName" layoutX="208.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;category name&quot; Products">
+                  <Text fx:id="txtCategoryName" layoutX="207.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;category name&quot; Products">
                      <font>
-                        <Font name="Wingdings 2" size="36.0" />
+                        <Font name="Berlin Sans FB" size="36.0" />
                      </font>
                   </Text>
-                  <Button fx:id="btnCart" layoutX="636.0" layoutY="29.0" mnemonicParsing="false" onAction="#getBtnCart" prefHeight="70.0" prefWidth="155.0" style="-fx-background-radius: 200; -fx-border-color: black; -fx-border-width: 2; -fx-background-color: transparent; -fx-border-radius: 300;" text="      CART">
+                  <Button fx:id="btnCart" layoutX="636.0" layoutY="29.0" mnemonicParsing="false" onAction="#getBtnCart" prefHeight="70.0" prefWidth="155.0" style="-fx-background-radius: 200; -fx-border-color: purple; -fx-border-width: 2; -fx-background-color: transparent; -fx-border-radius: 300;" text="      CART">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font></Button>

@@ -9,27 +9,27 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationLogisticsEmployeeController">
+<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationLogisticsEmployeeController">
    <children>
-      <Pane prefHeight="470.0" prefWidth="800.0">
+      <Pane prefHeight="470.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO);">
          <children>
-            <ImageView fitHeight="93.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/TheBetterLogo.png" />
                </image>
             </ImageView>
-            <Text fx:id="txtWelcomeText" layoutX="232.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome name!" textAlignment="CENTER">
+            <Text fx:id="txtWelcomeText" layoutX="223.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WELCOME NAME!" textAlignment="CENTER">
                <font>
                   <Font name="OpenSymbol" size="44.0" />
                </font>
             </Text>
-            <Button fx:id="btnRestockAll" layoutX="55.0" layoutY="138.0" mnemonicParsing="false" onAction="#getBtnRestockAll" prefHeight="124.0" prefWidth="691.0" text="Restock products">
+            <Button fx:id="btnRestockAll" layoutX="55.0" layoutY="138.0" mnemonicParsing="false" onAction="#getBtnRestockAll" prefHeight="124.0" prefWidth="691.0" stylesheets="@buttonCSS.css" text="RESTOCK PRODUCTS" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
             <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="314.0" layoutY="408.0" prefHeight="34.0" prefWidth="144.0" text="test" textAlignment="CENTER" visible="false" />
-            <Button fx:id="btnPartialRestock" layoutX="55.0" layoutY="301.0" mnemonicParsing="false" onAction="#getBtnPartialRestock" prefHeight="124.0" prefWidth="691.0" text="Partial restock">
+            <Button fx:id="btnPartialRestock" layoutX="55.0" layoutY="301.0" mnemonicParsing="false" onAction="#getBtnPartialRestock" prefHeight="124.0" prefWidth="691.0" stylesheets="@buttonCSS.css" text="PARTIAL RESTOCK" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>

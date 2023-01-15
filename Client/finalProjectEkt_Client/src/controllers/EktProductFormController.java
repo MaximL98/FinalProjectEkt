@@ -37,6 +37,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.Product;
+import logic.Role;
 import logic.superProduct;
 
 import java.awt.Scrollbar;
@@ -148,6 +149,7 @@ public class EktProductFormController {
     private double salePromotionAmount = 1;
     
     private void setDiscountAmount() {
+    	
     	//Set the discount amount if any is active
     	SCCP getDiscountAmount = new SCCP();
     	getDiscountAmount.setRequestType(ServerClientRequestTypes.SELECT);
@@ -177,7 +179,8 @@ public class EktProductFormController {
     }
     	
 	public void initialize() throws FileNotFoundException {
-		setDiscountAmount();
+		if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER))
+			setDiscountAmount();
 		// if we switch machines - clear the order and so on [please test this! I only Rotem-tested it]
 		if(isMachineSwitchedFlag() ) {
 			productsInStockMap = new HashMap<>();
@@ -247,7 +250,6 @@ public class EktProductFormController {
 				System.out.println(product);
 				//Main product hbox
 				HBox productHBox = new HBox();
-				
 				
 				//ProductName + ProductID + ProductPrice
 				VBox productDetails = new VBox();
@@ -361,7 +363,6 @@ public class EktProductFormController {
 				paneShadow.setRadius(1);
 				paneShadow.setSpread(0.001);
 				pane.setEffect(paneShadow);
-				
 				
 				addToCartButton.setOnAction(event -> {
 					/*

@@ -11,36 +11,46 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationLoginFrameController">
+<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationLoginFrameController">
    <children>
-      <Pane prefHeight="504.0" prefWidth="790.0">
+      <Pane prefHeight="504.0" prefWidth="790.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO);">
          <children>
-            <ImageView fitHeight="108.0" fitWidth="181.0" layoutX="315.0" layoutY="99.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="124.0" fitWidth="185.0" layoutX="303.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/TheBetterLogo.png" />
                </image>
             </ImageView>
-            <Text layoutX="147.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ekrut Machine Vendotron" textAlignment="CENTER">
+            <Text layoutX="146.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EKRUT VENDING MACHINE" textAlignment="CENTER">
                <font>
-                  <Font name="OpenSymbol" size="44.0" />
+                  <Font name="Berlin Sans FB" size="42.0" />
                </font>
             </Text>
-            <TextField fx:id="txtUsername" layoutX="68.0" layoutY="241.0" prefHeight="42.0" prefWidth="316.0" promptText="username" onAction="#onEnter">
+            <TextField fx:id="txtUsername" layoutX="68.0" layoutY="241.0" onAction="#onEnter" prefHeight="42.0" prefWidth="316.0" stylesheets="@textfieldCSS.css">
                <font>
                   <Font size="24.0" />
                </font>
             </TextField>
-                        <PasswordField fx:id="pwdField" layoutX="68.0" layoutY="321.0" prefHeight="51.0" prefWidth="316.0" promptText="password"  onAction="#onEnter">
+                        <PasswordField fx:id="pwdField" layoutX="68.0" layoutY="321.0" onAction="#onEnter" prefHeight="51.0" prefWidth="316.0" stylesheets="@textfieldCSS.css">
                <font>
                   <Font size="24.0" />
                </font>
             </PasswordField>
-            <Button fx:id="btnLogin" layoutX="448.0" layoutY="241.0" mnemonicParsing="false" onAction="#getBtnLoginEK" prefHeight="131.0" prefWidth="277.0" text="Login">
+            <Button fx:id="btnLogin" layoutX="448.0" layoutY="241.0" mnemonicParsing="false" onAction="#getBtnLoginEK" prefHeight="131.0" prefWidth="277.0" stylesheets="@buttonCSS.css" text="LOGIN" textFill="WHITE">
                <font>
-                  <Font size="24.0" />
+                  <Font name="Berlin Sans FB" size="24.0" />
                </font>
             </Button>
             <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="246.0" layoutY="680.0" prefHeight="79.0" prefWidth="334.0" text="test" textAlignment="CENTER" visible="false" />
+            <Text layoutX="68.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USERNAME">
+               <font>
+                  <Font name="Berlin Sans FB" size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="67.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD">
+               <font>
+                  <Font name="Berlin Sans FB" size="18.0" />
+               </font>
+            </Text>
 
          </children>
       </Pane>

@@ -3,10 +3,7 @@ package controllers;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 
 import client.ClientController;
 import client.ClientUI;
@@ -18,79 +15,88 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.SingleSelectionModel;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.CustomerOrder;
-import logic.Order;
-import logic.Product;
-import logic.Role;
 
+/**
+ * The EktPaymentFormController class handles the Payment Form window of the Ekt
+ * application. It provides the user with different payment options such as
+ * paying with the Ekt App, paying with the credit card, and paying with the
+ * account balance. The class also displays the user's account balance and
+ * credit card details. It also allows the user to choose the billing date when
+ * paying with the Ekt App.
+ * 
+ * @author Rotem, Dima, Maxim
+ * @version 1.0
+ *
+ */
 public class EktPaymentFormController {
-	
+
 	@FXML
-    private Button btnBack;
+	private Button btnBack;
 
-    @FXML
-    private Button btnChargeMyCreditCard;
+	@FXML
+	private Button btnChargeMyCreditCard;
 
-    @FXML
-    private Button btnPayUsingTheEktApp;
+	@FXML
+	private Button btnPayUsingTheEktApp;
 
-    @FXML
-    private Button btnPayWithBalance;
+	@FXML
+	private Button btnPayWithBalance;
 
-    @FXML
-    private Text txtAccountBalance;
+	@FXML
+	private Text txtAccountBalance;
 
-    @FXML
-    private Text txtCreditCard;
-    
-    @FXML
-    private Text txtProcessing;
-    
-    @FXML
-    private ComboBox<String> comboBoxBillingDate;
+	@FXML
+	private Text txtCreditCard;
 
-    private Double accBalance;
-    
-    public void initialize() {
-    	SCCP getUserBalance = new SCCP();
-    	
-    	getUserBalance = new SCCP();
-    	getUserBalance.setRequestType(ServerClientRequestTypes.SELECT);
-		
-    	getUserBalance.setMessageSent(new Object[] {"customer_balance", true, "balance", true, "id = " + ClientController.getCurrentSystemUser().getId(), false, null}); 
+	@FXML
+	private Text txtProcessing;
+
+	@FXML
+	private ComboBox<String> comboBoxBillingDate;
+
+	private Double accBalance;
+
+	/**
+	 * The initialize method is used to set up the Payment Form when it is opened.
+	 * It retrieves the current system user's account balance and sets it to the
+	 * text field txtAccountBalance. If the customer is a subscriber, it enables the
+	 * button btnPayUsingTheEktApp and the comboBox comboBoxBillingDate, and sets
+	 * the items in the comboBox to the current date and the next month's date.
+	 */
+	public void initialize() {
+		SCCP getUserBalance = new SCCP();
+
+		getUserBalance = new SCCP();
+		getUserBalance.setRequestType(ServerClientRequestTypes.SELECT);
+
+		getUserBalance.setMessageSent(new Object[] { "customer_balance", true, "balance", true,
+				"id = " + ClientController.getCurrentSystemUser().getId(), false, null });
 		ClientUI.clientController.accept(getUserBalance);
 		SCCP answer = ClientController.responseFromServer;
 
-		ArrayList<ArrayList<Object>> preProcessedOutput = (ArrayList<ArrayList<Object>>)answer.getMessageSent();
-		
+		@SuppressWarnings("unchecked")
+		ArrayList<ArrayList<Object>> preProcessedOutput = (ArrayList<ArrayList<Object>>) answer.getMessageSent();
+
 		String temp = "";
-		
-		for(ArrayList<Object> lst : preProcessedOutput) {
+
+		for (ArrayList<Object> lst : preProcessedOutput) {
 			// we expect product to have 5 columns, and act accordingly
 			Object[] arr = lst.toArray();
 			System.out.println(Arrays.toString(arr));
 			temp = arr[0].toString();
 			System.out.println(temp);
 		}
-		
+
 		accBalance = Double.parseDouble(temp);
-		
-    	
-    	
-    	
-    	txtAccountBalance.setText("ACCOUNT BALANCE: " + new DecimalFormat("##.##").format(accBalance) + "$");
-    	
-    	if (ClientController.getCustomerIsSubsriber() == true) {
+
+		txtAccountBalance.setText("ACCOUNT BALANCE: " + new DecimalFormat("##.##").format(accBalance) + "$");
+
+		if (ClientController.getCustomerIsSubsriber() == true) {
 			btnPayUsingTheEktApp.setDisable(false);
 			comboBoxBillingDate.setDisable(false);
 			ObservableList<String> comboPayment = FXCollections.observableArrayList();
@@ -101,31 +107,36 @@ public class EktPaymentFormController {
 			date.add(splitDate[0]);
 			date.add(splitDate[1]);
 			date.add(splitDate[2]);
-			//Set day to 01
+			// Set day to 01
 			date.set(2, "01");
-			//If current month is "12" set month = 01 and year = currentYear+1 
+			// If current month is "12" set month = 01 and year = currentYear+1
 			if (date.get(1).equals("12")) {
 				date.set(1, "01");
 				date.set(0, (Integer.parseInt(date.get(0)) + 1) + "");
 			} else {
-				//Else do month = month+1
+				// Else do month = month+1
 				int month = Integer.parseInt(date.get(1));
-				
+
 				if (month < 10) {
 					date.set(1, "0" + (month + 1));
 				} else {
 					date.set(1, (month + 1) + "");
 				}
-				
+
 			}
-			
+
 			comboPayment.add("Next month: " + date.get(2) + "-" + date.get(1) + "-" + date.get(0));
-			
+
 			comboBoxBillingDate.setItems(comboPayment);
 		}
-    }
-    
-    private Integer getTypeId(String orderType) {
+	}
+
+	/**
+	 * 
+	 * @param orderType the type of order
+	 * @return the id associated with the orderType
+	 */
+	private Integer getTypeId(String orderType) {
 		switch (orderType) {
 		case "Pickup":
 			return 1;
@@ -134,199 +145,247 @@ public class EktPaymentFormController {
 		case "Local":
 			return 3;
 		}
-    	return null;
-    }
-   
-    
-    @FXML
-    void getBtnChargeMyCreditCard(ActionEvent event) {
-    	String[] date = java.time.LocalDate.now().toString().split("-");
-    	ClientController.billingDate = date[0] + "-" + date[1] + "-" + date[2];
-    	txtProcessing.setText("PROCESSING...");
-    	processOrder(event);
-    }
+		return null;
+	}
 
-    @FXML
-    void getBtnPayUsingTheEktApp(ActionEvent event) {
-    	String[] date = comboBoxBillingDate.getValue().split(" ");
-    	if (date.length == 3) {
-    		ClientController.billingDate = date[2];
-    	} else {
-    		ClientController.billingDate = date[1];
-    	}
-    	txtProcessing.setText("PROCESSING...");
-    	processOrder(event);
-    }
+	/**
+	 * 
+	 * This method is triggered when the user clicks the "Charge My Credit Card"
+	 * button. It sets the billing date to the current date, sets the processing
+	 * text to "PROCESSING...", and calls the processOrder() method.
+	 * 
+	 * @param event The event that triggered this method, in this case, a button
+	 *              click.
+	 */
+	@FXML
+	void getBtnChargeMyCreditCard(ActionEvent event) {
+		String[] date = java.time.LocalDate.now().toString().split("-");
+		ClientController.billingDate = date[0] + "-" + date[1] + "-" + date[2];
+		txtProcessing.setText("PROCESSING...");
+		processOrder(event);
+	}
 
-    @FXML
-    void getBtnPayWithBalance(ActionEvent event) {
-    	String[] date = java.time.LocalDate.now().toString().split("-");
-    	System.out.println(date);
-    	ClientController.billingDate = date[0] + "-" + date[1] + "-" + date[2];
-    	txtProcessing.setText("PROCESSING...");
-    	
-    	Double newBalance = accBalance - ClientController.orderTotalPrice;
-    	
+	/**
+	 * This method is used to handle the "Pay using the Ekt App" button. It gets the
+	 * value of the selected date from the combo box and sets it as the billing
+	 * date. It also sets the text of the "txtProcessing" text field to
+	 * "PROCESSING..." and calls the "processOrder" method.
+	 * 
+	 * @param event The ActionEvent object that is triggered when the button is
+	 *              clicked.
+	 */
+	@FXML
+	void getBtnPayUsingTheEktApp(ActionEvent event) {
+		String[] date = comboBoxBillingDate.getValue().split(" ");
+		if (date.length == 3) {
+			ClientController.billingDate = date[2];
+		} else {
+			ClientController.billingDate = date[1];
+		}
+		txtProcessing.setText("PROCESSING...");
+		processOrder(event);
+	}
+
+	/**
+	 * This method is used to handle the "Pay with Balance" button. It gets the
+	 * current date and sets it as the billing date. It also sets the text of the
+	 * "txtProcessing" text field to "PROCESSING...". It then calculates the new
+	 * balance by subtracting the order total price from the current balance. It
+	 * then updates the customer balance in the database with the new balance.
+	 * Finally it calls the "processOrder" method.
+	 * 
+	 * @param event The ActionEvent object that is triggered when the button is
+	 *              clicked.
+	 */
+	@FXML
+	void getBtnPayWithBalance(ActionEvent event) {
+		String[] date = java.time.LocalDate.now().toString().split("-");
+		System.out.println(date);
+		ClientController.billingDate = date[0] + "-" + date[1] + "-" + date[2];
+		txtProcessing.setText("PROCESSING...");
+
+		Double newBalance = accBalance - ClientController.orderTotalPrice;
+
 		SCCP updateStock = new SCCP();
 		updateStock.setRequestType(ServerClientRequestTypes.UPDATE);
-		updateStock.setMessageSent(new Object[] {
-				"customer_balance", "balance = " + new DecimalFormat("##.##").format(newBalance), " id = " +ClientController.getCurrentSystemUser().getId()});
-		
+		updateStock.setMessageSent(
+				new Object[] { "customer_balance", "balance = " + new DecimalFormat("##.##").format(newBalance),
+						" id = " + ClientController.getCurrentSystemUser().getId() });
+
 		ClientUI.clientController.accept(updateStock);
-		System.out.println("Balance was updated from " + new DecimalFormat("##.##").format(accBalance) + "to " + new DecimalFormat("##.##").format(newBalance) + "after order!");
-    	
-    	processOrder(event);
-    }
-	
+		System.out.println("Balance was updated from " + new DecimalFormat("##.##").format(accBalance) + "to "
+				+ new DecimalFormat("##.##").format(newBalance) + "after order!");
+
+		processOrder(event);
+	}
+
+	/**
+	 * The getBtnBack method is an event handler that is triggered when the user
+	 * clicks on the 'back' button. It navigates the user to the previous page by
+	 * calling the nextPage method and passing in the necessary parameters.
+	 * 
+	 * @param event - the ActionEvent object that is triggered when the button is
+	 *              clicked
+	 */
 	@FXML
 	public void getBtnBack(ActionEvent event) {
 		nextPage(event, "/gui/EktOrderSummary.fxml", "EKT cart");
 	}
-	
+
+	/**
+	 * 
+	 * The nextPage method is used to navigate the user to the next page by creating
+	 * a new window with the given fxml address and window label. It also closes the
+	 * current window.
+	 * 
+	 * @param event       - the ActionEvent object that triggers the method
+	 * @param fxmlAddress - the address of the fxml file of the next page
+	 * @param windowLabel - the label of the next window
+	 */
 	private void nextPage(ActionEvent event, String fxmlAddress, String windowLabel) {
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), fxmlAddress, null, windowLabel, true);
+		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), fxmlAddress, null,
+				windowLabel, true);
 
 		primaryStage.show();
-		((Stage)((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
+		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // hiding primary window
 	}
-	
+
+	/**
+	 * 
+	 * The processOrder method is used to process the order by inserting it into the
+	 * database table 'orders' and associating it with the current customer in the
+	 * 'customer_orders' table. It retrieves the max order id from the database and
+	 * sets it to the ClientController's orderNumber variable. This method also
+	 * handles the delivery time and typeId of the order and sets them accordingly.
+	 * 
+	 * @param event - the ActionEvent object that triggers the method
+	 */
 	private void processOrder(ActionEvent event) {
-		//insert to database, table: orders
+		// insert to database, table: orders
 		SCCP preparedMessage = new SCCP();
-		
+
 		preparedMessage.setRequestType(ServerClientRequestTypes.ADD);
-		//name of table, add many?, array of objects (to add),  
-		//ArrayList<Object> fillArrayToOrder = new ArrayList<>();
-		
+		// name of table, add many?, array of objects (to add),
+		// ArrayList<Object> fillArrayToOrder = new ArrayList<>();
+
 		Object[] fillOrder = new Object[3];
-		
-		if(getTypeId(ClientController.orderType) == 2) {
+
+		if (getTypeId(ClientController.orderType) == 2) {
 			fillOrder[0] = "orders (total_price, total_quantity, machineID, date_received, deliveryTime, typeId, statusId)";
 			fillOrder[1] = false;
-			fillOrder[2] = new Object[] {"(" + ClientController.orderTotalPrice + "," + 
-			ClientController.orderTotalQuantity + "," + ClientController.OLCurrentMachineID + ",\"" + 
-			ClientController.orderDateReceived + "\"" + ",\"" + ClientController.orderDeliveryTime + 
-					"\"" + "," + getTypeId(ClientController.orderType) + "," + 1 + ")"};
-		}
-		else {
+			fillOrder[2] = new Object[] { "(" + ClientController.orderTotalPrice + ","
+					+ ClientController.orderTotalQuantity + "," + ClientController.OLCurrentMachineID + ",\""
+					+ ClientController.orderDateReceived + "\"" + ",\"" + ClientController.orderDeliveryTime + "\""
+					+ "," + getTypeId(ClientController.orderType) + "," + 1 + ")" };
+		} else {
 			fillOrder[0] = "orders (total_price, total_quantity, machineID, date_received, typeId, statusId)";
 			fillOrder[1] = false;
-			fillOrder[2] = new Object[] {"(" + ClientController.orderTotalPrice + "," + 
-			ClientController.orderTotalQuantity + "," + ClientController.OLCurrentMachineID + ",\"" + 
-			ClientController.orderDateReceived + "\"" 
-					 + "," + getTypeId(ClientController.orderType) + "," + 1 + ")"};
+			fillOrder[2] = new Object[] {
+					"(" + ClientController.orderTotalPrice + "," + ClientController.orderTotalQuantity + ","
+							+ ClientController.OLCurrentMachineID + ",\"" + ClientController.orderDateReceived + "\""
+							+ "," + getTypeId(ClientController.orderType) + "," + 1 + ")" };
 		}
-		
-		
-		preparedMessage.setMessageSent(fillOrder); 
+
+		preparedMessage.setMessageSent(fillOrder);
 		ClientUI.clientController.accept(preparedMessage);
-		
-		//select from database for MAX orderID
+
+		// select from database for MAX orderID
 		preparedMessage = new SCCP();
 		preparedMessage.setRequestType(ServerClientRequestTypes.SELECT);
-		
-		preparedMessage.setMessageSent(new Object[] {"orders", true, "MAX(orderID)", false, null, false, null}); 
+
+		preparedMessage.setMessageSent(new Object[] { "orders", true, "MAX(orderID)", false, null, false, null });
 		ClientUI.clientController.accept(preparedMessage);
-		
+
 		SCCP answer = ClientController.responseFromServer;
-		
-		ArrayList<ArrayList<Object>> preProcessedOutput = (ArrayList<ArrayList<Object>>)answer.getMessageSent();
-		
+
+		@SuppressWarnings("unchecked")
+		ArrayList<ArrayList<Object>> preProcessedOutput = (ArrayList<ArrayList<Object>>) answer.getMessageSent();
+
 		String temp = "";
-		
-		for(ArrayList<Object> lst : preProcessedOutput) {
+
+		for (ArrayList<Object> lst : preProcessedOutput) {
 			// we expect product to have 5 columns, and act accordingly
 			Object[] arr = lst.toArray();
 			System.out.println(Arrays.toString(arr));
 			temp = arr[0].toString();
 			System.out.println(temp);
 		}
-		
+
 		Integer maxOrderId = Integer.parseInt(temp);
 		ClientController.orderNumber = maxOrderId;
-		
+
 		////////////////
 		/*
-		 * Rotem: 1.12.23 -> adding an insert to customer_orders (associate a customer with an order in DB)
+		 * Rotem: 1.12.23 -> adding an insert to customer_orders (associate a customer
+		 * with an order in DB)
 		 */
-		CustomerOrder toInsert = new CustomerOrder(ClientController.getCurrentSystemUser().getId(),
-				maxOrderId,
-				/* TODO: replace this with the expected machine to be used for the order (delivery or pickup)*/
-				1, 
-				/* Rotem added per Dima the billing date (it is stored in ClientController as static string)*/
+		CustomerOrder toInsert = new CustomerOrder(ClientController.getCurrentSystemUser().getId(), maxOrderId,
+				/*
+				 * TODO: replace this with the expected machine to be used for the order
+				 * (delivery or pickup)
+				 */
+				1,
+				/*
+				 * Rotem added per Dima the billing date (it is stored in ClientController as
+				 * static string)
+				 */
 				ClientController.billingDate);
-		ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.ADD, 
-				new Object[] 
-						{"customer_orders", 
-								false, 
-								new Object[] {toInsert}}));
+		ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.ADD,
+				new Object[] { "customer_orders", false, new Object[] { toInsert } }));
 
 		SCCP rotemRes = ClientController.responseFromServer;
 
-		if(rotemRes.getRequestType().equals(ServerClientRequestTypes.ACK)) {
+		if (rotemRes.getRequestType().equals(ServerClientRequestTypes.ACK)) {
 			System.out.println("Updated customer_orders successfully!");
-		}
-		else {
+		} else {
 			System.out.println("Failed in updating customer_orders!");
 		}
-		
+
 		/*
 		 * End Rotem -> added insert to custoemr_orders
 		 */
 		////////////////
 
-		
-		//insert to database, table: order_contents
+		// insert to database, table: order_contents
 		preparedMessage = new SCCP();
-		
+
 		preparedMessage.setRequestType(ServerClientRequestTypes.ADD);
-		//name of table, add many?, array of objects (to add),  
+		// name of table, add many?, array of objects (to add),
 		ArrayList<Object> fillArrayToOrderContents = new ArrayList<>();
-		
+
 		Object[] fillOrderContents = new Object[3];
-		
+
 		fillOrderContents[0] = "order_contents";
 		fillOrderContents[1] = true;
-		
+
 		int i = 3, j = 4;
-		for(ArrayList<?> order: ClientController.userOrders.values()) {
-			while(j < order.size() - 1){
-				fillArrayToOrderContents.add("(" + maxOrderId + ",\"" + 
-				order.get(i) + "\"" + ",\"" + order.get(j) + "\")");
-				i+=2; j+=2;
+		for (ArrayList<?> order : ClientController.userOrders.values()) {
+			while (j < order.size() - 1) {
+				fillArrayToOrderContents
+						.add("(" + maxOrderId + ",\"" + order.get(i) + "\"" + ",\"" + order.get(j) + "\")");
+				i += 2;
+				j += 2;
 			}
 		}
 
 		fillOrderContents[2] = fillArrayToOrderContents.toArray();
-		
-		preparedMessage.setMessageSent(fillOrderContents); 
+
+		preparedMessage.setMessageSent(fillOrderContents);
 		ClientUI.clientController.accept(preparedMessage);
 		ClientController.orderNumber++;
-		
-		
-		for(Map.Entry<String, Integer> set : EktProductFormController.productsInStockMap.entrySet()) {
-			
+
+		for (Map.Entry<String, Integer> set : EktProductFormController.productsInStockMap.entrySet()) {
+
 			SCCP updateStock = new SCCP();
 			updateStock.setRequestType(ServerClientRequestTypes.UPDATE);
-			updateStock.setMessageSent(new Object[] {
-					"products_in_machine", "stock = " + set.getValue(), " machineID = " +ClientController.OLCurrentMachineID 
-							+ " AND productID = " + set.getKey()});
-			
+			updateStock.setMessageSent(new Object[] { "products_in_machine", "stock = " + set.getValue(),
+					" machineID = " + ClientController.OLCurrentMachineID + " AND productID = " + set.getKey() });
+
 			ClientUI.clientController.accept(updateStock);
 			System.out.println("For Product " + set.getKey() + "the Stock was updated!");
 		}
-		
-		
-		
-//		long counter = 0;
-//		try {
-//			Thread.sleep(2000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
+
 		EktProductFormController.itemsInCart = 0;
 		ClientController.currentUserCart.keySet().clear();
 		ClientController.getProductByID.keySet().clear();

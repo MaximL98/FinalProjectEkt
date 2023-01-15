@@ -290,9 +290,10 @@ public class EktRegionalManagerAcceptNewCustomerController {
 
 		SCCP unapprovedCustomers = new SCCP();
 		unapprovedCustomers.setRequestType(ServerClientRequestTypes.SELECT);
-		unapprovedCustomers.setMessageSent(new Object[] { "systemuser", true,
-				"firstName, lastName, typeOfUser, id, phoneNumber", true,
-				"typeOfUser = \"unapproved_customer\" OR typeOfUser = \"unapproved_subscriber\";", false, null });
+		unapprovedCustomers.setMessageSent(new Object[] { "systemuser JOIN customer_location ON systemuser.id = customer_location.id", true,
+				"firstName, lastName, typeOfUser, systemuser.id, phoneNumber", true,
+				"typeOfUser = \"unapproved_customer\" OR typeOfUser = \"unapproved_subscriber\" "
+				+ "AND location = " + "'" + ClientController.getCurrentUserRegion() + "';", false, null });
 
 		ClientUI.clientController.accept(unapprovedCustomers);
 

@@ -369,19 +369,34 @@ public class DatabaseOperationsMap {
 		protected static final class DatabaseActionSelectForFetchOrders implements IDatabaseAction {
 			private String ORDERS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "orders";
 			private String MACHINES_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "machine";
-			private final String JOIN = " JOIN ";
 
 			@Override
 			public Object getDatabaseAction(Object[] orderFilters) {
 				StringBuilder sqlBuilder = new StringBuilder("select * from ");
 				sqlBuilder.append(ORDERS_TABLE);
-				sqlBuilder.append(JOIN);
+				sqlBuilder.append(" JOIN ");
 				sqlBuilder.append(MACHINES_TABLE);
 				sqlBuilder.append(" using(machineId)");
-				if (orderFilters.length > 0) {
-					int statusId = ((int[]) orderFilters[0])[0];
-					sqlBuilder.append(" WHERE statusId = ");
-					sqlBuilder.append(statusId);
+				if (orderFilters.length >0) {
+					Status[] statuses = (Status[]) orderFilters[0];
+					Type[] types = (Type[]) orderFilters[1];
+					// append status filters
+					sqlBuilder.append(" WHERE statusId in(");
+					for(Status s : statuses) {
+						sqlBuilder.append(s);
+						sqlBuilder.append(",");
+					}
+					// delete last comma
+					sqlBuilder.deleteCharAt(sqlBuilder.lastIndexOf(","));
+					// append type filters
+					sqlBuilder.append(") AND typeId in(");
+					for(Type t : types) {
+						sqlBuilder.append(t);
+						sqlBuilder.append(",");
+					}
+					// delete last comma
+					sqlBuilder.deleteCharAt(sqlBuilder.lastIndexOf(","));
+					sqlBuilder.append(")");
 				}
 				sqlBuilder.append(";");
 

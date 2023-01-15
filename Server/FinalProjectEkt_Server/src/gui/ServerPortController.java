@@ -3,10 +3,12 @@ package gui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import Server.ServerUI;
 import common.WindowStarter;
 import database.DatabaseController;
+import database.DatabaseOperation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,13 +16,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import ocsf.server.ConnectionToClient;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextArea;
@@ -61,6 +67,7 @@ public class ServerPortController  {
 	@FXML
 	private void initialize() {
 		//colClients.setCellValueFactory(null);
+		addUserToDB.setText("Import Simulation (one time use)");
 	}
 	
 	public void start(Stage primaryStage) throws Exception {	
@@ -179,23 +186,58 @@ public class ServerPortController  {
 	}
 
 	@FXML public void getAddUserToDbBtn(ActionEvent event) throws IOException {
+		// what happens here:
+		// we read the user-management table (one big table), an external table with all user related info
+		// we read a table of the format: everything_in_systemuser + location (for managers)
+		// origin schema.table=ektdb.external_users
+		// we place every user in the appropriate tables
+		// insert into: systemuser, manager_location, worker (maybe worker is not needed?)
+		// For now, I only insert to systemuser and to manager_location (in case typeOfUser=regional_manager)
+		Object res = DatabaseController.handleQuery(DatabaseOperation.IMPORT_SIMULATION, new Object[] {});
+		if(res instanceof Boolean) {
+			String popupTitle, pHeader, pText;
+			popupTitle = "Import Simulation";
+			pHeader = "Import simulation succeeded!";
+			pText = "Click here to close this popup";
+			Boolean bRes = (Boolean)res;
+			if(bRes) {
+				// alert success
+				System.out.println("Succcessfully imported data from external table \"external_users\" in schema ektdb.");
+			}
+			else {
+				// alert failure
+				System.out.println("Failure: importing data from external table "
+						+ "\"external_users\" in schema ektdb has failed, please check the table's state and entries.");
+				pHeader = "Failure importing data!";
+			}
+    		Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.setTitle(popupTitle);
+            alert.setHeaderText(pHeader);
+            alert.setContentText(pText);
+            alert.showAndWait();
+            addUserToDB.setDisable(true);
+//            if (result.get() == ButtonType.OK) {
+		}
+		
+		// OLD VERSION:
 		// start a new window with a selection tool for all the tables in the database.
-		// when user selects a table, show it, and show all fields to fill
-		System.out.println("Server is loading Database Control page");
-		
-		FXMLLoader loader = new FXMLLoader();
-
-		
-		Stage primaryStage = new Stage();
-		Pane root = loader.load(getClass().getResource("/gui/ServerDatabaseAdditionForm.fxml").openStream());
-		//UpdateCustomerController updateCustomerController = loader.getController();		
-		//UpdateCustomerController.loadStudent(ChatClient.s1);
-	
-		Scene scene = new Scene(root);			
-		primaryStage.setTitle("Database Control");
-
-		primaryStage.setScene(scene);		
-		primaryStage.show();
+		// when user selects a table, show it, and show all fields to fill	
+//		System.out.println("Server is loading Database Control page");
+//		
+//		FXMLLoader loader = new FXMLLoader();
+//
+//		
+//		Stage primaryStage = new Stage();
+//		Pane root = loader.load(getClass().getResource("/gui/ServerDatabaseAdditionForm.fxml").openStream());
+//		//UpdateCustomerController updateCustomerController = loader.getController();		
+//		//UpdateCustomerController.loadStudent(ChatClient.s1);
+//	
+//		Scene scene = new Scene(root);			
+//		primaryStage.setTitle("Database Control");
+//
+//		primaryStage.setScene(scene);		
+//		primaryStage.show();
 	}
 
 	@FXML public void clickDisconnectBtn(ActionEvent event) {

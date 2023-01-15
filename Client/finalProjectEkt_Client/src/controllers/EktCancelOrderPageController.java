@@ -176,7 +176,7 @@ public class EktCancelOrderPageController {
 				+ "JOIN machine ON orders.machineID = machine.machineId "
 				+ "JOIN locations ON machine.locationId = locations.locationID", true,
 				"orders.orderID, orders.total_price, orders.date_received", true,
-				"locations.locationName = 'north' AND orders.statusId = 4;", false, null});
+				"locations.locationName = " + "'" + ClientController.getCurrentUserRegion() + "'" + " AND orders.statusId = 4;", false, null});
 
 		ClientUI.clientController.accept(ordersForCancellation);
 

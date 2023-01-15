@@ -21,6 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -53,7 +54,7 @@ public class EktLowStockAlertTableController {
 			gridPane.getColumnConstraints().add(colConst);
 		}
 
-		gridPane.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+		gridPane.setMaxSize(790, Region.USE_COMPUTED_SIZE);
 		gridPane.setPrefSize(800 - 2, 550);
 		gridPane.setVgap(5);
 		
@@ -89,6 +90,7 @@ public class EktLowStockAlertTableController {
 				txtMachineID.setText("Machine id: " + ((ArrayList<?>)alert).get(0).toString());
 				txtMachineID.setFill(Color.BLACK);
 				txtMachineID.setStyle("-fx-font: 16 System; -fx-font-weight: bold;");
+				
 
 				Text txtMachineName = new Text();
 				txtMachineName.setText(((ArrayList<?>)alert).get(1).toString());
@@ -137,9 +139,11 @@ public class EktLowStockAlertTableController {
 				j++;
 				gridPane.add(txtLocationID, j, i);
 				GridPane.setHalignment(txtLocationID, HPos.CENTER);
-
+			
+				
 				i++;
 				j = 0;
+			
 				
 			}
 		}

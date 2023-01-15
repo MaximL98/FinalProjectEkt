@@ -1,6 +1,8 @@
 package controllers;
 
+import java.awt.Color;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
@@ -21,11 +23,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -34,83 +38,42 @@ import javafx.stage.Stage;
 import logic.Promotions;
 
 public class EditActivePromotionsController implements Initializable {
-	@FXML
-	VBox vboxTest;
-	@FXML
-	private ComboBox<String> cbPromotionNames = null;
-	@FXML
-	private TableView<Promotions> promotionTable;
-	@FXML
-	private TableColumn<Promotions, Integer> promotionIDColumn;
-	@FXML
-	private TableColumn<Promotions, String> promotionNameColumn;
-	@FXML
-	private TableColumn<Promotions, String> promotionDescriptionColumn;
-	//@FXML
-	//private TableColumn<Promotions, String> productIdColumn;
-	@FXML
-	private TableColumn<Promotions, Integer> locationColumn;
-	@FXML
-	private TableColumn<Promotions, Integer> discountPercentageColumn;
-	@FXML
-	private TableColumn<Promotions, LocalDate> startDateColumn;
-	@FXML
-	private TableColumn<Promotions, LocalDate> endDateColumn;
-	@FXML
-	private TableColumn<Promotions, Boolean> promotionStatusColumn;
-	private ObservableList<Promotions> listView = FXCollections.observableArrayList();
-	private ArrayList<String> promotionNames;
-	private Promotions promotions;
-	private Promotions selectedPromotion;
-	// Other UI elements and variables here...
 
 	@FXML
-	public void editPromotionHandler() {
-		String selectedPromotionName = cbPromotionNames.getSelectionModel().getSelectedItem();
-//	     retrieve and display the table of promotions with the same name as selected
-		displayPromotionsTable(selectedPromotionName);
-	}
+	private TableView<promotionToTable> promotionTable;
+	@FXML
+	private TableColumn<promotionToTable, String> promotionIDColumn;
+	@FXML
+	private TableColumn<promotionToTable, String> promotionNameColumn;
+	@FXML
+	private TableColumn<promotionToTable, String> promotionDescriptionColumn;
 
-	private void displayPromotionsTable(String selectedPromotionName) {
+	@FXML
+	private TableColumn<promotionToTable, String> locationColumn;
+	@FXML
+	private TableColumn<promotionToTable, String> discountPercentageColumn;
+	@FXML
+	private TableColumn<promotionToTable, String> startDateColumn;
+	@FXML
+	private TableColumn<promotionToTable, String> promotionStatusColumn;
+	
+	private ObservableList<promotionToTable> listView = FXCollections.observableArrayList();
+
+	private void displayPromotionsTable() {
 		// Connect to the database and retrieve the promotion names
 		// Return the retrieved promotion names in an ArrayList
-		promotions = new Promotions();
 		SCCP preparedMessage = new SCCP();
-		preparedMessage.setRequestType(ServerClientRequestTypes.DISPLAY_SELECTED_PROMOTIONS);
-		preparedMessage.setMessageSent(selectedPromotionName);
-		// send to servers
-		System.out.println("Client: Sending excisiting promotion request to the server.");
+		preparedMessage.setRequestType(ServerClientRequestTypes.SELECT);
+		preparedMessage.setMessageSent(new Object[] { "promotions", true, 
+				"promotionId, promotionName, promotionDescription, locationName, discountPercentage, startDate, promotionStatus"
+				, false, null, true, 
+				"LEFT JOIN locations on locations.locationID = promotions.locationID;"});
+		
 		ClientUI.clientController.accept(preparedMessage);
 
-		@SuppressWarnings("unchecked")
-		ArrayList<Promotions> arrayFromDatabase = (ArrayList<Promotions>) ClientController.responseFromServer
-				.getMessageSent();
-		listView.clear();
-		for (Promotions promotion : arrayFromDatabase) {
-			listView.add(promotion);
-		}
-		listView.forEach(promotion -> System.out.println(promotion));
-		promotionTable.setEditable(true);
-		//promotionTable.setItems(listView);
-		promotionTable.getItems().setAll(arrayFromDatabase);
-
-		// if the response is not the type we expect, something went wrong with server
-		// communication and we throw an exception.
-		if (!(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.DISPLAY))) {
-			throw new RuntimeException("Error with server communication: Non expected request type");
-
-		}
-
-	}
-
-	@FXML
-	public void saveChangesHandler() {
-		// Update the promotion data in the database with the current values in the UI
-		// elements
 	}
 
 	public void goBackHandler(ActionEvent event) {
-		cbPromotionNames.getItems().clear();
 		Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 		currentStage.close();
 
@@ -118,99 +81,212 @@ public class EditActivePromotionsController implements Initializable {
 		WindowStarter.createWindow(primaryStage, new Object(), "/gui/SalesManager.fxml", null, "Sales", true);
 		primaryStage.show();
 	}
-
-	@Override
+	
+	@SuppressWarnings("unchecked")
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		// Set the cell value factory for each TableColumn object
-		promotionIDColumn.setCellValueFactory(new PropertyValueFactory<Promotions, Integer>("promotionId"));
-		promotionNameColumn.setCellValueFactory(new PropertyValueFactory<Promotions, String>("promotionName"));
+		promotionIDColumn.setCellValueFactory(cellData -> cellData.getValue().getPromoId());
+		promotionIDColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white; -fx-font-weight: bold;");
+		promotionNameColumn.setCellValueFactory(cellData -> cellData.getValue().getPromotionName());
+		promotionNameColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white; -fx-font-weight: bold;");
 		promotionDescriptionColumn
-				.setCellValueFactory(new PropertyValueFactory<Promotions, String>("promotionDescription"));
-		locationColumn.setCellValueFactory(new PropertyValueFactory<Promotions, Integer>("locationID"));
-		//productIdColumn.setCellValueFactory(new PropertyValueFactory<Promotions, String>("productID"));
-
-		//productIdColumn.setCellValueFactory(new PropertyValueFactory<Promotions, String>("productID"));
+				.setCellValueFactory(cellData -> cellData.getValue().getPromotionDescription());
+		promotionDescriptionColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white; -fx-font-weight: bold;");
+		locationColumn.setCellValueFactory(cellData -> cellData.getValue().getLocationName());
+		locationColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white; -fx-font-weight: bold;");
 		discountPercentageColumn
-				.setCellValueFactory(new PropertyValueFactory<Promotions, Integer>("discountPercentage"));
-		startDateColumn.setCellValueFactory(new PropertyValueFactory<Promotions, LocalDate>("startDate"));
-		endDateColumn.setCellValueFactory(new PropertyValueFactory<Promotions, LocalDate>("endDate"));
-		promotionStatusColumn.setCellValueFactory(new PropertyValueFactory<Promotions, Boolean>("promotionStatus"));
-		promotionTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			// Update the selectedOffer variable with the new selected Offer object
-			selectedPromotion = newValue;
-		});
-		
-		TableColumn<customerToAccept, Button> columnAccept = new TableColumn<>("Activate");
-		columnAccept.setPrefWidth(65);
-		columnAccept.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
-		columnAccept.setCellFactory(col -> {
-			Button accept = new Button("Activate");
-			TableCell<customerToAccept, Button> cell = new TableCell<customerToAccept, Button>() {
+				.setCellValueFactory(cellData -> cellData.getValue().getDiscountPercentage());
+		discountPercentageColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white; -fx-font-weight: bold;");
+		startDateColumn.setCellValueFactory(cellData -> cellData.getValue().getStartDate());
+		startDateColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white; -fx-font-weight: bold;");
+		promotionStatusColumn.setCellValueFactory(cellData -> cellData.getValue().getPromotionStatus());
+		promotionStatusColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white; -fx-font-weight: bold;");
+
+		TableColumn<promotionToTable, Button> columnButton = new TableColumn<>("Activate");
+		columnButton.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white; -fx-font-weight: bold;");
+		columnButton.setPrefWidth(134);
+		columnButton.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+		columnButton.setCellFactory(col -> {
+			Button setPromoStatus = new Button("CHANGE STATUS");
+			setPromoStatus.setTextFill(Paint.valueOf("WHITE"));
+			setPromoStatus.getStylesheets().add("/gui/buttonCSS.css");
+			TableCell<promotionToTable, Button> cell = new TableCell<promotionToTable, Button>() {
 				@Override
 				public void updateItem(Button item, boolean empty) {
 					super.updateItem(item, empty);
 					if (empty) {
-						setGraphic(null);
+						
 					} else {
-						setGraphic(accept);
+						setGraphic(setPromoStatus);
 					}
 				}
 			};
-			accept.setOnAction((event) -> {
+			setPromoStatus.setOnAction((event) -> {
 				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 				alert.setTitle("Activate Promotion");
-				alert.setHeaderText("This action will Activate A New Promotion!");
+				alert.setHeaderText("This action will activate a new promotion!");
 				alert.setContentText("Continue?");
 				alert.showAndWait().ifPresent(type -> {
 					if (type == ButtonType.OK) {
+						promotionToTable promotion = cell.getTableView().getItems().get(cell.getIndex());
+						SimpleStringProperty status = promotion.getPromotionStatus();
+						SimpleStringProperty promoId = promotion.getPromoId();
 						// Accept customer
-						customerToAccept customer = cell.getTableView().getItems().get(cell.getIndex());
-						SimpleStringProperty userType = customer.getUserType();
-						SimpleStringProperty id = customer.getId();
-
-						SCCP updateCustomerToNewCustomer = new SCCP();
-						updateCustomerToNewCustomer.setRequestType(ServerClientRequestTypes.UPDATE);
-						updateCustomerToNewCustomer.setMessageSent(
-								new Object[] { "system_user", "typeOfUser = \"" + userType + "\"", "id = " + id });
+						SCCP updatePromotionStatus = new SCCP();
+						String currentPromotionStatus = status.getValue();
+						updatePromotionStatus.setRequestType(ServerClientRequestTypes.UPDATE);
+						
+						int rowIndex = promotionTable.getSelectionModel().getSelectedIndex();
+						
+						if (currentPromotionStatus.equals("Unactive")) {
+							updatePromotionStatus.setMessageSent(new Object[] {
+									"promotions", "promotionStatus = 1", "promotionId = " + promoId.getValue() });
+							promotion.setPromotionStatus(new SimpleStringProperty("Active"));
+							cell.getTableView().refresh();
+						} else {
+							updatePromotionStatus.setMessageSent(new Object[] {
+									"promotions", "promotionStatus = 0", "promotionId = " + promoId.getValue() });
+							promotion.setPromotionStatus(new SimpleStringProperty("Unactive"));
+							cell.getTableView().refresh();
+						}
+						System.out.println("promoId = " + promoId.getValue());
 						// send the updateCustomerToNewCustomer to the server
-
+						ClientUI.clientController.accept(updatePromotionStatus);
+						
+						if (setPromoStatus.getText().equals("ACTIVATE")) {
+							setPromoStatus.setText("DEACTIVATE");
+						} else {
+							setPromoStatus.setText("ACTIVATE");
+						}
+						
 					} else {
 						return;
 					}
 				});
-				customerToAccept customer = cell.getTableView().getItems().get(cell.getIndex());
-				// call a function that updates the database, instead of data.remove(customer)
 			});
 			return cell;
 		});
-
 		// Connect to the database and retrieve the promotion names
 		// Return the retrieved promotion names in an ArrayList
-		promotionNames = new ArrayList<>();
-		promotions = new Promotions();
-		SCCP preparedMessage = new SCCP();
-		preparedMessage.setRequestType(ServerClientRequestTypes.DISPLAY_PROMOTIONS);
-
-		Object[] fillMessage = new Object[3];
-		fillMessage[0] = "promotions";
-		fillMessage[1] = false;
-		fillMessage[2] = null;
-		preparedMessage.setMessageSent(fillMessage);
-
-		// send to servers
-		System.out.println("Client: Sending excisiting promotion request to the server.");
-		ClientUI.clientController.accept(preparedMessage);
-
-		// if the response is not the type we expect, something went wrong with server
-		// communication and we throw an exception.
-		if (!(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.DISPLAY))) {
-			throw new RuntimeException("Error with server communication: Non expected request type");
-
-		}
-		promotionNames = (ArrayList<String>) ClientController.responseFromServer.getMessageSent();
+		displayPromotionsTable();
+		
+		ArrayList<?> promotionNames = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
 		// System.out.println(promotionNames.toString());
 		// Add the promotion names to the combo box
-		cbPromotionNames.setItems(FXCollections.observableArrayList(promotionNames));
+		for (ArrayList<Object> promotion: (ArrayList<ArrayList<Object>>) promotionNames) {
+			String promoId = new Integer((int) promotion.get(0)).toString();
+			String promotionName = (String) promotion.get(1);
+			String promotionDescription = (String) promotion.get(2);
+			String locationName = (String) promotion.get(3);
+			String discountPercentage = new Float((float) promotion.get(4)).toString();
+			String startDate = (String) ((Date) promotion.get(5)).toString(); 
+			String promotionStatus = new Boolean((boolean) promotion.get(6)).toString();
+			System.out.println((new Boolean((boolean) promotion.get(6)).toString()));
+			if (promotionStatus.equals("true")) {
+				promotionStatus = "Active";
+			} else {
+				promotionStatus = "Unactive";
+			}
+			
+			listView.add(new promotionToTable(promoId, promotionName, promotionDescription, locationName, 
+					discountPercentage, startDate, promotionStatus));
+		}
+		promotionTable.setItems(listView);
+		promotionTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		promotionTable.getColumns().add(columnButton);
+	}
+	
+	//Class which is used to set the promotion in the table
+	public class promotionToTable {
+
+		public SimpleStringProperty getPromotionName() {
+			return promotionName;
+		}
+
+		public void setPromotionName(SimpleStringProperty promotionName) {
+			this.promotionName = promotionName;
+		}
+
+		public SimpleStringProperty getPromotionDescription() {
+			return promotionDescription;
+		}
+
+		public void setPromotionDescription(SimpleStringProperty promotionDescription) {
+			this.promotionDescription = promotionDescription;
+		}
+
+		public SimpleStringProperty getLocationName() {
+			return locationName;
+		}
+
+		public void setLocationName(SimpleStringProperty locationName) {
+			this.locationName = locationName;
+		}
+
+		public SimpleStringProperty getDiscountPercentage() {
+			return discountPercentage;
+		}
+
+		public void setDiscountPercentage(SimpleStringProperty discountPercentage) {
+			this.discountPercentage = discountPercentage;
+		}
+
+		public SimpleStringProperty getStartDate() {
+			return startDate;
+		}
+
+		public void setStartDate(SimpleStringProperty startDate) {
+			this.startDate = startDate;
+		}
+
+		SimpleStringProperty promoId;
+		SimpleStringProperty promotionName;
+		SimpleStringProperty promotionDescription;
+		SimpleStringProperty locationName;
+		SimpleStringProperty discountPercentage;
+		SimpleStringProperty startDate;
+		SimpleStringProperty promotionStatus;
+		
+		public promotionToTable(String promoId, String promotionName, String promotionDescription, String locationName,
+				String discountPercentage, String startDate,String promotionStatus) {
+			this.promoId = new SimpleStringProperty(promoId);
+			this.promotionName = new SimpleStringProperty(promotionName);
+			this.promotionDescription = new SimpleStringProperty(promotionDescription);
+			this.locationName = new SimpleStringProperty(locationName);
+			this.discountPercentage = new SimpleStringProperty(discountPercentage);
+			this.startDate = new SimpleStringProperty(startDate);
+			this.promotionStatus = new SimpleStringProperty(promotionStatus);
+		}
+		
+		public SimpleStringProperty getPromotionStatus() {
+			return promotionStatus;
+		}	
+		public void setPromotionStatus(SimpleStringProperty promotionStatus) {
+			this.promotionStatus = promotionStatus;
+		}
+		public SimpleStringProperty getPromoId() {
+			return promoId;
+		}
+		
+		public void setPromoId(SimpleStringProperty promoId) {
+			this.promoId = promoId;
+		}
 	}
 
 }

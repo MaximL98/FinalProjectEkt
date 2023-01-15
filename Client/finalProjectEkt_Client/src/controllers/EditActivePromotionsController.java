@@ -1,5 +1,6 @@
 package controllers;
 
+import java.awt.Color;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -26,6 +27,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -59,47 +61,47 @@ public class EditActivePromotionsController implements Initializable {
 	@FXML
 	private TableColumn<Promotions, Boolean> promotionStatusColumn;
 	private ObservableList<Promotions> listView = FXCollections.observableArrayList();
-	private ArrayList<String> promotionNames;
-	private Promotions promotions;
+
 	private Promotions selectedPromotion;
 	// Other UI elements and variables here...
 
 	@FXML
 	public void editPromotionHandler() {
 		String selectedPromotionName = cbPromotionNames.getSelectionModel().getSelectedItem();
-//	     retrieve and display the table of promotions with the same name as selected
-		displayPromotionsTable(selectedPromotionName);
+		//Retrieve and display the table of promotions with the same name as selected
+		displayPromotionsTable();
 	}
 
-	private void displayPromotionsTable(String selectedPromotionName) {
+	private void displayPromotionsTable() {
 		// Connect to the database and retrieve the promotion names
 		// Return the retrieved promotion names in an ArrayList
-		promotions = new Promotions();
 		SCCP preparedMessage = new SCCP();
-		preparedMessage.setRequestType(ServerClientRequestTypes.DISPLAY_SELECTED_PROMOTIONS);
-		preparedMessage.setMessageSent(selectedPromotionName);
-		// send to servers
-		System.out.println("Client: Sending excisiting promotion request to the server.");
+		preparedMessage.setRequestType(ServerClientRequestTypes.SELECT);
+		preparedMessage.setMessageSent(new Object[] { "promotions", true, 
+				"promotionId, promotionName, locationName, discountPercentage, startDate, promotionStatus"
+				, false, null, true, 
+				"LEFT JOIN locations on locations.locationID;"});
+		
 		ClientUI.clientController.accept(preparedMessage);
 
-		@SuppressWarnings("unchecked")
-		ArrayList<Promotions> arrayFromDatabase = (ArrayList<Promotions>) ClientController.responseFromServer
-				.getMessageSent();
-		listView.clear();
-		for (Promotions promotion : arrayFromDatabase) {
-			listView.add(promotion);
-		}
-		listView.forEach(promotion -> System.out.println(promotion));
-		promotionTable.setEditable(true);
-		//promotionTable.setItems(listView);
-		promotionTable.getItems().setAll(arrayFromDatabase);
-
-		// if the response is not the type we expect, something went wrong with server
-		// communication and we throw an exception.
-		if (!(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.DISPLAY))) {
-			throw new RuntimeException("Error with server communication: Non expected request type");
-
-		}
+//		@SuppressWarnings("unchecked")
+//		ArrayList<Promotions> arrayFromDatabase = (ArrayList<Promotions>) ClientController.responseFromServer
+//				.getMessageSent();
+//		listView.clear();
+//		for (Promotions promotion : arrayFromDatabase) {
+//			listView.add(promotion);
+//		}
+//		listView.forEach(promotion -> System.out.println(promotion));
+//		promotionTable.setEditable(true);
+//		//promotionTable.setItems(listView);
+//		promotionTable.getItems().setAll(arrayFromDatabase);
+//
+//		// if the response is not the type we expect, something went wrong with server
+//		// communication and we throw an exception.
+//		if (!(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.DISPLAY))) {
+//			throw new RuntimeException("Error with server communication: Non expected request type");
+//
+//		}
 
 	}
 
@@ -119,87 +121,97 @@ public class EditActivePromotionsController implements Initializable {
 		primaryStage.show();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		// Set the cell value factory for each TableColumn object
 		promotionIDColumn.setCellValueFactory(new PropertyValueFactory<Promotions, Integer>("promotionId"));
+		promotionIDColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white; -fx-font-weight: bold;");
 		promotionNameColumn.setCellValueFactory(new PropertyValueFactory<Promotions, String>("promotionName"));
+		promotionNameColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white; -fx-font-weight: bold;");
 		promotionDescriptionColumn
 				.setCellValueFactory(new PropertyValueFactory<Promotions, String>("promotionDescription"));
+		promotionDescriptionColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white; -fx-font-weight: bold;");
 		locationColumn.setCellValueFactory(new PropertyValueFactory<Promotions, Integer>("locationID"));
-		//productIdColumn.setCellValueFactory(new PropertyValueFactory<Promotions, String>("productID"));
-
-		//productIdColumn.setCellValueFactory(new PropertyValueFactory<Promotions, String>("productID"));
+		locationColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white; -fx-font-weight: bold;");
 		discountPercentageColumn
 				.setCellValueFactory(new PropertyValueFactory<Promotions, Integer>("discountPercentage"));
+		discountPercentageColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white; -fx-font-weight: bold;");
 		startDateColumn.setCellValueFactory(new PropertyValueFactory<Promotions, LocalDate>("startDate"));
+		startDateColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white; -fx-font-weight: bold;");
 		endDateColumn.setCellValueFactory(new PropertyValueFactory<Promotions, LocalDate>("endDate"));
+		endDateColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white; -fx-font-weight: bold;");
 		promotionStatusColumn.setCellValueFactory(new PropertyValueFactory<Promotions, Boolean>("promotionStatus"));
+		promotionStatusColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white; -fx-font-weight: bold;");
 		promotionTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			// Update the selectedOffer variable with the new selected Offer object
 			selectedPromotion = newValue;
 		});
 		
-		TableColumn<customerToAccept, Button> columnAccept = new TableColumn<>("Activate");
-		columnAccept.setPrefWidth(65);
-		columnAccept.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
-		columnAccept.setCellFactory(col -> {
-			Button accept = new Button("Activate");
-			TableCell<customerToAccept, Button> cell = new TableCell<customerToAccept, Button>() {
+		TableColumn<Promotions, Button> columnButton = new TableColumn<>("Activate");
+		columnButton.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white; -fx-font-weight: bold;");
+		columnButton.setPrefWidth(122);
+		columnButton.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+		columnButton.setCellFactory(col -> {
+			Button setPromoStatus = new Button("ACTIVATE");
+			setPromoStatus.setTextFill(Paint.valueOf("WHITE"));
+			setPromoStatus.getStylesheets().add("/gui/buttonCSS.css");
+			TableCell<Promotions, Button> cell = new TableCell<Promotions, Button>() {
 				@Override
 				public void updateItem(Button item, boolean empty) {
 					super.updateItem(item, empty);
 					if (empty) {
 						setGraphic(null);
 					} else {
-						setGraphic(accept);
+						setGraphic(setPromoStatus);
 					}
 				}
 			};
-			accept.setOnAction((event) -> {
+			setPromoStatus.setOnAction((event) -> {
 				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 				alert.setTitle("Activate Promotion");
-				alert.setHeaderText("This action will Activate A New Promotion!");
+				alert.setHeaderText("This action will activate a new promotion!");
 				alert.setContentText("Continue?");
 				alert.showAndWait().ifPresent(type -> {
 					if (type == ButtonType.OK) {
 						// Accept customer
-						customerToAccept customer = cell.getTableView().getItems().get(cell.getIndex());
-						SimpleStringProperty userType = customer.getUserType();
-						SimpleStringProperty id = customer.getId();
-
 						SCCP updateCustomerToNewCustomer = new SCCP();
-						updateCustomerToNewCustomer.setRequestType(ServerClientRequestTypes.UPDATE);
-						updateCustomerToNewCustomer.setMessageSent(
-								new Object[] { "system_user", "typeOfUser = \"" + userType + "\"", "id = " + id });
 						// send the updateCustomerToNewCustomer to the server
-
+						if (setPromoStatus.getText().equals("ACTIVATE")) {
+							setPromoStatus.setText("DEACTIVATE");
+						} else {
+							setPromoStatus.setText("ACTIVATE");
+						}
+						
 					} else {
 						return;
 					}
 				});
-				customerToAccept customer = cell.getTableView().getItems().get(cell.getIndex());
-				// call a function that updates the database, instead of data.remove(customer)
 			});
 			return cell;
 		});
 
 		// Connect to the database and retrieve the promotion names
 		// Return the retrieved promotion names in an ArrayList
-		promotionNames = new ArrayList<>();
-		promotions = new Promotions();
-		SCCP preparedMessage = new SCCP();
-		preparedMessage.setRequestType(ServerClientRequestTypes.DISPLAY_PROMOTIONS);
-
-		Object[] fillMessage = new Object[3];
-		fillMessage[0] = "promotions";
-		fillMessage[1] = false;
-		fillMessage[2] = null;
-		preparedMessage.setMessageSent(fillMessage);
-
-		// send to servers
-		System.out.println("Client: Sending excisiting promotion request to the server.");
-		ClientUI.clientController.accept(preparedMessage);
+		displayPromotionsTable();
 
 		// if the response is not the type we expect, something went wrong with server
 		// communication and we throw an exception.
@@ -207,10 +219,19 @@ public class EditActivePromotionsController implements Initializable {
 			throw new RuntimeException("Error with server communication: Non expected request type");
 
 		}
-		promotionNames = (ArrayList<String>) ClientController.responseFromServer.getMessageSent();
+		
+		ArrayList<?> promotionNames = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
 		// System.out.println(promotionNames.toString());
 		// Add the promotion names to the combo box
-		cbPromotionNames.setItems(FXCollections.observableArrayList(promotionNames));
+		for (ArrayList<Object> promotion: (ArrayList<ArrayList<Object>>) promotionNames) {
+			
+			
+			
+			
+//			listView;
+		}
+		
+		promotionTable.getColumns().add(columnButton);
 	}
 
 }

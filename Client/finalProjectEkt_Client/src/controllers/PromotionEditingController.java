@@ -18,7 +18,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import logic.Promotions;
 
+ /**
+ *The PromotionEditingController class provides a controller for the creation and editing of promotions.
+ *
+ *	@author DimaKyn
+ *	@date 01/05/2023
+ */
 public class PromotionEditingController {
+
 	@FXML
 	private TextField txtPromotionName;
 
@@ -47,13 +54,27 @@ public class PromotionEditingController {
 	
 	@FXML
 	private Text txtDiscountError;
-
+	
+	
+	/**
+	 * Initializes the location options in the location ComboBox.
+	 * 
+	 * @author Maxim
+	 * @date 01/07/2023
+	 */
 	@FXML
 	private void initialize() {
 		String[] items = { "North", "South", "United Arab Emirates" };
 		cbLocation.getItems().addAll(items);
 	}
 	
+	/**
+	* Handles the creation of a new promotion.
+	* This method gets the values from the input fields, creates a new {@link Promotions} object and sends it to the server for adding it to the database.
+	* If the server communication is successful, it displays a success message.
+	* @author Rotem
+	* @date 01/10/2023
+	*/
 	@FXML
 	private void createPromotionHandler() {
 		if (Integer.parseInt(txtDiscountPercentage.getText()) > 100 || Integer.parseInt(txtDiscountPercentage.getText()) < 0) {
@@ -115,6 +136,9 @@ public class PromotionEditingController {
 		}
 	}
 
+	/** Closes the current window and opens the Sales Manager window. 
+	 * @param event the ActionEvent trigger
+	*/
 	public void goBackHandler(ActionEvent event) {
 		Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 	    currentStage.close();

@@ -1,11 +1,7 @@
 package controllers;
 
-import java.awt.Color;
 import java.net.URL;
 import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -14,7 +10,6 @@ import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
-import controllers.EktRegionalManagerAcceptNewCustomerController.customerToAccept;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,20 +17,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.Text;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-import logic.Promotions;
 
 public class EditActivePromotionsController implements Initializable {
 
@@ -72,7 +62,11 @@ public class EditActivePromotionsController implements Initializable {
 		ClientUI.clientController.accept(preparedMessage);
 
 	}
-
+	
+	/**Display the promotions table by connecting to the database,
+	 * retrieving the promotion names and returning them in an ArrayList.
+	 * it uses SCCP message to communicate with the server.
+	 */
 	public void goBackHandler(ActionEvent event) {
 		Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 		currentStage.close();
@@ -82,6 +76,14 @@ public class EditActivePromotionsController implements Initializable {
 		primaryStage.show();
 	}
 	
+	
+	/**
+	 * Initializes the fields of the {@link EditActivePromotionsController} class.
+	 * This method sets the cell value factory for each TableColumn object,
+	 * sets the style for each column and adds the "Activate" button to the table.
+	 * @param url URL of the location used to resolve relative paths for the root object, or null if the location is not known
+	 * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized.
+	 */
 	@SuppressWarnings("unchecked")
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		// Set the cell value factory for each TableColumn object
@@ -152,8 +154,6 @@ public class EditActivePromotionsController implements Initializable {
 						String currentPromotionStatus = status.getValue();
 						updatePromotionStatus.setRequestType(ServerClientRequestTypes.UPDATE);
 						
-						int rowIndex = promotionTable.getSelectionModel().getSelectedIndex();
-						
 						if (currentPromotionStatus.equals("Unactive")) {
 							updatePromotionStatus.setMessageSent(new Object[] {
 									"promotions", "promotionStatus = 1", "promotionId = " + promoId.getValue() });
@@ -212,45 +212,91 @@ public class EditActivePromotionsController implements Initializable {
 		promotionTable.getColumns().add(columnButton);
 	}
 	
-	//Class which is used to set the promotion in the table
+	/**
+	 * This class is used to set the promotion in the table.
+	 * It contains the following properties: promoId, promotionName, promotionDescription, locationName, 
+	 * discountPercentage, startDate, promotionStatus
+	 * @author DimaKyn
+	 *
+	 */
 	public class promotionToTable {
-
+		
+		/**
+		 * Getter for the promotion name property
+		 * @return the promotion name property
+		 */
 		public SimpleStringProperty getPromotionName() {
 			return promotionName;
 		}
-
+		
+		/**
+		 * Setter for the promotion name property
+		 * @param promotionName the promotion name property
+		 */
 		public void setPromotionName(SimpleStringProperty promotionName) {
 			this.promotionName = promotionName;
 		}
 
+		/**
+		 * Getter for the promotion description property
+		 * @return the promotion description property
+		 */
 		public SimpleStringProperty getPromotionDescription() {
 			return promotionDescription;
 		}
 
+		/**
+		 * Setter for the promotion description property
+		 * @param promotionDescription the promotion description property
+		 */
 		public void setPromotionDescription(SimpleStringProperty promotionDescription) {
 			this.promotionDescription = promotionDescription;
 		}
-
+		/**
+		 * Getter for the location name property
+		 * @return the location name property
+		 */
 		public SimpleStringProperty getLocationName() {
 			return locationName;
 		}
-
+		/**
+		 * Setter for the location name property
+		 * @param locationName the location name property
+		 * 
+		 */
 		public void setLocationName(SimpleStringProperty locationName) {
 			this.locationName = locationName;
 		}
 
+		/**
+		 * Getter for the discount percentage property
+		 * @return the discount percentage property
+		 * 
+		 */
 		public SimpleStringProperty getDiscountPercentage() {
 			return discountPercentage;
 		}
 
+		/**
+		 * Setter for the discount percentage property
+		 * @param discountPercentage the discount percentage property
+		 */
 		public void setDiscountPercentage(SimpleStringProperty discountPercentage) {
 			this.discountPercentage = discountPercentage;
 		}
 
+		/**
+		 * Getter for the start date property
+		 * @return the start date property
+		*/
 		public SimpleStringProperty getStartDate() {
 			return startDate;
 		}
-
+		/**
+		 * Setter for the start date property
+		 * @param startDate the start date property
+		 * 
+		 */
 		public void setStartDate(SimpleStringProperty startDate) {
 			this.startDate = startDate;
 		}
@@ -263,6 +309,15 @@ public class EditActivePromotionsController implements Initializable {
 		SimpleStringProperty startDate;
 		SimpleStringProperty promotionStatus;
 		
+		/**
+		 * @param promoId - the id of the promotion
+		 * @param promotionName - the name of the promotion
+		 * @param promotionDescription - the description of the promotion
+		 * @param locationName - the location name of the promotion
+		 * @param discountPercentage - the discount percentage of the promotion
+		 * @param startDate - the start date of the promotion
+		 * @param promotionStatus - the status of the promotion
+		 */
 		public promotionToTable(String promoId, String promotionName, String promotionDescription, String locationName,
 				String discountPercentage, String startDate,String promotionStatus) {
 			this.promoId = new SimpleStringProperty(promoId);
@@ -273,17 +328,35 @@ public class EditActivePromotionsController implements Initializable {
 			this.startDate = new SimpleStringProperty(startDate);
 			this.promotionStatus = new SimpleStringProperty(promotionStatus);
 		}
-		
+		/**
+		 * Setter for the promotion status property
+		 * @return the promotion status property
+		 * 
+		 */
 		public SimpleStringProperty getPromotionStatus() {
 			return promotionStatus;
 		}	
+		/**
+		 * Setter for the promotion status property
+		 * @param promotion status property
+		 * 
+		 */
 		public void setPromotionStatus(SimpleStringProperty promotionStatus) {
 			this.promotionStatus = promotionStatus;
 		}
+		/**
+		 * Getter for the promotion ID property
+		 * @param startDate the start date property
+		 * 
+		 */
 		public SimpleStringProperty getPromoId() {
 			return promoId;
 		}
-		
+		/**
+		 * Setter for the promotion ID property
+		 * @param startDate the start date property
+		 * 
+		 */
 		public void setPromoId(SimpleStringProperty promoId) {
 			this.promoId = promoId;
 		}

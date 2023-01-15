@@ -13,37 +13,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import logic.Promotions;
-
-/**
- * Yeah I'm not the author here, but I am here:
- * We don't need the object "promotion", we need to show a table to the user and let them select products, and allow it to enter different percentages 
- * FOR EACH ONE.
- * Now after selecting all that they can enter a discount name and description (optional),
- * and the DB gets the following query:
- * for product in chosenProducts:
- * 	insert into table ProductInDiscount (null, *product, start, end, percentage)
- * this is where the addMany shit I did makes sense. 
- * The way it should work is this:
- * 
- * Show a table with all products, the original price, and the final price (after applying all discounts, according to some agreed-upon order)
- *  This should be done in initialize() after modifying the DB (again . . .) -->^ 
- * Let user select each row in the table, when selected (by right click) - open a new column with a percentage for the new discount (or new price)
- * When finished, grab text from text boxes "promotion name" "description" and send these, along each product, to be added to the ProductInDiscount table
- * Key is auto incremented, we never remove shit from there (as when grabbing discounts we should only use ones inside the date range)
- * 
- * 
- * TLDR: I didn't mess with this file any yet, but I suggest we change it
- * 
- * Never mind, I just did (not really important):
- * I fixed the initialize() call; 
- * jfx has a specific shinitialize function, without the bloat and the unneeded import, we use it elsewhere so I replaced it here.
- * 
- * @author Rotem
- *
- */
 
 public class PromotionEditingController {
 	@FXML
@@ -56,9 +29,6 @@ public class PromotionEditingController {
 
 	@FXML
 	private ComboBox<String> cbLocation;
-
-	@FXML
-	private TextField txtProductId;
 
 	@FXML
 	private TextField txtDiscountPercentage;
@@ -74,6 +44,9 @@ public class PromotionEditingController {
 
 	@FXML
 	private Button btnGoBack;
+	
+	@FXML
+	private Text txtDiscountError;
 
 	@FXML
 	private void initialize() {
@@ -83,8 +56,11 @@ public class PromotionEditingController {
 	
 	@FXML
 	private void createPromotionHandler() {
+		if (Integer.parseInt(txtDiscountPercentage.getText()) > 100 || Integer.parseInt(txtDiscountPercentage.getText()) < 0) {
+			txtDiscountError.setVisible(true);
+			return;
+		}
 		promotions = new Promotions();
-		//ServerClientRequestTypes.ADD
 		// Get the promotion details from the text fields and date pickers
 		SCCP preparedMessage = new SCCP();
 		preparedMessage.setRequestType(ServerClientRequestTypes.ADD);
@@ -109,7 +85,7 @@ public class PromotionEditingController {
 		        break;
 		}
 		promotions.setLocationID(locationNumber);
-		promotions.setproductID(txtProductId.getText());
+		promotions.setproductID(new Integer(0).toString());
 		String startDateString = dpPromotionStartDate.getValue().toString();
 		promotions.setStartDate(Date.valueOf(startDateString));
 		String endDateString = dpPromotionEndDate.getValue().toString();

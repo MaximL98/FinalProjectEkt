@@ -8,7 +8,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -28,39 +27,61 @@
             </Text>
          </children>
       </Pane>
-		<VBox layoutX="38.0" layoutY="141.0" prefHeight="194.0" prefWidth="330.0">
-			<children>
-				<Label text="Create New Promotion">
-               <font>
-                  <Font name="Berlin Sans FB" size="20.0" />
-               </font>
-            </Label>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PROMOTION NAME">
-               <font>
-                  <Font name="Berlin Sans FB" size="14.0" />
-               </font>
-            </Text>
-				<TextField fx:id="txtPromotionName" promptText="Promotion name" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PROMOTION DESCRIPTION">
-               <font>
-                  <Font name="Berlin Sans FB" size="14.0" />
-               </font>
-            </Text>
-				<TextField fx:id="txtPromotionDescription" promptText="Promotion description" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PRODUCT ID" />
-				<TextField fx:id="txtProductId" promptText="Product ID" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-				<ComboBox fx:id="cbLocation" promptText="Location" stylesheets="@comboboxCSS.css" />
-				<TextField fx:id="txtDiscountPercentage" promptText="Discount percentage" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-				<DatePicker fx:id="dpPromotionStartDate" prefHeight="25.0" prefWidth="336.0" promptText="Promotion start date" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-				<DatePicker fx:id="dpPromotionEndDate" prefHeight="25.0" prefWidth="336.0" promptText="Promotion end date" />
-				<Button fx:id="btnCreatePromotion" onAction="#createPromotionHandler" text="Create promotion" />
-				<Button fx:id="btnGoBack" onAction="#goBackHandler" text="Go back" />
-
-      			</children>
-		</VBox>
+      <Text layoutX="50.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PROMOTION NAME">
+         <font>
+            <Font name="Berlin Sans FB" size="20.0" />
+         </font>
+      </Text>
+				<TextField fx:id="txtPromotionName" layoutX="50.0" layoutY="225.0" prefHeight="50.0" prefWidth="300.0" stylesheets="@textfieldCSS.css" />
+      <Text layoutX="450.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PROMOTION DESCRIPTION">
+         <font>
+            <Font name="Berlin Sans FB" size="20.0" />
+         </font>
+      </Text>
+				<TextField fx:id="txtPromotionDescription" layoutX="450.0" layoutY="225.0" prefHeight="50.0" prefWidth="300.0" stylesheets="@textfieldCSS.css" />
+      <Text layoutX="53.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOCATION NAME">
+         <font>
+            <Font name="Berlin Sans FB" size="20.0" />
+         </font>
+      </Text>
+				<ComboBox fx:id="cbLocation" layoutX="50.0" layoutY="345.0" prefHeight="50.0" prefWidth="300.0" promptText="Location" stylesheets="@comboboxCSS.css" />
+				<TextField fx:id="txtDiscountPercentage" layoutX="50.0" layoutY="457.0" prefHeight="50.0" prefWidth="300.0" stylesheets="@textfieldCSS.css" />
+      <Text layoutX="450.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="START DATE">
+         <font>
+            <Font name="Berlin Sans FB" size="20.0" />
+         </font>
+      </Text>
+				<DatePicker fx:id="dpPromotionStartDate" layoutX="450.0" layoutY="344.0" prefHeight="50.0" prefWidth="300.0" promptText="Promotion start date" />
+      <Text layoutX="450.0" layoutY="452.0" strokeType="OUTSIDE" strokeWidth="0.0" text="END DATE">
+         <font>
+            <Font name="Berlin Sans FB" size="20.0" />
+         </font>
+      </Text>
+				<DatePicker fx:id="dpPromotionEndDate" layoutX="450.0" layoutY="456.0" prefHeight="50.0" prefWidth="300.0" promptText="Promotion end date" />
+				<Button fx:id="btnCreatePromotion" layoutX="291.0" layoutY="744.0" onAction="#createPromotionHandler" stylesheets="@buttonCSS.css" text="CREATE PROMOTION" textFill="WHITE">
+         <font>
+            <Font name="Berlin Sans FB" size="20.0" />
+         </font>
+      </Button>
+				<Button fx:id="btnGoBack" layoutX="14.0" layoutY="744.0" onAction="#goBackHandler" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
+         <font>
+            <Font name="Berlin Sans FB" size="20.0" />
+         </font>
+      </Button>
+				<Label layoutX="223.0" layoutY="120.0" text="CREATE A NEW PROMOTION">
+         <font>
+            <Font name="Berlin Sans FB" size="28.0" />
+         </font>
+      </Label>
+      <Text layoutX="53.0" layoutY="453.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DISCOUNT PERCENTAGE">
+         <font>
+            <Font name="Berlin Sans FB" size="20.0" />
+         </font>
+      </Text>
+      <Text fx:id="txtDiscountError" fill="RED" layoutX="80.0" layoutY="528.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PLEASE PROVIDE A VALUE OF 0-100" visible="false">
+         <font>
+            <Font name="Berlin Sans FB" size="15.0" />
+         </font>
+      </Text>
 	</children>
 </Pane>

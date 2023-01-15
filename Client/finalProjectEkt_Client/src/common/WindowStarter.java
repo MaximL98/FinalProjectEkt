@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class WindowStarter {
@@ -35,11 +36,14 @@ public class WindowStarter {
 		// added debug print:
 		System.out.println("Loading UI page="+fxmlAddress + ", with css="+cssAddress +" and title="+windowTitle);
 		Parent root;
+		
 		try {
 			root = FXMLLoader.load(classObject.getClass().getResource(fxmlAddress));
 			Scene scene = new Scene(root);
 			if(cssAddress != null)
 				scene.getStylesheets().add(classObject.getClass().getResource(cssAddress).toExternalForm());
+			Image image = new Image("/gui/Images/ekrut.png");
+			primaryStage.getIcons().add(image);
 			
 			primaryStage.setTitle(windowTitle);
 			primaryStage.setScene(scene);

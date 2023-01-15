@@ -20,15 +20,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.Machine;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.CheckBox;
 
 /**
- * Important: Read this - The תצורה is OL - OL = when you buy from home or somewhere - the administrative part of the shistem.
+ * Important: Read this - The configuration is OL - OL = when you buy from home or somewhere - the administrative part of the system.
  * 										   EK = when you physically assault the machine
- * So, here, when we log in, to use the shit we made - we must choose OL - and this is the default תזורה
+ * So, here, when we log in, to use the system we made - we must choose OL - and this is the default configuration
  * @author Rotem
  *
  */
@@ -54,6 +55,10 @@ public class ClientLoginController {
 	@FXML TextField txtFastUsr;
 
 	@FXML TextField txtFastPass;
+	
+	@FXML Text txtUsername;
+	
+	@FXML Text txtPassword;
 	
 	@FXML
 	void initialize() {
@@ -118,20 +123,26 @@ public class ClientLoginController {
 					for(String machine: machines) {
 						cmbMachines.getItems().add(machine);
 					}
+					hiddenLabel.setText("Please choose a machine and click finish");
+					hiddenLabel.setVisible(true);
+					
+					System.out.println("Client message: Please choose a machine and click Finish");
+					return;
+					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					//e.printStackTrace();
+					hiddenLabel.setText("Error fetching existing machines from database");
+					hiddenLabel.setVisible(true);
+					return;
 				}
-				hiddenLabel.setText("Please choose a machine and click Finish");
-				hiddenLabel.setVisible(true);
-				
-				System.out.println("Client message: Please choose a machine and click Finish");
-				return;
+
 			}
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			
 			hiddenLabel.setText("Could not connect to " + tmp + " over port " + 5555);
 			hiddenLabel.setVisible(true);
 			return;
@@ -151,7 +162,6 @@ public class ClientLoginController {
 			break;
 		case EK:
 			
-
 			//throw new UnsupportedOperationException("EK Conf is not supported yet");
 			break;
 		default:
@@ -162,11 +172,9 @@ public class ClientLoginController {
 		primaryStage.show();	 	
 
 		/*Pane root = loader.load(getClass().getResource("/gui/EkrutUserLoginForm.fxml").openStream());
-
 		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/gui/EkrutUserLoginForm.css").toExternalForm());
 		primaryStage.setTitle("Worker Page");
-
 		primaryStage.setScene(scene);		
 		primaryStage.show();*/
 	}
@@ -236,6 +244,8 @@ public class ClientLoginController {
 			txtFastUsr.setDisable(false);
 			txtFastPass.setVisible(true);
 			txtFastPass.setDisable(false);
+			txtUsername.setVisible(true);
+			txtPassword.setVisible(true);
 			
 		}
 		else {
@@ -247,6 +257,8 @@ public class ClientLoginController {
 			txtFastUsr.setDisable(true);
 			txtFastPass.setVisible(false);
 			txtFastPass.setDisable(true);
+			txtUsername.setVisible(false);
+			txtPassword.setVisible(false);  
 		}
 	}
 }

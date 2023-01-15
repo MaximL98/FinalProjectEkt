@@ -179,7 +179,10 @@ public class EktSystemUserLoginController {
 			case CUSTOMER:
 				if(ClientController.isFastRecognitionToggle()) {
 					// show alert and reload window
-					System.out.println("NOT IMPLEMENTED: alert customer that he is not a subscriber, request regular login");
+					ClientController.setFastRecognitionToggle(false);
+					WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Ekt Login", true);
+					return;
+					
 				}
 				// also set subscriber boolean value (false)
 				ClientController.setCustomerIsSubsriber(false);

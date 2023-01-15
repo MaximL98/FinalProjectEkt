@@ -54,7 +54,7 @@ public class _EKConfigurationCustomerHomeAreaController {
     		// show a pop up that lets the user know he has no open orders. return user to previous page!
     		Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.initStyle(StageStyle.UNDECORATED);
-            alert.setTitle("Cancel Order");
+            alert.setTitle("Collect Order"); // Rotem 1.15 the title used to be "cancel order" for some reason
             alert.setHeaderText("You have no active orders to this machine!");
             alert.setContentText("Click to return to main menu");
             Optional<ButtonType> result = alert.showAndWait();

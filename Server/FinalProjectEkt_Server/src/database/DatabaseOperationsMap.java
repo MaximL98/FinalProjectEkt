@@ -17,8 +17,78 @@ import logic.Order.*;
 
 public class DatabaseOperationsMap {
 	private static String SCHEMA_EKRUT = "ektdb";
+	/*
+	 * 1.15... IMPORT SIM.
+	 */
+	protected static final class DatabaseActionImportSimulation implements IDatabaseAction
+	{
+		@Override
+		public Object getDatabaseAction(Object[] params) {
+			// select * from ektdb.external_users;
+			Object res = DatabaseController.handleQuery(DatabaseOperation.GENERIC_SELECT, new Object[]{"SELECT * FROM ektdb.external_users"});
+			if(res == null || !(res instanceof ArrayList)) {
+				return false;
+			}
+			ArrayList<?> rows = (ArrayList<?>)res;
+			// format of row in rows: [id, firstName, lastName, phoneNumber, emailAddress, creditCard, username, password, typeOfUser, locationID]
+			// types				: [int, string, 	string, 	 string, 	   string,     string, 	 string,   string,     string, 		int	 ]
 
+			@SuppressWarnings("unchecked")
+			ArrayList<ArrayList<Object>> rowsAsArrayListOfArrayListsOfObjects = (ArrayList<ArrayList<Object>>)rows;
+			for(ArrayList<Object> row : rowsAsArrayListOfArrayListsOfObjects) {
+				String userID;
+				String fName, lName, phone, email, cCard, uName, password, userTypeRole;
+				Integer locationId;
+				if(row.size() != 10) {
+					return false;
+				}
+				for(Object o : row) {
+					// we only want to allow locationId to be null (since a non-regional-manager user has no inherent location)
+					if(o == null && o != row.get(9)) {
+						return false;
+					}
+				}
+				userID = row.get(0).toString();
+				fName = row.get(1).toString();
+				lName = row.get(2).toString();
+				phone = row.get(3).toString();
+				email = row.get(4).toString();
+				cCard = row.get(5).toString();
+				uName = row.get(6).toString();
+				password = row.get(7).toString();
+				userTypeRole = row.get(8).toString();
+				locationId = (Integer)row.get(9);
 
+				if(!userID.matches("^[0-9]+$")) {
+					return false;
+				}
+				Integer uIdAsInt = Integer.valueOf(userID);
+				SystemUser userToAdd = new SystemUser(uIdAsInt, fName, lName, phone, email, cCard, uName, password, userTypeRole);
+				System.out.println("Import simulation is now inserting user="+userToAdd + ". Inserting into systemuser");
+				// insert into our two relevant user-management related tables:
+				// insert this object into systemuser
+				// INSERT INTO systemuser VALUES (userID, fName, lName, phone, email, cCard, uName, password, userTypeRole);
+				DatabaseController.handleQuery(DatabaseOperation.INSERT, new Object[] {
+						"systemuser", 
+						false, 
+						new Object[] {userToAdd}});
+				
+				if(userToAdd.getRole().equals(Role.REGIONAL_MANAGER)) {
+					System.out.println("User "+userToAdd+" is a regional manager. added user with location " + 
+										locationId + " into table manager_location");
+					
+					// INSERT INTO manager_location VALUES (userID, locationId);
+					DatabaseController.handleQuery(DatabaseOperation.INSERT, new Object[] {
+							"manager_location", 
+							false, 
+							new Object[] {"("+userID+ ", "+ locationId+")"}});
+				}
+			}
+			
+			return true;
+		}
+	}
+	
 	// I recommend not using this one - it returns ResultSet to server so you have to parse it
 	// use GenericSelect instead (call the map with GENERIC_SELECT), and you will get 
 	// an array list of rows from the DB.
@@ -634,6 +704,8 @@ public class DatabaseOperationsMap {
 					new DatabaseActionUpdateForUpdateProductsInMachine());
 			
 			this.put(DatabaseOperation.INSERT_PROMOTION_NAMES,  new DatabaseActionSelectPromotionNames());
+			
+			this.put(DatabaseOperation.IMPORT_SIMULATION, new DatabaseActionImportSimulation());
 			
 		}};
 

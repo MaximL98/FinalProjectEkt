@@ -143,7 +143,8 @@ public class DeliveryManagerPageController {
 	private ArrayList<Order> getOrders() {
 		SCCP preparedMessage = new SCCP();
 		preparedMessage.setRequestType(ServerClientRequestTypes.FETCH_ORDERS);
-		preparedMessage.setMessageSent(new int[] { Status.InProgress.getStatusId() });
+		preparedMessage
+				.setMessageSent(new Object[] { new Status[] { Status.InProgress }, new Type[] { Type.Delivery } });
 
 		// send to server
 		System.out.println("Client: Sending online orders fetch request to server.");

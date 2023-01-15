@@ -42,9 +42,9 @@
         </columns>
       </TableView>
       <PasswordField fx:id="databasePasswdTxt" layoutX="22.0" layoutY="167.0" onAction="#onEnter" stylesheets="@textfieldCSS.css" text="whatdoesntkillyoumakesyoustronger" />
-      <Button fx:id="addUserToDB" disable="true" layoutX="231.0" layoutY="147.0" mnemonicParsing="false" onAction="#getAddUserToDbBtn" prefHeight="25.0" prefWidth="284.0" stylesheets="@buttonCSS.css" text="ADD USER TO DATABASE" textFill="WHITE">
+      <Button fx:id="addUserToDB" disable="true" layoutX="231.0" layoutY="147.0" mnemonicParsing="false" onAction="#getAddUserToDbBtn" prefHeight="48.0" prefWidth="284.0" stylesheets="@buttonCSS.css" text="ADD USER TO DATABASE" textFill="WHITE">
          <font>
-            <Font name="Berlin Sans FB" size="20.0" />
+            <Font name="Berlin Sans FB" size="16.0" />
          </font></Button>
       <Button fx:id="btnDisconnect" disable="true" layoutX="18.0" layoutY="300.0" mnemonicParsing="false" onAction="#clickDisconnectBtn" prefHeight="42.0" prefWidth="156.0" stylesheets="@buttonCSS.css" text="Disconnect" textFill="WHITE" visible="false">
          <font>

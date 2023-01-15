@@ -9,15 +9,18 @@ import client.ClientController;
 import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
+import common.WindowStarter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import logic.Promotions;
 
 public class SalesDepartmentWorkerController implements Initializable {
@@ -157,9 +160,15 @@ public class SalesDepartmentWorkerController implements Initializable {
 
 	@FXML
 	private void logoutHandler(ActionEvent event) throws Exception {
-		System.out.println("Sales Worker Has Exited The Academic Tool");
-		ClientUI.clientController.client.closeConnection();
-		System.exit(0);
+    	// actually do the logout:
+    	ClientController.sendLogoutRequest();
+    	
+    	// log
+    	System.out.println("Sales Worker has logged off");
+	    ((Node)event.getSource()).getScene().getWindow().hide();
+		Stage primaryStage = new Stage();
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login", false);
+		primaryStage.show();
 	}
 
 }

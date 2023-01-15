@@ -23,14 +23,16 @@ public class Machine implements Serializable {
 	private String machineName;
 	private ArrayList<ProductInMachine> products = new ArrayList<>();
 	private Location location;
-
+	private int threshold;
 	/**
 	 * Machine constructor.
+	 * @param threshold TODO
 	 */
-	public Machine(int machineId, String machineName, Location location) {
+	public Machine(int machineId, String machineName, Location location, int threshold) {
 		this.machineId = machineId;
 		this.machineName = machineName;
 		this.location = location;
+		this.threshold = threshold;
 	}
 
 	/**

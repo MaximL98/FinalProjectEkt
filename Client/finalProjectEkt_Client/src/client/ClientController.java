@@ -75,6 +75,11 @@ public class ClientController
   // Dima 13/1/2023
   public static String billingDate=null;
 
+  // one buggish lookin chick
+  private static boolean fastRecognitionToggle = false;
+  private static String fastRecognitionUserName = null;
+  private static String fastRecognitionPassword = null;
+  
 
   public ClientController(String host, int port) throws IOException
   {
@@ -204,6 +209,30 @@ public class ClientController
 		  
 		  // Dima 13/1/2023
 		  billingDate=null;
+	}
+
+	public static boolean isFastRecognitionToggle() {
+		return fastRecognitionToggle;
+	}
+
+	public static void setFastRecognitionToggle(boolean fastRecognitionToggle) {
+		ClientController.fastRecognitionToggle = fastRecognitionToggle;
+	}
+
+	public static String getFastRecognitionUserName() {
+		return fastRecognitionUserName;
+	}
+
+	public static void setFastRecognitionUserName(String fastRecognitionUserName) {
+		ClientController.fastRecognitionUserName = fastRecognitionUserName;
+	}
+
+	public static String getFastRecognitionPassword() {
+		return fastRecognitionPassword;
+	}
+
+	public static void setFastRecognitionPassword(String fastRecognitionPassword) {
+		ClientController.fastRecognitionPassword = fastRecognitionPassword;
 	}
 
 

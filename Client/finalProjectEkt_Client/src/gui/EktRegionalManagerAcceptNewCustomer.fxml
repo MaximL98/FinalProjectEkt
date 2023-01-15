@@ -32,7 +32,7 @@
               <columns>
                 <TableColumn fx:id="columnName" prefWidth="130.0" text="Name" />
                 <TableColumn fx:id="columnUserType" minWidth="0.0" prefWidth="130.0" text="User Type" />
-                  <TableColumn fx:id="columnID" prefWidth="130.0" text="ID" />
+                  <TableColumn fx:id="columnID" prefWidth="110.0" text="ID" />
                   <TableColumn fx:id="columnPhoneNumber" prefWidth="180.0" text="Phone Number" />
               </columns>
             </TableView>

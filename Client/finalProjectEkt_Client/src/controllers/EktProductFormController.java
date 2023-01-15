@@ -140,7 +140,7 @@ public class EktProductFormController {
 	private static boolean machineSwitchedFlag = false;
     
     // Rotem 1.13:
-    private static HashMap<String, Integer> productsInStockMap = new HashMap<>();
+    public static HashMap<String, Integer> productsInStockMap = new HashMap<>();
     
     // Rotem ^^^
     	
@@ -237,7 +237,7 @@ public class EktProductFormController {
 				 * Rotem - insert stock to map (for each product in machine)
 				 * Only inserts if nothing inside (like Shimon's mom)
 				 */
-				productsInStockMap.putIfAbsent(((ArrayList<?>)product).get(1).toString(), Integer.valueOf(((ArrayList<?>)product).get(7).toString()));
+				productsInStockMap.putIfAbsent(((ArrayList<?>)product).get(0).toString(), Integer.valueOf(((ArrayList<?>)product).get(7).toString()));
 				
 				/*
 				 * Rotem ------
@@ -245,7 +245,7 @@ public class EktProductFormController {
 				
 				Text txtProductStock = new Text();
 				//txtProductStock.setText("Stock: " + ((ArrayList)product).get(7).toString());
-				txtProductStock.setText("Stock: " + productsInStockMap.get(((ArrayList<?>)product).get(1).toString()));
+				txtProductStock.setText("Stock: " + productsInStockMap.get(((ArrayList<?>)product).get(0).toString()));
 				txtProductStock.setFont(new Font(18));
 				txtProductStock.setFill(Color.BLACK);
 				
@@ -318,7 +318,7 @@ public class EktProductFormController {
 				BorderPane pane = new BorderPane();
 				pane.minHeight(170);
 				pane.setStyle("-fx-border-color: black; -fx-border-width: 3px; -fx-border-radius: 10;"
-						+ " -fx-background-color:   linear-gradient(from 0px 0px to 0px 1500px, pink, yellow); -fx-background-radius: 12");
+						+ " -fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO); -fx-background-radius: 12");
 
 				//pane.getChildren().add(productHBox);
 				pane.setCenter(productHBox);
@@ -333,9 +333,9 @@ public class EktProductFormController {
 					/*
 					 * Rotem -> Added grab from hash map here:
 					 * */
-					int newStock = productsInStockMap.get(((ArrayList<?>)product).get(1).toString()) - 1;
+					int newStock = productsInStockMap.get(((ArrayList<?>)product).get(0).toString()) - 1;
 					txtProductStock.setText("Stock: " + newStock);
-					 productsInStockMap.put(((ArrayList<?>)product).get(1).toString(), newStock);
+					 productsInStockMap.put(((ArrayList<?>)product).get(0).toString(), newStock);
 					if(newStock == 0) {
 						System.out.println("we reached lvl 0");
 						addToCartButton.setDisable(true);
@@ -383,8 +383,8 @@ public class EktProductFormController {
 				/*
 				 * One more rotem 1.13: if stock is zero, disable the damned button
 				 */
-				
-				if(productsInStockMap.get(((ArrayList<?>)product).get(1).toString()) == 0) {
+				System.out.println("productsInStockMap = " + productsInStockMap);
+				if(productsInStockMap.get(((ArrayList<?>)product).get(0).toString()) == 0) {
 					addToCartButton.setDisable(true);////////////////////////////////////////////////////////////////////////
 				}
 			}
@@ -392,13 +392,13 @@ public class EktProductFormController {
 
 			
 			ScrollPane scrollPane = new ScrollPane(gridPaneProducts);
-			scrollPane.maxHeight(600);
+			scrollPane.maxHeight(570);
 			scrollPane.prefWidth(800);
 			////////////////// Dima 31/12 10:50 changed styling into this
 			Border border = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
 			borderPane.setCenter(scrollPane);
 			System.out.println("WARNING HAPPENS HERE:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
-			scrollPane.setStyle("-fx-background-color: transparent; -fx-background:  linear-gradient(from 0px 0px to 0px 1500px, pink, red);"
+			scrollPane.setStyle("-fx-background-color: transparent; -fx-background: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);"
 					+ "-fx-border-color: transparent;");
 			scrollPane.setBorder(border);
 			
@@ -412,7 +412,7 @@ public class EktProductFormController {
 	void getBtnBack(ActionEvent event) {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog", true);
 
 		primaryStage.show();
 	}
@@ -421,7 +421,7 @@ public class EktProductFormController {
     public void getBtnCart(ActionEvent event) {
         ((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
         Stage primaryStage = new Stage();
-        WindowStarter.createWindow(primaryStage, this, "/gui/EktCartForm.fxml", null, "Ekt Cart");
+        WindowStarter.createWindow(primaryStage, this, "/gui/EktCartForm.fxml", null, "Ekt Cart", true);
 
 
         primaryStage.show();

@@ -1,3 +1,4 @@
+
 package controllers;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logic.Role;
 import logic.SystemUser;
+
 
 public class EktServiceRepAddSubscriberController {
 
@@ -139,8 +141,6 @@ public class EktServiceRepAddSubscriberController {
     			txtCreditCard.setText("");
     			txtUsername.setText("");
     			txtPassword.setText("");
-//    			txtRole.setText("");
-
 
     		}
     		else {
@@ -212,7 +212,7 @@ public class EktServiceRepAddSubscriberController {
 		// prepare the new stage:
 		Stage primaryStage = new Stage();
 
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepresentativeHomePage.fxml", null, "Service Rep Home Page");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepresentativeHomePage.fxml", null, "Service Rep Home Page",false);
 		primaryStage.show();
 		
 	}

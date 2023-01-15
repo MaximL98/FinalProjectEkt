@@ -144,7 +144,7 @@ public class PromotionEditingController {
 	    currentStage.close();
 	    
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, new Object(), "/gui/SalesManager.fxml", null, "Sales");
+		WindowStarter.createWindow(primaryStage, new Object(), "/gui/SalesManager.fxml", null, "Sales", true);
 		primaryStage.show();
 	}
 

@@ -415,7 +415,7 @@ public class DatabaseOperationsMap {
 						int machineId = fetchOrdersResultSet.getInt("machineID");
 						String machineName = fetchOrdersResultSet.getString("machineName");
 						Location location = Location.fromLocationId(fetchOrdersResultSet.getInt("locationId"));
-						new Machine(machineId, machineName, location);
+						new Machine(machineId, machineName, location, 0);
 						
 						Type type = Type.fromTypeId(fetchOrdersResultSet.getInt("typeId"));
 						Status status = Status.fromStatusId(fetchOrdersResultSet.getInt("statusId"));
@@ -523,7 +523,7 @@ public class DatabaseOperationsMap {
 						int machineId = fetchMachinesResultSet.getInt("machineId");
 						int locationId = fetchMachinesResultSet.getInt("locationId");
 						String machineName = fetchMachinesResultSet.getString("machineName");
-						machines.add(new Machine(machineId, machineName, Location.fromLocationId(locationId)));
+						machines.add(new Machine(machineId, machineName, Location.fromLocationId(locationId), 0));
 					}
 				} catch (SQLException sqle) {
 					sqle.printStackTrace();

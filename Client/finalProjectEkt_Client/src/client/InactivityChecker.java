@@ -81,7 +81,7 @@ public class InactivityChecker implements Runnable {
 			((Node)eventForStageClose.getSource()).getScene().getWindow().hide(); 
 			// and load the login window
 			Stage primaryStage = new Stage();
-			WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
+			WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login", true);
 			primaryStage.show();
 		}
     	/*try {

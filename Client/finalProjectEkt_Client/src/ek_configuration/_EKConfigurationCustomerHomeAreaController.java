@@ -69,13 +69,20 @@ public class _EKConfigurationCustomerHomeAreaController {
 		// prepare the new stage:
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, new Object(), 
-				"/gui/_EKConfigurationCustomerCollectOrderFrame.fxml", null, "Collect order");
+				"/gui/_EKConfigurationCustomerCollectOrderFrame.fxml", null, "Collect order", true);
 		primaryStage.show();
     }
 
     @FXML
     void getBtnMakeOrder(ActionEvent event) {
     	// TODO
+		// sammy D the current window
+		((Node)event.getSource()).getScene().getWindow().hide();
+		// prepare the new stage:
+		Stage primaryStage = new Stage();
+		WindowStarter.createWindow(primaryStage, new Object(), 
+				"/gui/_EKConfigurationCustomerLocalOrderFrame.fxml", null, "Create local order", true);
+		primaryStage.show();
     }
 
 }

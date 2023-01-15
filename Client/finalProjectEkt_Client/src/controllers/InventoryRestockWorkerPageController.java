@@ -147,7 +147,7 @@ public class InventoryRestockWorkerPageController {
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktLogisticsManagerHomePage.fxml", null,
-				"Logistics Manager Home Page");
+				"Logistics Manager Home Page", true);
 		// this was done so that we can use this button
 		primaryStage.setOnCloseRequest(we -> {
 			System.out.println("Pressed the X button.");

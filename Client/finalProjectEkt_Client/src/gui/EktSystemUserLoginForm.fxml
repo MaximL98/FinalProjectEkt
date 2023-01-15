@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktSystemUserLoginController">
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktSystemUserLoginController">
    <children>
       <Pane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);">
          <children>
@@ -40,12 +40,12 @@
                </font>
             </Button>
             <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="290.0" layoutY="450.0" prefHeight="79.0" prefWidth="334.0" text="test" textAlignment="CENTER" visible="false" />
-            <Text layoutX="295.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USERNAME">
+            <Text fx:id="lblFastRecognition1" layoutX="295.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USERNAME">
                <font>
                   <Font name="Berlin Sans FB" size="20.0" />
                </font>
             </Text>
-            <Text layoutX="295.0" layoutY="396.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD">
+            <Text fx:id="lblFastRecognition2" layoutX="295.0" layoutY="396.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD">
                <font>
                   <Font name="Berlin Sans FB" size="20.0" />
                </font>

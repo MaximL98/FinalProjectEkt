@@ -130,7 +130,7 @@ public class EktRegionalManagerSetThresholdController implements Serializable{
     void getBtnGoBack(ActionEvent event) {
     	Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
-				"/gui/EktRegionalManagerHomePage.fxml", null, "Ekt Regional Manager Home Page");
+				"/gui/EktRegionalManagerHomePage.fxml", null, "Ekt Regional Manager Home Page", false);
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
     }

@@ -1,4 +1,4 @@
-package controllers;
+package ek_configuration;
 
 import client.ClientController;
 import common.WindowStarter;
@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.text.DecimalFormat;
 import java.util.Properties;
 
 //import javax.mail.Message;
@@ -21,7 +20,7 @@ import java.util.Properties;
 //import javax.mail.internet.MimeMessage;
 
 
-public class OrderReceiptPageController {
+public class _EKConfigurationOrderReceiptController {
 	@FXML
 	private Button btnBack;
 
@@ -52,20 +51,11 @@ public class OrderReceiptPageController {
 		txtOrderNumber.setText("Order Number: " + ClientController.orderNumber);
 		txtOrderNumber.setLayoutX(200 - (txtOrderNumber.minWidth(0) / 2));
 		
-		txtOrderTotal.setText("Order total: " + (new DecimalFormat("##.##").format(ClientController.orderTotalPrice).toString()) + "$");
+		txtOrderTotal.setText("Order total: " + ClientController.orderTotalPrice.toString() + "$");
 		txtOrderTotal.setLayoutX(200 - (txtOrderTotal.minWidth(0) / 2));
 		
-		System.out.println("ClientController.orderType = " + ClientController.orderType);
-		if(ClientController.orderType.equals("Delivery")) {
-			txtBillingDate.setText("Delivery Date: " + ClientController.orderDeliveryTime);
-			txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
-		}
-		
-		if(ClientController.orderType.equals("Pickup")) {
-			txtBillingDate.setText("Pickup Place: " + ClientController.pickupPlace);
-			txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
-		}
-		
+//		txtBillingDate.setText("Billing Date: " + ClientController.billingDate);
+//		txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
 
 		//////////IF WE HAVE TIME WE CAN DO IT. I THINK WE CAN DO IT BUT NOT USING A GOOGLE ACCOUNT!
 		String CustomerEmail = "dimakislitsyn96@gmail.com";
@@ -77,7 +67,7 @@ public class OrderReceiptPageController {
 	@FXML
 	void getBtnBack(ActionEvent event) {
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktCatalogForm.fxml",
+		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/_EKConfigurationCustomerLocalOrderFrame.fxml",
 				null, "Ekt Catalog", true);
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // hiding primary window
@@ -89,7 +79,7 @@ public class OrderReceiptPageController {
 		ClientController.sendLogoutRequest();
 		
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktSystemUserLoginForm.fxml",
+		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/_EKConfigurationLoginFrame.fxml",
 				null, "Login", true);
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // hiding primary window

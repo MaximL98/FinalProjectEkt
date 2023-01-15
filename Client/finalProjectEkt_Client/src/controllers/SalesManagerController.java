@@ -35,7 +35,7 @@ public class SalesManagerController {
     private void addNewPromotionHandler(ActionEvent event) throws IOException {
         // Get the current stage
         Stage stage = new Stage();
-        WindowStarter.createWindow(stage, new Object(), "/gui/PromotionEditing.fxml", null, "Promotion Editing");
+        WindowStarter.createWindow(stage, new Object(), "/gui/PromotionEditing.fxml", null, "Promotion Editing", false);
         stage.show();
         ((Stage) ((Node)event.getSource()).getScene().getWindow()).close();
     }
@@ -44,7 +44,8 @@ public class SalesManagerController {
     @FXML
     private void getBtnActivatePromotion(ActionEvent event) {
         Stage stage = new Stage();
-        WindowStarter.createWindow(stage, new Object(), "/gui/EditActivePromotions.fxml", null, "Promotion Editing");
+
+        WindowStarter.createWindow(stage, new Object(), "/gui/EditActivePromotions.fxml", null, "Promotion Editing",false);
         stage.show();
         ((Stage) ((Node)event.getSource()).getScene().getWindow()).close();       
     }
@@ -58,7 +59,7 @@ public class SalesManagerController {
     	System.out.println("Sales manager has logged off");
 	    ((Node)event.getSource()).getScene().getWindow().hide();
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login", false);
 		primaryStage.show();
     }
     

@@ -211,7 +211,7 @@ public class EktServiceRepAddCustomerController {
 		// prepare the new stage:
 		Stage primaryStage = new Stage();
 
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepresentativeHomePage.fxml", null, "Service Rep Home Page");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepresentativeHomePage.fxml", null, "Service Rep Home Page", true);
 		primaryStage.show();
 		
 	}

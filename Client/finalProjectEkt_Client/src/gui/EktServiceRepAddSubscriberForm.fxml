@@ -10,13 +10,23 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<!-- 
+	private String firstName;
+	private String lastName;
+	private Integer id;
+	private String phoneNumber;
+	private String emailAddress;
+	private String creditCard;
+	private String username;
+	private String password;
+	-->
+
 <AnchorPane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktServiceRepAddSubscriberController">
    <children>
       <Button fx:id="btnAdd" layoutX="192.0" layoutY="692.0" mnemonicParsing="false" onAction="#getAddUserToDB" prefHeight="93.0" prefWidth="417.0" stylesheets="@buttonCSS.css" text="ADD" textFill="WHITE">
          <font>
             <Font name="Berlin Sans FB" size="36.0" />
-         </font>
-      </Button>
+         </font></Button>
       <TextField fx:id="txtUsername" layoutX="250.0" layoutY="130.0" prefHeight="25.0" prefWidth="300.0" promptText="Username" />
       <TextField fx:id="txtPassword" layoutX="250.0" layoutY="160.0" prefHeight="25.0" prefWidth="300.0" promptText="Password" />
       <TextField fx:id="txtID" layoutX="250.0" layoutY="340.0" prefHeight="25.0" prefWidth="300.0" promptText="User ID" />
@@ -26,18 +36,15 @@
       <Text fx:id="lblStatus" layoutX="574.0" layoutY="661.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status: Warning">
          <font>
             <Font name="Berlin Sans FB" size="16.0" />
-         </font>
-      </Text>
+         </font></Text>
       <TextField fx:id="txtRole" disable="true" layoutX="234.0" layoutY="638.0" prefHeight="25.0" prefWidth="333.0" promptText="Role" text="Subscriber">
          <font>
             <Font name="Berlin Sans FB" size="20.0" />
-         </font>
-      </TextField>
+         </font></TextField>
       <Button fx:id="btnGoBack" layoutX="14.0" layoutY="738.0" mnemonicParsing="false" onAction="#getBtnGoBack" prefHeight="49.0" prefWidth="79.0" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
          <font>
             <Font name="Berlin Sans FB" size="18.0" />
-         </font>
-      </Button>
+         </font></Button>
       <Label fx:id="lblUsername" layoutX="250.0" layoutY="185.0" prefHeight="25.0" prefWidth="324.0" textFill="RED" />
       <Label fx:id="lblId" layoutX="250.0" layoutY="365.0" prefHeight="25.0" prefWidth="324.0" textFill="RED" />
       <Label fx:id="lblName" layoutX="250.0" layoutY="440.0" prefHeight="25.0" prefWidth="324.0" textFill="RED" />

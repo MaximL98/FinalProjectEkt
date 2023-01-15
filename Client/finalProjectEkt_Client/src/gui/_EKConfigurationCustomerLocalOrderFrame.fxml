@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktCatalogFormController">
+<AnchorPane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationCustomerLocalOrderController">
    <children>
       <Pane prefHeight="120.0" prefWidth="800.0">
          <children>
@@ -33,12 +32,6 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Text fx:id="txtWelcomeCustomer1" layoutX="155.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PLEASE SELECT A MACHINE:">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Text>
-            <ComboBox fx:id="cmbMachineName" layoutX="437.0" layoutY="83.0" prefHeight="46.0" prefWidth="231.0" promptText="Machine Name" style="-fx-background-color: Gainsboro;" stylesheets="@comboboxCSS.css" />
          </children>
       </Pane>
       <GridPane alignment="CENTER" layoutX="50.0" layoutY="270.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="700.0">
@@ -102,7 +95,7 @@
             <Insets bottom="-30.0" left="-30.0" right="-30.0" top="-30.0" />
          </padding>
       </GridPane>
-      <Button fx:id="btnLogout" layoutX="14.0" layoutY="741.0" mnemonicParsing="false" onAction="#getBtnLogout" prefHeight="45.0" prefWidth="130.0" stylesheets="@buttonCSS.css" text="LOGOUT" textFill="WHITE">
+      <Button fx:id="btnLogout" layoutX="14.0" layoutY="741.0" mnemonicParsing="false" onAction="#getBtnLogout" prefHeight="45.0" prefWidth="110.0" stylesheets="@buttonCSS.css" text="LOGOUT" textFill="WHITE">
          <font>
             <Font name="Berlin Sans FB" size="20.0" />
          </font></Button>
@@ -112,5 +105,14 @@
          </font>
       </Text>
       <Line endX="320.0" layoutX="400.0" layoutY="248.0" startX="-320.0" stroke="PURPLE" />
+      <Button fx:id="btnCatalog9" layoutX="335.0" layoutY="656.0" maxHeight="130.0" maxWidth="130.0" minHeight="130.0" minWidth="130.0" mnemonicParsing="false" onAction="#getBtnCatalogAllItems" prefHeight="130.0" prefWidth="130.0" style="-fx-border-color: purple; -fx-border-radius: 70; -fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO); -fx-border-width: 3; -fx-background-radius: 500;">
+         <graphic>
+            <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/allItems.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

@@ -32,7 +32,7 @@ public class EktLogisticsManagerHomePageController {
 
     			// move to new window
     			Stage primaryStage = new Stage();
-    			WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
+    			WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login", true);
 
     			primaryStage.show();
     			((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
@@ -42,7 +42,7 @@ public class EktLogisticsManagerHomePageController {
     void getBtnRestock(ActionEvent event) {
 		((Node)event.getSource()).getScene().getWindow().hide();
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/InventoryRestockWorkerPage.fxml", null, "Inventory Restock");
+		WindowStarter.createWindow(primaryStage, this, "/gui/InventoryRestockWorkerPage.fxml", null, "Inventory Restock", true);
 		primaryStage.show();
     }
 }

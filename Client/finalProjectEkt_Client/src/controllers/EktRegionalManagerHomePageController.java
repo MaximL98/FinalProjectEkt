@@ -58,7 +58,7 @@ public class EktRegionalManagerHomePageController {
 	@FXML
 	void getBtnAcceptCustomers(ActionEvent event) {
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktRegionalManagerAcceptNewCustomer.fxml", null, "Ekt Manage New Customers");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktRegionalManagerAcceptNewCustomer.fxml", null, "Ekt Manage New Customers", false);
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
@@ -66,7 +66,7 @@ public class EktRegionalManagerHomePageController {
 	@FXML
 	void getBtnSetThreshold(ActionEvent event) {
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktRegionalManagerSetThreshold.fxml", null, "Reviews");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktRegionalManagerSetThreshold.fxml", null, "Reviews", false);
 
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
@@ -77,7 +77,7 @@ public class EktRegionalManagerHomePageController {
 	public void getBtnReviewReports(ActionEvent event) {
 
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktReportSelectForm.fxml", null, "Reviews");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktReportSelectForm.fxml", null, "Reviews", false);
 
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
@@ -88,7 +88,7 @@ public class EktRegionalManagerHomePageController {
 	public void getLogoutBtn(ActionEvent event) {
 		ClientController.sendLogoutRequest();
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login", false);
 
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
@@ -97,7 +97,7 @@ public class EktRegionalManagerHomePageController {
 	@FXML
 	public void getBtnStockAlerts(ActionEvent event) {
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktLowStockAlertTable.fxml", null, "Low Stock Alert Table");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktLowStockAlertTable.fxml", null, "Low Stock Alert Table", false);
 
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
@@ -106,7 +106,7 @@ public class EktRegionalManagerHomePageController {
 	@FXML
 	public void getBtnCancelOrders(ActionEvent event) {
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktCancelOrdersPage.fxml", null, "Ekt Cancel Order");
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktCancelOrdersPage.fxml", null, "Ekt Cancel Order",false);
 
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window

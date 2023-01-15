@@ -317,7 +317,7 @@ public class EktRegionalManagerAcceptNewCustomerController {
 	void getBtnBack(ActionEvent event) {
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(),
-				"/gui/EktRegionalManagerHomePage.fxml", null, "Ekt Regional Manager Home Page");
+				"/gui/EktRegionalManagerHomePage.fxml", null, "Ekt Regional Manager Home Page", true);
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}

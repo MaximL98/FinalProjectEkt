@@ -1,4 +1,4 @@
-package controllers;
+package ek_configuration;
 
 import java.io.ByteArrayInputStream;
 import java.text.DecimalFormat;
@@ -38,7 +38,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
-public class EktOrderSummaryController {
+public class _EKConfigurationOrderSummaryController {
 	// TODO: move this to a dedicated constants class (or to the database if there's time)
 	private static final Double COST_REDUCTION_PER_SUBSRIBER = 0.8;
 	
@@ -186,6 +186,7 @@ public class EktOrderSummaryController {
 		if(!ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
 //			throw new RuntimeException("Invalid database operation");
 			System.out.println("Invalid database operation (checking subsriber orders history failed). (returnin false [no existing orders])");
+			return false; // Rotem forgot to add this back then
 		}
 		@SuppressWarnings("unchecked")
 		ArrayList<ArrayList<Object>> res = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
@@ -197,11 +198,10 @@ public class EktOrderSummaryController {
 	@FXML
 	void getBtnApprove(ActionEvent event) {
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktPaymentForm.fxml", null, "payment", true);
+		WindowStarter.createWindow(primaryStage, this, "/gui/_EKConfigurationPaymentForm.fxml", null, "payment", true);
 
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
-
 
 	}
 
@@ -209,7 +209,7 @@ public class EktOrderSummaryController {
 	void getBtnBack(ActionEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktCartForm.fxml", null, "Ekt Cart", true);
+		WindowStarter.createWindow(primaryStage, this, "/gui/_EKConfigurationCartForm.fxml", null, "Ekt Cart", true);
 
 		primaryStage.show();
 	}
@@ -230,10 +230,10 @@ public class EktOrderSummaryController {
 			Stage primaryStage = new Stage();
 
 			//category is located in a ArrayList
-			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktCatalogForm.fxml", null, 
+			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/_EKConfigurationCustomerLocalOrderFrame.fxml", null, 
 					ClientController.CurrentProductCategory.get(0), true);
 	
-			EktProductFormController.itemsInCart = 0;
+			_EKConfigurationProductController.itemsInCart = 0;
 			ClientController.getProductByID.keySet().clear();
 			ClientController.cartPrice.keySet().clear();
 			ClientController.currentUserCart.keySet().clear();;
@@ -247,7 +247,7 @@ public class EktOrderSummaryController {
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
 			//category is located in a ArrayList
-			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktOrderSummary.fxml", null, "Order Summary", true);
+			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/_EKConfigurationOrderSummary.fxml", null, "Order Summary", true);
 
 			primaryStage.show();
 

@@ -1,9 +1,8 @@
-package controllers;
+package ek_configuration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -32,7 +31,7 @@ import logic.Order;
 import logic.Product;
 import logic.Role;
 
-public class EktPaymentFormController {
+public class _EKConfigurationPaymentController {
 	
 	@FXML
     private Button btnBack;
@@ -106,7 +105,37 @@ public class EktPaymentFormController {
 		}
     	return null;
     }
-   
+    
+    /*
+     * TODO: replace this with a proper query (maybe)
+     */
+    private Integer getMachineId(String pickupPlace) {
+		
+    	switch (pickupPlace) {
+		case "Haifa, Downtown":
+			return 1;
+		case "Beer Sheva, Center":
+			return 2;
+		case "Beer Sheva, Downtown":
+			return 3;
+		
+	    case "Kiryat Motzkin, Center":
+			return 4;
+		
+		case "Kiryat Shmona, Center":
+			return 5;
+		
+		case "Beer Sheva, Updog":
+			return 6;
+		
+		case "Abu Dabi, Center":
+			return 7;
+		
+		case "Abu Naji, Center":
+			return 8;
+    	}
+    	return null;
+    }
     
     @FXML
     void getBtnChargeMyCreditCard(ActionEvent event) {
@@ -139,7 +168,7 @@ public class EktPaymentFormController {
 	
 	@FXML
 	public void getBtnBack(ActionEvent event) {
-		nextPage(event, "/gui/EktOrderSummary.fxml", "EKT cart");
+		nextPage(event, "/gui/_EKConfigurationOrderSummary.fxml", "EKT cart");
 	}
 	
 	private void nextPage(ActionEvent event, String fxmlAddress, String windowLabel) {
@@ -160,23 +189,12 @@ public class EktPaymentFormController {
 		
 		Object[] fillOrder = new Object[3];
 		
-		if(getTypeId(ClientController.orderType) == 2) {
-			fillOrder[0] = "orders (total_price, total_quantity, machineID, date_received, deliveryTime, typeId, statusId)";
-			fillOrder[1] = false;
-			fillOrder[2] = new Object[] {"(" + ClientController.orderTotalPrice + "," + 
-			ClientController.orderTotalQuantity + "," + ClientController.OLCurrentMachineID + ",\"" + 
-			ClientController.orderDateReceived + "\"" + ",\"" + ClientController.orderDeliveryTime + 
-					"\"" + "," + getTypeId(ClientController.orderType) + "," + 1 + ")"};
-		}
-		else {
-			fillOrder[0] = "orders (total_price, total_quantity, machineID, date_received, typeId, statusId)";
-			fillOrder[1] = false;
-			fillOrder[2] = new Object[] {"(" + ClientController.orderTotalPrice + "," + 
-			ClientController.orderTotalQuantity + "," + ClientController.OLCurrentMachineID + ",\"" + 
-			ClientController.orderDateReceived + "\"" 
-					 + "," + getTypeId(ClientController.orderType) + "," + 1 + ")"};
-		}
-		
+		fillOrder[0] = "orders (total_price, total_quantity, machineID, date_received, deliveryTime, typeId, statusId)";
+		fillOrder[1] = false;
+		fillOrder[2] = new Object[] {"(" + ClientController.orderTotalPrice + "," + 
+		ClientController.orderTotalQuantity + "," + getMachineId(ClientController.pickupPlace) + ",\"" + 
+		ClientController.orderDateReceived + "\"" + ",\"" + ClientController.orderDeliveryTime + 
+				"\"" + "," + getTypeId(ClientController.orderType) + "," + 3 + ")"}; // ROTEM: I set it to 3, as in completed, immediately! (we@machine) 
 		
 		preparedMessage.setMessageSent(fillOrder); 
 		ClientUI.clientController.accept(preparedMessage);
@@ -190,6 +208,7 @@ public class EktPaymentFormController {
 		
 		SCCP answer = ClientController.responseFromServer;
 		
+		@SuppressWarnings("unchecked")
 		ArrayList<ArrayList<Object>> preProcessedOutput = (ArrayList<ArrayList<Object>>)answer.getMessageSent();
 		
 		String temp = "";
@@ -262,36 +281,19 @@ public class EktPaymentFormController {
 		preparedMessage.setMessageSent(fillOrderContents); 
 		ClientUI.clientController.accept(preparedMessage);
 		ClientController.orderNumber++;
-		
-		
-		for(Map.Entry<String, Integer> set : EktProductFormController.productsInStockMap.entrySet()) {
-			
-			SCCP updateStock = new SCCP();
-			updateStock.setRequestType(ServerClientRequestTypes.UPDATE);
-			updateStock.setMessageSent(new Object[] {
-					"products_in_machine", "stock = " + set.getValue(), " machineID = " +ClientController.OLCurrentMachineID 
-							+ " AND productID = " + set.getKey()});
-			
-			ClientUI.clientController.accept(updateStock);
-			System.out.println("For Product " + set.getKey() + "the Stock was updated!");
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		
-		
-//		long counter = 0;
-//		try {
-//			Thread.sleep(2000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		EktProductFormController.itemsInCart = 0;
+		_EKConfigurationProductController.itemsInCart = 0;
 		ClientController.currentUserCart.keySet().clear();
 		ClientController.getProductByID.keySet().clear();
 		ClientController.cartPrice.keySet().clear();
 		ClientController.userOrders.keySet().clear();
-		nextPage(event, "/gui/OrderReceiptPage.fxml", "EKrut Order Receipt");
+		nextPage(event, "/gui/_EKConfigurationOrderReceiptPage.fxml", "EKrut Order Receipt");
 	}
 
 }

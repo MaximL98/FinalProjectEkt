@@ -35,6 +35,14 @@ public class _EKConfigurationLoginFrameController {
     	getBtnLoginEK(ae);
     }
     
+    /*
+     * Rotem added for inactivity stuff
+     */
+    @FXML
+    private void initialize() {
+    	ClientController.resetVars();
+    }
+    
     @FXML
     void getBtnLoginEK(ActionEvent event) {
     	// verify that the user type is either customer or tipuli worker (kita tifulit yantu)
@@ -93,7 +101,7 @@ public class _EKConfigurationLoginFrameController {
 		((Node)event.getSource()).getScene().getWindow().hide();
 		// prepare the new stage:
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, new Object(), nextScreenPath, null, nextPathTitle);
+		WindowStarter.createWindow(primaryStage, new Object(), nextScreenPath, null, nextPathTitle, true);
 		primaryStage.show();
     }
 

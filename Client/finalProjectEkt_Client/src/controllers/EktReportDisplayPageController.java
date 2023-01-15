@@ -41,6 +41,22 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.Role;
 
+/**
+ * 
+ * This class is a JavaFX controller class for a report display page of a vending machine management system.
+ * It uses various JavaFX components such as {@link BarChart}, {@link Text}, {@link TableView} to display the data of the report.
+ * The class also uses classes such as {@link SCCP} and {@link InventoryCalculations} to gather data for the report and display it on the page.
+ * 
+ * The class has a method that creates a bar chart using the {@link CategoryAxis} and {@link NumberAxis} classes to set the x-axis and y-axis of the chart respectively.
+ * It then sends a message to the server to fetch data on the products in the machine and their stock levels, using the {@link SCCP} class.
+ * The data is then added to the chart by creating a new {@link XYChart.Series} object and adding {@link XYChart.Data} objects to it, with the product name and stock level as the values.
+ * 
+ * Additionally, the code also adds data to a {@link TableView} which is a JavaFX component used to display tabular data.
+ * The data being added to the table is an object of the {@link productInTable} class, which contains information such as the product name, stock, minimum stock, threshold, and out of stock.
+ * The table view and bar chart are also being styled with different font sizes and background colors.
+ * @author Dima, Maxim, Rotem
+ *
+ */
 public class EktReportDisplayPageController {
 	
 	private int machineID = 0; //Used for setting up the re-stock button, not used elsewhere
@@ -71,7 +87,16 @@ public class EktReportDisplayPageController {
 
 	String nameOfLocation, nameOfMachine;
 	private Button requestRestockBtn;
-
+	/**
+	 * This class defines the structure of a product that is to be displayed in a {@link TableView} on a report page of a vending machine management system.
+	 * The class contains several {@link SimpleStringProperty} fields such as pName, pStock, pMinStock, pThreshold and pOutOfStock.
+	 * These fields are used to store and display the product name, stock, minimum stock, threshold, and out of stock respectively.
+	 * The class also has getter and setter methods for these fields.
+	 * 
+	 * The class has a constructor that accepts values for these fields, which are then used to initialize the corresponding properties.
+	 * @author Dima, Maxim, Rotem
+	 *
+	 */
 	// Used to insert rows to a table
 	class productInTable {
 
@@ -80,7 +105,15 @@ public class EktReportDisplayPageController {
 		SimpleStringProperty pMinStock;
 		SimpleStringProperty pThreshold;
 		SimpleStringProperty pOutOfStock;
-
+		/**
+		 * Constructor for the {@link productInTable} class.
+		 * Initializes the class fields with the given values for product name, stock, minimum stock, threshold and out of stock.
+		 * @param pName String value of the product name
+		 * @param pStock String value of the product stock
+		 * @param pMinStock String value of the product minimum stock
+		 * @param pThreshold String value of the product threshold
+		 * @param pOutOfStock String value of the product out of stock
+		 */
 		public productInTable(String pName, String pStock, String pMinStock, String pThreshold, String pOutOfStock) {
 
 			this.pName = new SimpleStringProperty(pName);
@@ -90,50 +123,88 @@ public class EktReportDisplayPageController {
 			this.pThreshold = new SimpleStringProperty(pThreshold);
 			this.pOutOfStock = new SimpleStringProperty(pOutOfStock);
 		}
-
+		/**
+		 * Getter method for the pName field in the {@link productInTable} class.
+		 * @return The value of the product name as a {@link SimpleStringProperty}
+		 */
 		public SimpleStringProperty getpName() {
 			return pName;
 		}
-
+		/**
+		 * Setter method for the pName field in the {@link productInTable} class.
+		 * @param pName The new value of the product name as a {@link SimpleStringProperty}
+		 */
 		public void setpName(SimpleStringProperty pName) {
 			this.pName = pName;
 		}
-
+		/**
+		 * Getter method for the pStock field in the {@link productInTable} class.
+		 * @return The value of the product stock as a {@link SimpleStringProperty}
+		 */
 		public SimpleStringProperty getpStock() {
 			return pStock;
 		}
-
+		/**
+		 * Setter method for the pStock field in the {@link productInTable} class.
+		 * Sets the value of the product stock.
+		 * @param pStock The new value of the product stock as a {@link SimpleStringProperty}
+		 */
 		public void setpStock(SimpleStringProperty pStock) {
 			this.pStock = pStock;
 		}
-
+		/**
+		 * Getter method for the pMinStock field in the {@link productInTable} class.
+		 * @return The value of the product minimum stock as a {@link SimpleStringProperty}
+		 */
 		public SimpleStringProperty getpMinStock() {
 			return pMinStock;
 		}
-
+		/**
+		 * Setter method for the pMinStock field in the {@link productInTable} class.
+		 * Sets the value of the product minimum stock.
+		 * @param pMinStock The new value of the product minimum stock as a {@link 
+		 */
 		public void setpMinStock(SimpleStringProperty pMinStock) {
 			this.pMinStock = pMinStock;
 		}
-
+		/**
+		 * Getter method for the pThreshold field in the {@link productInTable} class.
+		 * @return The value of the product threshold as a {@link SimpleStringProperty}
+		 */
 		public SimpleStringProperty getpThreshold() {
 			return pThreshold;
 		}
-
+		/**
+		 * Setter method for the pThreshold field in the {@link productInTable} class.
+		 * Sets the value of the product threshold.
+		 * @param pThreshold The new value of the product threshold as a {@link SimpleStringProperty}
+		 */
 		public void setpThreshold(SimpleStringProperty pThreshold) {
 			this.pThreshold = pThreshold;
 		}
-
+		/**
+		 * Getter method for the pOutOfStock field in the {@link productInTable} class.
+		 * @return The value of the product out of stock as a {@link SimpleStringProperty}
+		 */
 		public SimpleStringProperty getpOutOfStock() {
 			return pOutOfStock;
 		}
-
+		/**
+		 * Setter method for the pOutOfStock field in the {@link productInTable} class.
+		 * Sets the value of the product out of stock.
+		 * @param pOutOfStock The new value of the product out of stock as a {@link SimpleStringProperty}
+		 */
 		public void setpOutOfStock(SimpleStringProperty pOutOfStock) {
 			this.pOutOfStock = pOutOfStock;
 		}
 
 	}
-
-	@SuppressWarnings("unchecked")
+	/**
+	 * This method initializes the report based on the type of report selected by the user.
+	 * The type of report, location name, and machine name are displayed in the UI.
+	 * The method also creates the report (graph or chart) based on the type of report selected.
+	 * The types of report that can be generated are Orders, Inventory, and Customer.
+	 */
 	@FXML
 	public void initialize() {
 		String typeOfReport = ClientController.getMachineID_TypeOfReport_Dates().get(0);
@@ -175,7 +246,12 @@ public class EktReportDisplayPageController {
 		}
 
 	}
-
+	/**
+	 * createCustomreReport is a method that creates a bar chart of the number of customers per number of orders.
+	 * The data is fetched from the database, it uses the machine name and the date range to filter the data.
+	 * It also creates the x and y axis for the bar chart and sets the label for the x and y axis.
+	 * The bar chart is populated with data using the data series and the data is sorted by the number of orders.
+	 */
 	@SuppressWarnings("unchecked")
 	private void createCustomreReport() {
 		int month = getMonthNumberByString(ClientController.getMachineID_TypeOfReport_Dates().get(3));
@@ -258,7 +334,14 @@ public class EktReportDisplayPageController {
 				+ "-fx-font-color: black; -fx-font: black; -fx-background-color: transparent;");
 		borderPane.setCenter(barChart);
 	}
-	
+	/**
+	 * The method createInventoryReport() creates an inventory report for a specific machine. 
+	 * It creates a TableView for displaying product stock information, 
+	 * and sets up the columns for product name, in stock, threshold, 
+	 * and estimated time till threshold and out-of-stock. 
+	 * It also creates an x-axis and y-axis for a graph using the CategoryAxis and NumberAxis classes, 
+	 * respectively. The method retrieves data from the database and populates the table and graph with the retrieved data.
+	 */
 	@SuppressWarnings("unchecked")
 	private void createInventoryReport() {
 
@@ -408,7 +491,12 @@ public class EktReportDisplayPageController {
 		borderPane.setCenter(barChart);
 
 	}
-
+	/**
+	 * This method createOrderReport is used to create an order report for a specific machine or all machines in a region. 
+	 * The method starts by fetching order data from the database based on the specified month and year, and the machine id. 
+	 * It then parses the data to calculate the profits, order quantity, amount of items, and counts the number of local, pickup, and delivery orders. 
+	 * After that, it creates a pie chart to visualize the data and displays it on the screen.
+	 */
 	@SuppressWarnings("unchecked")
 	private void createOrderReport() {
 		int month = getMonthNumberByString(ClientController.getMachineID_TypeOfReport_Dates().get(3));
@@ -518,7 +606,12 @@ public class EktReportDisplayPageController {
 		borderPane.setBottom(vboxInfo);
 
 	}
-
+	/**
+	 * 
+	 * A method that is triggered when the "Back" button is pressed. 
+	 * It clears the array used for the current report, opens the "Ekt Report Select Form" window, and closes the current window.
+	 * @param event the ActionEvent that triggers this method
+	 */
 	@FXML
 	void getBtnBack(ActionEvent event) {
 		// Clear the array for the next report viewing
@@ -529,7 +622,12 @@ public class EktReportDisplayPageController {
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
-
+	/**
+	 * 
+	 * This method will take a string as input and return the corresponding number of the month.
+	 * @param string - A string representing the month name
+	 * @return int - the corresponding number of the month. If input does not match any month name, it will return 0
+	 */
 	private int getMonthNumberByString(String string) {
 		switch (string) {
 		case "January":

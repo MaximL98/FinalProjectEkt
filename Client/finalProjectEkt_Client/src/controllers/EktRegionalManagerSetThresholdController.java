@@ -18,7 +18,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class EktRegionalManagerSetThresholdController implements Serializable{
+/**
+ * This class represents a controller for the Regional Manager Set Threshold page of the system.
+ * It allows the Regional Manager to set the threshold for a machine in his region.
+ * The class contains methods to initialize the page, go back to the previous page,
+ * select a machine from a list of machines in his region,
+ * display the current threshold of the selected machine,
+ * set a new threshold for the selected machine and update the threshold in the database.
+ * @author Dima, Rotem, Maxim
+ *
+ */
+public class EktRegionalManagerSetThresholdController implements Serializable {
 
     /**
 	 * 
@@ -54,7 +64,14 @@ public class EktRegionalManagerSetThresholdController implements Serializable{
 
     private String MachineName = null;
     private Integer MachineId = null;
-    
+    /**
+     * This method initializes the Regional Manager Set Threshold page.
+     * It sets the visibility of certain GUI components based on whether a machine has been selected,
+     * retrieves a list of machines in the Regional Manager's region from the server,
+     * populates the machine name combo box with the names of the machines,
+     * sets an action listener for the combo box to display the current threshold of the selected machine,
+     * and sets the machine id for the selected machine.
+     */
     public void initialize() {
     	if(MachineName == null) {
     		txtCurrentStock.setVisible(false);
@@ -119,7 +136,11 @@ public class EktRegionalManagerSetThresholdController implements Serializable{
 		}
     }
     
-    
+    /**
+     * Handles the action of the "Go Back" button on the Regional Manager Set Threshold page.
+     * This method closes the current window and opens the Regional Manager Home page.
+     * @param event The ActionEvent object that triggers this method.
+     */
     @FXML
     void getBtnGoBack(ActionEvent event) {
     	Stage primaryStage = new Stage();
@@ -128,7 +149,14 @@ public class EktRegionalManagerSetThresholdController implements Serializable{
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
     }
-    
+    /**
+     * 
+     * Handles the action of the "Set" button on the Regional Manager Set Threshold page.
+     * This method takes the value entered in the new threshold text field, checks if it's a valid number,
+     * sends a request to the server to update the threshold for the selected machine,
+     * and displays a message to the user indicating whether the update was successful or not.
+     * @param event The ActionEvent object that triggers this method.
+     */
     @FXML
     void getBtnSet(ActionEvent event) {
     	

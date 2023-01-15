@@ -23,7 +23,14 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logic.Role;
 import logic.SystemUser;
-
+/**
+ * The EktServiceRepAddCustomerController class is a JavaFX controller class that is responsible for handling the events
+ * and actions that occur in the EktServiceRepAddCustomer FXML file. It allows service representatives to add new customers
+ * to the system by providing the necessary information and validating the input.
+ * @author Maxim, Rotem, Dima
+ * @version 1
+ *
+ */
 public class EktServiceRepAddCustomerController {
 
     @FXML
@@ -88,14 +95,23 @@ public class EktServiceRepAddCustomerController {
 	private ComboBox<String> cmbLocation;
 	
 	private String userLocation;
-
+	/**
+	 * This method initializes the ComboBox "cmbLocation" by adding all the possible locations to it.
+	 * It also sets an action listener on the ComboBox, when an item is selected it sets the value of the userLocation variable to the selected location.
+	 */
 	public void initialize() {
 		cmbLocation.getItems().addAll("North", "South", "UAE");
 		cmbLocation.setOnAction(event ->{
 			userLocation = cmbLocation.getValue();
 		});
 	}
-	
+	/**
+	 * getAddUserToDB is an event handler method that is triggered when the "Add" button is clicked.
+	 * It is responsible for adding a new user to the database by first validating input fields, checking if the
+	 * entered username is already taken, and sending a message to the server to add the user to the database.
+	 * It also updates the status label with a success or failure message and clears all input fields after adding the user.
+	 * @param event the ActionEvent that triggers this method when the "Add" button is clicked.
+	 */
 	@FXML
     void getAddUserToDB(ActionEvent event) {
 		clearAllLabels();
@@ -178,6 +194,9 @@ public class EktServiceRepAddCustomerController {
     		lblStatus.setText("Status: Invalid input");
     	}
     }
+	/**
+	 * This method is used to clear all the labels for the fields in the form.
+	 */
 	private void clearAllLabels() {
 		// TODO Auto-generated method stub
 		lblId.setText("");
@@ -190,6 +209,15 @@ public class EktServiceRepAddCustomerController {
 	}
 
 	// lblId, lblUsername, lblName, lblEmail, lblCreditCard, lblPhone
+	/**
+	 * 
+	 * This method is used to validate the input fields for adding a user to the database.
+	 * It checks that the ID is numeric and not empty, the username and password are non-empty,
+	 * the first and last name are alphabetic, non-empty and that the email is in the format of x@y.z,
+	 * the credit card is numeric and non-empty, the phone number is numeric and non-empty, and location is selected.
+	 * If any of these conditions are not met, a corresponding error message is displayed on the form.
+	 * @return boolean indicating whether the input fields are valid or not.
+	 */
 	private boolean validFieldInput() {
 		boolean flag = true;
 		// I forgot to check ID
@@ -236,7 +264,10 @@ public class EktServiceRepAddCustomerController {
 		}
 		return flag;
 	}
-
+	/**
+	 * Handles the action of the "Go Back" button. Hides the current window and opens the Service Representative Home Page.
+	 * @param event The ActionEvent object that triggers this method.
+	 */
 	@FXML public void getBtnGoBack(ActionEvent event) {
 		// load home area for service rep
 		// sammy D the current window

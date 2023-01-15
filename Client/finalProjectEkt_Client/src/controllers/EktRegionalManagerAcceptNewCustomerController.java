@@ -2,14 +2,11 @@ package controllers;
 
 import java.util.ArrayList;
 
-import org.junit.jupiter.params.shadow.com.univocity.parsers.common.record.Record;
-
 import client.ClientController;
 import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
-import controllers.EktReportDisplayPageController.productInTable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,14 +21,33 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
+/**
+ * 
+ * The EktRegionalManagerAcceptNewCustomerController class handles the process
+ * of accepting or declining new customer requests for a regional manager. It
+ * retrieves all pending customer requests from the server, displays them in a
+ * table, and allows the regional manager to either accept or decline the
+ * request. Accepting the request will update the customer's status to a new
+ * customer and decline will remove the customer's request.
+ * 
+ * @author Maxim, Dima, Rotem
+ *
+ */
 public class EktRegionalManagerAcceptNewCustomerController {
-
+	/**
+	 * This class represents a customer that is waiting to be accepted by the
+	 * Regional Manager. It contains properties such as name, userType, id,
+	 * phoneNumber, and two buttons - accept and decline. The accept button, when
+	 * clicked, will create a new customer and change the type of user to the
+	 * specified user type. The decline button, when clicked, will remove the
+	 * customer request. The class also has getters and setters for its properties.
+	 * 
+	 * @author Dima, Rotem, Maxim
+	 *
+	 */
 	public class customerToAccept {
 		private SimpleStringProperty name;
 		private SimpleStringProperty userType;
@@ -39,24 +55,47 @@ public class EktRegionalManagerAcceptNewCustomerController {
 		private SimpleStringProperty phoneNumber;
 		Button accept = new Button();
 
+		/**
+		 * @return the accept button
+		 */
 		public Button getAccept() {
 			return accept;
 		}
 
+		/**
+		 * 
+		 * @param set the accept button
+		 */
 		public void setAccept(Button accept) {
 			this.accept = accept;
 		}
 
+		/**
+		 * 
+		 * @return the decline button
+		 */
 		public Button getDecline() {
 			return decline;
 		}
 
+		/**
+		 * 
+		 * @param set the decline button
+		 */
 		public void setDecline(Button decline) {
 			this.decline = decline;
 		}
 
 		Button decline = new Button();
 
+		/**
+		 * Constructor for customerToAccept class
+		 * 
+		 * @param name        the name of the customer
+		 * @param userType    the type of user the customer is requesting to become
+		 * @param id          the ID of the customer
+		 * @param phoneNumber the phone number of the customer
+		 */
 		public customerToAccept(String name, String userType, String id, String phoneNumber) {
 			this.name = new SimpleStringProperty(name);
 			this.userType = new SimpleStringProperty(userType);
@@ -101,34 +140,72 @@ public class EktRegionalManagerAcceptNewCustomerController {
 			});
 		}
 
+		/**
+		 * 
+		 * @return the userType of the customerToAccept object as a SimpleStringProperty
+		 */
 		public SimpleStringProperty getUserType() {
 			return userType;
 		}
 
+		/**
+		 * Sets the userType of the customerToAccept object
+		 * 
+		 * @param lastName the userType to be set as a SimpleStringProperty
+		 */
 		public void setuserType(SimpleStringProperty lastName) {
 			this.userType = lastName;
 		}
 
+		/**
+		 * @return the name of the customerToAccept object as a SimpleStringProperty
+		 */
 		public SimpleStringProperty getName() {
 			return name;
 		}
 
+		/**
+		 * 
+		 * Sets the name of the customerToAccept object
+		 * 
+		 * @param firstName the name to be set as a SimpleStringProperty
+		 */
 		public void setName(SimpleStringProperty firstName) {
 			this.name = firstName;
 		}
 
+		/**
+		 * 
+		 * @return the id of the customerToAccept object as a SimpleStringProperty
+		 */
 		public SimpleStringProperty getId() {
 			return id;
 		}
 
+		/**
+		 * Sets the id of the customerToAccept object
+		 * 
+		 * @param id the id to be set as a SimpleStringProperty
+		 */
 		public void setId(SimpleStringProperty id) {
 			this.id = id;
 		}
 
+		/**
+		 * 
+		 * @return the phoneNumber of the customerToAccept object as a
+		 *         SimpleStringProperty
+		 */
 		public SimpleStringProperty getPhoneNumber() {
 			return phoneNumber;
 		}
 
+		/**
+		 * 
+		 * This method sets the phone number of the customer.
+		 * 
+		 * @param phoneNumber The phone number of the customer.
+		 */
 		public void setPhoneNumber(SimpleStringProperty phoneNumber) {
 			this.phoneNumber = phoneNumber;
 		}
@@ -155,9 +232,18 @@ public class EktRegionalManagerAcceptNewCustomerController {
 
 	@FXML
 	private TableView<customerToAccept> tableUsers;
-	
-	@FXML
 
+	@FXML
+	/**
+	 * The initialize method is responsible for setting up the TableView for
+	 * displaying customers that are waiting for acceptance. It sets the cell value
+	 * factory for each column and sets the style of the columns. It also adds a
+	 * "Accept" and "Decline" button to the table and sets their functionality. When
+	 * the "Accept" button is clicked, a confirmation dialog is displayed and if
+	 * confirmed, the customer is accepted and removed from the table. Similarly,
+	 * when the "Decline" button is clicked, a confirmation dialog is displayed and
+	 * if confirmed, the customer request is removed from the table.
+	 */
 	@SuppressWarnings("unchecked")
 	public void initialize() {
 		final ObservableList<customerToAccept> data = FXCollections.observableArrayList();
@@ -213,6 +299,7 @@ public class EktRegionalManagerAcceptNewCustomerController {
 					if (type == ButtonType.OK) {
 						// Accept customer
 						customerToAccept customer = cell.getTableView().getItems().get(cell.getIndex());
+						@SuppressWarnings("unused")
 						SimpleStringProperty userType = customer.getUserType();
 						tableUsers.getSelectionModel().clearSelection();
 						SimpleStringProperty id = customer.getId();
@@ -220,13 +307,13 @@ public class EktRegionalManagerAcceptNewCustomerController {
 						SCCP updateCustomerToNewCustomer = new SCCP();
 						updateCustomerToNewCustomer.setRequestType(ServerClientRequestTypes.UPDATE);
 						if (customer.getUserType().getValue().equals("unapproved_customer")) {
-							updateCustomerToNewCustomer.setMessageSent(
-									new Object[] { "systemuser", "typeOfUser = \"customer\"", "id = " + id.getValue() });
+							updateCustomerToNewCustomer.setMessageSent(new Object[] { "systemuser",
+									"typeOfUser = \"customer\"", "id = " + id.getValue() });
 						} else {
-							updateCustomerToNewCustomer.setMessageSent(
-									new Object[] { "systemuser", "typeOfUser = \"subscriber\"", "id = " + id.getValue() });
+							updateCustomerToNewCustomer.setMessageSent(new Object[] { "systemuser",
+									"typeOfUser = \"subscriber\"", "id = " + id.getValue() });
 						}
-						
+
 						ClientUI.clientController.accept(updateCustomerToNewCustomer);
 						// send the updateCustomerToNewCustomer to the server
 					} else {
@@ -270,14 +357,15 @@ public class EktRegionalManagerAcceptNewCustomerController {
 					if (type == ButtonType.OK) {
 						// Accept customer
 						customerToAccept customer = cell.getTableView().getItems().get(cell.getIndex());
+						@SuppressWarnings("unused")
 						SimpleStringProperty userType = customer.getUserType();
 						tableUsers.getSelectionModel().clearSelection();
 						SimpleStringProperty id = customer.getId();
 						data.remove(cell.getIndex());
 						SCCP updateCustomerToNewCustomer = new SCCP();
 						updateCustomerToNewCustomer.setRequestType(ServerClientRequestTypes.REMOVE);
-						updateCustomerToNewCustomer.setMessageSent(
-								new Object[] { "systemuser", "", "id = " + id.getValue() });
+						updateCustomerToNewCustomer
+								.setMessageSent(new Object[] { "systemuser", "", "id = " + id.getValue() });
 						ClientUI.clientController.accept(updateCustomerToNewCustomer);
 						// send the updateCustomerToNewCustomer to the server
 					} else {
@@ -290,10 +378,12 @@ public class EktRegionalManagerAcceptNewCustomerController {
 
 		SCCP unapprovedCustomers = new SCCP();
 		unapprovedCustomers.setRequestType(ServerClientRequestTypes.SELECT);
-		unapprovedCustomers.setMessageSent(new Object[] { "systemuser JOIN customer_location ON systemuser.id = customer_location.id", true,
-				"firstName, lastName, typeOfUser, systemuser.id, phoneNumber", true,
-				"typeOfUser = \"unapproved_customer\" OR typeOfUser = \"unapproved_subscriber\" "
-				+ "AND location = " + "'" + ClientController.getCurrentUserRegion() + "';", false, null });
+		unapprovedCustomers.setMessageSent(
+				new Object[] { "systemuser JOIN customer_location ON systemuser.id = customer_location.id", true,
+						"firstName, lastName, typeOfUser, systemuser.id, phoneNumber", true,
+						"typeOfUser = \"unapproved_customer\" OR typeOfUser = \"unapproved_subscriber\" "
+								+ "AND location = " + "'" + ClientController.getCurrentUserRegion() + "';",
+						false, null });
 
 		ClientUI.clientController.accept(unapprovedCustomers);
 
@@ -314,6 +404,16 @@ public class EktRegionalManagerAcceptNewCustomerController {
 
 	}
 
+	/**
+	 * This is the method for the "Back" button in the
+	 * EktRegionalManagerAcceptNewCustomerController class. It is used to navigate
+	 * to the Ekt Regional Manager Home Page. It takes an ActionEvent as a
+	 * parameter. The method retrieves the current system user and calls the
+	 * createWindow method in the WindowStarter class to display the Ekt Regional
+	 * Manager Home Page. The current window is then closed.
+	 * 
+	 * @param event the event that triggers the button click
+	 */
 	@FXML
 	void getBtnBack(ActionEvent event) {
 		Stage primaryStage = new Stage();

@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -143,8 +144,40 @@ public class EktProductFormController {
     public static HashMap<String, Integer> productsInStockMap = new HashMap<>();
     
     // Rotem ^^^
+    
+    private double salePromotionAmount = 1;
+    
+    private void setDiscountAmount() {
+    	//Set the discount amount if any is active
+    	SCCP getDiscountAmount = new SCCP();
+    	getDiscountAmount.setRequestType(ServerClientRequestTypes.SELECT);
+    	getDiscountAmount.setMessageSent(new Object[] { "promotions", true, "promotions.promotionStatus, promotions.discountPercentage",
+    			false, null, true, "JOIN locations ON promotions.locationID = locations.locationID \r\n"
+    					+ "JOIN machine ON promotions.locationID = machine.locationId" + 
+    					" WHERE machine.machineId = " + ClientController.OLCurrentMachineID + ";"
+    	});
+    	ClientUI.clientController.accept(getDiscountAmount);
+    	
+    	ArrayList<?> promotionStatusAndPromotionID = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
+    	
+    	Boolean promotionStatus = false;
+    	double promotionDiscount = 0;
+    	for (ArrayList<Object> promotion: (ArrayList<ArrayList<Object>>) promotionStatusAndPromotionID) {
+    		promotionStatus = new Boolean((boolean) promotion.get(0));
+    		promotionDiscount = (float) promotion.get(1);
+    		//Get only the first active promotion
+    		if (promotionStatus == true)
+    			break;
+    	}
+    	if (promotionStatus == true) {
+    		salePromotionAmount = 1 - (promotionDiscount / 100);
+    	}
+    	
+    	
+    }
     	
 	public void initialize() throws FileNotFoundException {
+		setDiscountAmount();
 		// if we switch machines - clear the order and so on [please test this! I only Rotem-tested it]
 		if(isMachineSwitchedFlag() ) {
 			productsInStockMap = new HashMap<>();
@@ -255,11 +288,12 @@ public class EktProductFormController {
 				productDetails.getChildren().add(txtProductStock);
 				//Implement item on sale	
 				//if(ClientController.getcurrentCustomer == Subscriber AND product == ON-SALE -> display item on sale
-				if (((ArrayList)product).get(0).toString().equals("103")) {
+				if (salePromotionAmount < 1) {
 					//This is just an example
 					txtProductCostPerUnit.setStrikethrough(true);
 					Text txtSubscriberSale = new Text();
-					txtSubscriberSale.setText("ON SALE: 10.90$");
+					Double priceAfterSale = new Double(((ArrayList<?>)product).get(2).toString());
+					txtSubscriberSale.setText("ON SALE: " + (new DecimalFormat("##.##").format((priceAfterSale * salePromotionAmount))).toString() + "$");
 					txtSubscriberSale.setFill(Color.CRIMSON);
 					txtSubscriberSale.setFont(new Font(18));
 					txtSubscriberSale.setStyle("-fx-font: 20 System; -fx-font-weight: bold;");
@@ -354,11 +388,13 @@ public class EktProductFormController {
 					//Increment value of the product key in the hash map
 					//If it does not exist, set value to "1"
 					String currentProductID = ((ArrayList<?>)product).get(0).toString();
-
+					
 					if (!ClientController.getProductByID.containsKey(currentProductID)) {
+						double pricePerProductBeforeDiscount = new Double(((ArrayList<?>)product).get(2).toString());
+						Double priceAfterDiscount = new Double(pricePerProductBeforeDiscount * salePromotionAmount);
 						superProduct p = new superProduct(((ArrayList<?>)product).get(0).toString(),
 								((ArrayList<?>)product).get(1).toString(), 
-								((ArrayList<?>)product).get(2).toString(),((ArrayList<?>)product).get(3).toString(),
+								priceAfterDiscount.toString() ,((ArrayList<?>)product).get(3).toString(),
 								(""), ((ArrayList<?>)product).get(5).toString(), (byte[])((ArrayList<?>)product).get(6));
 						ClientController.getProductByID.put(currentProductID, p);
 					}

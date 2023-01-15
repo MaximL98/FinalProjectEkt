@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -12,25 +11,19 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1100.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EditActivePromotionsController">
 	<children>
-		<Label layoutX="71.0" layoutY="159.0" text="SELECT A PROMOTION TO ACTIVATE: ">
+		<Label layoutX="347.0" layoutY="163.0" text="ACTIVATE/DEACTIVATE A PROMOTION" textFill="PURPLE">
          <font>
             <Font name="Berlin Sans FB" size="24.0" />
          </font></Label>
-		<ComboBox fx:id="cbPromotionNames" layoutX="497.0" layoutY="152.0" prefHeight="41.0" prefWidth="258.0" promptText="Promotion Name" stylesheets="@comboboxCSS.css" />
-		<Button fx:id="btnEditPromotion" layoutX="795.0" layoutY="151.0" onAction="#editPromotionHandler" prefHeight="42.0" prefWidth="224.0" stylesheets="@buttonCSS.css" text="LOAD PROMOTIONS" textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font name="Berlin Sans FB" size="20.0" />
-         </font></Button>
 		<TableView fx:id="promotionTable" layoutX="71.0" layoutY="206.0" prefHeight="470.0" prefWidth="959.0" style="-fx-background-color: purple;">
 			<columns>
-			<TableColumn fx:id="promotionIDColumn" text="Promo. ID" />
-				<TableColumn fx:id="promotionNameColumn" prefWidth="114.0" text="Promotion Name" />
-				<TableColumn fx:id="promotionDescriptionColumn" prefWidth="147.0" text="Promotion Description" />
-				<TableColumn fx:id="locationColumn" prefWidth="118.00006103515625" text="Location Name" />
-				<TableColumn fx:id="discountPercentageColumn" prefWidth="75.0" text="Discount %" />
-					<TableColumn fx:id="startDateColumn" prefWidth="110.0" text="Start Date" />
-					<TableColumn fx:id="endDateColumn" prefWidth="110.0" text="End Date" />
-					<TableColumn fx:id="promotionStatusColumn" text="Status" />
+			<TableColumn fx:id="promotionIDColumn" prefWidth="70.0" text="Promo. ID" />
+				<TableColumn fx:id="promotionNameColumn" prefWidth="140.0" text="Promotion Name" />
+				<TableColumn fx:id="promotionDescriptionColumn" prefWidth="200.0" text="Promotion Description" />
+				<TableColumn fx:id="locationColumn" prefWidth="100.0" text="Location Name" />
+				<TableColumn fx:id="discountPercentageColumn" text="Discount %" />
+					<TableColumn fx:id="startDateColumn" prefWidth="120.0" text="Created" />
+					<TableColumn fx:id="promotionStatusColumn" prefWidth="100.0" text="Status" />
 			</columns>
 		</TableView>
 		<Button fx:id="btnGoBack" layoutX="12.0" layoutY="744.0" onAction="#goBackHandler" prefHeight="33.0" prefWidth="118.0" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">

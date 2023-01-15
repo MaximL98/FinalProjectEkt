@@ -31,10 +31,19 @@ import javafx.stage.Stage;
 import logic.Order;
 import logic.Order.*;
 
+/**
+ * 
+ * Delivery Manager page controller for the client application. Handles the UI
+ * and logic for the delivery manager page.
+ */
 public class DeliveryManagerPageController {
-
+	/*
+	 * A list of orders to be displayed and updated in the delivery manager page.
+	 */
 	private ArrayList<Order> orders;
-
+	/*
+	 * A set of orders that have been changed and need to be updated on the server.
+	 */
 	private Set<Order> ordersChanged = new HashSet<>();
 
 	@FXML
@@ -61,8 +70,11 @@ public class DeliveryManagerPageController {
 	@FXML
 	private Button btnUpdate;
 
-	// Rotem 1.13 modified this to actually log-out (it used to go to product
-	// catalog)
+	/**
+	 * Logs the user out and navigate back to login screen.
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void getBtnBack(ActionEvent event) {
 		ClientController.sendLogoutRequest();
@@ -74,6 +86,12 @@ public class DeliveryManagerPageController {
 		primaryStage.show();
 	}
 
+	/**
+	 * Update the order status on the server
+	 * 
+	 * @param event
+	 * @throws RuntimeException if there's an error with server communication
+	 */
 	@FXML
 	void getBtnUpdate(ActionEvent event) {
 		SCCP preparedMessage = new SCCP();
@@ -111,36 +129,53 @@ public class DeliveryManagerPageController {
 		}
 	}
 
-	/*
-	 * public static void main(String[] args) { launch(args); }
-	 * 
-	 * @Override public void start(Stage primaryStage) throws Exception {
-	 * WindowStarter.createWindow(primaryStage, this,
-	 * "/gui/DeliveryManagerPage.fxml", "/gui/DeliveryManager.css",
-	 * "Delivery Management"); primaryStage.show(); }
+	/**
+	 * Initialize the delivery manager page by populating the table with orders and
+	 * setting up the table columns.
 	 */
-
 	@FXML
 	public void initialize() {
+		/**
+		 * Retrieve the orders from the database
+		 */
 		orders = getOrders();
-		// maybe show popup that says no orders?
 		if (orders == null)
 			return;
+		/**
+		 * Calculate the delivery time for orders with InProgress status and null
+		 * delivery time set the delivery time to the date received plus 7 days and
+		 * 12:00 PM.
+		 */
 		for (Order o : orders) {
 			if (o.getStatus() == Status.InProgress && o.getDeliveryTime() == null) {
 				o.setDeliveryTime(LocalDateTime.of(o.getDateReceived().plusDays(7), LocalTime.NOON));
 				ordersChanged.add(o);
 			}
 		}
+		/**
+		 * Define the order number column
+		 */
 		tblOrderNumberColumn.setCellValueFactory(new PropertyValueFactory<Order, String>("orderID"));
+		/**
+		 * Define the date received column
+		 */
 		tblDateReceivedColumn.setCellValueFactory(new PropertyValueFactory<Order, LocalDate>("dateReceived"));
+		/**
+		 * Define the time column
+		 */
 		tblTimeColumn.setCellValueFactory(new PropertyValueFactory<Order, LocalDateTime>("deliveryTime"));
+		/**
+		 * Define the status column
+		 */
 		tblStatusColumn.setCellValueFactory(
 				cellData -> new SimpleObjectProperty<Order.Status>(cellData.getValue().getStatus()));
+		/**
+		 * Set the status column as a ComboBox
+		 */
 		tblStatusColumn.setCellFactory(col -> {
 			ComboBox<Order.Status> combo = new ComboBox<>();
 			combo.getStylesheets().add("gui/comboboxCSS.css");
-			
+
 			TableCell<Order, Order.Status> cell = new TableCell<Order, Order.Status>() {
 				@Override
 				protected void updateItem(Order.Status status, boolean empty) {
@@ -148,6 +183,11 @@ public class DeliveryManagerPageController {
 					if (empty) {
 						setGraphic(null);
 					} else {
+						/**
+						 * Populate the status combobox based on the current status of the order.
+						 * If the order is in progress, allow it to be changed to request cancellation or delivered.
+						 * If the order is received allow to to be changed only to complete.
+						 * */
 						switch (status) {
 						case InProgress:
 							combo.getItems().setAll(
@@ -165,18 +205,30 @@ public class DeliveryManagerPageController {
 					}
 				}
 			};
+			/**
+			 * Handle the changing of the order status by keeping track of the orders that
+			 * were changed.
+			 */
 			combo.setOnAction(e -> {
+				/**
+				 * Retrieve the Order object that corresponds to the current row of the table
+				 */
 				Order o = deliveryTable.getItems().get(cell.getIndex());
+				/**
+				 * Retrieve the new status selected by the user in the ComboBox
+				 */
 				Status newStatus = combo.getValue();
 				if (o.getStatus() != newStatus) {
-					// remove the order from the set in case it was already there, and add it after
-					// updating the status.
+					/**
+					 * Remove the order from the set in case it was already there, update the
+					 * status, and add it back to the set
+					 */
 					ordersChanged.remove(o);
 					o.setStatus(newStatus);
 					ordersChanged.add(o);
 				}
-
 			});
+
 			return cell;
 		});
 
@@ -184,6 +236,10 @@ public class DeliveryManagerPageController {
 
 	}
 
+	/**
+	 * Gets the orders with status "InProgress" or "Received" from the database.
+	 * @return a list of the orders.
+	 */
 	private ArrayList<Order> getOrders() {
 		SCCP preparedMessage = new SCCP();
 		preparedMessage.setRequestType(ServerClientRequestTypes.FETCH_ORDERS);
@@ -208,17 +264,5 @@ public class DeliveryManagerPageController {
 		// return new arrayList with the items from response casted to Order.
 		return orders = responseArr.stream().map(x -> (Order) x).collect(Collectors.toCollection(ArrayList::new));
 	}
-
-	// for testing
-	/*
-	 * public ObservableList<Order> getOrders() { ObservableList<Order> orders =
-	 * FXCollections.observableArrayList(); orders.add(new Order("1", 5, "test",
-	 * "Somewhere", LocalDate.of(2022, Month.DECEMBER, 25),
-	 * LocalDateTime.of(LocalDate.of(2023, Month.JANUARY, 15), LocalTime.of(12, 0)),
-	 * Type.Delivery, Status.Complete)); orders.add(new Order("2", 2, "test2",
-	 * "Somewhere", LocalDate.of(2022, Month.DECEMBER, 22),
-	 * LocalDateTime.of(LocalDate.of(2023, Month.JANUARY, 10), LocalTime.of(10, 0)),
-	 * Type.Pickup, Status.Cancelled)); return orders; }
-	 */
 
 }

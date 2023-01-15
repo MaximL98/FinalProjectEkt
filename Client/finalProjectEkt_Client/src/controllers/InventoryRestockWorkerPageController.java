@@ -1,16 +1,7 @@
-/**
- * ROTEM:
- * I had to comment it all out - it causes errors as the UPDATE_PRODUCTS_IN_MACHINE for example is defined here but does not exist in
- * ServerMessageHandler (there are other examples).
- *  
- */
-
 package controllers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.function.BiConsumer;
-import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import client.ClientController;
@@ -18,7 +9,6 @@ import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
-import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -31,25 +21,36 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.Location;
 import logic.Machine;
-import logic.Order;
-import logic.Product;
 import logic.ProductInMachine;
-import logic.Order.Status;
 
+/**
+ * 
+ * InventoryRestockWorkerPageController is a JavaFX controller class for the
+ * Inventory Restock Worker page. It contains the logic for displaying and
+ * updating inventory information for a specific machine.
+ * 
+ * @author Daniel Vardimon
+ * @version 1.0
+ */
 public class InventoryRestockWorkerPageController {
-
+	/**
+	 * Inner class representing a row in the TableView of inventory information. It
+	 * has properties for the item name, item stock, and stock to add.
+	 */
 	public class InventoryTableData {
+		/*
+		 * Constructor for InventoryTableData
+		 * 
+		 * @param item ProductInMachine object representing the item
+		 */
 		public InventoryTableData(ProductInMachine item) {
 			this.item = item;
 			setItemName(item.getProduct().getProductName());
@@ -57,91 +58,170 @@ public class InventoryRestockWorkerPageController {
 			setStockToAdd(0);
 		}
 
+		/**
+		 * The ProductInMachine object representing the item
+		 */
 		private final ProductInMachine item;
 
+		/**
+		 * Getter for the ProductInMachine object
+		 * 
+		 * @return ProductInMachine object representing the item
+		 */
 		public final ProductInMachine getItem() {
 			return item;
 		}
 
+		/**
+		 * Property for the item name
+		 */
 		private final StringProperty itemName = new SimpleStringProperty(this, "itemName");
 
+		/**
+		 * Getter for the item name
+		 * 
+		 * @return String representing the item name
+		 */
 		public final String getItemName() {
 			return itemName.get();
 		}
 
+		/**
+		 * Setter for the item name
+		 * 
+		 * @param itemName the new item name
+		 */
 		public final void setItemName(String itemName) {
 			this.itemName.set(itemName);
 		}
 
+		/**
+		 * Property for the item name
+		 * 
+		 * @return StringProperty representing the item name
+		 */
 		public final StringProperty itemNameProperty() {
 			return itemName;
 		}
 
+		/**
+		 * Property for the item stock
+		 */
 		private final IntegerProperty itemStock = new SimpleIntegerProperty(this, "itemStock");
 
+		/**
+		 * Getter for the item stock
+		 * 
+		 * @return int representing the item stock
+		 */
 		public final int getItemStock() {
 			return itemStock.get();
 		}
 
+		/**
+		 * Setter for the item stock
+		 * 
+		 * @param itemStock the new item stock
+		 */
 		public final void setItemStock(int itemStock) {
 			this.item.setStock(itemStock);
 			this.itemStock.set(itemStock);
 		}
 
+		/**
+		 * Property for the item stock
+		 * 
+		 * @return IntegerProperty representing the item stock
+		 */
 		public final IntegerProperty itemStockProperty() {
 			return itemStock;
 		}
 
-		private final StringProperty itemStockToAdd = new SimpleStringProperty(this, "itemStockToAdd");;
+		/**
+		 * Property for the stock to add
+		 */
+		private final StringProperty itemStockToAdd = new SimpleStringProperty(this, "itemStockToAdd");
 
+		/**
+		 * Property for the stock to add
+		 * 
+		 * @return StringProperty representing the stock to add
+		 */
 		public final StringProperty itemStockToAddProperty() {
 			return itemStockToAdd;
 		}
 
+		/**
+		 * Getter for the stock to add
+		 * 
+		 * @return int representing the stock to add
+		 */
 		public final int getItemStockToAdd() {
 			return Integer.parseInt(itemStockToAdd.get());
 		}
 
+		/**
+		 * Setter for the stock to add
+		 * 
+		 * @param stockToAdd the new stock to add
+		 */
 		public final void setStockToAdd(int stockToAdd) {
 			itemStockToAdd.set(String.valueOf(stockToAdd));
 		}
 
 	}
 
+	/**
+	 * HashMap that maps each machine to an ArrayList of its corresponding
+	 * InventoryTableData objects
+	 */
 	private HashMap<Machine, ArrayList<InventoryTableData>> machineDataMap = new HashMap<>();
+	/**
+	 * Text field for displaying a welcome message for the user
+	 */
 	@FXML
 	private Text WelcomeInventoryWorkerText;
-
+	/**
+	 * TableView for displaying the inventory information in a table format
+	 */
 	@FXML
 	private TableView<InventoryTableData> tblInventory;
-
+	/**
+	 * TableColumn for displaying the item name in the table
+	 */
 	@FXML
 	private TableColumn<InventoryTableData, String> colItem;
-
+	/**
+	 * TableColumn for displaying the item stock in the table
+	 */
 	@FXML
 	private TableColumn<InventoryTableData, Number> colQuantity;
-
+	/**
+	 * TableColumn for displaying the stock to add in the table
+	 */
 	@FXML
 	private TableColumn<InventoryTableData, String> colRestockAmount;
-
+	/**
+	 * ComboBox for selecting the machine to view the inventory information of
+	 */
 	@FXML
 	private ComboBox<Machine> cmbChooseMachine;
-
+	/**
+	 * Button for updating the inventory information
+	 */
 	@FXML
 	private Button btnUpdate;
-
+	/**
+	 * Button for navigating back to the previous page
+	 */
 	@FXML
 	private Button btnBack;
 
-	/*
-	 * public static void main(String[] args) { launch(args); }
+	/**
+	 * Closes the current window and opens the previous window.
 	 * 
-	 * @Override public void start(Stage primaryStage) throws Exception {
-	 * WindowStarter.createWindow(primaryStage, this,
-	 * "/gui/InventoryRestockWorkerPage.fxml", "/gui/InventoryRestock.css",
-	 * "Delivery Management"); primaryStage.show(); }
+	 * @param event ActionEvent for the button click
 	 */
-
 	@FXML
 	void getBtnBack(ActionEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
@@ -157,6 +237,12 @@ public class InventoryRestockWorkerPageController {
 		primaryStage.show();
 	}
 
+	/**
+	 * Updates the inventory information for the selected machine by sending a
+	 * request to the server and updating the TableView with the new information.
+	 * 
+	 * @param event ActionEvent for the button click
+	 */
 	@FXML
 	void getBtnUpdate(ActionEvent event) {
 		ArrayList<ProductInMachine> productsToUpdate = new ArrayList<>();
@@ -188,6 +274,12 @@ public class InventoryRestockWorkerPageController {
 		}
 	}
 
+	/**
+	 * Updates the TableView with the inventory information for the selected
+	 * machine.
+	 * 
+	 * @param event ActionEvent for the ComboBox value change
+	 */
 	@FXML
 	void getComboMachine(ActionEvent event) {
 		Machine selectedMachine = cmbChooseMachine.getValue();
@@ -209,10 +301,14 @@ public class InventoryRestockWorkerPageController {
 		tblInventory.setItems(FXCollections.observableArrayList(inventoryList));
 	}
 
+	/**
+	 * Initializes the controller and sets up the TableView, ComboBox, and event
+	 * handlers for the buttons.
+	 */
 	@FXML
 	void initialize() {
 		ObservableList<Machine> machines = FXCollections
-				.observableArrayList(getMachines(new Location[] {Location.North, Location.South, Location.UAE} ));
+				.observableArrayList(getMachines(new Location[] { Location.North, Location.South, Location.UAE }));
 		if (machines == null)
 			return;
 		cmbChooseMachine.setItems(machines);
@@ -221,6 +317,7 @@ public class InventoryRestockWorkerPageController {
 		colQuantity.setCellValueFactory(data -> data.getValue().itemStockProperty());
 		colRestockAmount.setCellValueFactory(data -> data.getValue().itemStockToAddProperty());
 		colRestockAmount.setCellFactory(TextFieldTableCell.forTableColumn());
+
 		colRestockAmount.setOnEditCommit(event -> {
 			String value = event.getNewValue();
 			// the new value to set, initialized as the old value.
@@ -241,6 +338,18 @@ public class InventoryRestockWorkerPageController {
 		});
 	}
 
+	/**
+	 * 
+	 * Retrieves a list of machines based on the given locations.
+	 * 
+	 * @param locations An array of Location objects representing the locations to
+	 *                  retrieve machines from.
+	 * @return An ArrayList of Machine objects representing the machines at the
+	 *         given locations.Returns null if there are no machines at the given
+	 *         locations.
+	 * @throws RuntimeException if there is an error with server communication and
+	 *                          the response type is not as expected.
+	 */
 	private ArrayList<Machine> getMachines(Location[] locations) {
 		// if locations passed is null instantiate it to an empty array.
 		if (locations == null)
@@ -274,6 +383,17 @@ public class InventoryRestockWorkerPageController {
 		return responseArr.stream().map(x -> (Machine) x).collect(Collectors.toCollection(ArrayList::new));
 	}
 
+	/**
+	 * 
+	 * Retrieves a list of products for a given machine.
+	 * 
+	 * @param machine The machine to retrieve products for.
+	 * @return An ArrayList of ProductInMachine objects representing the products in
+	 *         the given machine. Returns null if the machine passed is null or if
+	 *         there are no products in the machine.
+	 * @throws RuntimeException if there is an error with server communication and
+	 *                          the response type is not as expected.
+	 */
 	private ArrayList<ProductInMachine> getProductsForMachine(Machine machine) {
 		// if machine wasn't passed we return null.
 		if (machine == null)
@@ -305,6 +425,16 @@ public class InventoryRestockWorkerPageController {
 		return responseArr.stream().map(x -> (ProductInMachine) x).collect(Collectors.toCollection(ArrayList::new));
 	}
 
+	/**
+	 * 
+	 * Updates a list of products in a machine.
+	 * 
+	 * @param productsToUpdate An array of objects representing the products to
+	 *                         update in the machine.
+	 * @return true if the update is successful.
+	 * @throws RuntimeException if there is an error with server communication and
+	 *                          the response type is not as expected.
+	 */
 	private boolean updateProductsInMachine(Object[] productsToUpdate) {
 		SCCP preparedMessage = new SCCP();
 		preparedMessage.setRequestType(ServerClientRequestTypes.UPDATE_PRODUCTS_IN_MACHINE);
@@ -329,39 +459,5 @@ public class InventoryRestockWorkerPageController {
 		}
 		return true;
 	}
-
-//	private Location getManagerLocation() {
-//		int currentManagerID = ClientController.getCurrentSystemUser().getId();
-//		SCCP getCurrentManagerLocationNameRequestMessage = new SCCP();
-//		getCurrentManagerLocationNameRequestMessage.setRequestType(ServerClientRequestTypes.SELECT);
-//		getCurrentManagerLocationNameRequestMessage.setMessageSent(new Object[] { "manager_location", true,
-//				"locationId", false, "idRegionalManager = " + currentManagerID, false, null });
-//		System.out.println(currentManagerID);
-//
-//		ClientUI.clientController.accept(getCurrentManagerLocationNameRequestMessage);
-//
-//		ArrayList<?> currentManagerLocationName = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
-//		Location location = Location.fromLocationId(
-//				Integer.parseInt(((ArrayList<Object>) currentManagerLocationName.get(0)).get(0).toString()));
-//		System.out.println(location);
-//		ClientController.setCurrentUserRegion(location.toString());
-//		return location;
-//	}
-
-	/*
-	 * for testing
-	 * 
-	 * Product p1 = new Product("1", "Coca Cola", "5", "Soft Drinks",
-	 * "Sweet Drinks"); Product p2 = new Product("2", "Sprite", "7", "Soft Drinks",
-	 * "Sweet Drinks"); Product p3 = new Product("3", "Fanta", "8", "Soft Drinks",
-	 * "Sweet Drinks"); ArrayList<ProductInMachine> a1 = new ArrayList<>();
-	 * ArrayList<ProductInMachine> a2 = new ArrayList<>(); a1.add(new
-	 * ProductInMachine(p1, 5)); a1.add(new ProductInMachine(p2, 3)); a2.add(new
-	 * ProductInMachine(p2, 7)); a2.add(new ProductInMachine(p3, 12));
-	 * machines.add(new Machine(1, "Karmiel", a1, 10, Location.North));
-	 * machines.add(new Machine(2, "Dubai", a2, 23, Location.UAE));
-	 * 
-	 * return machines;
-	 */
 
 }

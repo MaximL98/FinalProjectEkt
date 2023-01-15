@@ -2,7 +2,10 @@ package controllers;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import client.ClientController;
@@ -32,6 +35,8 @@ public class DeliveryManagerPageController {
 
 	private ArrayList<Order> orders;
 
+	private Set<Order> ordersChanged = new HashSet<>();
+
 	@FXML
 	private Text welcomeText;
 
@@ -56,16 +61,17 @@ public class DeliveryManagerPageController {
 	@FXML
 	private Button btnUpdate;
 
-	// Rotem 1.13 modified this to actually log-out (it used to go to product catalog)
+	// Rotem 1.13 modified this to actually log-out (it used to go to product
+	// catalog)
 	@FXML
 	void getBtnBack(ActionEvent event) {
 		ClientController.sendLogoutRequest();
-    	// move to new window
-    	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		// move to new window
+		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login", true);
 
-		primaryStage.show();	
+		primaryStage.show();
 	}
 
 	@FXML
@@ -80,20 +86,27 @@ public class DeliveryManagerPageController {
 
 		// if the response is not the type we expect, something went wrong with server
 		// communication and we throw an exception.
-		if (!(ClientController.responseFromServer.getRequestType()
-				.equals(ServerClientRequestTypes.ACK))) {
+		if (!(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK))) {
 			throw new RuntimeException("Error with server communication: Non expected request type");
-		}
-		else {
+		} else {
 			Alert successMessage = new Alert(AlertType.INFORMATION);
 			successMessage.setTitle("Update Success");
 			successMessage.setHeaderText("Update Success");
 			successMessage.setContentText("Orders updated successfully!");
 			successMessage.show();
-			// remove orders that left in progress status
-			for(Order order : orders) {
-				if(order.getStatus() != Order.Status.InProgress)
+			// remove orders that moved to complete, requested cancel or delivered.
+			for (Order order : ordersChanged) {
+				Status newStatus = order.getStatus();
+				switch (newStatus) {
+				case Complete:
+				case RequestedCancellation:
+				case Delivered:
 					deliveryTable.getItems().remove(order);
+					break;
+				default:
+					// do nothing
+					break;
+				}
 			}
 		}
 	}
@@ -113,13 +126,21 @@ public class DeliveryManagerPageController {
 		// maybe show popup that says no orders?
 		if (orders == null)
 			return;
+		for (Order o : orders) {
+			if (o.getStatus() == Status.InProgress && o.getDeliveryTime() == null) {
+				o.setDeliveryTime(LocalDateTime.of(o.getDateReceived().plusDays(7), LocalTime.NOON));
+				ordersChanged.add(o);
+			}
+		}
 		tblOrderNumberColumn.setCellValueFactory(new PropertyValueFactory<Order, String>("orderID"));
 		tblDateReceivedColumn.setCellValueFactory(new PropertyValueFactory<Order, LocalDate>("dateReceived"));
 		tblTimeColumn.setCellValueFactory(new PropertyValueFactory<Order, LocalDateTime>("deliveryTime"));
-		tblStatusColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<Order.Status>(cellData.getValue().getStatus()));
+		tblStatusColumn.setCellValueFactory(
+				cellData -> new SimpleObjectProperty<Order.Status>(cellData.getValue().getStatus()));
 		tblStatusColumn.setCellFactory(col -> {
 			ComboBox<Order.Status> combo = new ComboBox<>();
-			combo.getItems().addAll(Order.Status.values());
+			combo.getStylesheets().add("gui/comboboxCSS.css");
+			
 			TableCell<Order, Order.Status> cell = new TableCell<Order, Order.Status>() {
 				@Override
 				protected void updateItem(Order.Status status, boolean empty) {
@@ -127,12 +148,35 @@ public class DeliveryManagerPageController {
 					if (empty) {
 						setGraphic(null);
 					} else {
+						switch (status) {
+						case InProgress:
+							combo.getItems().setAll(
+									new Status[] { Status.InProgress, Status.Delivered, Status.RequestedCancellation });
+							break;
+						case Received:
+							combo.getItems().setAll(new Status[] { Status.Received, Status.Complete });
+							break;
+						default:
+							// do nothing
+							break;
+						}
 						combo.setValue(status);
 						setGraphic(combo);
 					}
 				}
 			};
-			combo.setOnAction(e -> deliveryTable.getItems().get(cell.getIndex()).setStatus(combo.getValue()));
+			combo.setOnAction(e -> {
+				Order o = deliveryTable.getItems().get(cell.getIndex());
+				Status newStatus = combo.getValue();
+				if (o.getStatus() != newStatus) {
+					// remove the order from the set in case it was already there, and add it after
+					// updating the status.
+					ordersChanged.remove(o);
+					o.setStatus(newStatus);
+					ordersChanged.add(o);
+				}
+
+			});
 			return cell;
 		});
 
@@ -143,8 +187,8 @@ public class DeliveryManagerPageController {
 	private ArrayList<Order> getOrders() {
 		SCCP preparedMessage = new SCCP();
 		preparedMessage.setRequestType(ServerClientRequestTypes.FETCH_ORDERS);
-		preparedMessage
-				.setMessageSent(new Object[] { new Status[] { Status.InProgress }, new Type[] { Type.Delivery } });
+		preparedMessage.setMessageSent(
+				new Object[] { new Status[] { Status.InProgress, Status.Received }, new Type[] { Type.Delivery } });
 
 		// send to server
 		System.out.println("Client: Sending online orders fetch request to server.");
@@ -152,8 +196,7 @@ public class DeliveryManagerPageController {
 
 		// if the response is not the type we expect, something went wrong with server
 		// communication and we throw an exception.
-		if (!(ClientController.responseFromServer.getRequestType()
-				.equals(ServerClientRequestTypes.FETCH_ORDERS))) {
+		if (!(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.FETCH_ORDERS))) {
 			throw new RuntimeException("Error with server communication: Non expected request type");
 		}
 		// otherwise we create an Order arrayList and add the items from response
@@ -168,9 +211,9 @@ public class DeliveryManagerPageController {
 
 	// for testing
 	/*
-	 * public ObservableList<Order> getOrders() { ObservableList<Order>
-	 * orders = FXCollections.observableArrayList(); orders.add(new Order("1",
-	 * 5, "test", "Somewhere", LocalDate.of(2022, Month.DECEMBER, 25),
+	 * public ObservableList<Order> getOrders() { ObservableList<Order> orders =
+	 * FXCollections.observableArrayList(); orders.add(new Order("1", 5, "test",
+	 * "Somewhere", LocalDate.of(2022, Month.DECEMBER, 25),
 	 * LocalDateTime.of(LocalDate.of(2023, Month.JANUARY, 15), LocalTime.of(12, 0)),
 	 * Type.Delivery, Status.Complete)); orders.add(new Order("2", 2, "test2",
 	 * "Somewhere", LocalDate.of(2022, Month.DECEMBER, 22),

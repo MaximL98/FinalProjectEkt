@@ -377,13 +377,13 @@ public class DatabaseOperationsMap {
 				sqlBuilder.append(" JOIN ");
 				sqlBuilder.append(MACHINES_TABLE);
 				sqlBuilder.append(" using(machineId)");
-				if (orderFilters.length >0) {
-					Status[] statuses = (Status[]) orderFilters[0];
-					Type[] types = (Type[]) orderFilters[1];
+				if (orderFilters[0] instanceof Object[] && ((Object[])orderFilters[0]).length > 0) {
+					Status[] statuses = (Status[])((Object[])orderFilters[0])[0];
+					Type[] types = (Type[])((Object[])orderFilters[0])[1];
 					// append status filters
 					sqlBuilder.append(" WHERE statusId in(");
 					for(Status s : statuses) {
-						sqlBuilder.append(s);
+						sqlBuilder.append(s.getStatusId());
 						sqlBuilder.append(",");
 					}
 					// delete last comma
@@ -391,7 +391,7 @@ public class DatabaseOperationsMap {
 					// append type filters
 					sqlBuilder.append(") AND typeId in(");
 					for(Type t : types) {
-						sqlBuilder.append(t);
+						sqlBuilder.append(t.getTypeId());
 						sqlBuilder.append(",");
 					}
 					// delete last comma

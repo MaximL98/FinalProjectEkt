@@ -1,5 +1,8 @@
 package controllers;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
 import client.ClientController;
 import client.ClientUI;
 import common.SCCP;
@@ -9,11 +12,17 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import logic.Role;
 import logic.SystemUser;
 import javafx.scene.control.TableView;
 
@@ -55,10 +64,26 @@ public class AddUserToDbController {
 	@FXML Button btnBack;
 
     @FXML
-    public void initialize() {
-        
-        
-    }
+    private Label lblCreditCard;
+
+    @FXML
+    private Label lblEmail;
+
+    @FXML
+    private Label lblId;
+
+    @FXML
+    private Label lblName;
+
+    @FXML
+    private Label lblPhone;
+
+    @FXML
+    private Label lblUsername;
+	
+    @FXML
+    private Label lblRole;
+    
 
 	@FXML
     void getAddUserToDB(ActionEvent event) {
@@ -66,6 +91,29 @@ public class AddUserToDbController {
 		lblStatus.setText("Checking input");
     	SCCP preparedMessage = new SCCP();
     	if(validFieldInput()) {
+    		// Rotem added: check if username already exists!
+    		ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.SELECT, 
+    				new Object[] {"systemuser", 
+    								true, "username",
+    								true, "username='"+txtUsername.getText()+"'",
+    								false, null}));
+    		@SuppressWarnings("unchecked")
+			ArrayList<ArrayList<Object>> res = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
+    		if(res.size() != 0) {
+        		// show a pop up that lets the user know he has no open orders. return user to previous page!
+        		Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.setTitle("User name taken!");
+                alert.setHeaderText("User name="+txtUsername.getText()+" is already taken, use another one.");
+                alert.setContentText("Return to form.");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                	System.out.println("Returning to form (add system user)");
+                }
+            	txtUsername.setText("");
+            	return;
+    		}
+    		
     		id = Integer.valueOf(txtID.getText());
     		// set message accordingly
     		preparedMessage.setRequestType(ServerClientRequestTypes.ADD);
@@ -106,34 +154,62 @@ public class AddUserToDbController {
     		lblStatus.setText("Status: Invalid input");
     	}
     }
-
-	private boolean validFieldInput() {
-		boolean valid = true;
-		// I forgot to check ID
-		if(txtID.getText().length() < 1) {
-			return false;
-		}
-		// check username and password not empty:
-		if(txtUsername.getText().length() < 1 || txtPassword.getText().length() < 1)
-			return false;
-		// check name is letters
-		if(txtFirstName.getText().length() < 2 || !(txtFirstName.getText().matches("^[a-zA-Z]*$")))
-			return false;
-		// check email is not empty
-		if(!(txtEmail.getText().contains("@")) || txtEmail.getText().length() < 1)
-			return false;
-		// check phone is a number (currently not letters)
-		if(txtPhoneNumber.getText().matches("^[a-zA-Z]*$"))
-			return false;
-		
-		return valid;
-	}
+	
+	// lblId, lblUsername, lblName, lblEmail, lblCreditCard, lblPhone
+		private boolean validFieldInput() {
+			boolean flag = true;
+			// I forgot to check ID
+			if(txtID.getText().length() < 1 || (!txtID.getText().matches("^[0-9]*$"))) {
+				lblId.setText("ID must be numeric and not empty");
+				flag = false;
+			}
+			// check username and password not empty:
+			if(txtUsername.getText().length() < 1 || txtPassword.getText().length() < 1) {
+				lblUsername.setText("User name and password must be non-empty");
+				flag = false;
+			}
+			// check name is letters
+			if(txtFirstName.getText().length() < 2 || !(txtFirstName.getText().matches("^[a-zA-Z]*$")) || 
+					txtLastName.getText().length() < 2 || !(txtLastName.getText().matches("^[a-zA-Z]*$"))) {
+				lblName.setText("First and last name must be alphabetic, non empty ");
+				flag = false;
+			}
+			// check email is not empty
+			if(!(txtEmail.getText().contains("@")) || !(txtEmail.getText().contains(".")) ||  txtEmail.getText().length() < 5) {
+				lblEmail.setText("Email must be of the format x@y.z");
+				flag = false;
+			}
+			// check credit-card is legit (why?! we need to remove credit card from user (user needs ONLY user,pass, id, role!))
+			if (!(txtCreditCard.getText().matches("^[0-9.-]+$"))) {
+				lblCreditCard.setText("Credit card must be numeric and non empty");
+				flag = false;
+			}
+			// proper check (for valid companies)
+			/*if(!(txtCreditCard.getText().matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])"
+					+ "[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$")))
+				return false;*/
+			
+			// check phone is a number (currently not letters)
+			if(!(txtPhoneNumber.getText().matches("^[0-9.-]+$"))) {
+				lblPhone.setText("Phone number must be numeric and non empty");
+				flag = false;
+			}
+			try {
+				Role.valueOf(txtRole.getText());
+			}catch(Exception ex) {
+				lblRole.setText("Role must be a valid role");
+				flag = false;
+			}
+			
+			return flag;
+		}	
 
 	@FXML
 	public void getBtnBack(ActionEvent event) {
+		// 
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), 
-				"/gui/EktDivisionManagerHomePage", null, "Ekt Division Manager", true);
+		WindowStarter.createWindow(primaryStage, this, 
+				"/gui/EktDivisionManagerHomePage.fxml", null, "Ekt Division Manager", true);
 		primaryStage.show();
 		((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
 	}

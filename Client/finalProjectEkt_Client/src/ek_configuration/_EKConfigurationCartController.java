@@ -10,6 +10,7 @@ import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
+import controllers.EktProductFormController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -218,6 +219,13 @@ public class _EKConfigurationCartController {
 			
 			
 			removeButton.setOnAction(action -> {
+				
+				// ROTEM ADDED URGENT 1.16:
+				_EKConfigurationProductController.productsInStockMap.put(currentProductID, 
+						_EKConfigurationProductController.productsInStockMap.get(currentProductID)
+						+ ClientController.currentUserCart.get(currentProductID));
+				
+				
 				System.out.println("item" + product.getProductName() + " was removed");
 				gridpaneIntoVbox.getChildren().remove(productName);
 				gridpaneIntoVbox.getChildren().remove(quantityLabel);
@@ -235,6 +243,7 @@ public class _EKConfigurationCartController {
 				txtTotalPrice.setText("Cart Total: " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 				txtTotalPrice.setLayoutX(400 - txtTotalPrice.minWidth(0)/2);
 				
+
 				//Max 7/1
 				if(_EKConfigurationProductController.itemsInCart == 0){
 					ClientController.currentUserCart.keySet().clear();
@@ -254,10 +263,22 @@ public class _EKConfigurationCartController {
 				calculateTotalPrice();
 				txtTotalPrice.setText("Cart Total: " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 				txtTotalPrice.setLayoutX(400 - txtTotalPrice.minWidth(0)/2);
+				
+				// ROTEM ADDED URGENT 1.16:
+				_EKConfigurationProductController.productsInStockMap.putIfAbsent(currentProductID, 0);
+				_EKConfigurationProductController.productsInStockMap.put(currentProductID, 
+				_EKConfigurationProductController.productsInStockMap.get(currentProductID) - 1);
+				
 			});
 			
 
 			removeOneButton.setOnAction(action -> {
+				// ROTEM ADDED URGENT 1.16:
+				_EKConfigurationProductController.productsInStockMap.putIfAbsent(currentProductID, 0);
+				_EKConfigurationProductController.productsInStockMap.put(currentProductID, 
+				_EKConfigurationProductController.productsInStockMap.get(currentProductID) + 1);
+				
+				
 				_EKConfigurationProductController.itemsInCart--;
 				ClientController.currentUserCart.put(currentProductID, ClientController.currentUserCart.get(currentProductID) - 1);
 				quantityLabel.setText("Quantity: " + (ClientController.currentUserCart.get(currentProductID).toString()));

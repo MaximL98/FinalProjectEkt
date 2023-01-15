@@ -179,7 +179,7 @@ public class _EKConfigurationProductController {
 	private static boolean machineSwitchedFlag = false;
     
     // Rotem 1.13:
-    private static HashMap<String, Integer> productsInStockMap = new HashMap<>();
+    static HashMap<String, Integer> productsInStockMap = new HashMap<>();
     
     // Rotem ^^^
     	

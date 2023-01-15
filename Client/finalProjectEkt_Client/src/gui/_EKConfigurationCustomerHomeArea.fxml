@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationCustomerHomeAreaController">
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationCustomerHomeAreaController">
    <children>
       <Pane prefHeight="470.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO);">
          <children>
@@ -32,6 +32,11 @@
             <Button fx:id="btnCollectOrder" layoutX="406.0" layoutY="187.0" mnemonicParsing="false" onAction="#getBtnCollectOrder" prefHeight="198.0" prefWidth="334.0" stylesheets="@buttonCSS.css" text="COLLECT ORDER" textFill="WHITE">
                <font>
                   <Font name="Berlin Sans FB" size="30.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnLeave" layoutX="699.0" layoutY="18.0" mnemonicParsing="false" onAction="#getBtnLeave" prefHeight="41.0" prefWidth="81.0" stylesheets="@buttonCSS.css" text="LEAVE" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
                </font>
             </Button>
          </children>

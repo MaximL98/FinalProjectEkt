@@ -10,6 +10,7 @@ import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
+import ek_configuration._EKConfigurationProductController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -257,6 +258,11 @@ public class EktCartFormController {
 			
 			
 			removeButton.setOnAction(action -> {
+				// Rotem added urgent 16.1
+				EktProductFormController.productsInStockMap.put(currentProductID, 
+						EktProductFormController.productsInStockMap.get(currentProductID) +
+						ClientController.currentUserCart.get(currentProductID));
+				
 				System.out.println("item" + product.getProductName() + " was removed");
 				gridpaneIntoVbox.getChildren().remove(productName);
 				gridpaneIntoVbox.getChildren().remove(quantityLabel);
@@ -280,6 +286,8 @@ public class EktCartFormController {
 					ClientController.getProductByID.keySet().clear();
 					ClientController.cartPrice.keySet().clear();
 				}
+				
+
 
 			});
 			
@@ -293,6 +301,11 @@ public class EktCartFormController {
 				calculateTotalPrice();
 				txtTotalPrice.setText("Cart Total: " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 				txtTotalPrice.setLayoutX(400 - txtTotalPrice.minWidth(0)/2);
+				
+				// ROTEM ADDED URGENT 1.16:
+				EktProductFormController.productsInStockMap.putIfAbsent(currentProductID, 0);
+				EktProductFormController.productsInStockMap.put(currentProductID, 
+						EktProductFormController.productsInStockMap.get(currentProductID) - 1);
 			});
 			
 
@@ -320,6 +333,11 @@ public class EktCartFormController {
 					ClientController.getProductByID.keySet().clear();
 					ClientController.cartPrice.keySet().clear();
 				}
+				
+				// ROTEM ADDED URGENT 1.16:
+				EktProductFormController.productsInStockMap.putIfAbsent(currentProductID, 0);
+				EktProductFormController.productsInStockMap.put(currentProductID, 
+				EktProductFormController.productsInStockMap.get(currentProductID) + 1);
 
 			});
 			

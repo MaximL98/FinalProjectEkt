@@ -3,16 +3,22 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DeliveryManagerPageController">
+<VBox xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DeliveryManagerPageController">
    <children>
-      <Pane prefHeight="800.0" prefWidth="800.0">
+      <Pane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO);">
          <children>
-            <Text fx:id="welcomeText" layoutX="342.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delivery Management" />
-            <TableView id="deliveryTable" fx:id="deliveryTable" editable="true" layoutX="100.0" layoutY="100.0" prefHeight="600.0" prefWidth="600.0" stylesheets="@DeliveryManager.css">
+            <Text fx:id="welcomeText" layoutX="200.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DELIVERY MANAGEMENT">
+               <font>
+                  <Font name="Berlin Sans FB" size="36.0" />
+               </font></Text>
+            <TableView id="deliveryTable" fx:id="deliveryTable" editable="true" layoutX="100.0" layoutY="100.0" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO);" stylesheets="@DeliveryManager.css">
               <columns>
                 <TableColumn fx:id="tblOrderNumberColumn" prefWidth="137.0" text="Order Number" />
                 <TableColumn fx:id="tblDateReceivedColumn" prefWidth="140.0" text="Date Received" />
@@ -20,8 +26,19 @@
                   <TableColumn fx:id="tblStatusColumn" prefWidth="150.0" styleClass="-fx-alignment: CENTER;" text="Status" />
               </columns>
             </TableView>
-            <Button fx:id="btnBack" layoutX="14.0" layoutY="761.0" mnemonicParsing="false" onAction="#getBtnBack" text="Back" />
-            <Button fx:id="btnUpdate" layoutX="374.0" layoutY="715.0" mnemonicParsing="false" onAction="#getBtnUpdate" text="Update" />
+            <Button fx:id="btnBack" layoutX="9.0" layoutY="740.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="50.0" prefWidth="113.0" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
+               <font>
+                  <Font name="Berlin Sans FB" size="20.0" />
+               </font></Button>
+            <Button fx:id="btnUpdate" layoutX="348.0" layoutY="719.0" mnemonicParsing="false" onAction="#getBtnUpdate" stylesheets="@buttonCSS.css" text="UPDATE" textFill="WHITE">
+               <font>
+                  <Font name="Berlin Sans FB" size="20.0" />
+               </font></Button>
+            <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/1ab5823f-15e0-41b3-a6aa-0bff8242f2d4.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
    </children>

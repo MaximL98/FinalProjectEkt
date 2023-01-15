@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import logic.Role;
 import logic.SystemUser;
+import javafx.scene.text.Text;
 
 public class _EKConfigurationLoginFrameController {
 
@@ -30,6 +31,10 @@ public class _EKConfigurationLoginFrameController {
     @FXML
     private TextField txtUsername;
 
+	@FXML Text lblFastRecognition;
+
+	@FXML Text lblFastRecognition2;
+
     @FXML
     void onEnter(ActionEvent ae) {
     	getBtnLoginEK(ae);
@@ -41,6 +46,19 @@ public class _EKConfigurationLoginFrameController {
     @FXML
     private void initialize() {
     	ClientController.resetVars();
+		if(ClientController.isFastRecognitionToggle()) {
+			// set fast recognition
+			lblFastRecognition.setText("Using fast-recognition");
+			lblFastRecognition2.setText("");
+			txtUsername.setDisable(true);
+			pwdField.setDisable(true);
+		}
+		else{
+			lblFastRecognition.setText("USERNAME");
+			lblFastRecognition2.setText("PASSWORD");
+			txtUsername.setDisable(false);
+			pwdField.setDisable(false);
+		}
     }
     
     @FXML
@@ -49,6 +67,15 @@ public class _EKConfigurationLoginFrameController {
     	String userName, password, nextScreenPath = null, nextPathTitle = "Frame";
     	userName = txtUsername.getText();
     	password = pwdField.getText();
+		
+    	userName = txtUsername.getText();
+    	password = pwdField.getText();
+    	if(ClientController.isFastRecognitionToggle()) {
+    		userName=ClientController.getFastRecognitionUserName();
+    		password=ClientController.getFastRecognitionPassword();
+    	}
+    	System.out.println(userName + " " + password);
+    	    	
     	
     	SCCP preparedMessage = new SCCP();
     	preparedMessage.setRequestType(ServerClientRequestTypes.EK_LOGIN);
@@ -71,6 +98,15 @@ public class _EKConfigurationLoginFrameController {
 				nextPathTitle = "Customer Home Frame";
 				break;
 			case CUSTOMER:
+				if(ClientController.isFastRecognitionToggle()) {
+					// show alert and reload window
+					ClientController.setFastRecognitionToggle(false);
+					Stage prevStage = new Stage();
+					WindowStarter.createWindow(prevStage, this, "/gui/_EKConfigurationLoginFrame.fxml", null, "Ekt Login", true);
+					prevStage.show();
+					((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
+					return;	
+				}
 				ClientController.setCustomerIsSubsriber(false);
 				nextScreenPath = "/gui/_EKConfigurationCustomerHomeArea.fxml";
 				nextPathTitle = "Customer Home Frame";

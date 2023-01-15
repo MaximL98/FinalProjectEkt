@@ -65,10 +65,13 @@ public class ClientLoginController {
 		ClientController.setFastRecognitionToggle(false);
 		ClientController.setFastRecognitionUserName(null);;
 		ClientController.setFastRecognitionPassword(null);;
+		toggleEasyRecognition.setVisible(false);
+		toggleEasyRecognition.setDisable(true);
 
 		cmbTezura.getItems().add("EK");
 		cmbTezura.getItems().add("OL");
 		cmbTezura.setValue("OL");
+		ClientController.setLaunchConfig(Configuration.OL);
 	}
 	
 	//start primary stage
@@ -89,6 +92,9 @@ public class ClientLoginController {
 		
 	
 	public void getConnectToServer(ActionEvent event) {
+		if(!ClientController.getLaunchConfig().equals(Configuration.EK)) {
+			ClientController.setFastRecognitionToggle(false);
+		}
 		if(ClientController.isFastRecognitionToggle()) {
 			// store user credentials for fast-recognition
 			ClientController.setFastRecognitionUserName(txtFastUsr.getText());
@@ -183,6 +189,16 @@ public class ClientLoginController {
 
 	@FXML public void setTezura(ActionEvent event) {
 		System.out.println("Switched to " + cmbTezura.getValue());
+		ClientController.setLaunchConfig(Configuration.valueOf(cmbTezura.getValue()));
+
+		if(ClientController.getLaunchConfig().equals(Configuration.EK)) {
+			toggleEasyRecognition.setVisible(true);
+			toggleEasyRecognition.setDisable(false);
+		}
+		else {
+			toggleEasyRecognition.setVisible(false);
+			toggleEasyRecognition.setDisable(true);
+		}
 	}
 
 	private List<String> getExistingMachinesFromServer() throws IOException {

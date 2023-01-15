@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.text.DecimalFormat;
 import java.util.Properties;
 
 //import javax.mail.Message;
@@ -54,21 +55,28 @@ public class _EKConfigurationOrderReceiptController {
 		txtOrderNumber.setText("Order Number: " + ClientController.orderNumber);
 		txtOrderNumber.setLayoutX(200 - (txtOrderNumber.minWidth(0) / 2));
 		
-		txtOrderTotal.setText("Order total: " + ClientController.orderTotalPrice.toString() + "$");
+		txtOrderTotal.setText("Order total: " + (new DecimalFormat("##.##").format(ClientController.orderTotalPrice)) + "$");
 		txtOrderTotal.setLayoutX(200 - (txtOrderTotal.minWidth(0) / 2));
 		
-//		txtBillingDate.setText("Billing Date: " + ClientController.billingDate);
-//		txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
+		System.out.println("ClientController.orderType = " + ClientController.orderType);
+		if(ClientController.orderType.equals("Delivery")) {
+			txtBillingDate.setText("Delivery Date: " + ClientController.orderDeliveryTime);
+			txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
+		}
+		
+		if(ClientController.orderType.equals("Pickup")) {
+			txtBillingDate.setText("Pickup Place: " + ClientController.pickupPlace);
+			txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
+		}
+		
 
 		//////////IF WE HAVE TIME WE CAN DO IT. I THINK WE CAN DO IT BUT NOT USING A GOOGLE ACCOUNT!
-		String CustomerEmail = "";
+		String CustomerEmail = "dimakislitsyn96@gmail.com";
 		SendEmail(CustomerEmail);
 		
 		if (!ClientController.deliveryAddress.equals("")) {
 			txtDeliveryAddress.setText("Delivery Address: " + ClientController.deliveryAddress);
 		}
-		
-		
 	}
 
 	@FXML

@@ -93,8 +93,11 @@ public class EktPaymentFormController {
 			System.out.println(temp);
 		}
 
+		try {
 		accBalance = Double.parseDouble(temp);
-
+		}catch(NumberFormatException ex) {
+			accBalance=0.;
+		}
 		txtAccountBalance.setText("ACCOUNT BALANCE: " + new DecimalFormat("##.##").format(accBalance) + "$");
 
 		if (ClientController.getCustomerIsSubsriber() == true) {
@@ -378,14 +381,15 @@ public class EktPaymentFormController {
 		ClientController.orderNumber++;
 
 		for (Map.Entry<String, Integer> set : EktProductFormController.productsInStockMap.entrySet()) {
-
-			SCCP updateStock = new SCCP();
-			updateStock.setRequestType(ServerClientRequestTypes.UPDATE);
-			updateStock.setMessageSent(new Object[] { "products_in_machine", "stock = " + set.getValue(),
-					" machineID = " + ClientController.OLCurrentMachineID + " AND productID = " + set.getKey() });
-
-			ClientUI.clientController.accept(updateStock);
-			System.out.println("For Product " + set.getKey() + "the Stock was updated!");
+			if(ClientController.currentUserCart.get(set.getKey())!=null && ClientController.currentUserCart.get(set.getKey()) > 0) {
+				SCCP updateStock = new SCCP();
+				updateStock.setRequestType(ServerClientRequestTypes.UPDATE);
+				updateStock.setMessageSent(new Object[] { "products_in_machine", "stock = " + set.getValue(),
+						" machineID = " + ClientController.OLCurrentMachineID + " AND productID = " + set.getKey() });
+	
+				ClientUI.clientController.accept(updateStock);
+				System.out.println("For Product " + set.getKey() + "the Stock was updated!");
+			}
 		}
 
 		EktProductFormController.itemsInCart = 0;

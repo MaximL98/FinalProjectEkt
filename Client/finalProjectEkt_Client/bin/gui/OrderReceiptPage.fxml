@@ -10,7 +10,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OrderReceiptPageController">
    <children>
-      <Pane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);">
+      <Pane prefHeight="447.0" prefWidth="400.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);">
          <children>
             <Text fx:id="txtOrderNumber" layoutX="95.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order number: XXXXXXX">
                <font>
@@ -29,11 +29,11 @@
                   <Image url="@Images/checkmark%20(1).png" />
                </image>
             </ImageView>
-            <Button fx:id="btnLogout" layoutX="14.0" layoutY="344.0" mnemonicParsing="false" onAction="#getBtnLogout" stylesheets="@buttonCSS.css" text="Logout" textFill="WHITE">
+            <Button fx:id="btnLogout" layoutX="14.0" layoutY="386.0" mnemonicParsing="false" onAction="#getBtnLogout" stylesheets="@buttonCSS.css" text="Logout" textFill="WHITE">
                <font>
                   <Font name="Berlin Sans FB" size="20.0" />
                </font></Button>
-            <Button fx:id="btnBack" layoutX="288.0" layoutY="344.0" mnemonicParsing="false" onAction="#getBtnBack" stylesheets="@buttonCSS.css" text="Catalog" textFill="WHITE">
+            <Button fx:id="btnBack" layoutX="288.0" layoutY="386.0" mnemonicParsing="false" onAction="#getBtnBack" stylesheets="@buttonCSS.css" text="Catalog" textFill="WHITE">
                <font>
                   <Font name="Berlin Sans FB" size="20.0" />
                </font></Button>
@@ -43,6 +43,11 @@
                </font>
             </Text>
             <Text fx:id="txtBillingDate" layoutX="146.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Billing Date: ">
+               <font>
+                  <Font name="Berlin Sans FB" size="20.0" />
+               </font>
+            </Text>
+            <Text fx:id="txtDeliveryAddress" layoutX="14.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0">
                <font>
                   <Font name="Berlin Sans FB" size="20.0" />
                </font>

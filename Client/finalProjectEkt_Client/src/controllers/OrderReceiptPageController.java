@@ -55,7 +55,7 @@ public class OrderReceiptPageController {
 		txtOrderNumber.setText("Order Number: " + ClientController.orderNumber);
 		txtOrderNumber.setLayoutX(200 - (txtOrderNumber.minWidth(0) / 2));
 		
-		txtOrderTotal.setText("Order total: " + (new DecimalFormat("##.##").format(ClientController.orderTotalPrice).toString()) + "$");
+		txtOrderTotal.setText("Order total: " + (new DecimalFormat("##.##").format(ClientController.orderTotalPrice)) + "$");
 		txtOrderTotal.setLayoutX(200 - (txtOrderTotal.minWidth(0) / 2));
 		
 		System.out.println("ClientController.orderType = " + ClientController.orderType);

@@ -68,9 +68,6 @@ public class _EKConfigurationCustomerLocalOrderController implements Serializabl
 	private Button btnLogout;
 
 	@FXML
-	private Button btnMyOrders;
-
-	@FXML
 	private ImageView imgClatalog0_0;
 
 	@FXML
@@ -221,18 +218,6 @@ public class _EKConfigurationCustomerLocalOrderController implements Serializabl
 
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
-	}
-
-	@FXML
-	void getBtnMyOrders(ActionEvent event) {
-		// TODO: disable
-		return;
-		
-		/*
-		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktMyOrderFrom.fxml", null, "Ekt My Orders", true);
-		primaryStage.show();
-		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window*/
 	}
 
 	@FXML

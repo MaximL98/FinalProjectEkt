@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="txtDiscountFirstOrder" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationCustomerLocalOrderController">
+<AnchorPane fx:id="txtDiscountFirstOrder" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationCustomerLocalOrderController">
    <children>
       <Pane fx:id="txtDiscountFirstOrder" prefHeight="120.0" prefWidth="800.0">
          <children>
@@ -27,11 +27,6 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Text>
-            <Button fx:id="btnMyOrders" layoutX="636.0" layoutY="14.0" mnemonicParsing="false" onAction="#getBtnMyOrders" prefHeight="45.0" prefWidth="150.0" stylesheets="@buttonCSS.css" text="MY ORDERS" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Button>
          </children>
       </Pane>
       <GridPane alignment="CENTER" layoutX="50.0" layoutY="270.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="700.0">

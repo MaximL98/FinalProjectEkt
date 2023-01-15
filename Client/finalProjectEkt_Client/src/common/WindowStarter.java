@@ -38,6 +38,10 @@ public class WindowStarter {
 		Parent root;
 		
 		try {
+			if(classObject == null) {
+				// hope for the best with dees 
+				classObject = new Object();
+			}
 			root = FXMLLoader.load(classObject.getClass().getResource(fxmlAddress));
 			Scene scene = new Scene(root);
 			if(cssAddress != null)

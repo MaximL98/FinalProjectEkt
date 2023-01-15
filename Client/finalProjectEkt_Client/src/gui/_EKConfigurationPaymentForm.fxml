@@ -55,11 +55,6 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Button>
-                  <Text fx:id="txtCreditCard" layoutX="33.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CREDIT CARD: XXXX XXXX XXXX 1234">
-                     <font>
-                        <Font name="Berlin Sans FB" size="18.0" />
-                     </font>
-                  </Text>
                </children>
             </Pane>
             <Line endX="600.0" layoutX="150.0" layoutY="160.0" startX="-100.0" />

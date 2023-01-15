@@ -34,7 +34,7 @@
                   <Image url="@Images/TheBetterLogo.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="481.0" fitWidth="607.0" layoutX="113.0" layoutY="280.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="481.0" fitWidth="607.0" layoutX="114.0" layoutY="319.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/ViewReports.png" />
                </image>
@@ -49,6 +49,11 @@
                   <Font name="Berlin Sans FB" size="30.0" />
                </font>
             </Text>
+            <Button fx:id="btnAddUserToDB" layoutX="228.0" layoutY="289.0" mnemonicParsing="false" onAction="#getBtnAddUserToDB" prefHeight="60.0" stylesheets="@buttonCSS.css" text="ADD A USER TO THE DATABASE" textFill="WHITE">
+               <font>
+                  <Font name="Berlin Sans FB" size="22.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
    </children>

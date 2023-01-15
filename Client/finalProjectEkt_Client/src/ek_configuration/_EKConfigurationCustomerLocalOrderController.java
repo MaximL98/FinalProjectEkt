@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import logic.Role;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -96,14 +97,18 @@ public class _EKConfigurationCustomerLocalOrderController implements Serializabl
 	@FXML
 	private Text txtWelcomeCustomer;
 	
+	@FXML
+	private Text txtDiscountOnFirstOrder;
+	
 	
 	String productFormFXMLLocation = "/gui/_EKConfigurationProductForm.fxml";
 
 	
 	@FXML
 	public void initialize() {
-
-		
+		if(ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER_20DISCOUNT)) {
+			txtDiscountOnFirstOrder.setVisible(true);
+		}
 	}
 
 	// Category 1

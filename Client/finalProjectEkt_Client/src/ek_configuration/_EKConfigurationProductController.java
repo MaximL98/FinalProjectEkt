@@ -143,7 +143,7 @@ public class _EKConfigurationProductController {
     	getDiscountAmount.setMessageSent(new Object[] { "promotions", true, "promotions.promotionStatus, promotions.discountPercentage",
     			false, null, true, "JOIN locations ON promotions.locationID = locations.locationID \r\n"
     					+ "JOIN machine ON promotions.locationID = machine.locationId" + 
-    					" WHERE machine.machineId = " + ClientController.OLCurrentMachineID + ";"
+    					" WHERE machine.machineId = " + ClientController._EkCurrentMachineID + ";"
     	});
     	ClientUI.clientController.accept(getDiscountAmount);
     	
@@ -158,9 +158,15 @@ public class _EKConfigurationProductController {
     		if (promotionStatus == true)
     			break;
     	}
+    	System.out.println("1 = " + promotionStatus);
     	if (promotionStatus == true) {
     		salePromotionAmount = 1 - (promotionDiscount / 100);
+    		System.out.println("2 = " + salePromotionAmount);
     	}
+    	if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER_20DISCOUNT)) {
+			salePromotionAmount = salePromotionAmount * 0.8;
+			System.out.println("3 = " + salePromotionAmount);
+		}
     	
     	
     }
@@ -178,8 +184,10 @@ public class _EKConfigurationProductController {
     // Rotem ^^^
     	
 	public void initialize() throws FileNotFoundException {
-		if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER))
+		if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER) ||
+				ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER_20DISCOUNT)) { 
 			setDiscountAmount();
+		}	
 		// if we switch machines - clear the order and so on [please test this! I only Rotem-tested it]
 		if(isMachineSwitchedFlag() ) {
 			productsInStockMap = new HashMap<>();
@@ -197,7 +205,7 @@ public class _EKConfigurationProductController {
 	    columnRight.setPercentWidth(50);
 	    gridPaneProducts.getColumnConstraints().addAll(columnLeft, columnRight); // each gets 50% of width
 	    
-		gridPaneProducts.setMaxSize(Region.USE_COMPUTED_SIZE - 10, Region.USE_COMPUTED_SIZE);
+		gridPaneProducts.setMaxSize(800 - 20, Region.USE_COMPUTED_SIZE);
 		gridPaneProducts.setPrefSize(800 - 10, 600 - 4);
 		gridPaneProducts.setHgap(5);;
 		gridPaneProducts.setVgap(5);;

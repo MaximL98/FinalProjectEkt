@@ -157,7 +157,7 @@ public class EktProductFormController {
 	 */
 	@SuppressWarnings("unchecked")
 	private void setDiscountAmount() {
-
+		
 		// Set the discount amount if any is active
 		SCCP getDiscountAmount = new SCCP();
 		getDiscountAmount.setRequestType(ServerClientRequestTypes.SELECT);
@@ -183,6 +183,9 @@ public class EktProductFormController {
 		if (promotionStatus == true) {
 			salePromotionAmount = 1 - (promotionDiscount / 100);
 		}
+		if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER_20DISCOUNT)) {
+			salePromotionAmount = salePromotionAmount * 0.8;
+		}
 
 	}
 
@@ -207,8 +210,11 @@ public class EktProductFormController {
 	 * @throws FileNotFoundException
 	 */
 	public void initialize() throws FileNotFoundException {
-		if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER))
+		if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER) ||
+				ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER_20DISCOUNT)) {
 			setDiscountAmount();
+		}
+			
 		// if we switch machines - clear the order and so on [please test this! I only
 		// Rotem-tested it]
 		if (isMachineSwitchedFlag()) {
@@ -228,7 +234,7 @@ public class EktProductFormController {
 		gridPaneProducts.getColumnConstraints().addAll(columnLeft, columnRight); // each gets 50% of width
 
 		gridPaneProducts.setMaxSize(Region.USE_COMPUTED_SIZE - 10, Region.USE_COMPUTED_SIZE);
-		gridPaneProducts.setPrefSize(800 - 10, 600 - 4);
+		gridPaneProducts.setPrefSize(800 -3, 600 - 4);
 		gridPaneProducts.setHgap(5);
 		;
 		gridPaneProducts.setVgap(5);

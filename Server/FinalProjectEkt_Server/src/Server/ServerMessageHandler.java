@@ -398,9 +398,9 @@ public class ServerMessageHandler {
 	// EK LOGIN (Electronic Turk machine login)
 	private static final class HandleMessageLoginEK implements IServerSideFunction{
 		private static final int SYSTEM_USER_TABLE_COL_COUNT = 9;
-		List<Role> VALID_ROLES = Arrays.asList(new Role[] {Role.SUBSCRIBER, Role.CUSTOMER, Role.LOGISTICS_EMPLOYEE});
+		List<Role> VALID_ROLES = Arrays.asList(new Role[] {Role.SUBSCRIBER_20DISCOUNT, Role.SUBSCRIBER, Role.CUSTOMER, Role.LOGISTICS_EMPLOYEE});
 		// TODO:
-		// we need to modify this queer, we need to ask the DB for an entry with username,
+		// we need to modify this, we need to ask the DB for an entry with username,
 		// if not found, we return error "no such user",
 		// else, we compare passwords HERE (too bad, too much work 2 queers for one action)
 		// if true, connect,
@@ -416,7 +416,7 @@ public class ServerMessageHandler {
 			String username = (String)((Object[])loginMessage.getMessageSent())[0];
 			String password = (String)((Object[])loginMessage.getMessageSent())[1];
 			
-			System.out.println("cock sucking got "+username + ", " + password + "and working onit");
+			System.out.println("Server got "+username + ", " + password + "and working onit");
 			Object res = DatabaseController.
 					handleQuery(DatabaseOperation.SELECT, 
 							new Object[]{"SELECT * FROM systemuser WHERE username = '" + username + "' AND password = '" + password+"';"});
@@ -478,7 +478,7 @@ public class ServerMessageHandler {
 									for(int i=0;i<columnsNumber2;i++) {
 										row2.add(rs2.getObject(i + 1));
 									}
-									// ROTEM FIXED THIS - OF COURSE IT WAS F 
+									// ROTEM FIXED THIS
 									result2.add(row2);
 								}
 								// close rs2

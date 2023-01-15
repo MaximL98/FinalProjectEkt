@@ -402,7 +402,7 @@ public class _EKConfigurationCartController {
 			//category is located in a ArrayList
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/_EKConfigurationOrderSummary.fxml", null, "Order Summary", true);
 			vboxCart.getChildren().clear();
-
+			ClientController.deliveryAddress = tf.getText();
 			primaryStage.show();
 		}
 

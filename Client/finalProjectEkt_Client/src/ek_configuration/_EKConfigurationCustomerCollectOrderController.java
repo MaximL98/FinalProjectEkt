@@ -57,7 +57,7 @@ public class _EKConfigurationCustomerCollectOrderController {
     		}
     	}
     	ordersByID.getItems().addAll(existingOrdersContents);
-
+    	txtWelcomeText.setText("Hi " + ClientController.getCurrentSystemUser().getFirstName() + ", glad you are back");
     	
     }
     

@@ -141,10 +141,10 @@ public class EktOrderSummaryController {
 				totalQuantity += quantityNum;
 				Text quantity = new Text("Quantity: " + (quantityNum).toString());
 				Double costPerUnit = Double.valueOf(product.getCostPerUnit());
-				if (ClientController.getCustomerIsSubsriber() != null && ClientController.getCustomerIsSubsriber()) {
-					if (firstOrderForSubscriber())
-						costPerUnit *= COST_REDUCTION_PER_SUBSRIBER;
-				}
+//				if (ClientController.getCustomerIsSubsriber() != null && ClientController.getCustomerIsSubsriber()) {
+//					if (firstOrderForSubscriber())
+//						costPerUnit *= COST_REDUCTION_PER_SUBSRIBER;
+//				}
 				Double totalSum = quantityNum * costPerUnit;
 				Text sum = new Text("Cost: " + (new DecimalFormat("##.##").format(totalSum)).toString() + " $");
 				totalPrice += totalSum;
@@ -199,6 +199,7 @@ public class EktOrderSummaryController {
 
 	}
 
+	// Rip this code- JAVADOC'd for nothing
 	/**
 	 * The firstOrderForSubscriber() method is used to check if the current customer
 	 * has made any previous orders. It sends a query to the server to select the
@@ -213,27 +214,27 @@ public class EktOrderSummaryController {
 	 * @return boolean, true if the user is a subscriber and this is his first
 	 *         order, false otherwise.
 	 */
-	private boolean firstOrderForSubscriber() {
-		// send the following query:
-		// select orderID from customer_orders WHERE customerId=ConnectedClientID;
-		// if empty, return true, else false
-		if (ClientController.getCustomerIsSubsriber() == null || !ClientController.getCustomerIsSubsriber()) {
-			System.out.println("Invalid call to firstOrderForSubscriber() -> connected user is not a subsriber");
-		}
-		ClientUI.clientController
-				.accept(new SCCP(ServerClientRequestTypes.SELECT, new Object[] { "customer_orders", true, "orderID",
-						true, "customerId = " + ClientController.getCurrentSystemUser().getId(), false, null }));
-		if (!ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
-//			throw new RuntimeException("Invalid database operation");
-			System.out.println(
-					"Invalid database operation (checking subsriber orders history failed). (returnin false [no existing orders])");
-		}
-		@SuppressWarnings("unchecked")
-		ArrayList<ArrayList<Object>> res = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer
-				.getMessageSent();
-		// true if we have NO ORDERS else false
-		return res.size() == 0;
-	}
+//	private boolean firstOrderForSubscriber() {
+//		// send the following query:
+//		// select orderID from customer_orders WHERE customerId=ConnectedClientID;
+//		// if empty, return true, else false
+//		if (ClientController.getCustomerIsSubsriber() == null || !ClientController.getCustomerIsSubsriber()) {
+//			System.out.println("Invalid call to firstOrderForSubscriber() -> connected user is not a subsriber");
+//		}
+//		ClientUI.clientController
+//				.accept(new SCCP(ServerClientRequestTypes.SELECT, new Object[] { "customer_orders", true, "orderID",
+//						true, "customerId = " + ClientController.getCurrentSystemUser().getId(), false, null }));
+//		if (!ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
+////			throw new RuntimeException("Invalid database operation");
+//			System.out.println(
+//					"Invalid database operation (checking subsriber orders history failed). (returnin false [no existing orders])");
+//		}
+//		@SuppressWarnings("unchecked")
+//		ArrayList<ArrayList<Object>> res = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer
+//				.getMessageSent();
+//		// true if we have NO ORDERS else false
+//		return res.size() == 0;
+//	}
 
 	/**
 	 * The getBtnApprove() method is used to handle the event when the "Approve"

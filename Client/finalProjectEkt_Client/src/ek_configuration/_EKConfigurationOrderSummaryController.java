@@ -83,7 +83,7 @@ public class _EKConfigurationOrderSummaryController {
 		}
 
 		///////////////////////// Dima 31/12 10:30
-		gridPane.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+		gridPane.setMaxSize(800 - 5, Region.USE_COMPUTED_SIZE);
 		gridPane.setPrefSize(800 - 2, 550);
 		gridPane.setVgap(5);
 		//////////////////////////////////////////////////////
@@ -111,10 +111,10 @@ public class _EKConfigurationOrderSummaryController {
 				totalQuantity += quantityNum;
 				Text quantity = new Text("Quantity: " + (quantityNum).toString());
 				Double costPerUnit = Double.valueOf(product.getCostPerUnit());
-				if(ClientController.getCustomerIsSubsriber()!=null && ClientController.getCustomerIsSubsriber()) {
-					if(firstOrderForSubscriber())
-					costPerUnit *= COST_REDUCTION_PER_SUBSRIBER;
-				}
+//				if(ClientController.getCustomerIsSubsriber()!=null && ClientController.getCustomerIsSubsriber()) {
+//					if(firstOrderForSubscriber())
+//					costPerUnit *= COST_REDUCTION_PER_SUBSRIBER;
+//				}
 				Double totalSum = quantityNum * costPerUnit;
 				Text sum = new Text("Cost: " + (new DecimalFormat("##.##").format(totalSum)).toString() + " $");
 				totalPrice += totalSum;
@@ -170,29 +170,31 @@ public class _EKConfigurationOrderSummaryController {
 
 	}
 
-	private boolean firstOrderForSubscriber() {
-		// send the following query:
-		// select orderID from customer_orders WHERE customerId=ConnectedClientID;
-		// if empty, return true, else false
-		if(ClientController.getCustomerIsSubsriber()== null || !ClientController.getCustomerIsSubsriber()) {
-			System.out.println("Invalid call to firstOrderForSubscriber() -> connected user is not a subsriber");
-		}
-		ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.SELECT, 
-				new Object[]
-						{"customer_orders", 
-								true, "orderID",
-								true, "customerId = " + ClientController.getCurrentSystemUser().getId(),
-								false, null}));
-		if(!ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
-//			throw new RuntimeException("Invalid database operation");
-			System.out.println("Invalid database operation (checking subsriber orders history failed). (returnin false [no existing orders])");
-			return false; // Rotem forgot to add this back then
-		}
-		@SuppressWarnings("unchecked")
-		ArrayList<ArrayList<Object>> res = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
-		// true if we have NO ORDERS else false
-		return res.size() == 0;
-	}
+	//Rest in peace Rotem's hard work - You won't be missed
+	
+//	private boolean firstOrderForSubscriber() {
+//		// send the following query:
+//		// select orderID from customer_orders WHERE customerId=ConnectedClientID;
+//		// if empty, return true, else false
+//		if(ClientController.getCustomerIsSubsriber()== null || !ClientController.getCustomerIsSubsriber()) {
+//			System.out.println("Invalid call to firstOrderForSubscriber() -> connected user is not a subsriber");
+//		}
+//		ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.SELECT, 
+//				new Object[]
+//						{"customer_orders", 
+//								true, "orderID",
+//								true, "customerId = " + ClientController.getCurrentSystemUser().getId(),
+//								false, null}));
+//		if(!ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
+////			throw new RuntimeException("Invalid database operation");
+//			System.out.println("Invalid database operation (checking subsriber orders history failed). (returnin false [no existing orders])");
+//			return false; // Rotem forgot to add this back then
+//		}
+//		@SuppressWarnings("unchecked")
+//		ArrayList<ArrayList<Object>> res = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
+//		// true if we have NO ORDERS else false
+//		return res.size() == 0;
+//	}
 	
 
 	@FXML

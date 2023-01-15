@@ -33,11 +33,16 @@ public class _EKConfigurationCustomerHomeAreaController {
 
     @FXML
     private Text txtWelcomeText;
+    
+    @FXML
+    public void initialize() {
+    	txtWelcomeText.setText(txtWelcomeText.getText().replace("username", ClientController.getCurrentSystemUser().getFirstName()));
+    }
 
     @FXML
     void getBtnCollectOrder(ActionEvent event) {
     	// TODO
-
+    	
     	System.out.println("Entering order collection simulation page.");
     	// TODO: send query to get all orders from this customer that can be picked up on this machine
     	// (replace the argument in the following line with the result of a query)

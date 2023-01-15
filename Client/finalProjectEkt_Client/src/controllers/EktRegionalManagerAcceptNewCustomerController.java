@@ -311,7 +311,7 @@ public class EktRegionalManagerAcceptNewCustomerController {
 									"typeOfUser = \"customer\"", "id = " + id.getValue() });
 						} else {
 							updateCustomerToNewCustomer.setMessageSent(new Object[] { "systemuser",
-									"typeOfUser = \"subscriber\"", "id = " + id.getValue() });
+									"typeOfUser = \"subscriber_20discount\"", "id = " + id.getValue() });
 						}
 
 						ClientUI.clientController.accept(updateCustomerToNewCustomer);

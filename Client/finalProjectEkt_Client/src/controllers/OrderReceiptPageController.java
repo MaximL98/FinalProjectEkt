@@ -39,6 +39,9 @@ public class OrderReceiptPageController {
     
     @FXML
     private Text txtBillingDate;
+    
+    @FXML
+    private Text txtDeliveryAddress;
 
 	
 	private static String EktEmailUsername = "EkrutShop@gmail.com";
@@ -70,6 +73,10 @@ public class OrderReceiptPageController {
 		//////////IF WE HAVE TIME WE CAN DO IT. I THINK WE CAN DO IT BUT NOT USING A GOOGLE ACCOUNT!
 		String CustomerEmail = "dimakislitsyn96@gmail.com";
 		SendEmail(CustomerEmail);
+		
+		if (!ClientController.deliveryAddress.equals("")) {
+			txtDeliveryAddress.setText("Delivery Address: " + ClientController.deliveryAddress);
+		}
 		
 		
 	}

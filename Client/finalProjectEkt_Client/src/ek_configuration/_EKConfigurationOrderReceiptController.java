@@ -38,6 +38,9 @@ public class _EKConfigurationOrderReceiptController {
     
     @FXML
     private Text txtBillingDate;
+    
+    @FXML
+    private Text txtDeliveryAddress;
 
 	
 	private static String EktEmailUsername = "EkrutShop@gmail.com";
@@ -58,8 +61,12 @@ public class _EKConfigurationOrderReceiptController {
 //		txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
 
 		//////////IF WE HAVE TIME WE CAN DO IT. I THINK WE CAN DO IT BUT NOT USING A GOOGLE ACCOUNT!
-		String CustomerEmail = "dimakislitsyn96@gmail.com";
+		String CustomerEmail = "";
 		SendEmail(CustomerEmail);
+		
+		if (!ClientController.deliveryAddress.equals("")) {
+			txtDeliveryAddress.setText("Delivery Address: " + ClientController.deliveryAddress);
+		}
 		
 		
 	}

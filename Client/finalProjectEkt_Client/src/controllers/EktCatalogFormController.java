@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import logic.Role;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -100,6 +101,9 @@ public class EktCatalogFormController implements Serializable {
 	
 	@FXML
 	private ComboBox<String> cmbMachineName;
+	
+	@FXML
+	private Text txtDiscountFirstOrder;
 
 	
 	String productFormFXMLLocation = "/gui/EktProductForm.fxml";
@@ -107,6 +111,9 @@ public class EktCatalogFormController implements Serializable {
 	
 	@FXML
 	public void initialize() {
+		if(ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER_20DISCOUNT)) {
+			txtDiscountFirstOrder.setVisible(true);
+		}
 		if(ClientController.OLCurrentMachineName == null)
 			setDisableCatalog(true);
 		if(ClientController.OLCurrentMachineName != null)
@@ -133,16 +140,8 @@ public class EktCatalogFormController implements Serializable {
 		}
 
 		System.out.println("arrayOfMachines = " + arrayOfMachines);
-		cmbMachineName.getItems().setAll(
-				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(0)).get(0).toString(), 
-				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(1)).get(0).toString(),
-				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(2)).get(0).toString(),
-				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(3)).get(0).toString(),
-				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(4)).get(0).toString(),
-				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(5)).get(0).toString(),
-				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(6)).get(0).toString(),
-				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(7)).get(0).toString());
-
+		cmbMachineName.getItems().setAll(machinesNames);
+		
 		cmbMachineName.setOnAction(event ->{
 			if(!cmbMachineName.getValue().equals(ClientController.OLCurrentMachineName)) {
 				if(ClientController.OLCurrentMachineName != null) {
@@ -172,7 +171,6 @@ public class EktCatalogFormController implements Serializable {
 			}
 			
 			if(ClientController.OLCurrentMachineName != null) {
-				System.out.println("GOT INSIDE HERE FOCK");
 				// first, drop the flag!
 				bUserSwitchedConfigurations = false;
 				

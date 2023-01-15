@@ -203,9 +203,6 @@ public class EktCartFormController {
 			///////////////////////////////////////////////////////
 			//Image productImage = new Image("controllers/Images/" + currentProductID + ".png");
 			//ImageView productImageView = new ImageView(productImage);
-			
-					
-			
 			Text productName = new Text(product.getProductName());
 			Text quantityLabel = new Text("Quantity: " + ClientController.currentUserCart.get(currentProductID));
 			
@@ -456,7 +453,7 @@ public class EktCartFormController {
 			//category is located in a ArrayList
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktOrderSummary.fxml", null, "Order Summary", true);
 			vboxCart.getChildren().clear();
-
+			ClientController.deliveryAddress = deliveryAddress;
 			primaryStage.show();
 		}
 

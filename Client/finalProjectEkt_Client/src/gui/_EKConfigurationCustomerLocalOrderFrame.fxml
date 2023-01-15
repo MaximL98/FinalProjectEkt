@@ -13,9 +13,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationCustomerLocalOrderController">
+<AnchorPane fx:id="txtDiscountFirstOrder" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationCustomerLocalOrderController">
    <children>
-      <Pane prefHeight="120.0" prefWidth="800.0">
+      <Pane fx:id="txtDiscountFirstOrder" prefHeight="120.0" prefWidth="800.0">
          <children>
             <ImageView fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -95,7 +95,7 @@
             <Insets bottom="-30.0" left="-30.0" right="-30.0" top="-30.0" />
          </padding>
       </GridPane>
-      <Button fx:id="btnLogout" layoutX="14.0" layoutY="741.0" mnemonicParsing="false" onAction="#getBtnLogout" prefHeight="45.0" prefWidth="110.0" stylesheets="@buttonCSS.css" text="LOGOUT" textFill="WHITE">
+      <Button fx:id="btnLogout" layoutX="14.0" layoutY="741.0" mnemonicParsing="false" onAction="#getBtnLogout" prefHeight="45.0" prefWidth="126.0" stylesheets="@buttonCSS.css" text="LOGOUT" textFill="WHITE">
          <font>
             <Font name="Berlin Sans FB" size="20.0" />
          </font></Button>
@@ -105,5 +105,10 @@
          </font>
       </Text>
       <Line endX="320.0" layoutX="400.0" layoutY="248.0" startX="-320.0" stroke="PURPLE" />
+      <Text fx:id="txtDiscountOnFirstOrder" fill="RED" layoutX="7.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ELIGIBLE FOR A 20% DISCOUNT FOR THE FIRST ORDER!" visible="false" x="55.0" y="710.0">
+         <font>
+            <Font name="Berlin Sans FB" size="28.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

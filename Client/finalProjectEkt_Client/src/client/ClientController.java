@@ -80,6 +80,8 @@ public class ClientController
   private static String fastRecognitionUserName = null;
   private static String fastRecognitionPassword = null;
   
+  public static String deliveryAddress = "";
+  
 
   public ClientController(String host, int port) throws IOException
   {

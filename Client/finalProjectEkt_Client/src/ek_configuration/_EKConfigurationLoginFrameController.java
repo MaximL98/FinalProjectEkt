@@ -45,7 +45,6 @@ public class _EKConfigurationLoginFrameController {
     
     @FXML
     void getBtnLoginEK(ActionEvent event) {
-    	// verify that the user type is either customer or tipuli worker (kita tifulit yantu)
 		statusLabel.setVisible(false);
     	String userName, password, nextScreenPath = null, nextPathTitle = "Frame";
     	userName = txtUsername.getText();
@@ -80,6 +79,11 @@ public class _EKConfigurationLoginFrameController {
 				nextScreenPath = "/gui/_EKConfigurationLogisticsEmployeeFrame.fxml";
 				nextPathTitle = "Logistics Employee Frame";
 				break;
+			case SUBSCRIBER_20DISCOUNT:
+				ClientController.setCustomerIsSubsriber(true);
+				nextScreenPath = "/gui/_EKConfigurationCustomerHomeArea.fxml";
+				nextPathTitle = "Customer Home Frame";
+				break;
 				
 			default:
 				statusLabel.setText("EK Configuration only supports customers and machine maintenance employees.");
@@ -96,13 +100,11 @@ public class _EKConfigurationLoginFrameController {
 		}
     	System.out.println("Login EK -> " + nextScreenPath);
     	// move user to next screen
-		
-		// sammy D the current window
-		((Node)event.getSource()).getScene().getWindow().hide();
 		// prepare the new stage:
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, new Object(), nextScreenPath, null, nextPathTitle, true);
 		primaryStage.show();
+		((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
     }
 
 }

@@ -20,6 +20,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.CustomerOrder;
+import logic.Role;
 
 /**
  * The EktPaymentFormController class handles the Payment Form window of the Ekt
@@ -274,7 +275,7 @@ public class EktPaymentFormController {
 		if (getTypeId(ClientController.orderType) == 2) {
 			fillOrder[0] = "orders (total_price, total_quantity, machineID, date_received, deliveryTime, typeId, statusId)";
 			fillOrder[1] = false;
-			fillOrder[2] = new Object[] { "(" + ClientController.orderTotalPrice + ","
+			fillOrder[2] = new Object[] { "(" + new DecimalFormat("##.##").format(ClientController.orderTotalPrice) + ","
 					+ ClientController.orderTotalQuantity + "," + ClientController.OLCurrentMachineID + ",\""
 					+ ClientController.orderDateReceived + "\"" + ",\"" + ClientController.orderDeliveryTime + "\""
 					+ "," + getTypeId(ClientController.orderType) + "," + 1 + ")" };
@@ -282,7 +283,8 @@ public class EktPaymentFormController {
 			fillOrder[0] = "orders (total_price, total_quantity, machineID, date_received, typeId, statusId)";
 			fillOrder[1] = false;
 			fillOrder[2] = new Object[] {
-					"(" + ClientController.orderTotalPrice + "," + ClientController.orderTotalQuantity + ","
+					"(" + ClientController.orderTotalPrice + "," + 
+							new DecimalFormat("##.##").format(ClientController.orderTotalPrice) + ","
 							+ ClientController.OLCurrentMachineID + ",\"" + ClientController.orderDateReceived + "\""
 							+ "," + getTypeId(ClientController.orderType) + "," + 1 + ")" };
 		}
@@ -392,6 +394,14 @@ public class EktPaymentFormController {
 		ClientController.cartPrice.keySet().clear();
 		ClientController.userOrders.keySet().clear();
 		nextPage(event, "/gui/OrderReceiptPage.fxml", "EKrut Order Receipt");
+		if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER_20DISCOUNT)) {
+			SCCP updateSubscriber = new SCCP();
+			updateSubscriber.setRequestType(ServerClientRequestTypes.UPDATE);
+			updateSubscriber.setMessageSent(new Object[] { "systemuser", 
+					"typeOfUser = \"subscriber\"", "id = " + ClientController.getCurrentSystemUser().getId()});
+			ClientUI.clientController.accept(updateSubscriber);
+		}
+			
 	}
 
 }

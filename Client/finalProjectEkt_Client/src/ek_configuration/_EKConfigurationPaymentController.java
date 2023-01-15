@@ -294,6 +294,13 @@ public class _EKConfigurationPaymentController {
 		ClientController.cartPrice.keySet().clear();
 		ClientController.userOrders.keySet().clear();
 		nextPage(event, "/gui/_EKConfigurationOrderReceiptPage.fxml", "EKrut Order Receipt");
+		if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER_20DISCOUNT)) {
+			SCCP updateSubscriber = new SCCP();
+			updateSubscriber.setRequestType(ServerClientRequestTypes.UPDATE);
+			updateSubscriber.setMessageSent(new Object[] { "systemuser", 
+					"typeOfUser = \"subscriber\"", "id = " + ClientController.getCurrentSystemUser().getId()});
+			ClientUI.clientController.accept(updateSubscriber);
+		}
 	}
 
 }

@@ -112,5 +112,10 @@
          </font>
       </Text>
       <Line endX="320.0" layoutX="400.0" layoutY="248.0" startX="-320.0" stroke="PURPLE" />
+      <Text fx:id="txtDiscountFirstOrder" fill="RED" layoutX="62.0" layoutY="710.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ELIGIBLE FOR A 20% DISCOUNT FOR THE FIRST ORDER!" visible="false">
+         <font>
+            <Font name="Berlin Sans FB" size="28.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

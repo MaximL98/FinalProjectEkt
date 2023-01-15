@@ -175,14 +175,18 @@ public class EktSystemUserLoginController {
 				ClientController.setCustomerIsSubsriber(true);
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog", true);
 				break;
+			case SUBSCRIBER_20DISCOUNT:
+				// set subscriber boolean value (true)
+				ClientController.setCustomerIsSubsriber(true);
+				WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog", true);
+				break;
 				
 			case CUSTOMER:
 				if(ClientController.isFastRecognitionToggle()) {
 					// show alert and reload window
 					ClientController.setFastRecognitionToggle(false);
 					WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Ekt Login", true);
-					return;
-					
+					return;	
 				}
 				// also set subscriber boolean value (false)
 				ClientController.setCustomerIsSubsriber(false);

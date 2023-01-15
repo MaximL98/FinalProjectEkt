@@ -21,6 +21,9 @@ public class EktDivisionManagerHomePageController {
 
     @FXML
     private Text txtGreeting;
+    
+    @FXML
+    private Button btnAddUserToDB;
 
     @FXML
     public void initialize() {
@@ -46,6 +49,15 @@ public class EktDivisionManagerHomePageController {
     	primaryStage.show();
     	((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
     	
+    }
+    
+    @FXML
+    public void getBtnAddUserToDB(ActionEvent event) {
+    	Stage primaryStage = new Stage();
+    	WindowStarter.createWindow(primaryStage, this, "/gui/AddUserToDbForm.fxml", null, "Ekt Report Select", true);
+    	primaryStage.show();
+    	((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+
     }
 
 }

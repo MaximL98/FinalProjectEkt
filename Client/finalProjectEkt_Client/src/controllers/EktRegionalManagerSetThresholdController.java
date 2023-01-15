@@ -64,10 +64,12 @@ public class EktRegionalManagerSetThresholdController implements Serializable{
     		btnSet.setVisible(false);
     	}
     	
-
+    	Integer managerId = ClientController.getCurrentSystemUser().getId();
+    	
 		SCCP getMachines = new SCCP();
 		getMachines.setRequestType(ServerClientRequestTypes.SELECT);
-		getMachines.setMessageSent(new Object[] {"machine", true, "machineName, threshold, machineId", false, null, false, null});
+		getMachines.setMessageSent(new Object[] {"machine INNER JOIN manager_location ON machine.locationId = manager_location.locationId",
+				true, "machineName, threshold, machineId", true, "manager_location.idRegionalManager =" + managerId, false, null});
 		ClientUI.clientController.accept(getMachines);
 		
 		ArrayList<?> arrayOfMachines = new ArrayList<>();
@@ -84,16 +86,8 @@ public class EktRegionalManagerSetThresholdController implements Serializable{
 
 			}
 		}
-
-		cmbMachineName.getItems().setAll(
-				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(0)).get(0).toString(), 
-				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(1)).get(0).toString(),
-				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(2)).get(0).toString(),
-				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(3)).get(0).toString(),
-				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(4)).get(0).toString(),
-				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(5)).get(0).toString(),
-				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(6)).get(0).toString(),
-				((ArrayList<?>) ((ArrayList<?>)arrayOfMachines).get(7)).get(0).toString());
+		
+		cmbMachineName.getItems().setAll(machinesNames);
 		
 		cmbMachineName.setOnAction(event ->{
 			MachineName = cmbMachineName.getValue();

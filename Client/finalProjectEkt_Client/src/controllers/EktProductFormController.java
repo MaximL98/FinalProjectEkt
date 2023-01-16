@@ -262,7 +262,6 @@ public class EktProductFormController {
 
 		String productCategory = ClientController.CurrentProductCategory.get(0);
 		txtCategoryName.setText(productCategory);
-		// txtCategoryName.setTextFill(Color.WHITE);
 		txtCategoryName.setLayoutX(400 - (txtCategoryName.minWidth(gridPaneRow)) / 2);
 
 		SCCP testmsg = new SCCP();
@@ -323,7 +322,6 @@ public class EktProductFormController {
 
 				/////// Dima 30/12 18:05//////////////////////////////////////
 				productDetails.getChildren().add(txtProductName);
-				// productDetails.getChildren().add(txtProductID);
 				productDetails.getChildren().add(txtProductStock);
 				// Implement item on sale
 				// if(ClientController.getcurrentCustomer == Subscriber AND product == ON-SALE
@@ -369,15 +367,8 @@ public class EktProductFormController {
 				addToCartButton.setGraphic(addToCartImageView);
 				addToCartButton.setStyle("-fx-background-color: transparent; -fx-border-color:crimson; "
 						+ "-fx-border-width: 1px; -fx-border-radius: 100");
-				////////////////////////////////////////////
-
-//				Text amountOfItems = new Text();
-//				amountOfItems.setText("");
-//				amountOfItems.setFont(new Font(18));
 
 				productAddToCartVBox.getChildren().add(addToCartButton);
-//				productAddToCartVBox.getChildren().add(amountOfItems);
-				//////////////////////////////////////////////////////
 				productAddToCartVBox.setAlignment(Pos.CENTER_RIGHT);
 				productHBox.setAlignment(Pos.CENTER);
 				productHBox.setPrefSize(400, 150);
@@ -392,7 +383,6 @@ public class EktProductFormController {
 				pane.setStyle("-fx-border-color: black; -fx-border-width: 3px; -fx-border-radius: 10;"
 						+ " -fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO); -fx-background-radius: 12");
 
-				// pane.getChildren().add(productHBox);
 				pane.setCenter(productHBox);
 				DropShadow paneShadow = new DropShadow();
 				paneShadow.setColor(Color.YELLOW);
@@ -472,10 +462,6 @@ public class EktProductFormController {
 					"-fx-background-color: transparent; -fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);"
 							+ "-fx-border-color: transparent;");
 			scrollPane.setBorder(border);
-
-			//////////////////////////////////////////////////
-
-			// linear-gradient(from 0px 0px to 0px 1500px, black, crimson);
 		}
 	}
 

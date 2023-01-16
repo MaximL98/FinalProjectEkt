@@ -33,6 +33,41 @@ import javafx.scene.control.TextArea;
 
 public class ServerPortController  {
 	
+	private final class clientsViewer extends Thread {
+		private Thread[] oldClientList = new Thread[1];
+		private Thread[] newClientList;
+
+		/*
+		 * Rotem: Added a custom listener that lists the active clients at any time
+		 */
+		@Override
+		public void run() {
+			System.out.println("Helper server thread for showing connected clients has been created (and started).");
+			while(ServerUI.getEktServerObject()!=null && ServerUI.getEktServerObject().isListening()) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(!oldClientList.equals(ServerUI.getEktServerObject().getClientConnections())) {
+					oldClientList=ServerUI.getEktServerObject().getClientConnections();
+					newClientList = ServerUI.getEktServerObject().getClientConnections();
+					txtClients.setText("");
+					StringBuilder sb = new StringBuilder();
+					long i =1;
+					for(Thread t : newClientList) {
+						ConnectionToClient client = (ConnectionToClient)t; // please work
+						sb.append("Client " + (i++)+": " + client.getInetAddress().getHostAddress() +"\n");
+					}
+					txtClients.setText(sb.toString());
+					
+				}
+			}
+			System.out.println("Helper server thread for showing connected clients has been closed.");
+		}
+	}
+
 	String temp="";
 	
 	@FXML
@@ -122,6 +157,12 @@ public class ServerPortController  {
 		}
 		else if(!DatabaseController.checkLoginCredentials()) {
 			System.out.println("Database username or password is incorrect, disconnecting server!");
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Oops!");
+			alert.setHeaderText("Your SQL credentials are invalid!");
+			alert.setContentText("Click OK and try again . . . ");
+			alert.initStyle(StageStyle.UNDECORATED);
+			alert.showAndWait();
 		}
 		else
 		{
@@ -129,40 +170,7 @@ public class ServerPortController  {
 			ServerUI.runServer(p);
 			
 			// load clients
-			threadForListeningToClients = new Thread() {
-				private Thread[] oldClientList = new Thread[1];
-				private Thread[] newClientList;
-
-				/*
-				 * Rotem: Added a custom listener that lists the active clients at any time
-				 */
-				@Override
-				public void run() {
-					System.out.println("Helper server thread for showing connected clients has been created (and started).");
-					while(ServerUI.getEktServerObject()!=null && ServerUI.getEktServerObject().isListening()) {
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						if(!oldClientList.equals(ServerUI.getEktServerObject().getClientConnections())) {
-							oldClientList=ServerUI.getEktServerObject().getClientConnections();
-							newClientList = ServerUI.getEktServerObject().getClientConnections();
-							txtClients.setText("");
-							StringBuilder sb = new StringBuilder();
-							long i =1;
-							for(Thread t : newClientList) {
-								ConnectionToClient client = (ConnectionToClient)t; // please work
-								sb.append("Client " + (i++)+": " + client.getInetAddress().getHostAddress() +"\n");
-							}
-							txtClients.setText(sb.toString());
-							
-						}
-					}
-					System.out.println("Helper server thread for showing connected clients has been closed.");
-				}
-			};
+			threadForListeningToClients = new clientsViewer();
 			threadForListeningToClients.start();
 			
 			// allow the user of the server to insert users to the database:

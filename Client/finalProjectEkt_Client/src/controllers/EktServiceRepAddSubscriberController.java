@@ -25,7 +25,16 @@ import javafx.stage.StageStyle;
 import logic.Role;
 import logic.SystemUser;
 
-
+/**
+ * 
+ *This class represents a controller for the Service Representative Add Subscriber page of the system.
+ *It allows the Service Representative to add a new subscriber to the system by filling in a form and submitting it.
+ *The class contains methods to initialize the page, go back to the previous page,
+ *validate the input fields, check if the chosen username is already taken,
+ *add the new subscriber to the database and display a message indicating the success of the operation.
+ *@author Dima, Rotem, Maxim
+ *
+ */
 public class EktServiceRepAddSubscriberController {
 
     @FXML
@@ -91,7 +100,10 @@ public class EktServiceRepAddSubscriberController {
 	
 	private String userLocation;
 
-	
+	/**
+	 * This method initializes the location combo box with the options "North", "South", and "UAE" and sets an event listener that
+	 * assigns the selected location to the variable userLocation when a location is selected.
+	 */
 	public void initialize() {
 		cmbLocation.getItems().addAll("North", "South", "UAE");
 		cmbLocation.setOnAction(event ->{
@@ -99,7 +111,12 @@ public class EktServiceRepAddSubscriberController {
 		});
 	}
 	
-
+	/**
+	 * This method is the event handler for the "Add User to DB" button. It is responsible for validating the input fields,
+	 * checking if the desired username is already taken, and sending the necessary information to the server to add a new user
+	 * to the database.
+	 * @param event The event that triggered this method, in this case the "Add User to DB" button being clicked.
+	 */
 	@FXML
     void getAddUserToDB(ActionEvent event) {
 		clearAllLabels();
@@ -157,7 +174,19 @@ public class EktServiceRepAddSubscriberController {
     			txtCreditCard.setText("");
     			txtUsername.setText("");
     			txtPassword.setText("");
-
+    			
+    			SCCP addBalance = new SCCP();
+    			addBalance.setRequestType(ServerClientRequestTypes.ADD);
+	    		// first field is table name - users here
+	    		Object[] fillBalance = new Object[3];
+	    		fillBalance[0] = "customer_balance"; // add to table "customer_balance" (hard code it elsewhere)
+	    		fillBalance[1] = false; // add only 1
+	    		fillBalance[2] = new Object[] {"(" + id + ", " + 0 + ")"};
+	    		addBalance.setMessageSent(fillBalance);
+	    		
+	    		// send to server
+	    		ClientUI.clientController.accept(addBalance);
+    			
     			
     			if(userLocation != null) {
     		    	SCCP addLocation = new SCCP();
@@ -183,6 +212,9 @@ public class EktServiceRepAddSubscriberController {
     		lblStatus.setText("Status: Invalid input");
     	}
     }
+	/**
+	 * This method is used to clear all the error labels on the form. It will set the text of all the error labels to an empty string.
+	 */
 	private void clearAllLabels() {
 		// TODO Auto-generated method stub
 		lblId.setText("");

@@ -170,6 +170,14 @@ public class EktServiceRepAddCustomerController {
     			txtUsername.setText("");
     			txtPassword.setText("");
 
+    			SCCP addBalance = new SCCP();
+    			addBalance.setRequestType(ServerClientRequestTypes.ADD);
+	    		// first field is table name - users here
+	    		Object[] fillBalance = new Object[3];
+	    		fillBalance[0] = "customer_balance"; // add to table "customer_balance" (hard code it elsewhere)
+	    		fillBalance[1] = false; // add only 1
+	    		fillBalance[2] = new Object[] {"(" + id + ", " + 0 + ")"};
+	    		addBalance.setMessageSent(fillBalance);
     			
     			if(userLocation != null) {
     		    	SCCP addLocation = new SCCP();

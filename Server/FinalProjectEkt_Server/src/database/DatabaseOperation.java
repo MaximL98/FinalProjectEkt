@@ -1,5 +1,28 @@
 package database;
-
+/**
+ * Enum class representing the different database operations that can be performed.
+ * The available operations are:
+ * @code SELECT_PROMOTIONS_TO_ACTIVE
+ * @code UPDATE_PROMOTION_STATUS
+ * @code INSERT
+ * @code UPDATE
+ * @code DELETE
+ * @code ALTER
+ * @code SELECT_PROMOTION
+ * @code DISPLAY
+ * @code USER_LOGIN
+ * @code FETCH_PRODUCTS_BY_CATEGORY
+ * @code FETCH_ORDERS
+ * @code UPDATE_ORDERS
+ * @code ADD_PROMOTION
+ * @code INSERT_PROMOTION_NAMES
+ * @code SELECT
+ * @code GENERIC_SELECT
+ * @code FETCH_MACHINES_BY_LOCATION
+ * @code FETCH_PRODUCTS_IN_MACHINE
+ * @author Rotem
+ *
+ */
 public enum DatabaseOperation {
 	// update this accordingly
 	SELECT_PROMOTIONS_TO_ACTIVE, UPDATE_PROMOTION_STATUS,

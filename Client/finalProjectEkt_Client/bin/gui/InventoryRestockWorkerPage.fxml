@@ -33,7 +33,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <ComboBox fx:id="cmbChooseMachine" layoutX="325.0" layoutY="70.0" onAction="#getComboMachine" prefWidth="150.0" stylesheets="@comboboxCSS.css" />
+            <ComboBox fx:id="cmbChooseMachine" layoutX="278.0" layoutY="70.0" onAction="#getComboMachine" prefHeight="46.0" prefWidth="244.0" stylesheets="@comboboxCSS.css" />
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="650.0" layoutY="334.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/3121792.png" />
@@ -43,11 +43,11 @@
                <font>
                   <Font name="Berlin Sans FB" size="20.0" />
                </font></Button>
-            <Button fx:id="btnBack" layoutX="14.0" layoutY="744.0" mnemonicParsing="false" onAction="#getBtnBack" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
+            <Button fx:id="btnBack" layoutX="14.0" layoutY="744.0" mnemonicParsing="false" onAction="#getBtnLogout" stylesheets="@buttonCSS.css" text="LOGOUT" textFill="WHITE">
                <font>
                   <Font name="Berlin Sans FB" size="20.0" />
                </font></Button>
-            <Text layoutX="206.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*Enter the restocked amount and press ENTER!">
+            <Text layoutX="183.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on the restock amount, restock and press enter!">
                <font>
                   <Font name="Berlin Sans FB" size="20.0" />
                </font>

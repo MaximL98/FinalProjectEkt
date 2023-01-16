@@ -276,7 +276,7 @@ public class _EKConfigurationProductController {
 				 * Rotem - insert stock to map (for each product in machine)
 				 * Only inserts if nothing inside (like Shimon's mom)
 				 */
-				productsInStockMap.putIfAbsent(((ArrayList<?>)product).get(1).toString(), Integer.valueOf(((ArrayList<?>)product).get(7).toString()));
+				productsInStockMap.putIfAbsent(((ArrayList<?>)product).get(0).toString(), Integer.valueOf(((ArrayList<?>)product).get(7).toString()));
 				
 				/*
 				 * Rotem ------
@@ -284,7 +284,7 @@ public class _EKConfigurationProductController {
 				
 				Text txtProductStock = new Text();
 				//txtProductStock.setText("Stock: " + ((ArrayList)product).get(7).toString());
-				txtProductStock.setText("Stock: " + productsInStockMap.get(((ArrayList<?>)product).get(1).toString()));
+				txtProductStock.setText("Stock: " + productsInStockMap.get(((ArrayList<?>)product).get(0).toString()));
 				txtProductStock.setFont(new Font(18));
 				txtProductStock.setFill(Color.BLACK);
 				
@@ -373,9 +373,9 @@ public class _EKConfigurationProductController {
 					/*
 					 * Rotem -> Added grab from hash map here:
 					 * */
-					int newStock = productsInStockMap.get(((ArrayList<?>)product).get(1).toString()) - 1;
+					int newStock = productsInStockMap.get(((ArrayList<?>)product).get(0).toString()) - 1;
 					txtProductStock.setText("Stock: " + newStock);
-					 productsInStockMap.put(((ArrayList<?>)product).get(1).toString(), newStock);
+					 productsInStockMap.put(((ArrayList<?>)product).get(0).toString(), newStock);
 					if(newStock == 0) {
 						System.out.println("we reached lvl 0");
 						addToCartButton.setDisable(true);
@@ -426,7 +426,7 @@ public class _EKConfigurationProductController {
 				 * One more rotem 1.13: if stock is zero, disable the damned button
 				 */
 				
-				if(productsInStockMap.get(((ArrayList<?>)product).get(1).toString()) == 0) {
+				if(productsInStockMap.get(((ArrayList<?>)product).get(0).toString()) == 0) {
 					addToCartButton.setDisable(true);////////////////////////////////////////////////////////////////////////
 				}
 			}

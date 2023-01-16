@@ -59,15 +59,11 @@ public class _EKConfigurationOrderReceiptController {
 		txtOrderTotal.setLayoutX(200 - (txtOrderTotal.minWidth(0) / 2));
 		
 		System.out.println("ClientController.orderType = " + ClientController.orderType);
-		if(ClientController.orderType.equals("Delivery")) {
-			txtBillingDate.setText("Delivery Date: " + ClientController.orderDeliveryTime);
-			txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
-		}
+
 		
-		if(ClientController.orderType.equals("Pickup")) {
-			txtBillingDate.setText("Pickup Place: " + ClientController.pickupPlace);
-			txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
-		}
+		txtBillingDate.setText("Local order completed!");
+		txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
+		
 		
 
 		//////////IF WE HAVE TIME WE CAN DO IT. I THINK WE CAN DO IT BUT NOT USING A GOOGLE ACCOUNT!

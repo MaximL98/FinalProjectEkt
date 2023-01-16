@@ -209,7 +209,7 @@ public class EktProductFormController {
 	 * 
 	 * @throws FileNotFoundException
 	 */
-	public void initialize() throws FileNotFoundException {
+	public void initialize()  {
 		if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER)) {
 			setDiscountAmount();
 		}

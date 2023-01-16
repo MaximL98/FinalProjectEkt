@@ -232,7 +232,7 @@ public class EktSystemUserLoginController {
 			case UNAPPROVED_SUBSCRIBER:
 		    	ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.LOGOUT, ClientController.getCurrentSystemUser().getUsername()));
 				statusLabel.setText("User not yet registered!");
-				
+				return;
 			case INVENTORY_WORKER:
 				WindowStarter.createWindow(primaryStage, this, "/gui/InventoryRestockWorkerPage.fxml", null, "Ekt Inventory Worker", true);
 				break;

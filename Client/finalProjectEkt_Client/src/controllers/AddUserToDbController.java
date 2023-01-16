@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 import client.ClientController;
@@ -25,6 +26,7 @@ import javafx.stage.StageStyle;
 import logic.Role;
 import logic.SystemUser;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ComboBox;
 
 public class AddUserToDbController {
 
@@ -83,8 +85,21 @@ public class AddUserToDbController {
 	
     @FXML
     private Label lblRole;
+
+	@FXML ComboBox<Role> cmbRole;
     
 
+	@FXML
+	private void initialize() {
+		Role[] roles = new Role[] {Role.CEO, Role.CUSTOMER, Role.DELIVERY_WORKER, Role.DIVISION_MANAGER, Role.INVENTORY_WORKER, 
+				Role.LOGISTICS_EMPLOYEE, Role.LOGISTICS_MANAGER, Role.REGIONAL_MANAGER, Role.SALES_MANAGER, 
+				Role.SALES_WORKER, Role.SERVICE_REPRESENTATIVE, Role.SUBSCRIBER, Role.SUBSCRIBER_20DISCOUNT, 
+				Role.UNAPPROVED_CUSTOMER, Role.UNAPPROVED_SUBSCRIBER};
+		cmbRole.getItems().addAll(Arrays.asList(roles));
+		cmbRole.setValue(Role.UNAPPROVED_CUSTOMER);
+		
+	}
+	
 	@FXML
     void getAddUserToDB(ActionEvent event) {
     	Integer id;
@@ -127,7 +142,7 @@ public class AddUserToDbController {
     		fill[0] = "systemuser"; // add to table "systemusers" (hard code it elsewhere)
     		fill[1] = false; // add only 1
     		fill[2] = new Object[] {new SystemUser(id, txtFirstName.getText(), txtLastName.getText(), 
-    				txtPhoneNumber.getText(), txtEmail.getText(), txtCreditCard.getText(), txtUsername.getText(), txtPassword.getText(), txtRole.getText())};
+    				txtPhoneNumber.getText(), txtEmail.getText(), txtCreditCard.getText(), txtUsername.getText(), txtPassword.getText(), cmbRole.getValue())};
     		preparedMessage.setMessageSent(fill);
     		
     		// send to server
@@ -136,7 +151,7 @@ public class AddUserToDbController {
     		// check comm for answer:
     		if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
     			// add test that response.messageSent is the array we had in fill[2] (SAME OBJECT)
-    			lblStatus.setText("Successfully added a " + txtRole.getText()+"!");
+    			lblStatus.setText("Successfully added a " + cmbRole.getValue().toString().toLowerCase()+"!");
     			// clean all fields:
     			txtID.setText("");
     			txtFirstName.setText("");
@@ -199,12 +214,12 @@ public class AddUserToDbController {
 				lblPhone.setText("Phone number must be numeric and non empty");
 				flag = false;
 			}
-			try {
+			/*try {
 				Role.valueOf(txtRole.getText());
 			}catch(Exception ex) {
 				lblRole.setText("Role must be a valid role");
 				flag = false;
-			}
+			}*/
 			
 			return flag;
 		}	
@@ -218,5 +233,7 @@ public class AddUserToDbController {
 		primaryStage.show();
 		((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
 	}
+
+	@FXML public void getCmbRole(ActionEvent event) {}
 
 }

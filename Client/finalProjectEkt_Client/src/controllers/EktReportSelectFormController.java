@@ -206,7 +206,6 @@ public class EktReportSelectFormController extends Application{
 		fetchMachines.setRequestType(ServerClientRequestTypes.SELECT);
 		fetchMachines.setMessageSent(new Object[] {"machine", false, null, false, null, true, "LEFT JOIN locations on machine.locationId = locations.locationID WHERE locations.locationName = \""
 				+ ClientController.getCurrentUserRegion() + "\" ORDER BY locationName;"});
-		
 		ClientUI.clientController.accept(fetchMachines);
 		
 		//ClientController.getMessageSent() -> returns ArrayList of ArrayListst of objects

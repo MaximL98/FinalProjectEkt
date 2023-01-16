@@ -1,37 +1,26 @@
 package controllers;
 
-import java.io.IOException;
 import java.util.ArrayList;
-// Rotem-specific imports
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import client.ClientController;
 import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import logic.Role;
 import logic.SystemUser;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
+/**
+ *
+ */
 public class EktSystemUserLoginController {
 	
-	private ClientController clientController;
-
 	public SystemUser currentUser = null;
 	
     @FXML
@@ -80,25 +69,6 @@ public class EktSystemUserLoginController {
 			txtUsername.setDisable(false);
 			txtPassword.setDisable(false);
 		}
-		
-		// attempt to have the label re-written every few seconds. (failure)
-		/*
-	    ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
-
-	    Runnable task = new Runnable() {
-		    int secondsToWait = 3;
-	        @Override
-	        public void run() {
-	            secondsToWait--;
-	            if (secondsToWait == 0) {
-	                exec.shutdown();
-	            }
-	        }
-	    };
-	    statusLabel.setVisible(true);
-	    statusLabel.setText("Standing by for login");
-	    exec.scheduleAtFixedRate(task, 1, Integer.MAX_VALUE, TimeUnit.SECONDS);
-		*/
 	}
 	
 	/**
@@ -128,11 +98,6 @@ public class EktSystemUserLoginController {
     		password=ClientController.getFastRecognitionPassword();
     	}
     	System.out.println(userName + " " + password);
-    	    	
-    	/*
-    	 * TODO
-    	 * Remove this test segment! (when no longer needed)
-    	 */	
     	
     	// ask to connect
 
@@ -250,7 +215,6 @@ public class EktSystemUserLoginController {
 			}
 			else {
 			statusLabel.setText("ERROR (unspecified login error)!"); // add specifics
-			//statusLabel.setVisible(true);
 			}
 		}
     }
@@ -279,30 +243,3 @@ public class EktSystemUserLoginController {
 		return res.size() == 0;
 	}
 }
-
-// dead code:
-// this here code is here as it helps me insert peppo to the DB via this java app.
-// to use it - stick it in case CUSTOMER in the switch inside getBtnLogin
-
-/*
- *  This is an example for a home page
-String path = "";
-String title = "";
-path = "/gui/EktCustomerHomeAreaForm.fxml";
-title = "Customer home page";
-	System.out.println("Successfully connected as: " + connectedUser.getUsername() +".");
-// added here:
-// check user role (SHOULD BE INSERTED TO THE TABLE)
-// and set current role for fetching the correct new window			
-// load the new window:
-((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-Stage primaryStage = new Stage();
-WindowStarter.createWindow(primaryStage, this, path, null, title);
-// this was done so that we can use this button					primaryStage.setOnCloseRequest(we -> 
-{
-	System.out.println("Pressed the X button."); 
-	System.exit(0);					
-}
-);
-primaryStage.show();
-*/

@@ -320,8 +320,6 @@ public class EktRegionalManagerAcceptNewCustomerController {
 						return;
 					}
 				});
-//				customerToAccept customer = cell.getTableView().getItems().get(cell.getIndex());
-//				// call a function that updates the database, instead of data.remove(customer)
 			});
 			return cell;
 		});

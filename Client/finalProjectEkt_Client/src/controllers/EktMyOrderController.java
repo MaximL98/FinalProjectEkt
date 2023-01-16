@@ -90,11 +90,13 @@ public class EktMyOrderController {
 		preparedMessageForInProgress.setMessageSent(new Object[] {
 				"orders JOIN machine ON orders.machineID = machine.machineId"
 						+ " JOIN order_contents ON orders.orderID = order_contents.orderID"
-						+ " JOIN product ON order_contents.productID = product.productID",
+						+ " JOIN product ON order_contents.productID = product.productID" +
+						" JOIN customer_orders on customer_orders.orderId = orders.orderID",
 				true,
 				"orders.orderID, machine.machineName,"
 						+ "orders.date_received, product.productName, orders.total_quantity, orders.total_price, orders.statusId",
-				true, "orders.statusId = 1 OR orders.statusId = 5", true, "ORDER BY orders.orderID" });
+				true, "(orders.statusId = 1 OR orders.statusId = 5) AND customerId = " + ClientController.getCurrentSystemUser().getId(),
+				true, "ORDER BY orders.orderID" });
 		// Log message
 		System.out.println("Client: Sending " + "order" + " to server.");
 
@@ -318,11 +320,12 @@ public class EktMyOrderController {
 		preparedMessageForComplete.setMessageSent(new Object[] {
 				"orders JOIN machine ON orders.machineID = machine.machineId"
 						+ " JOIN order_contents ON orders.orderID = order_contents.orderID"
-						+ " JOIN product ON order_contents.productID = product.productID",
+						+ " JOIN product ON order_contents.productID = product.productID"
+						+ " JOIN customer_orders on customer_orders.orderId = orders.orderID",
 				true,
 				"orders.orderID, machine.machineName,"
 						+ "orders.date_received, product.productName, orders.total_quantity, orders.total_price",
-				true, "orders.statusId = 3 OR orders.statusId = 6", true, "ORDER BY orders.orderID LIMIT 20" });
+				true, "(orders.statusId = 3 OR orders.statusId = 6) AND customerId = " + ClientController.getCurrentSystemUser().getId(), true, "ORDER BY orders.orderID LIMIT 20" });
 		// Log message
 		System.out.println("Client: Sending " + "order" + " to server.");
 

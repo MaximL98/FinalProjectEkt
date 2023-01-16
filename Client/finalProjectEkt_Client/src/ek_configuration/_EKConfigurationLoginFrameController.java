@@ -85,6 +85,7 @@ public class _EKConfigurationLoginFrameController {
     	// request the login:
 		// send to server
     	System.out.println("Client: Sending login request to server as " + userName+".");
+    	ClientController.setCustomerIsSubsriber(false);
 		ClientUI.clientController.accept(preparedMessage);
 		// check client-side object for answer:
 		// if login succeeded:

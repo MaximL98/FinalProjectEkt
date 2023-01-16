@@ -1,8 +1,18 @@
 
 package ek_configuration;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import client.ClientController;
+import client.ClientUI;
+import common.SCCP;
+import common.ServerClientRequestTypes;
+import common.WindowStarter;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,8 +23,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
@@ -28,44 +36,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Paint;
-import javafx.scene.paint.Stop;
-import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import logic.Product;
 import logic.Role;
 import logic.superProduct;
-
-import java.awt.Scrollbar;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-
-
-import controllers.EktCatalogFormController;
-import client.ClientController;
-import client.ClientUI;
-import common.SCCP;
-import common.ServerClientRequestTypes;
-import common.WindowStarter;
 
 public class _EKConfigurationProductController {
 	
@@ -276,7 +251,7 @@ public class _EKConfigurationProductController {
 				 * Rotem - insert stock to map (for each product in machine)
 				 * Only inserts if nothing inside (like Shimon's mom)
 				 */
-				productsInStockMap.putIfAbsent(((ArrayList<?>)product).get(1).toString(), Integer.valueOf(((ArrayList<?>)product).get(7).toString()));
+				productsInStockMap.putIfAbsent(((ArrayList<?>)product).get(0).toString(), Integer.valueOf(((ArrayList<?>)product).get(7).toString()));
 				
 				/*
 				 * Rotem ------
@@ -284,7 +259,7 @@ public class _EKConfigurationProductController {
 				
 				Text txtProductStock = new Text();
 				//txtProductStock.setText("Stock: " + ((ArrayList)product).get(7).toString());
-				txtProductStock.setText("Stock: " + productsInStockMap.get(((ArrayList<?>)product).get(1).toString()));
+				txtProductStock.setText("Stock: " + productsInStockMap.get(((ArrayList<?>)product).get(0).toString()));
 				txtProductStock.setFont(new Font(18));
 				txtProductStock.setFill(Color.BLACK);
 				
@@ -373,9 +348,9 @@ public class _EKConfigurationProductController {
 					/*
 					 * Rotem -> Added grab from hash map here:
 					 * */
-					int newStock = productsInStockMap.get(((ArrayList<?>)product).get(1).toString()) - 1;
+					int newStock = productsInStockMap.get(((ArrayList<?>)product).get(0).toString()) - 1;
 					txtProductStock.setText("Stock: " + newStock);
-					 productsInStockMap.put(((ArrayList<?>)product).get(1).toString(), newStock);
+					 productsInStockMap.put(((ArrayList<?>)product).get(0).toString(), newStock);
 					if(newStock == 0) {
 						System.out.println("we reached lvl 0");
 						addToCartButton.setDisable(true);
@@ -426,7 +401,7 @@ public class _EKConfigurationProductController {
 				 * One more rotem 1.13: if stock is zero, disable the damned button
 				 */
 				
-				if(productsInStockMap.get(((ArrayList<?>)product).get(1).toString()) == 0) {
+				if(productsInStockMap.get(((ArrayList<?>)product).get(0).toString()) == 0) {
 					addToCartButton.setDisable(true);////////////////////////////////////////////////////////////////////////
 				}
 			}

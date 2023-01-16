@@ -393,8 +393,6 @@ public class EktReportDisplayPageController {
 		estTimeTillEmptyColumn.setStyle("-fx-alignment: CENTER; "
 				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
 				+ "-fx-background: white;");
-		// tableViewForProductStockInfo.getColumns().addAll(productNameColumn, InStock,
-		// estTimeTillThreshold, estTimeTillEmpty);
 		tableViewForProductStockInfo.setMaxHeight(159);
 
 		xAxis = new CategoryAxis();

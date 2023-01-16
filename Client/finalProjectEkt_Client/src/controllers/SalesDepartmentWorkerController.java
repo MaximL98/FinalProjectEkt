@@ -23,6 +23,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import logic.Promotions;
 
+/**
+ * This class is responsible for handling the functionality of the Sales
+ * Department Worker in the application, such as displaying active promotions
+ * and logging out of the application.
+ */
 public class SalesDepartmentWorkerController implements Initializable {
 
 	@FXML
@@ -54,15 +59,26 @@ public class SalesDepartmentWorkerController implements Initializable {
 	private Promotions promotions;
 	private Promotions selectedPromotion;
 
+	/**
+	 * 
+	 * Initializes the promotion table and sets the cell value factories for each
+	 * column, also connect to the database and retrieve the promotion names and
+	 * sets it to the promotion table.
+	 * 
+	 * @param location
+	 * @param resources
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//promotionId, promotionName, promotionDescription, locationId, productID, discountPercentage, startDate, endDate, promotionStatus
+		// promotionId, promotionName, promotionDescription, locationId, productID,
+		// discountPercentage, startDate, endDate, promotionStatus
 		// Set the cell value factory for each TableColumn object
 		promotionIDColumn.setCellValueFactory(new PropertyValueFactory<Promotions, Integer>("promotionId"));
 		promotionNameColumn.setCellValueFactory(new PropertyValueFactory<Promotions, String>("promotionName"));
 		promotionDescriptionColumn
 				.setCellValueFactory(new PropertyValueFactory<Promotions, String>("promotionDescription"));
-		//locationColumn.setCellValueFactory(new PropertyValueFactory<Promotions, Integer>("locationID"));
+		// locationColumn.setCellValueFactory(new PropertyValueFactory<Promotions,
+		// Integer>("locationID"));
 		productIDColumn.setCellValueFactory(new PropertyValueFactory<Promotions, String>("productID"));
 		discountPercentageColumn
 				.setCellValueFactory(new PropertyValueFactory<Promotions, Integer>("discountPercentage"));
@@ -80,14 +96,14 @@ public class SalesDepartmentWorkerController implements Initializable {
 		promotions = new Promotions();
 		SCCP preparedMessage = new SCCP();
 		preparedMessage.setRequestType(ServerClientRequestTypes.DISPLAY_PROMOTIONS_TO_ACTIVE);
-		
+
 		Integer idUser = ClientController.getCurrentSystemUser().getId();
 		preparedMessage.setMessageSent(idUser);
 
 		// send to servers
 		System.out.println("Client: Sending excisiting promotion request to the server.");
 		ClientUI.clientController.accept(preparedMessage);
-		
+
 		@SuppressWarnings("unchecked")
 		ArrayList<Promotions> arrayFromDatabase = (ArrayList<Promotions>) ClientController.responseFromServer
 				.getMessageSent();
@@ -97,7 +113,7 @@ public class SalesDepartmentWorkerController implements Initializable {
 		}
 		listView.forEach(promotion -> System.out.println(promotion));
 		promotionTable.setEditable(true);
-		//promotionTable.setItems(listView);
+		// promotionTable.setItems(listView);
 		promotionTable.getItems().setAll(arrayFromDatabase);
 
 		// if the response is not the type we expect, something went wrong with server
@@ -110,9 +126,17 @@ public class SalesDepartmentWorkerController implements Initializable {
 
 	}
 
+	/**
+	 * 
+	 * Handles the event of activating a promotion from the table view by sending a
+	 * request to the server to update the status of the selected promotion, and
+	 * then updates the table view to reflect the change.
+	 * 
+	 * @param event
+	 */
 	@FXML
 	private void ActivePromotionHandler(ActionEvent event) {
-		
+
 		SCCP preparedMessage = new SCCP();
 		preparedMessage.setRequestType(ServerClientRequestTypes.UPDATE_PROMOTION_STATUS);
 		String selectedPid = promotionTable.getSelectionModel().getSelectedItem().getPromotionId();
@@ -121,24 +145,31 @@ public class SalesDepartmentWorkerController implements Initializable {
 		// send to servers
 		System.out.println("Client: Sending excisiting promotion request to the server.");
 		ClientUI.clientController.accept(preparedMessage);
-		
-		if (!(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.UPDATE_PROMOTION_STATUS)))
-			throw new RuntimeException("Error with server communication: Non expected request type");	
-		
+
+		if (!(ClientController.responseFromServer.getRequestType()
+				.equals(ServerClientRequestTypes.UPDATE_PROMOTION_STATUS)))
+			throw new RuntimeException("Error with server communication: Non expected request type");
+
 		updateTablePro();
 	}
-	
+
+	/**
+	 * 
+	 * This method updates the promotions table with the updated promotions by
+	 * sending a request to the server to retrieve the updated promotions and
+	 * updating the table with the received promotions.
+	 */
 	public void updateTablePro() {
-		
+
 		SCCP preparedMessage = new SCCP();
 		preparedMessage.setRequestType(ServerClientRequestTypes.DISPLAY_PROMOTIONS_TO_ACTIVE);
 		Integer idUser = ClientController.getCurrentSystemUser().getId();
 		preparedMessage.setMessageSent(idUser);
-		
+
 		// send to servers
 		System.out.println("Client: Sending excisiting promotion request to the server.");
 		ClientUI.clientController.accept(preparedMessage);
-		
+
 		@SuppressWarnings("unchecked")
 		ArrayList<Promotions> arrayFromDatabase = (ArrayList<Promotions>) ClientController.responseFromServer
 				.getMessageSent();
@@ -148,24 +179,30 @@ public class SalesDepartmentWorkerController implements Initializable {
 		}
 		listView.forEach(promotion -> System.out.println(promotion));
 		promotionTable.setEditable(true);
-		//promotionTable.setItems(listView);
+		// promotionTable.setItems(listView);
 		promotionTable.getItems().setAll(arrayFromDatabase);
-		
 
 		// if the response is not the type we expect, something went wrong with server
 		// communication and we throw an exception.
 		if (!(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.DISPLAY)))
-			throw new RuntimeException("Error with server communication: Non expected request type");	
+			throw new RuntimeException("Error with server communication: Non expected request type");
 	}
 
+	/**
+	 * Handles clicking the logout button, sends request to the server to log out
+	 * the current user and navigates the user back to the login page.
+	 * 
+	 * @param event
+	 * @throws Exception
+	 */
 	@FXML
 	private void logoutHandler(ActionEvent event) throws Exception {
-    	// actually do the logout:
-    	ClientController.sendLogoutRequest();
-    	
-    	// log
-    	System.out.println("Sales Worker has logged off");
-	    ((Node)event.getSource()).getScene().getWindow().hide();
+		// actually do the logout:
+		ClientController.sendLogoutRequest();
+
+		// log
+		System.out.println("Sales Worker has logged off");
+		((Node) event.getSource()).getScene().getWindow().hide();
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login", false);
 		primaryStage.show();

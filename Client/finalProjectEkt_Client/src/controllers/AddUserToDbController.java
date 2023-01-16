@@ -93,7 +93,7 @@ public class AddUserToDbController {
 	private void initialize() {
 		Role[] roles = new Role[] {Role.CEO, Role.CUSTOMER, Role.DELIVERY_WORKER, Role.DIVISION_MANAGER, Role.INVENTORY_WORKER, 
 				Role.LOGISTICS_EMPLOYEE, Role.LOGISTICS_MANAGER, Role.REGIONAL_MANAGER, Role.SALES_MANAGER, 
-				Role.SALES_WORKER, Role.SERVICE_REPRESENTATIVE, Role.SUBSCRIBER, Role.SUBSCRIBER_20DISCOUNT, 
+				Role.SALES_WORKER, Role.SERVICE_REPRESENTATIVE, Role.SUBSCRIBER, 
 				Role.UNAPPROVED_CUSTOMER, Role.UNAPPROVED_SUBSCRIBER};
 		cmbRole.getItems().addAll(Arrays.asList(roles));
 		cmbRole.setValue(Role.UNAPPROVED_CUSTOMER);

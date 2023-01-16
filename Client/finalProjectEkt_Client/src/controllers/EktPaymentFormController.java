@@ -398,7 +398,7 @@ public class EktPaymentFormController {
 		ClientController.cartPrice.keySet().clear();
 		ClientController.userOrders.keySet().clear();
 		nextPage(event, "/gui/OrderReceiptPage.fxml", "EKrut Order Receipt");
-		if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER_20DISCOUNT)) {
+		if (EktSystemUserLoginController.firstOrderForSubscriber()) {
 			SCCP updateSubscriber = new SCCP();
 			updateSubscriber.setRequestType(ServerClientRequestTypes.UPDATE);
 			updateSubscriber.setMessageSent(new Object[] { "systemuser", 

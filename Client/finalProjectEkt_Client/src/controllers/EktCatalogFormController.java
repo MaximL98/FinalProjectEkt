@@ -111,7 +111,7 @@ public class EktCatalogFormController implements Serializable {
 	
 	@FXML
 	public void initialize() {
-		if(ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER_20DISCOUNT)) {
+		if(EktSystemUserLoginController.firstOrderForSubscriber()) {
 			txtDiscountFirstOrder.setVisible(true);
 		}
 		if(ClientController.OLCurrentMachineName == null)

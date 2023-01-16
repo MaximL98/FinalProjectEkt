@@ -174,13 +174,7 @@ public class EktSystemUserLoginController {
 				// set subscriber boolean value (true)
 				ClientController.setCustomerIsSubsriber(true);
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog", true);
-				break;
-			case SUBSCRIBER_20DISCOUNT:
-				// set subscriber boolean value (true)
-				ClientController.setCustomerIsSubsriber(true);
-				WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog", true);
-				break;
-				
+				break;			
 			case CUSTOMER:
 				if(ClientController.isFastRecognitionToggle()) {
 					// show alert and reload window
@@ -264,6 +258,30 @@ public class EktSystemUserLoginController {
 			}
 		}
     }
+	
+	static boolean firstOrderForSubscriber() {
+		// send the following query:
+		// select orderID from customer_orders WHERE customerId=ConnectedClientID;
+		// if empty, return true, else false
+		if(ClientController.getCustomerIsSubsriber()== null || !ClientController.getCustomerIsSubsriber()) {
+			System.out.println("Invalid call to firstOrderForSubscriber() -> connected user is not a subsriber");
+			return false;
+		}
+		ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.SELECT, 
+				new Object[]
+						{"customer_orders", 
+								true, "orderID",
+								true, "customerId = " + ClientController.getCurrentSystemUser().getId(),
+								false, null}));
+		if(!ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
+			System.out.println("Invalid database operation (checking subsriber orders history failed). (returnin false)");
+			return false; // Rotem forgot to add this back then
+		}
+		@SuppressWarnings("unchecked")
+		ArrayList<ArrayList<Object>> res = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
+		// true if we have NO ORDERS else false
+		return res.size() == 0;
+	}
 }
 
 // dead code:

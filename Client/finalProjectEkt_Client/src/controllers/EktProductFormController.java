@@ -183,7 +183,7 @@ public class EktProductFormController {
 		if (promotionStatus == true) {
 			salePromotionAmount = 1 - (promotionDiscount / 100);
 		}
-		if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER_20DISCOUNT)) {
+		if (EktSystemUserLoginController.firstOrderForSubscriber()) {
 			salePromotionAmount = salePromotionAmount * 0.8;
 		}
 
@@ -210,8 +210,7 @@ public class EktProductFormController {
 	 * @throws FileNotFoundException
 	 */
 	public void initialize() throws FileNotFoundException {
-		if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER) ||
-				ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER_20DISCOUNT)) {
+		if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER)) {
 			setDiscountAmount();
 		}
 			

@@ -103,7 +103,7 @@ public class _EKConfigurationCustomerLocalOrderController implements Serializabl
 	
 	@FXML
 	public void initialize() {
-		if(ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER_20DISCOUNT)) {
+		if(_EKConfigurationLoginFrameController.firstOrderForSubscriber()) {
 			txtDiscountOnFirstOrder.setVisible(true);
 		}
 	}

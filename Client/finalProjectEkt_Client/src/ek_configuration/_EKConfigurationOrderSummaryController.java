@@ -170,32 +170,8 @@ public class _EKConfigurationOrderSummaryController {
 
 	}
 
-	//Rest in peace Rotem's hard work - You won't be missed
-	
-//	private boolean firstOrderForSubscriber() {
-//		// send the following query:
-//		// select orderID from customer_orders WHERE customerId=ConnectedClientID;
-//		// if empty, return true, else false
-//		if(ClientController.getCustomerIsSubsriber()== null || !ClientController.getCustomerIsSubsriber()) {
-//			System.out.println("Invalid call to firstOrderForSubscriber() -> connected user is not a subsriber");
-//		}
-//		ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.SELECT, 
-//				new Object[]
-//						{"customer_orders", 
-//								true, "orderID",
-//								true, "customerId = " + ClientController.getCurrentSystemUser().getId(),
-//								false, null}));
-//		if(!ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
-////			throw new RuntimeException("Invalid database operation");
-//			System.out.println("Invalid database operation (checking subsriber orders history failed). (returnin false [no existing orders])");
-//			return false; // Rotem forgot to add this back then
-//		}
-//		@SuppressWarnings("unchecked")
-//		ArrayList<ArrayList<Object>> res = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
-//		// true if we have NO ORDERS else false
-//		return res.size() == 0;
-//	}
-	
+
+
 
 	@FXML
 	void getBtnApprove(ActionEvent event) {

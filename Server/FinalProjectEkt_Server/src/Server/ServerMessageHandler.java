@@ -398,7 +398,7 @@ public class ServerMessageHandler {
 	// EK LOGIN (Electronic Turk machine login)
 	private static final class HandleMessageLoginEK implements IServerSideFunction{
 		private static final int SYSTEM_USER_TABLE_COL_COUNT = 9;
-		List<Role> VALID_ROLES = Arrays.asList(new Role[] {Role.SUBSCRIBER_20DISCOUNT, Role.SUBSCRIBER, Role.CUSTOMER, Role.LOGISTICS_EMPLOYEE});
+		List<Role> VALID_ROLES = Arrays.asList(new Role[] {Role.SUBSCRIBER, Role.CUSTOMER, Role.LOGISTICS_EMPLOYEE});
 		// TODO:
 		// we need to modify this, we need to ask the DB for an entry with username,
 		// if not found, we return error "no such user",

@@ -1,5 +1,7 @@
 package ek_configuration;
 
+import java.util.ArrayList;
+
 import client.ClientController;
 import client.ClientUI;
 import common.SCCP;
@@ -115,11 +117,6 @@ public class _EKConfigurationLoginFrameController {
 				nextScreenPath = "/gui/_EKConfigurationLogisticsEmployeeFrame.fxml";
 				nextPathTitle = "Logistics Employee Frame";
 				break;
-			case SUBSCRIBER_20DISCOUNT:
-				ClientController.setCustomerIsSubsriber(true);
-				nextScreenPath = "/gui/_EKConfigurationCustomerHomeArea.fxml";
-				nextPathTitle = "Customer Home Frame";
-				break;
 			case UNAPPROVED_CUSTOMER:
 
 		    	ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.LOGOUT, ClientController.getCurrentSystemUser().getUsername()));
@@ -157,5 +154,31 @@ public class _EKConfigurationLoginFrameController {
 		primaryStage.show();
 		((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
     }
+    
+	
+	static boolean firstOrderForSubscriber() {
+		// send the following query:
+		// select orderID from customer_orders WHERE customerId=ConnectedClientID;
+		// if empty, return true, else false
+		if(ClientController.getCustomerIsSubsriber()== null || !ClientController.getCustomerIsSubsriber()) {
+			System.out.println("Invalid call to firstOrderForSubscriber() -> connected user is not a subsriber");
+			return false;
+
+		}
+		ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.SELECT, 
+				new Object[]
+						{"customer_orders", 
+								true, "orderID",
+								true, "customerId = " + ClientController.getCurrentSystemUser().getId(),
+								false, null}));
+		if(!ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
+			System.out.println("Invalid database operation (checking subsriber orders history failed). (returnin false)");
+			return false; // Rotem forgot to add this back then
+		}
+		@SuppressWarnings("unchecked")
+		ArrayList<ArrayList<Object>> res = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
+		// true if we have NO ORDERS else false
+		return res.size() == 0;
+	}
 
 }

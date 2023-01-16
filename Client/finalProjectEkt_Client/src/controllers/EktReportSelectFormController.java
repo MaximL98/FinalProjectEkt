@@ -163,6 +163,8 @@ public class EktReportSelectFormController extends Application{
 		comboBoxOrderReports.setItems(comboOrders);
 		comboBoxInventoryReports.setItems(comboInventory);
 		comboBoxCustomerReports.setItems(comboCustomers);
+		
+		txtRegion.setText("All regions");
 
 	}
 

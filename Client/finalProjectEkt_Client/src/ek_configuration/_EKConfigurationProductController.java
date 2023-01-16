@@ -163,7 +163,7 @@ public class _EKConfigurationProductController {
     		salePromotionAmount = 1 - (promotionDiscount / 100);
     		System.out.println("2 = " + salePromotionAmount);
     	}
-    	if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER_20DISCOUNT)) {
+    	if (_EKConfigurationLoginFrameController.firstOrderForSubscriber()) {
 			salePromotionAmount = salePromotionAmount * 0.8;
 			System.out.println("3 = " + salePromotionAmount);
 		}
@@ -184,8 +184,7 @@ public class _EKConfigurationProductController {
     // Rotem ^^^
     	
 	public void initialize() throws FileNotFoundException {
-		if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER) ||
-				ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER_20DISCOUNT)) { 
+		if (ClientController.getCurrentSystemUser().getRole().equals(Role.SUBSCRIBER) ) { 
 			setDiscountAmount();
 		}	
 		// if we switch machines - clear the order and so on [please test this! I only Rotem-tested it]

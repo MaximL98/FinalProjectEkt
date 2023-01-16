@@ -55,8 +55,9 @@ public class EktLowStockAlertTableController {
 
 		centerScrollBar.setPrefHeight(600);
 		centerScrollBar.setPrefWidth(800);
+		centerScrollBar.getStylesheets().add("controllers/testCss.css");
 		centerScrollBar.setStyle(
-				"-fx-background-color: transparent; -fx-background:  linear-gradient(from 0px 0px to 0px 1500px, pink, yellow);");
+				"-fx-background-color: transparent; -fx-background-color:  linear-gradient(from 0px 0px to 0px 1500px, pink, yellow);");
 
 		gridPane = new GridPane();
 

@@ -61,7 +61,7 @@ public class _EKConfigurationOrderReceiptController {
 		System.out.println("ClientController.orderType = " + ClientController.orderType);
 
 		
-		txtBillingDate.setText("Local order completed!");
+		txtBillingDate.setText("Your items are waiting in the tray - enjoy!");
 		txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
 		
 		

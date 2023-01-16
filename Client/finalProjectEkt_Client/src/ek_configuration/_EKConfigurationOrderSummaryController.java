@@ -70,8 +70,9 @@ public class _EKConfigurationOrderSummaryController {
 
 		centerScrollBar.setPrefHeight(600);
 		centerScrollBar.setPrefWidth(800);
+		centerScrollBar.getStylesheets().add("controllers/testCss.css");
 		centerScrollBar.setStyle(
-				"-fx-background-color: transparent; -fx-background:  linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO);");
+				"-fx-background-color: transparent; -fx-background-color:  linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO);");
 		gridPane = new GridPane();
 
 		Double totalPrice = 0.0;

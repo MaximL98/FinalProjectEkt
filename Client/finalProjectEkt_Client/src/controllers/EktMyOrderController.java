@@ -72,9 +72,10 @@ public class EktMyOrderController {
 		// set the width and height of the ScrollPane
 		centerScrollBar.setPrefWidth(750);
 		centerScrollBar.setPrefHeight(300);
+		centerScrollBar.getStylesheets().add("controllers/testCss.css");
 		// set the style of the ScrollPane
 		centerScrollBar.setStyle(
-				"-fx-background-color: transparent; -fx-background:  linear-gradient(from 0px 0px to 0px 1500px, pink, yellow);");
+				"-fx-background-color: transparent; -fx-background-color:  linear-gradient(from 0px 0px to 0px 1500px, pink, yellow);");
 		// create a new GridPane
 		gridPane = new GridPane();
 		// set the maximum size of the GridPane

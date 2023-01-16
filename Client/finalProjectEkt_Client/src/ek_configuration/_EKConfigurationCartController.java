@@ -332,8 +332,9 @@ public class _EKConfigurationCartController {
 		
 		scrollPane.prefHeight(600);
 		scrollPane.prefWidth(800);
-		scrollPane.setStyle("-fx-background:  linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO); -fx-border-color: transparent;"
-				+ "-fx-background-color: transparent;");
+		scrollPane.getStylesheets().add("controllers/testCss.css");
+		scrollPane.setStyle("-fx-background-color: transparent; -fx-background-color:  linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO); -fx-border-color: transparent;"
+				);
 		
 		borderPane.setCenter(scrollPane);
 	}

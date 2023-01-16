@@ -98,16 +98,16 @@ public class _EKConfigurationLoginFrameController {
 				nextPathTitle = "Customer Home Frame";
 				break;
 			case CUSTOMER:
+				ClientController.setFastRecognitionToggle(false);
+
 				if(ClientController.isFastRecognitionToggle()) {
 					// show alert and reload window
-					ClientController.setFastRecognitionToggle(false);
 					Stage prevStage = new Stage();
 					WindowStarter.createWindow(prevStage, this, "/gui/_EKConfigurationLoginFrame.fxml", null, "Ekt Login", true);
 					prevStage.show();
 					((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
 					return;	
 				}
-				ClientController.setCustomerIsSubsriber(false);
 				nextScreenPath = "/gui/_EKConfigurationCustomerHomeArea.fxml";
 				nextPathTitle = "Customer Home Frame";
 				break;
@@ -120,7 +120,21 @@ public class _EKConfigurationLoginFrameController {
 				nextScreenPath = "/gui/_EKConfigurationCustomerHomeArea.fxml";
 				nextPathTitle = "Customer Home Frame";
 				break;
-				
+			case UNAPPROVED_CUSTOMER:
+
+		    	ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.LOGOUT, ClientController.getCurrentSystemUser().getUsername()));
+				statusLabel.setText("Unapproved customer cannot log in.");
+				statusLabel.setVisible(true);
+
+		    	return;
+				//break;
+			case UNAPPROVED_SUBSCRIBER:
+		    	ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.LOGOUT, ClientController.getCurrentSystemUser().getUsername()));
+				statusLabel.setText("Unapproved customer cannot log in.");
+				statusLabel.setVisible(true);
+
+		    	return;
+				//break;
 			default:
 				statusLabel.setText("EK Configuration only supports customers and machine maintenance employees.");
 				statusLabel.setVisible(true);
@@ -132,6 +146,7 @@ public class _EKConfigurationLoginFrameController {
 		else {
 			// invalid login - add tests if it's 'user already logged' error or 'password' error, or something else.
 			statusLabel.setText("Invalid input in login!");
+			statusLabel.setVisible(true);
 			return;
 		}
     	System.out.println("Login EK -> " + nextScreenPath);

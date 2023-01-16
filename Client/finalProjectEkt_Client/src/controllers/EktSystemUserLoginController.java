@@ -226,9 +226,11 @@ public class EktSystemUserLoginController {
 				WindowStarter.createWindow(primaryStage, this, "/gui/DeliveryManagerPage.fxml", null, "Ekt Delivery Department Worker", true);
 				break;
 			case UNAPPROVED_CUSTOMER:
+		    	ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.LOGOUT, ClientController.getCurrentSystemUser().getUsername()));
 				statusLabel.setText("User not yet registered!");
 				return;
 			case UNAPPROVED_SUBSCRIBER:
+		    	ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.LOGOUT, ClientController.getCurrentSystemUser().getUsername()));
 				statusLabel.setText("User not yet registered!");
 				
 			case INVENTORY_WORKER:

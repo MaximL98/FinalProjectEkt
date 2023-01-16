@@ -87,7 +87,7 @@ public class AddUserToDbController {
 
 	@FXML
     void getAddUserToDB(ActionEvent event) {
-    	int id;
+    	Integer id;
 		lblStatus.setText("Checking input");
     	SCCP preparedMessage = new SCCP();
     	if(validFieldInput()) {
@@ -114,7 +114,12 @@ public class AddUserToDbController {
             	return;
     		}
     		
+    		try {
     		id = Integer.valueOf(txtID.getText());
+    		}catch(NumberFormatException ex) {
+    			lblStatus.setText("Invalid ID input (too long).");
+    			return;
+    		}
     		// set message accordingly
     		preparedMessage.setRequestType(ServerClientRequestTypes.ADD);
     		// first field is table name - users here

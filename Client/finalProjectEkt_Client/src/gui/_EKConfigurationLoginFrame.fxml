@@ -40,7 +40,7 @@
                   <Font name="Berlin Sans FB" size="24.0" />
                </font>
             </Button>
-            <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="246.0" layoutY="680.0" prefHeight="79.0" prefWidth="334.0" text="test" textAlignment="CENTER" visible="false" />
+            <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="217.0" layoutY="411.0" prefHeight="79.0" prefWidth="334.0" text="test" textAlignment="CENTER" visible="false" />
             <Text fx:id="lblFastRecognition" layoutX="68.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USERNAME">
                <font>
                   <Font name="Berlin Sans FB" size="18.0" />

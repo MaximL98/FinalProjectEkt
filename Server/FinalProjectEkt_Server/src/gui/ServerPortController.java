@@ -150,12 +150,13 @@ public class ServerPortController  {
 							oldClientList=ServerUI.getEktServerObject().getClientConnections();
 							newClientList = ServerUI.getEktServerObject().getClientConnections();
 							txtClients.setText("");
+							StringBuilder sb = new StringBuilder();
+							long i =1;
 							for(Thread t : newClientList) {
 								ConnectionToClient client = (ConnectionToClient)t; // please work
-								txtClients.setText(txtClients.getText()
-										+client.getInetAddress().toString().replace("/", "")
-										+"\n");
+								sb.append("Client " + (i++)+": " + client.getInetAddress().getHostAddress() +"\n");
 							}
+							txtClients.setText(sb.toString());
 							
 						}
 					}

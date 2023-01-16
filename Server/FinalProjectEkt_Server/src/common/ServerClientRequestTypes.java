@@ -1,12 +1,24 @@
 package common;
 
 
-// this should be extended to support many operations easily
-// I think it should be a matrix-like enumeration:
-// example: 1, 2 -> 1=customer, 2=edit
-// 			4, 1 -> 4=product , 1=add
-// as in separate the object and the operation into two enums, so that I don't have to write a book here.
-
+/**
+ * The ServerClientRequestTypes enumeration is used to determine the type of
+ * message being sent in the SCCP protocol. This enumeration is used by the
+ * server and client to determine the necessary action to be taken for a given
+ * message. It includes special messages like CONNECT_TO_SERVER, LOGIN, LOGOUT,
+ * ERROR_MESSAGE, ACK, CRASH and database-related messages like CREATE, UPDATE,
+ * REMOVE, ADD, DISPLAY, FETCH_PRODUCTS_BY_CATEGORY, FETCH_ORDERS,
+ * UPDATE_ONLINE_ORDERS,ADD_PROMOTION, DISPLAY_PROMOTIONS,
+ * DISPLAY_SELECTED_PROMOTIONS, INSERT_ORDER_TO_DATABASE,
+ * DISPLAY_PROMOTIONS_TO_ACTIVE, UPDATE_PROMOTION_STATUS, SELECT, EK_LOGIN,
+ * LOGIN_FAILED_ALREADY_LOGGED_IN, LOGIN_FAILED_ILLEGAL_INPUT,
+ * REQUEST_ALL_MACHINES, FETCH_PRODUCTS_IN_MACHINE_ROTEM,
+ * FETCH_MACHINES_BY_LOCATION, FETCH_PRODUCTS_IN_MACHINE,
+ * UPDATE_PRODUCTS_IN_MACHINE.
+ * 
+ * @author Rotem
+ *
+ */
 
 public enum ServerClientRequestTypes {
 	// special messages:
@@ -22,7 +34,7 @@ public enum ServerClientRequestTypes {
 	//these belong to daniel but I removed them (ONLY INSERT HERE WHAT IS IMPLEMENTED IN ServerMessageHandler!!!!!)
 
 	
-	/*
+	/**
 	 * Legend:
 	 * CONNECT_TO_SERVER - sends an empty object, used by server to maintain a list of connected clients (better than my original way)
 	 * LOGIN - message to be sent when authentication is performed, pass tuple[user,pass] along it
@@ -42,6 +54,12 @@ public enum ServerClientRequestTypes {
 	
 	// old (from prototype)
 	//UPDATE_CUSTOMER, ADD_CUSTOMER, DISPLAY_CUSTOMER;
+	/**
+	 * This method overrides the {@link java.lang.Enum#toString()} method and
+	 * returns the name of the enumeration constant.
+	 * 
+	 * @return the name of the enumeration constant.
+	 */
 	@Override
 	public String toString(){
 	    return name();

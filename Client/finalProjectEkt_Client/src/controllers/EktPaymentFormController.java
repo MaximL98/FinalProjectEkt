@@ -89,7 +89,8 @@ public class EktPaymentFormController {
 			// we expect product to have 5 columns, and act accordingly
 			Object[] arr = lst.toArray();
 			System.out.println(Arrays.toString(arr));
-			temp = arr[0].toString();
+			if(arr != null && arr[0] != null)
+				temp = arr[0].toString();
 			System.out.println(temp);
 		}
 
@@ -98,6 +99,8 @@ public class EktPaymentFormController {
 		}catch(NumberFormatException ex) {
 			accBalance=0.;
 		}
+		if(accBalance <= 0.0 || accBalance < ClientController.orderTotalPrice)
+			btnPayWithBalance.setDisable(true);
 		txtAccountBalance.setText("ACCOUNT BALANCE: " + new DecimalFormat("##.##").format(accBalance) + "$");
 
 		if (ClientController.getCustomerIsSubsriber() == true) {
@@ -285,8 +288,8 @@ public class EktPaymentFormController {
 			fillOrder[0] = "orders (total_price, total_quantity, machineID, date_received, typeId, statusId)";
 			fillOrder[1] = false;
 			fillOrder[2] = new Object[] {
-					"(" + ClientController.orderTotalPrice + "," + 
-							new DecimalFormat("##.##").format(ClientController.orderTotalPrice) + ","
+					"(" + new DecimalFormat("##.##").format(ClientController.orderTotalPrice) + "," + 
+							ClientController.orderTotalQuantity + ","
 							+ ClientController.OLCurrentMachineID + ",\"" + ClientController.orderDateReceived + "\""
 							+ "," + getTypeId(ClientController.orderType) + "," + 1 + ")" };
 		}
@@ -324,16 +327,7 @@ public class EktPaymentFormController {
 		 * Rotem: 1.12.23 -> adding an insert to customer_orders (associate a customer
 		 * with an order in DB)
 		 */
-		CustomerOrder toInsert = new CustomerOrder(ClientController.getCurrentSystemUser().getId(), maxOrderId,
-				/*
-				 * TODO: replace this with the expected machine to be used for the order
-				 * (delivery or pickup)
-				 */
-				1,
-				/*
-				 * Rotem added per Dima the billing date (it is stored in ClientController as
-				 * static string)
-				 */
+		CustomerOrder toInsert = new CustomerOrder(ClientController.getCurrentSystemUser().getId(), maxOrderId, ClientController.OLCurrentMachineID, 
 				ClientController.billingDate);
 		ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.ADD,
 				new Object[] { "customer_orders", false, new Object[] { toInsert } }));

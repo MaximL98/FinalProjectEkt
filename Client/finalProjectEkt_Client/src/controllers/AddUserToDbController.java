@@ -251,7 +251,6 @@ public class AddUserToDbController {
 	
 	private boolean haveBalance() {
 		if(cmbRole.getValue() == Role.SUBSCRIBER ||
-				cmbRole.getValue() == Role.SUBSCRIBER_20DISCOUNT ||
 				cmbRole.getValue() == Role.UNAPPROVED_SUBSCRIBER ||
 				cmbRole.getValue() == Role.UNAPPROVED_CUSTOMER ||
 				cmbRole.getValue() == Role.CUSTOMER)

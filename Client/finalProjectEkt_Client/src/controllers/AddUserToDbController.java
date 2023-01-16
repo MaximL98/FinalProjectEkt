@@ -161,8 +161,21 @@ public class AddUserToDbController {
     			txtCreditCard.setText("");
     			txtUsername.setText("");
     			txtPassword.setText("");
-    			txtRole.setText("");
-
+    			//txtRole.setText("");
+    			System.out.println("haveBalance = " + haveBalance());
+    			if(haveBalance()) {
+    				System.out.println("Adding balance to " + id);
+	    			SCCP addBalance = new SCCP();
+	    			addBalance.setRequestType(ServerClientRequestTypes.ADD);
+		    		// first field is table name - users here
+		    		Object[] fillBalance = new Object[3];
+		    		fillBalance[0] = "customer_balance"; // add to table "customer_balance" (hard code it elsewhere)
+		    		fillBalance[1] = false; // add only 1
+		    		fillBalance[2] = new Object[] {"(" + id + ", " + 0 + ")"};
+		    		addBalance.setMessageSent(fillBalance);
+		    		// send to server
+		    		ClientUI.clientController.accept(addBalance);
+    			}
 
     		}
     		else {
@@ -235,5 +248,16 @@ public class AddUserToDbController {
 	}
 
 	@FXML public void getCmbRole(ActionEvent event) {}
+	
+	private boolean haveBalance() {
+		if(cmbRole.getValue() == Role.SUBSCRIBER ||
+				cmbRole.getValue() == Role.SUBSCRIBER_20DISCOUNT ||
+				cmbRole.getValue() == Role.UNAPPROVED_SUBSCRIBER ||
+				cmbRole.getValue() == Role.UNAPPROVED_CUSTOMER ||
+				cmbRole.getValue() == Role.CUSTOMER)
+			return true;
+		return false;
+		
+	}
 
 }

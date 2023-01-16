@@ -100,8 +100,9 @@ public class EktOrderSummaryController {
 
 		centerScrollBar.setPrefHeight(600);
 		centerScrollBar.setPrefWidth(800);
+		centerScrollBar.getStylesheets().add("controllers/testCss.css");
 		centerScrollBar.setStyle(
-				"-fx-background-color: transparent; -fx-background:  linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO);");
+				"-fx-background-color: linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO);");
 		gridPane = new GridPane();
 
 		Double totalPrice = 0.0;
@@ -113,7 +114,7 @@ public class EktOrderSummaryController {
 		}
 
 		///////////////////////// Dima 31/12 10:30
-		gridPane.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+		gridPane.setMaxSize(800-20, Region.USE_COMPUTED_SIZE);
 		gridPane.setPrefSize(800 - 2, 550);
 		gridPane.setVgap(5);
 		//////////////////////////////////////////////////////

@@ -116,7 +116,7 @@ public class EktCartFormController {
 			colConst.setPercentWidth(800/6);
 			gridpaneIntoVbox.getColumnConstraints().add(colConst);
 		}	
-		gridpaneIntoVbox.setMaxSize(Region.USE_PREF_SIZE, Region.USE_COMPUTED_SIZE);
+		gridpaneIntoVbox.setMaxSize(800-20, Region.USE_COMPUTED_SIZE);
 		gridpaneIntoVbox.setPrefSize(800 - 10, 550);
 		gridpaneIntoVbox.setHgap(5);;
 		gridpaneIntoVbox.setVgap(5);;
@@ -368,8 +368,8 @@ public class EktCartFormController {
 		
 		scrollPane.prefHeight(600);
 		scrollPane.prefWidth(800);
-		scrollPane.setStyle("-fx-background:   linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO); -fx-border-color: transparent;"
-				+ "-fx-background-color: transparent;");
+		scrollPane.getStylesheets().add("controllers/testCss.css");
+		scrollPane.setStyle("-fx-background-color: linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO); -fx-border-color: transparent;");
 		
 		borderPane.setCenter(scrollPane);
 	}

@@ -156,19 +156,31 @@ public class DeliveryManagerPageController {
 		 * Define the order number column
 		 */
 		tblOrderNumberColumn.setCellValueFactory(new PropertyValueFactory<Order, String>("orderID"));
+		tblOrderNumberColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 		/**
 		 * Define the date received column
 		 */
 		tblDateReceivedColumn.setCellValueFactory(new PropertyValueFactory<Order, LocalDate>("dateReceived"));
+		tblDateReceivedColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 		/**
 		 * Define the time column
 		 */
 		tblTimeColumn.setCellValueFactory(new PropertyValueFactory<Order, LocalDateTime>("deliveryTime"));
+		tblTimeColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 		/**
 		 * Define the status column
 		 */
 		tblStatusColumn.setCellValueFactory(
 				cellData -> new SimpleObjectProperty<Order.Status>(cellData.getValue().getStatus()));
+		tblStatusColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 		/**
 		 * Set the status column as a ComboBox
 		 */
@@ -231,8 +243,14 @@ public class DeliveryManagerPageController {
 
 			return cell;
 		});
+		tblStatusColumn.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 
 		deliveryTable.setItems(FXCollections.observableArrayList(orders));
+		deliveryTable.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 
 	}
 

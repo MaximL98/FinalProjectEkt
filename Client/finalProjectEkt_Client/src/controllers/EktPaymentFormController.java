@@ -268,7 +268,6 @@ public class EktPaymentFormController {
 	private void processOrder(ActionEvent event) {
 		// insert to database, table: orders
 		SCCP preparedMessage = new SCCP();
-
 		preparedMessage.setRequestType(ServerClientRequestTypes.ADD);
 		// name of table, add many?, array of objects (to add),
 		// ArrayList<Object> fillArrayToOrder = new ArrayList<>();

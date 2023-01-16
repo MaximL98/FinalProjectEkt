@@ -193,10 +193,6 @@ public class EktSystemUserLoginController {
 				// Rotem 1.13 -> refactored to a method to make this switch easier to analyze
 				break;
 				
-			case LOGISTICS_MANAGER:
-				WindowStarter.createWindow(primaryStage, this, "/gui/EktLogisticsManagerHomePage.fxml", null, "Logistics Manager Home Page", true);
-				break;
-				
 			case SERVICE_REPRESENTATIVE:
 				WindowStarter.createWindow(primaryStage, this, "/gui/EktServiceRepresentativeHomePage.fxml", null, "Service Rep Home Page", true);
 				break;

@@ -26,7 +26,7 @@
                   <TableColumn fx:id="tblStatusColumn" prefWidth="150.0" styleClass="-fx-alignment: CENTER;" text="Status" />
               </columns>
             </TableView>
-            <Button fx:id="btnBack" layoutX="9.0" layoutY="740.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="50.0" prefWidth="113.0" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
+            <Button fx:id="btnBack" layoutX="9.0" layoutY="740.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="50.0" prefWidth="113.0" stylesheets="@buttonCSS.css" text="LOGOUT" textFill="WHITE">
                <font>
                   <Font name="Berlin Sans FB" size="20.0" />
                </font></Button>

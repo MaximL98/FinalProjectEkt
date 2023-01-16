@@ -103,6 +103,8 @@ public class _EKConfigurationCustomerLocalOrderController implements Serializabl
 	
 	@FXML
 	public void initialize() {
+		txtWelcomeCustomer.setText("Hi " + ClientController.getCurrentSystemUser().getFirstName() + ", glad you are back");
+		txtWelcomeCustomer.setLayoutX(400 - (txtWelcomeCustomer.minWidth(0) / 2));
 		if(_EKConfigurationLoginFrameController.firstOrderForSubscriber()) {
 			txtDiscountOnFirstOrder.setVisible(true);
 		}

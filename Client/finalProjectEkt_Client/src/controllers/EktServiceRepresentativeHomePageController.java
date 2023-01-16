@@ -44,7 +44,7 @@ public class EktServiceRepresentativeHomePageController {
 		((Node)event.getSource()).getScene().getWindow().hide();
 		// prepare the new stage:
 		Stage primaryStage = new Stage();
-
+		ClientController.sendLogoutRequest();
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login", false);
 		primaryStage.show();
     }

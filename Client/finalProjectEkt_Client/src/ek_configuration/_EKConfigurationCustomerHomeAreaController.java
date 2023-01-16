@@ -38,7 +38,8 @@ public class _EKConfigurationCustomerHomeAreaController {
     
     @FXML
     public void initialize() {
-    	txtWelcomeText.setText(txtWelcomeText.getText().replace("username", ClientController.getCurrentSystemUser().getFirstName()));
+    	txtWelcomeText.setText("Hi " + ClientController.getCurrentSystemUser().getFirstName() + ", glad you are back");
+    	txtWelcomeText.setLayoutX(400 - (txtWelcomeText.minWidth(0) / 2));
     }
 
     @FXML

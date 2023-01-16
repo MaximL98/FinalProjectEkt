@@ -223,11 +223,11 @@ public class InventoryRestockWorkerPageController {
 	 * @param event ActionEvent for the button click
 	 */
 	@FXML
-	void getBtnBack(ActionEvent event) {
-		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+	void getBtnLogout(ActionEvent event) {
 		Stage primaryStage = new Stage();
-		WindowStarter.createWindow(primaryStage, this, "/gui/EktLogisticsManagerHomePage.fxml", null,
-				"Logistics Manager Home Page", true);
+		ClientController.sendLogoutRequest();
+		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null,
+				"Ekt Login", true);
 		// this was done so that we can use this button
 		primaryStage.setOnCloseRequest(we -> {
 			System.out.println("Pressed the X button.");
@@ -235,6 +235,7 @@ public class InventoryRestockWorkerPageController {
 		});
 
 		primaryStage.show();
+		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 	}
 
 	/**
@@ -314,9 +315,18 @@ public class InventoryRestockWorkerPageController {
 		cmbChooseMachine.setItems(machines);
 		tblInventory.setEditable(true);
 		colItem.setCellValueFactory(data -> data.getValue().itemNameProperty());
+		colItem.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 		colQuantity.setCellValueFactory(data -> data.getValue().itemStockProperty());
+		colQuantity.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 		colRestockAmount.setCellValueFactory(data -> data.getValue().itemStockToAddProperty());
 		colRestockAmount.setCellFactory(TextFieldTableCell.forTableColumn());
+		colRestockAmount.setStyle("-fx-alignment: CENTER; "
+				+ "-fx-background-color:  linear-gradient(from 0px 0px to 0px 400,#e6e6fa , INDIGO); "
+				+ "-fx-background: white;");
 
 		colRestockAmount.setOnEditCommit(event -> {
 			String value = event.getNewValue();

@@ -1,5 +1,6 @@
 package controllers;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -112,16 +113,24 @@ public class EktMyOrderController {
 					Tab orderTab = new Tab();
 					Pane orderPane = new Pane();
 					Text location = new Text();
+					
 					Text date = new Text();
 
 					Text quantity = new Text();
+					quantity.setStyle("-fx-font: bold");
 					Text price = new Text();
+					price.setStyle("-fx-font: bold");
 					Text txtStatus = new Text();
+					txtStatus.setStyle("-fx-font: bold");
 					String status = ((ArrayList<?>) order).get(6).toString();
 					Button received = new Button();
+					received.setStyle("-fx-background-color: crimson; -fx-border-width: 3; -fx-border-color: crimson;"
+							+ "-fx-text-weight: bold;");
 
 					location.setText("Location: " + ((ArrayList<?>) order).get(1).toString());
+					location.setStyle("-fx-font: bold");
 					date.setText("Date: " + ((ArrayList<?>) order).get(2).toString());
+					date.setStyle("-fx-font: bold");
 					// checks if the status of the order is 5 (delivered)
 					if (status.equals("5")) {
 						// sets the status text to "delivered"
@@ -145,6 +154,8 @@ public class EktMyOrderController {
 					int i = 45, j = 20;
 
 					TitledPane tp = new TitledPane(); // creates a new titled pane
+					tp.toFront();
+					tp.getStylesheets().add("/gui/tiltedPaneCSS.css");
 					tp.setText("Click Here To See Product List"); // sets the text on the titled pane
 					tp.setFont(new Font(14)); // sets the font of the text
 					tp.setLayoutX(275); // sets the x-coordinate of the titled pane
@@ -155,6 +166,7 @@ public class EktMyOrderController {
 					// iterates through the productList array
 					for (String productName : productList) {
 						Text Products = new Text(); // creates a new text object to hold the product name
+						Products.setStyle("-fx-font-size: 10px;");
 						Products.setText(productName); // sets the text of the product
 						Products.setLayoutX(i); // sets the x-coordinate of the product text
 						Products.setLayoutY(j); // sets the y-coordinate of the product text
@@ -169,7 +181,7 @@ public class EktMyOrderController {
 					quantity.setText("Total Quantity: " + ((ArrayList<?>) order).get(4).toString());
 					// Set the text of "price" label to "Total Price: " + the 5th element of the
 					// "order" ArrayList
-					price.setText("Total Price: " + ((ArrayList<?>) order).get(5).toString());
+					price.setText("Total Price: " + new DecimalFormat("##.##").format(new Double(((ArrayList<?>) order).get(5).toString())));
 					// Set the x-coordinate of "location" label to 15
 					location.setLayoutX(15);
 					// Set the y-coordinate of "location" label to 35
@@ -200,10 +212,12 @@ public class EktMyOrderController {
 					orderPane.getChildren().add(txtStatus); // Add "txtStatus" label to the "orderPane" container
 					// Create a new button "reqToCancel"
 					Button reqToCancel = new Button();
+					reqToCancel.setStyle("-fx-background-color: crimson; -fx-border-width: 3; -fx-border-color: crimson;"
+							+ "-fx-text-weight: bold;");
 					reqToCancel.setText("Request to cancel order"); // Set the text of "reqToCancel" button to "Request
 																	// to cancel order"
 					reqToCancel.setLayoutX(535); // Set the x-coordinate of "reqToCancel" button to 535
-					reqToCancel.setLayoutY(200); // Set the y-coordinate of "reqToCancel" button to 200
+					reqToCancel.setLayoutY(180); // Set the y-coordinate of "reqToCancel" button to 200
 					reqToCancel.setFont(new Font(15)); // Set the font size of "reqToCancel" button to 15
 					orderPane.getChildren().add(reqToCancel); // Add "reqToCancel" button to the "orderPane" container
 
@@ -353,6 +367,7 @@ public class EktMyOrderController {
 					int i = 45, j = 20;
 
 					TitledPane tp = new TitledPane();
+					tp.getStylesheets().add("/gui/tiltedPaneCSS.css");
 					tp.setText("Click Here To See Product List");
 					tp.setFont(new Font(14));
 					tp.setLayoutX(275);

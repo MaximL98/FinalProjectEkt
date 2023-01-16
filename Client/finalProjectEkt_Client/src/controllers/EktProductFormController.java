@@ -232,7 +232,7 @@ public class EktProductFormController {
 		columnRight.setPercentWidth(50);
 		gridPaneProducts.getColumnConstraints().addAll(columnLeft, columnRight); // each gets 50% of width
 
-		gridPaneProducts.setMaxSize(Region.USE_COMPUTED_SIZE - 10, Region.USE_COMPUTED_SIZE);
+		gridPaneProducts.setMaxSize(800 - 20, Region.USE_COMPUTED_SIZE);
 		gridPaneProducts.setPrefSize(800 -3, 600 - 4);
 		gridPaneProducts.setHgap(5);
 		;

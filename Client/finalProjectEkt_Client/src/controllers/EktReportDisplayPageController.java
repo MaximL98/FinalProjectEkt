@@ -220,7 +220,11 @@ public class EktReportDisplayPageController {
 		}
 
 		if (ClientController.getMachineID_TypeOfReport_Dates().get(2).equals("ALL_MACHINES")) {
-			txtLocationName.setText(ClientController.getCurrentUserRegion() + date);
+			if (ClientController.getCurrentSystemUser().getRole().equals(Role.DIVISION_MANAGER)) {
+				txtLocationName.setText("All Regions" + date);
+			} else {
+				txtLocationName.setText(ClientController.getCurrentUserRegion() + date);
+			}
 			txtMachineName.setText("All Machines in this region");
 		} else {
 			txtLocationName.setText(ClientController.getCurrentUserRegion() + date);

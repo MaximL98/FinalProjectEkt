@@ -253,7 +253,7 @@ public class EktCartFormController {
 			j++;
 			
 			gridpaneIntoVbox.add(removeButton, j, i);
-			GridPane.setHalignment(removeButton, HPos.RIGHT);
+			GridPane.setHalignment(removeButton, HPos.LEFT);
 			i++; j = 0;
 			
 			

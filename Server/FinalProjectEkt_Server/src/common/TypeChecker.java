@@ -27,7 +27,6 @@ public class TypeChecker {
 
 		for(int j=0;j<paramTypes.size();j++) {
 			if(!objects[j + startIdx].getClass().equals(paramTypes.get(j))) {
-				//System.out.println(objects[j + startIdx].getClass() + ", " + paramTypes.get(j));
 				return false;
 			}
 		}

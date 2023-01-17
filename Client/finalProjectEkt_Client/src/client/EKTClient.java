@@ -6,86 +6,104 @@ import logic.Customer;
 
 import java.io.*;
 
+/**
+ * 
+ * EKTClient class extends the AbstractClient class, and handles the
+ * communication between the client and the server. This class opens a
+ * connection to the server, sends and receives messages from the server, and
+ * terminates the client. It also has a static customer object and a boolean
+ * awaitResponse variable.
+ * 
+ * @author danielvardimon
+ */
+public class EKTClient extends AbstractClient {
 
-public class EKTClient extends AbstractClient
-{
+	public static Customer customer = new Customer(null, null, null, null, null, null, null, null);
+	public static boolean awaitResponse = false;
 
-  public static Customer customer = new Customer(null,null,null, null, null, null, null, null);
-  public static boolean awaitResponse = false;
+	/**
+	 * 
+	 * Constructor that takes in a host and port and calls the superclass
+	 * constructor to open a connection to the server.
+	 * 
+	 * @param host - The host IP address to connect to
+	 * @param port - The port number to connect to
+	 * @throws IOException
+	 */
+	public EKTClient(String host, int port) throws IOException {
+		super(host, port); // Call the superclass constructor
+		openConnection();
 
-  
-  public EKTClient(String host, int port) throws IOException 
-  {
-	  super(host, port); //Call the superclass constructor
-      openConnection();
+	}
 
-  }
+	/**
+	 * 
+	 * Handles a message received from the server. It sets the awaitResponse
+	 * variable to false and sets the static responseFromServer object in the
+	 * ClientController class to the received message.
+	 * 
+	 * @param msg - The message received from the server
+	 */
+	public void handleMessageFromServer(Object msg) {
+		System.out.println("--> EKT Client --> handleMessageFromServer");
+		awaitResponse = false;
 
-  public void handleMessageFromServer(Object msg) 
-  {
-	  System.out.println("--> EKT Client --> handleMessageFromServer");
-	  awaitResponse = false;
-	  // Rotem -- heavy modification so that it will finally work!
+		if (msg instanceof SCCP) {
+			SCCP tmp = (SCCP) msg;
+			System.out.println("Got a message from server: " + tmp);
+			// pass the message to the controller
+			ClientController.responseFromServer.setRequestType(tmp.getRequestType());
+			ClientController.responseFromServer.setMessageSent(tmp.getMessageSent());
 
-	  // we don't care what message it is, as long as it's wrapped in our defined class
-	  if(msg instanceof SCCP) {
-		  SCCP tmp = (SCCP)msg;
-		  System.out.println("Got a message from server: " +  tmp);
-		  // pass the message to the controller
-		  ClientController.responseFromServer.setRequestType(tmp.getRequestType());
-		  ClientController.responseFromServer.setMessageSent(tmp.getMessageSent());
-		  
-	  }
-	  else {
-		  // error! (invalid input to client)
-		  // TODO: replace with specific error
-		  ClientController.responseFromServer.setRequestType(null);
-		  ClientController.responseFromServer.setMessageSent(null);
-	  }
-  }
-
-
-  // TODO: this is a copy of the above method but with a different parameter
-  // new method can send the dedicated object from client to server
-  public void handleMessageFromClientUI(SCCP message)  
-  {
-    try
-    {
-    	
-    	openConnection();//in order to send more than one message
-    	
-       	awaitResponse = true;
-       	
-    	sendToServer(message);
-    	
-		// wait for response
-		while (awaitResponse) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		} else {
+			// error! (invalid input to client)
+			ClientController.responseFromServer.setRequestType(null);
+			ClientController.responseFromServer.setMessageSent(null);
 		}
-    }
-    catch(IOException e)
-    {
-    	e.printStackTrace();
-    	System.err.println("Could not send message to server: Terminating client."+ e);
-      quit();
-    }
-  }
-  
-  //This method terminates the client.
-  public void quit()
-  {
-    try
-    {
-      closeConnection();
-    }
-    catch(IOException e) {
-    	System.err.println("Exception in EKTClient.quit: " + e.getMessage());
-    	e.printStackTrace();
-    }
-    System.exit(0);
-  }
+	}
+
+	/**
+	 * 
+	 * Handles a message sent from the client UI. It opens a connection to the
+	 * server, sets the awaitResponse variable to true, sends the message to the
+	 * server, and waits for a response.
+	 * 
+	 * @param message - The message sent from the client UI
+	 */
+	public void handleMessageFromClientUI(SCCP message) {
+		try {
+
+			openConnection();// in order to send more than one message
+
+			awaitResponse = true;
+
+			sendToServer(message);
+
+			// wait for response
+			while (awaitResponse) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("Could not send message to server: Terminating client." + e);
+			quit();
+		}
+	}
+
+	/**
+	 * This method terminates the client.
+	 */
+	public void quit() {
+		try {
+			closeConnection();
+		} catch (IOException e) {
+			System.err.println("Exception in EKTClient.quit: " + e.getMessage());
+			e.printStackTrace();
+		}
+		System.exit(0);
+	}
 }

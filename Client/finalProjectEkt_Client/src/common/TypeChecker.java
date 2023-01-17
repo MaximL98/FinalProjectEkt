@@ -27,28 +27,9 @@ public class TypeChecker {
 
 		for(int j=0;j<paramTypes.size();j++) {
 			if(!objects[j + startIdx].getClass().equals(paramTypes.get(j))) {
-				//System.out.println(objects[j + startIdx].getClass() + ", " + paramTypes.get(j));
 				return false;
 			}
 		}
 		return true;
 	}
-	
-	/*
-	 * An example for testing this one (commented out)
-	 */
-	
-	/*
-	public static void main(String[] args) {
-		System.out.println("Testing my shit");
-		Object[] params = new Object[]{new Integer(1), new String("ass"), new Object[] {"ass", "tits"}};
-		ArrayList<Class<?>> types = new ArrayList<Class<?>>();
-		types.add(String.class);
-		types.add(Object[].class);
-		System.out.println(Arrays.toString(params));
-		System.out.println("Calling validate!");
-		boolean b = validate(params, types, 1);
-		System.out.println("Got result " + b + " from validate");
-	}
-	*/
 }

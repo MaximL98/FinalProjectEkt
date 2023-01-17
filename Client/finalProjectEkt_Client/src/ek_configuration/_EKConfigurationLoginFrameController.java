@@ -10,11 +10,15 @@ import common.WindowStarter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.paint.Color;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import logic.Role;
 import logic.SystemUser;
 import javafx.scene.text.Text;
@@ -63,6 +67,8 @@ public class _EKConfigurationLoginFrameController {
 			txtUsername.setDisable(false);
 			pwdField.setDisable(false);
 		}
+		statusLabel.setTextFill(Color.RED);
+		statusLabel.setStyle("-fx-font-weight: bold;");
     }
     
     @FXML
@@ -75,7 +81,6 @@ public class _EKConfigurationLoginFrameController {
     	userName = txtUsername.getText();
     	password = pwdField.getText();
     	if(ClientController.isFastRecognitionToggle()) {
-    		ClientController.setFastRecognitionToggle(false); // maybe baby
     		userName=ClientController.getFastRecognitionUserName();
     		password=ClientController.getFastRecognitionPassword();
     	}
@@ -105,19 +110,25 @@ public class _EKConfigurationLoginFrameController {
 				nextPathTitle = "Customer Home Frame";
 				break;
 			case CUSTOMER:
-				ClientController.setFastRecognitionToggle(false);
-
 				if(ClientController.isFastRecognitionToggle()) {
-					// show alert and reload window
-					Stage prevStage = new Stage();
-					WindowStarter.createWindow(prevStage, this, "/gui/_EKConfigurationLoginFrame.fxml", null, "Ekt Login", true);
-					prevStage.show();
-					((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
-					return;	
-				}
-				nextScreenPath = "/gui/_EKConfigurationCustomerHomeArea.fxml";
-				nextPathTitle = "Customer Home Frame";
-				break;
+                    ClientController.setFastRecognitionToggle(false);
+                    ClientController.sendLogoutRequest();
+                    // show alert and reload window
+                    Stage prevStage = new Stage();
+                    WindowStarter.createWindow(prevStage, this, "/gui/_EKConfigurationLoginFrame.fxml", null, "Ekt Login", true);
+                    prevStage.show();
+                    ((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
+                    Alert alert = new Alert(AlertType.CONFIRMATION);
+                    alert.setTitle("Oops!");
+                    alert.setHeaderText("Your credentials are invalid!");
+                    alert.setContentText("Click OK and try again . . . ");
+                    alert.initStyle(StageStyle.UNDECORATED);
+                    alert.showAndWait();
+                    return;
+                }
+                nextScreenPath = "/gui/_EKConfigurationCustomerHomeArea.fxml";
+                nextPathTitle = "Customer Home Frame";
+                break;
 
 			case INVENTORY_WORKER:
 				nextScreenPath = "/gui/_EKConfigurationLogisticsEmployeeFrame.fxml";

@@ -470,11 +470,11 @@ public class EktProductFormController {
 	 */
 	@FXML
 	void getBtnBack(ActionEvent event) {
-		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktCatalogForm.fxml", null, "Ekt Catalog", true);
 
 		primaryStage.show();
+		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
 
 	/**
@@ -487,11 +487,12 @@ public class EktProductFormController {
 	 */
 	@FXML
 	public void getBtnCart(ActionEvent event) {
-		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktCartForm.fxml", null, "Ekt Cart", true);
 
 		primaryStage.show();
+		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
 
 	/**

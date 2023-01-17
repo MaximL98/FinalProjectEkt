@@ -460,21 +460,19 @@ public class _EKConfigurationProductController {
 
 	@FXML
 	void getBtnBack(ActionEvent event) {
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
 		WindowStarter.createWindow(primaryStage, this, "/gui/_EKConfigurationCustomerLocalOrderFrame.fxml", null, "Ekt Catalog", true);
 
 		primaryStage.show();
+		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
 	
 	@FXML
     public void getBtnCart(ActionEvent event) {
-        ((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
         Stage primaryStage = new Stage();
         WindowStarter.createWindow(primaryStage, this, "/gui/_EKConfigurationCartForm.fxml", null, "Ekt Cart", true);
-
-
         primaryStage.show();
+        ((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
     }
 
 	public static boolean isMachineSwitchedFlag() {

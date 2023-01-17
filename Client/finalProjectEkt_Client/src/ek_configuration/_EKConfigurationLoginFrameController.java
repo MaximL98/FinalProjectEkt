@@ -15,10 +15,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import logic.Role;
 import logic.SystemUser;
 import javafx.scene.text.Text;
+/**
 
+_EKConfigurationLoginFrameController is responsible for handling the login process for the system.
+The class implements a JavaFX controller for the login frame of the system, it contains methods that handle the login process,
+and also methods that control the fast-recognition feature of the system.
+@author Nastya 
+*/
 public class _EKConfigurationLoginFrameController {
 
     @FXML
@@ -36,14 +41,16 @@ public class _EKConfigurationLoginFrameController {
 	@FXML Text lblFastRecognition;
 
 	@FXML Text lblFastRecognition2;
-
+	/**
+	 * A method that triggers the login process when the user press the enter key.
+	 * @param ae the ActionEvent object.
+	 */
     @FXML
     void onEnter(ActionEvent ae) {
     	getBtnLoginEK(ae);
     }
-    
-    /*
-     * Rotem added for inactivity stuff
+    /**
+     * A method that initializes the login frame, this method is automatically called when the frame is loaded.
      */
     @FXML
     private void initialize() {
@@ -64,7 +71,13 @@ public class _EKConfigurationLoginFrameController {
 			pwdField.setDisable(false);
 		}
     }
-    
+    /**
+
+    This method represents the action listener for the login button. It retrieves the entered username and password,
+    and sends a login request to the server. If the login is successful, it sets the current user and redirects to
+    the appropriate home screen. If the login is unsuccessful, it sets the status label to display an error message.
+    @param event the ActionEvent that triggers this method, in this case the login button being clicked
+    */
     @FXML
     void getBtnLoginEK(ActionEvent event) {
 		statusLabel.setVisible(false);
@@ -165,7 +178,14 @@ public class _EKConfigurationLoginFrameController {
 		((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
     }
     
-	
+    /**
+
+    This method is used to check if the currently logged in subscriber has any previous orders or not.
+    It sends a query to the server to select the orderID from customer_orders table where customerId matches the id of the currently logged in subscriber.
+    If the query returns an empty result set, it returns true, indicating that it is the first order for the subscriber.
+    Else, it returns false.
+    @return boolean - true if it is the first order for the subscriber, else false.
+    */
 	static boolean firstOrderForSubscriber() {
 		// send the following query:
 		// select orderID from customer_orders WHERE customerId=ConnectedClientID;
@@ -183,7 +203,7 @@ public class _EKConfigurationLoginFrameController {
 								false, null}));
 		if(!ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
 			System.out.println("Invalid database operation (checking subsriber orders history failed). (returnin false)");
-			return false; // Rotem forgot to add this back then
+			return false; 
 		}
 		@SuppressWarnings("unchecked")
 		ArrayList<ArrayList<Object>> res = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();

@@ -20,10 +20,10 @@
 
 <VBox fx:id="vboxCEO" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktReportSelectFormController">
    <children>
-      <Pane prefHeight="800.0" prefWidth="800.0" style="visibility: 50; -fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);">
+      <Pane prefHeight="800.0" prefWidth="800.0" style="visibility: 50; -fx-background-color: linear-gradient(from -200px 0px to 0px 1400px, #a837b4, transparent);">
          <children>
             <Line endX="250.0" layoutX="400.0" layoutY="100.0" startX="-250.0" stroke="#4d26cd" style="-fx-opacity: 0.5;" />
-            <Button fx:id="btnBack" layoutX="14.0" layoutY="744.0" mnemonicParsing="false" onAction="#getBtnLogout" prefHeight="41.0" prefWidth="92.0" stylesheets="@buttonCSS.css" text="Back" textFill="WHITE">
+            <Button fx:id="btnBack" layoutX="14.0" layoutY="744.0" mnemonicParsing="false" onAction="#getBtnLogout" prefHeight="41.0" prefWidth="92.0" style="-fx-background-radius: 300; -fx-border-radius: 300;" stylesheets="@buttonCSS.css" text="Back" textFill="WHITE">
                <font>
                   <Font name="Berlin Sans FB" size="20.0" />
                </font>
@@ -57,31 +57,31 @@
                                           <Font name="Berlin Sans FB" size="30.0" />
                                        </font>
                                     </Button>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Year" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Year" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <font>
-                                          <Font name="Berlin Sans FB" size="26.0" />
+                                          <Font name="Arial Rounded MT Bold" size="26.0" />
                                        </font></Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Month" GridPane.rowIndex="1">
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Month" GridPane.rowIndex="1">
                                        <font>
-                                          <Font name="Berlin Sans FB" size="26.0" />
+                                          <Font name="Arial Rounded MT Bold" size="26.0" />
                                        </font></Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Machine" GridPane.rowIndex="3">
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Machine" GridPane.rowIndex="3">
                                        <font>
-                                          <Font name="Berlin Sans FB" size="26.0" />
+                                          <Font name="Arial Rounded MT Bold" size="26.0" />
                                        </font></Text>
                                     <ComboBox fx:id="comboBoxYearOrderReports" prefHeight="50.0" prefWidth="300.0" stylesheets="@comboboxCSS.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <ComboBox fx:id="comboBoxMonthOrderReports" prefHeight="50.0" prefWidth="300.0" stylesheets="@comboboxCSS.css" GridPane.rowIndex="2" />
                                  </children>
                               </GridPane>
-                              <Text layoutX="287.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Reports">
+                              <Text fill="WHITE" layoutX="281.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Reports">
                                  <font>
-                                    <Font name="Berlin Sans FB" size="35.0" />
+                                    <Font name="Arial Rounded MT Bold" size="36.0" />
                                  </font>
                               </Text>
-                              <Line endX="350.0" layoutX="400.0" layoutY="320.0" startX="-350.0" />
-                              <Text layoutX="376.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Or">
+                              <Line endX="350.0" layoutX="400.0" layoutY="320.0" startX="-350.0" stroke="WHITE" />
+                              <Text fill="WHITE" layoutX="374.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Or">
                                  <font>
-                                    <Font name="Berlin Sans FB" size="30.0" />
+                                    <Font name="Arial Rounded MT Bold" size="30.0" />
                                  </font>
                               </Text>
                               <Button fx:id="btnViewOrderReportSingleRegion" layoutX="142.0" layoutY="386.0" mnemonicParsing="false" onAction="#getBtnViewOrderReportSingleRegion" prefHeight="50.0" prefWidth="500.0" style="-fx-background-color: purple;" text="View Report For the Entire Region" textFill="WHITE">
@@ -98,9 +98,9 @@
                                     <Font name="Berlin Sans FB" size="20.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="260.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*Month and Year fields required!">
+                              <Text fill="WHITE" layoutX="228.0" layoutY="466.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*Month and Year fields required!">
                                  <font>
-                                    <Font name="Berlin Sans FB" size="20.0" />
+                                    <Font name="Arial Rounded MT Bold" size="22.0" />
                                  </font>
                               </Text>
                            </children>
@@ -111,7 +111,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <GridPane layoutY="67.0" prefHeight="222.0" prefWidth="800.0">
+                              <GridPane layoutY="137.0" prefHeight="222.0" prefWidth="800.0">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
@@ -133,23 +133,23 @@
                                           <URL value="@comboboxCSS.css" />
                                        </stylesheets>
                                     </ComboBox>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Machine" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Machine" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                        <font>
-                                          <Font name="Berlin Sans FB" size="26.0" />
+                                          <Font name="Arial Rounded MT Bold" size="26.0" />
                                        </font></Text>
-                                    <Button fx:id="buttonViewInventoryReports" alignment="CENTER" mnemonicParsing="false" onAction="#getBtnInventoryReports" prefHeight="50.0" prefWidth="300.0" stylesheets="@buttonCSS.css" text="View Report" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+                                    <Button fx:id="buttonViewInventoryReports" alignment="CENTER" mnemonicParsing="false" onAction="#getBtnInventoryReports" prefHeight="64.0" prefWidth="300.0" stylesheets="@buttonCSS.css" text="View Report" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="5">
                                        <font>
                                           <Font name="Berlin Sans FB" size="30.0" />
                                        </font>
                                     </Button>
                                  </children>
                               </GridPane>
-                              <Text layoutX="272.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inventory Reports">
+                              <Text fill="WHITE" layoutX="243.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inventory Reports">
                                  <font>
-                                    <Font name="Berlin Sans FB" size="35.0" />
+                                    <Font name="Arial Rounded MT Bold" size="36.0" />
                                  </font>
                               </Text>
-                              <Line endX="350.0" layoutX="400.0" layoutY="320.0" startX="-350.0" />
+                              <Line endX="350.0" layoutX="399.0" layoutY="84.0" startX="-350.0" stroke="WHITE" />
                               <ImageView fitHeight="325.0" fitWidth="408.0" layoutX="238.0" layoutY="320.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@Images/barChart.png" />
@@ -185,19 +185,19 @@
                                     <RowConstraints maxHeight="70.0" minHeight="70.0" prefHeight="70.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Year" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Year" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                        <font>
-                                          <Font name="Berlin Sans FB" size="26.0" />
+                                          <Font name="Arial Rounded MT Bold" size="26.0" />
                                        </font>
                                     </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Month" GridPane.rowIndex="5">
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Month" GridPane.rowIndex="5">
                                        <font>
-                                          <Font name="Berlin Sans FB" size="26.0" />
+                                          <Font name="Arial Rounded MT Bold" size="26.0" />
                                        </font>
                                     </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Machine" GridPane.rowIndex="7">
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Machine" GridPane.rowIndex="7">
                                        <font>
-                                          <Font name="Berlin Sans FB" size="26.0" />
+                                          <Font name="Arial Rounded MT Bold" size="26.0" />
                                        </font>
                                     </Text>
                                     <ComboBox fx:id="comboBoxCustomerReports" prefHeight="50.0" prefWidth="300.0" stylesheets="@comboboxCSS.css" GridPane.rowIndex="8">
@@ -214,21 +214,21 @@
                                     <ComboBox fx:id="comboBoxMonthCustomerReports" prefHeight="50.0" prefWidth="300.0" stylesheets="@comboboxCSS.css" GridPane.rowIndex="6" />
                                  </children>
                               </GridPane>
-                              <Text layoutX="212.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Activity Reports">
+                              <Text fill="WHITE" layoutX="177.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Activity Reports">
                                  <font>
-                                    <Font name="Berlin Sans FB" size="35.0" />
+                                    <Font name="Arial Rounded MT Bold" size="36.0" />
                                  </font>
                               </Text>
-                              <Line endX="350.0" layoutX="400.0" layoutY="320.0" startX="-350.0" />
+                              <Line endX="350.0" layoutX="400.0" layoutY="320.0" startX="-350.0" stroke="WHITE" />
                               <Text fx:id="customerErrorMessage" disable="true" fill="RED" layoutX="399.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                               <Button fx:id="btnViewCustomerReportsSingleRegion" layoutX="142.0" layoutY="386.0" mnemonicParsing="false" onAction="#getBtnViewCustomerReportsSingleRegion" prefHeight="50.0" prefWidth="500.0" stylesheets="@buttonCSS.css" text="View Report For the Entire Region" textFill="WHITE">
                                  <font>
                                     <Font name="Berlin Sans FB" size="30.0" />
                                  </font>
                               </Button>
-                              <Text layoutX="376.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Or">
+                              <Text fill="WHITE" layoutX="374.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Or">
                                  <font>
-                                    <Font name="Berlin Sans FB" size="30.0" />
+                                    <Font name="Arial Rounded MT Bold" size="30.0" />
                                  </font>
                               </Text>
                               <Text fx:id="customerErrorMessage" fill="RED" layoutX="280.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0">
@@ -236,9 +236,9 @@
                                     <Font name="Berlin Sans FB" size="20.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="260.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*Month and Year fields required!">
+                              <Text fill="WHITE" layoutX="228.0" layoutY="466.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*Month and Year fields required!">
                                  <font>
-                                    <Font name="Berlin Sans FB" size="20.0" />
+                                    <Font name="Arial Rounded MT Bold" size="22.0" />
                                  </font>
                               </Text>
                            </children>
@@ -254,14 +254,14 @@
                   <URL value="@EktReportSelectFormCSS.css" />
                </stylesheets>
             </TabPane>
-            <Text fx:id="txtRegion" layoutX="249.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Region Name&quot;">
+            <Text fx:id="txtRegion" fill="WHITE" layoutX="221.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Region Name&quot;">
                <font>
-                  <Font name="Berlin Sans FB" size="48.0" />
+                  <Font name="Arial Rounded MT Bold" size="48.0" />
                </font>
             </Text>
-            <ImageView fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutY="-33.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Images/TheBetterLogo.png" />
+                  <Image url="@Images/logo%20final%20-%20yellow.png" />
                </image>
             </ImageView>
          </children>

@@ -13,17 +13,17 @@
 
 <VBox xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InventoryRestockWorkerPageController">
    <children>
-      <Pane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);">
+      <Pane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1400px, #a837b4, transparent);">
          <children>
-            <Text fx:id="WelcomeInventoryWorkerText" layoutX="237.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RESTOCK PRODUCTS">
+            <Text fx:id="WelcomeInventoryWorkerText" fill="WHITE" layoutX="205.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RESTOCK PRODUCTS">
                <font>
-                  <Font name="Berlin Sans FB" size="36.0" />
+                  <Font name="Arial Rounded MT Bold" size="36.0" />
                </font></Text>
-            <Text layoutX="283.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert Machine inventory to update:">
+            <Text fill="WHITE" layoutX="264.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert Machine inventory to update:">
                <font>
-                  <Font name="Berlin Sans FB" size="16.0" />
+                  <Font name="Arial Rounded MT Bold" size="16.0" />
                </font></Text>
-            <TableView fx:id="tblInventory" layoutX="150.0" layoutY="150.0" prefHeight="550.0" prefWidth="500.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);">
+            <TableView fx:id="tblInventory" layoutX="150.0" layoutY="150.0" prefHeight="550.0" prefWidth="500.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1400px, #a837b4, transparent);">
               <columns>
                 <TableColumn fx:id="colItem" prefWidth="144.0" text="Item" />
                 <TableColumn fx:id="colQuantity" minWidth="0.0" prefWidth="116.0" text="Quantity" />
@@ -39,22 +39,22 @@
                   <Image url="@Images/3121792.png" />
                </image>
             </ImageView>
-            <Button fx:id="btnUpdate" layoutX="345.0" layoutY="712.0" mnemonicParsing="false" onAction="#getBtnUpdate" prefHeight="40.0" prefWidth="113.0" stylesheets="@buttonCSS.css" text="UPDATE" textFill="WHITE">
+            <Button fx:id="btnUpdate" layoutX="345.0" layoutY="712.0" mnemonicParsing="false" onAction="#getBtnUpdate" prefHeight="40.0" prefWidth="113.0" style="-fx-background-radius: 200; -fx-border-radius: 233;" stylesheets="@buttonCSS.css" text="UPDATE" textFill="WHITE">
                <font>
                   <Font name="Berlin Sans FB" size="20.0" />
                </font></Button>
-            <Button fx:id="btnBack" layoutX="14.0" layoutY="744.0" mnemonicParsing="false" onAction="#getBtnLogout" stylesheets="@buttonCSS.css" text="LOGOUT" textFill="WHITE">
+            <Button fx:id="btnBack" layoutX="14.0" layoutY="744.0" mnemonicParsing="false" onAction="#getBtnLogout" style="-fx-background-radius: 222; -fx-border-radius: 222;" stylesheets="@buttonCSS.css" text="LOGOUT" textFill="WHITE">
                <font>
                   <Font name="Berlin Sans FB" size="20.0" />
                </font></Button>
-            <Text layoutX="183.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on the restock amount, restock and press enter!">
+            <Text fill="WHITE" layoutX="166.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on the restock amount, restock and press enter!">
                <font>
-                  <Font name="Berlin Sans FB" size="20.0" />
+                  <Font name="Arial Rounded MT Bold" size="18.0" />
                </font>
             </Text>
             <ImageView fitHeight="130.0" fitWidth="130.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Images/ekrut.png" />
+                  <Image url="@Images/logo%20final%20-%20yellow.png" />
                </image>
             </ImageView>
          </children>

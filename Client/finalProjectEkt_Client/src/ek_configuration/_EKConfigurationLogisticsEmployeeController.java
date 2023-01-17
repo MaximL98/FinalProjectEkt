@@ -31,6 +31,8 @@ public class _EKConfigurationLogisticsEmployeeController {
     @FXML
     private Text txtWelcomeText;
 
+	@FXML Button btnLogout;
+
     @FXML
     void getBtnPartialRestock(ActionEvent event) {
     	String nextScreenPath = "/gui/_EKConfigurationPartialRestockFrame.fxml";
@@ -52,7 +54,7 @@ public class _EKConfigurationLogisticsEmployeeController {
     	
     	// set all products in current machine to their max stock (This worker came with a SEMI!)
     	ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.UPDATE, new Object[]
-    			{"products_in_machine", "stock = max_stock, restock_flag=0", "machineID="+ClientController._EkCurrentMachineID}));
+    			{"products_in_machine", "stock = max_stock, restock_flag=0", "machineID="+ClientController.getEKCurrentMachineID()}));
     	/*if(!ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
     		throw new RuntimeException("error!");
     	}*/
@@ -64,5 +66,21 @@ public class _EKConfigurationLogisticsEmployeeController {
 		successMessage.show();
     	
     }
+
+	@FXML public void getBtnLogout(ActionEvent event) {
+    	// actually log him out
+    	ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.LOGOUT, ClientController.getCurrentSystemUser().getUsername()));
+    	// inform log
+    	System.out.println("EK Customer "+ ClientController.getCurrentSystemUser().getUsername()+" logged out!");
+		// load home area for service rep
+		// sammy D the current window
+		((Node)event.getSource()).getScene().getWindow().hide();
+		// prepare the new stage:
+		Stage primaryStage = new Stage();
+
+		WindowStarter.createWindow(primaryStage, this, "/gui/_EKConfigurationLoginFrame.fxml", null, "Login", false);
+		primaryStage.show();
+		
+	}
 
 }

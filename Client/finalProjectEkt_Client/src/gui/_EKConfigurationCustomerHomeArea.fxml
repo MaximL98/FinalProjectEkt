@@ -9,34 +9,34 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationCustomerHomeAreaController">
+<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationCustomerHomeAreaController">
    <children>
-      <Pane prefHeight="470.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO);">
+      <Pane prefHeight="470.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1000px, #a837b4, #DADF76);">
          <children>
-            <ImageView fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Images/TheBetterLogo.png" />
+                  <Image url="@Images/logo%20final%20-%20yellow.png" />
                </image>
             </ImageView>
-            <Text fx:id="txtWelcomeText" layoutX="207.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WELCOME NAME!" textAlignment="CENTER">
+            <Text fx:id="txtWelcomeText" fill="WHITE" layoutX="204.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WELCOME NAME!" textAlignment="CENTER">
                <font>
-                  <Font name="Berlin Sans FB" size="46.0" />
+                  <Font name="Arial Rounded MT Bold" size="46.0" />
                </font>
             </Text>
             <Button fx:id="btnMakeOrder" layoutX="52.0" layoutY="187.0" mnemonicParsing="false" onAction="#getBtnMakeOrder" prefHeight="198.0" prefWidth="315.0" stylesheets="@buttonCSS.css" text="START AN ORDER" textFill="WHITE">
                <font>
-                  <Font name="Berlin Sans FB" size="30.0" />
+                  <Font name="Arial Rounded MT Bold" size="26.0" />
                </font>
             </Button>
             <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="314.0" layoutY="408.0" prefHeight="34.0" prefWidth="144.0" text="test" textAlignment="CENTER" visible="false" />
             <Button fx:id="btnCollectOrder" layoutX="406.0" layoutY="187.0" mnemonicParsing="false" onAction="#getBtnCollectOrder" prefHeight="198.0" prefWidth="334.0" stylesheets="@buttonCSS.css" text="COLLECT ORDER" textFill="WHITE">
                <font>
-                  <Font name="Berlin Sans FB" size="30.0" />
+                  <Font name="Arial Rounded MT Bold" size="26.0" />
                </font>
             </Button>
-            <Button fx:id="btnLeave" layoutX="699.0" layoutY="18.0" mnemonicParsing="false" onAction="#getBtnLeave" prefHeight="41.0" prefWidth="81.0" stylesheets="@buttonCSS.css" text="LEAVE" textFill="WHITE">
+            <Button fx:id="btnLeave" layoutX="14.0" layoutY="413.0" mnemonicParsing="false" onAction="#getBtnLeave" prefHeight="43.0" prefWidth="101.0" style="-fx-background-radius: 222; -fx-border-radius: 222;" stylesheets="@buttonCSS.css" text="LOGOUT" textFill="WHITE">
                <font>
-                  <Font size="16.0" />
+                  <Font name="Arial Rounded MT Bold" size="16.0" />
                </font>
             </Button>
          </children>

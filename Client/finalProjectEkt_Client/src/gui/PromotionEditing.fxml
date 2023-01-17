@@ -11,71 +11,71 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PromotionEditingController">
+<Pane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1400px, #a837b4, transparent);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PromotionEditingController">
 	<children>
       <Pane prefHeight="120.0" prefWidth="800.0">
          <children>
-            <ImageView fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutY="-33.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Images/TheBetterLogo.png" />
+                  <Image url="@Images/logo%20final%20-%20yellow.png" />
                </image>
             </ImageView>
-            <Text layoutX="178.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back &quot;Sales Manager&quot;">
+            <Text fill="WHITE" layoutX="167.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back &quot;Sales Manager&quot;">
                <font>
-                  <Font name="Berlin Sans FB" size="36.0" />
+                  <Font name="Arial Rounded MT Bold" size="30.0" />
                </font>
             </Text>
          </children>
       </Pane>
-      <Text layoutX="50.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PROMOTION NAME">
+      <Text fill="WHITE" layoutX="50.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PROMOTION NAME">
          <font>
-            <Font name="Berlin Sans FB" size="20.0" />
+            <Font name="Arial Rounded MT Bold" size="19.0" />
          </font>
       </Text>
 				<TextField fx:id="txtPromotionName" layoutX="50.0" layoutY="225.0" prefHeight="50.0" prefWidth="300.0" stylesheets="@textfieldCSS.css" />
-      <Text layoutX="450.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PROMOTION DESCRIPTION">
+      <Text fill="WHITE" layoutX="450.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PROMOTION DESCRIPTION">
          <font>
-            <Font name="Berlin Sans FB" size="20.0" />
+            <Font name="Arial Rounded MT Bold" size="19.0" />
          </font>
       </Text>
 				<TextField fx:id="txtPromotionDescription" layoutX="450.0" layoutY="225.0" prefHeight="50.0" prefWidth="300.0" stylesheets="@textfieldCSS.css" />
-      <Text layoutX="53.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOCATION NAME">
+      <Text fill="WHITE" layoutX="53.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOCATION NAME">
          <font>
-            <Font name="Berlin Sans FB" size="20.0" />
+            <Font name="Arial Rounded MT Bold" size="19.0" />
          </font>
       </Text>
 				<ComboBox fx:id="cbLocation" layoutX="50.0" layoutY="345.0" prefHeight="50.0" prefWidth="300.0" promptText="Location" stylesheets="@comboboxCSS.css" />
 				<TextField fx:id="txtDiscountPercentage" layoutX="50.0" layoutY="457.0" prefHeight="50.0" prefWidth="300.0" stylesheets="@textfieldCSS.css" />
-      <Text layoutX="450.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="START DATE">
+      <Text fill="WHITE" layoutX="450.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="START DATE">
          <font>
-            <Font name="Berlin Sans FB" size="20.0" />
+            <Font name="Arial Rounded MT Bold" size="19.0" />
          </font>
       </Text>
 				<DatePicker fx:id="dpPromotionStartDate" layoutX="450.0" layoutY="344.0" prefHeight="50.0" prefWidth="300.0" promptText="Promotion start date" />
-      <Text layoutX="450.0" layoutY="452.0" strokeType="OUTSIDE" strokeWidth="0.0" text="END DATE">
+      <Text fill="WHITE" layoutX="450.0" layoutY="452.0" strokeType="OUTSIDE" strokeWidth="0.0" text="END DATE">
          <font>
-            <Font name="Berlin Sans FB" size="20.0" />
+            <Font name="Arial Rounded MT Bold" size="19.0" />
          </font>
       </Text>
 				<DatePicker fx:id="dpPromotionEndDate" layoutX="450.0" layoutY="456.0" prefHeight="50.0" prefWidth="300.0" promptText="Promotion end date" />
-				<Button fx:id="btnCreatePromotion" layoutX="291.0" layoutY="744.0" onAction="#createPromotionHandler" stylesheets="@buttonCSS.css" text="CREATE PROMOTION" textFill="WHITE">
+				<Button fx:id="btnCreatePromotion" layoutX="241.0" layoutY="560.0" onAction="#createPromotionHandler" style="-fx-background-radius: 300; -fx-border-radius: 300;" stylesheets="@buttonCSS.css" text="CREATE PROMOTION" textFill="WHITE">
          <font>
-            <Font name="Berlin Sans FB" size="20.0" />
+            <Font name="Arial Rounded MT Bold" size="26.0" />
          </font>
       </Button>
-				<Button fx:id="btnGoBack" layoutX="14.0" layoutY="744.0" onAction="#goBackHandler" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
+				<Button fx:id="btnGoBack" layoutX="14.0" layoutY="744.0" onAction="#goBackHandler" style="-fx-background-radius: 300; -fx-border-radius: 300;" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
          <font>
-            <Font name="Berlin Sans FB" size="20.0" />
+            <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Button>
-				<Label layoutX="223.0" layoutY="120.0" text="CREATE A NEW PROMOTION">
+				<Label layoutX="229.0" layoutY="120.0" text="CREATE A NEW PROMOTION" textFill="WHITE">
          <font>
-            <Font name="Berlin Sans FB" size="28.0" />
+            <Font name="Arial Rounded MT Bold" size="24.0" />
          </font>
       </Label>
-      <Text layoutX="53.0" layoutY="453.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DISCOUNT PERCENTAGE">
+      <Text fill="WHITE" layoutX="53.0" layoutY="453.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DISCOUNT PERCENTAGE">
          <font>
-            <Font name="Berlin Sans FB" size="20.0" />
+            <Font name="Arial Rounded MT Bold" size="19.0" />
          </font>
       </Text>
       <Text fx:id="txtDiscountError" fill="RED" layoutX="80.0" layoutY="528.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PLEASE PROVIDE A VALUE OF 0-100" visible="false">

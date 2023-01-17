@@ -54,7 +54,7 @@ public class _EKConfigurationCustomerHomeAreaController {
     			new Object[] {"orders JOIN customer_orders on orders.orderID=customer_orders.orderId", 
     					true, "orders.orderID", 
     					true, "customerId="+ClientController.getCurrentSystemUser().getId()+
-    					" AND orders.statusId=1 AND orders.typeId=1 AND orders.machineID="+ClientController._EkCurrentMachineID, false, null}));
+    					" AND orders.statusId=1 AND orders.typeId=1 AND orders.machineID="+ClientController.getEKCurrentMachineID(), false, null}));
     	@SuppressWarnings("unchecked")
 		ArrayList<ArrayList<Object>> res = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
 
@@ -67,7 +67,7 @@ public class _EKConfigurationCustomerHomeAreaController {
             alert.setContentText("Click to return to main menu");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-            	System.out.println("User has no active orders for machine "+ ClientController._EkCurrentMachineID);
+            	System.out.println("User has no active orders for machine "+ ClientController.getEKCurrentMachineID());
             }
         	return;
 

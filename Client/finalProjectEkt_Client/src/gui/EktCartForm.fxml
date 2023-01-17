@@ -12,23 +12,23 @@
 
 <AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktCartFormController">
    <children>
-      <BorderPane fx:id="borderPane" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);">
+      <BorderPane fx:id="borderPane" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1800px, #a837b4, transparent);">
          <top>
             <Pane prefHeight="120.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                <children>
-                  <ImageView fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="200.0" fitWidth="200.0" layoutY="-39.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@Images/TheBetterLogo.png" />
+                        <Image url="@Images/logo%20final%20-%20yellow.png" />
                      </image>
                   </ImageView>
-                  <Text layoutX="307.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="YOUR CART">
+                  <Text fill="WHITE" layoutX="293.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="YOUR CART">
                      <font>
-                        <Font name="Berlin Sans FB" size="36.0" />
+                        <Font name="Arial Rounded MT Bold" size="36.0" />
                      </font>
                   </Text>
-                  <Button fx:id="btnCancelOrder" layoutX="638.0" layoutY="41.0" mnemonicParsing="false" onAction="#getBtnCancelOrder" prefHeight="20.0" prefWidth="148.0" style="-fx-background-color: #f28484; -fx-border-color: crimson; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-width: 2;" text="CANCEL ORDER">
+                  <Button fx:id="btnCancelOrder" layoutX="599.0" layoutY="40.0" mnemonicParsing="false" onAction="#getBtnCancelOrder" prefHeight="40.0" prefWidth="187.0" style="-fx-background-color: red; -fx-border-color: white; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-width: 3;" text="CANCEL ORDER" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="16.0" />
+                        <Font name="Arial Rounded MT Bold" size="16.0" />
                      </font>
                   </Button>
                </children>
@@ -37,25 +37,25 @@
          <bottom>
             <Pane fx:id="btmPane" prefHeight="118.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="btnBack" layoutX="14.0" layoutY="62.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="45.0" prefWidth="210.0" stylesheets="@buttonCSS.css" text="BACK TO SHOPPING" textFill="WHITE">
+                  <Button fx:id="btnBack" layoutX="14.0" layoutY="62.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="45.0" prefWidth="210.0" style="-fx-background-radius: 300; -fx-border-radius: 300;" stylesheets="@buttonCSS.css" text="BACK TO SHOPPING" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font name="Arial Rounded MT Bold" size="16.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnOrder" layoutX="601.0" layoutY="62.0" mnemonicParsing="false" onAction="#getBtnOrder" prefHeight="45.0" prefWidth="185.0" style="-fx-background-color: #b6e194; -fx-background-radius: 0; -fx-border-color: green; -fx-border-radius: 0; -fx-border-width: 3;" text="ORDER">
+                  <Button fx:id="btnOrder" layoutX="601.0" layoutY="62.0" mnemonicParsing="false" onAction="#getBtnOrder" prefHeight="45.0" prefWidth="185.0" style="-fx-background-color: green; -fx-background-radius: 0; -fx-border-color: white; -fx-border-radius: 0; -fx-border-width: 3;" text="ORDER" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font name="Arial Rounded MT Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Text fx:id="txtTotalPrice" layoutX="300.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CART TOTAL: 0$" y="25.0">
+                  <Text fx:id="txtTotalPrice" fill="WHITE" layoutX="294.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CART TOTAL: 0$" y="25.0">
                      <font>
-                        <Font name="System Bold" size="26.0" />
+                        <Font name="Arial Rounded MT Bold" size="26.0" />
                      </font>
                   </Text>
                   <ChoiceBox fx:id="choiceBox" layoutX="340.0" layoutY="6.0" prefHeight="46.0" prefWidth="150.0" stylesheets="@choiceboxCSS.css" />
-                  <Text fx:id="txtTotalPrice1" layoutX="17.0" layoutY="7.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PLEASE SELECT AN ORDER TYPE:" y="25.0">
+                  <Text fx:id="txtTotalPrice1" fill="WHITE" layoutX="17.0" layoutY="7.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PLEASE SELECT AN ORDER TYPE:" y="25.0">
                      <font>
-                        <Font name="System Bold" size="20.0" />
+                        <Font name="Arial Rounded MT Bold" size="18.0" />
                      </font>
                   </Text>
                </children>

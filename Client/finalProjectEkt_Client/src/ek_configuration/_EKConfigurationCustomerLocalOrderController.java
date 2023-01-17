@@ -3,6 +3,7 @@ package ek_configuration;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
+import entityControllers.OrderController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -113,102 +114,61 @@ public class _EKConfigurationCustomerLocalOrderController implements Serializabl
 	// Category 1
 	@FXML
 	private void getBtnCatalog0_0(ActionEvent event) {
-		Stage primaryStage = new Stage();
-		// category.text"Healthy";
-		ClientController.CurrentProductCategory.add(0, "HEALTHY");
-		// ClientController.CurrentProductCategory = changeSt;
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
-				"Healthy", true);
-
-		primaryStage.show();
-		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+		loadCategoryPage(event,"HEALTHY");
 	}
 
 	// Category 2
 	@FXML
 	private void getBtnCatalog0_1(ActionEvent event) {
-		Stage primaryStage = new Stage();
-		String category = "SOFT DRINKS";
-		ClientController.CurrentProductCategory.add(0, category);
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
-				category, true);
-		primaryStage.show();
-		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+		loadCategoryPage(event, "SOFT DRINKS");
 	}
 
 	// Category 3
 	@FXML
 	private void getBtnCatalog0_2(ActionEvent event) {
-		Stage primaryStage = new Stage();
-		String category = "FRUITS";
-		ClientController.CurrentProductCategory.add(0, category);
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
-				category, true);
-		primaryStage.show();
-		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+		loadCategoryPage(event, "FRUITS");
 	}
 
 	// Category 4
 	@FXML
 	private void getBtnCatalog0_3(ActionEvent event) {
-		Stage primaryStage = new Stage();
-		String category = "VEGETABLES";
-		ClientController.CurrentProductCategory.add(0, category);
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
-				category, true);
-		primaryStage.show();
-		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+		loadCategoryPage(event, "VEGETABLES");
 	}
 
 	// Category 5
 	@FXML
 	private void getBtnCatalog1_0(ActionEvent event) {
-		Stage primaryStage = new Stage();
-		String category = "SNACKS";
-		ClientController.CurrentProductCategory.add(0, category);
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
-				category, true);
-		primaryStage.show();
-		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+		loadCategoryPage(event, "SNACKS");
 	}
 
 	// Category 6
 	@FXML
 	private void getBtnCatalog1_1(ActionEvent event) {
-		Stage primaryStage = new Stage();
-		String category = "SANDWICHES";
-		ClientController.CurrentProductCategory.add(0, category);
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
-				category, true);
-		primaryStage.show();
-		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+		loadCategoryPage(event, "SANDWICHES");
 	}
 
 	// Category 7
 	@FXML
 	private void getBtnCatalog1_2(ActionEvent event) {
-		Stage primaryStage = new Stage();
-		String category = "CHEWING GUM";
-		ClientController.CurrentProductCategory.add(0, category);
-		System.out.println(ClientController.getCurrentSystemUser().getFirstName());
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
-				category, true);
-		primaryStage.show();
-		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+		loadCategoryPage(event, "CHEWING GUM");
 	}
 
 	// Category 8
 	@FXML
 	private void getBtnCatalog1_3(ActionEvent event) {
+		loadCategoryPage(event, "DAIRY");
+	}
+
+	private void loadCategoryPage(ActionEvent event, String category) {
 		Stage primaryStage = new Stage();
-		String category = "DAIRY";
-		ClientController.CurrentProductCategory.add(0, category);
+		OrderController.getCurrentProductCategory().add(0, category);
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
 				category, true);
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
 
+	
 	@FXML
 	void getBtnLogout(ActionEvent event) {
 		// actually log the user out
@@ -227,7 +187,7 @@ public class _EKConfigurationCustomerLocalOrderController implements Serializabl
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		Stage primaryStage = new Stage();
 		String category = "ALL ITEMS";
-		ClientController.CurrentProductCategory.add(0, category);
+		OrderController.getCurrentProductCategory().add(0, category);
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
 				category, true);
 		primaryStage.show();

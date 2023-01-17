@@ -4,7 +4,7 @@
     -fx-border-width: 1 1 5 1;   
     -fx-background-color: FFB6C1;
     -fx-pref-height: 35px;  
-    -fx-pref-width: 35px;
+    -fx-pref-width: 15px;
     -fx-background-insets: 0;
 }
 
@@ -34,7 +34,7 @@
 
 
 .tab-pane > .tab-header-area > .tab-header-background {
-    -fx-background-color:  linear-gradient(from 0px 0px to 0px 1500px, #CBC3E3, black);
+    -fx-background-color:   linear-gradient(from -200px 0px to 0px 1400px, #a837b4, transparent);
     -fx-border-color: #a3a7a8;
     -fx-border-width: 0 0 1 0;
     -fx-background-insets: 0;
@@ -42,5 +42,5 @@
 }
 
 .tab-pane {
-	-fx-background-color: linear-gradient(from 0px 0px to 0px 1500px, #e6e6fa, #4b0082);
+	-fx-background-color:  linear-gradient(from -200px 0px to 0px 1400px, #a837b4, transparent);
 }

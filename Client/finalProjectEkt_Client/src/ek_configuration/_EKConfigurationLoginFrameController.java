@@ -48,6 +48,8 @@ public class _EKConfigurationLoginFrameController {
     @FXML
     private void initialize() {
     	ClientController.resetVars();
+		ClientController.setCustomerIsSubsriber(false);
+
 		if(ClientController.isFastRecognitionToggle()) {
 			// set fast recognition
 			lblFastRecognition.setText("Using fast-recognition");
@@ -73,18 +75,21 @@ public class _EKConfigurationLoginFrameController {
     	userName = txtUsername.getText();
     	password = pwdField.getText();
     	if(ClientController.isFastRecognitionToggle()) {
+    		ClientController.setFastRecognitionToggle(false); // maybe baby
     		userName=ClientController.getFastRecognitionUserName();
     		password=ClientController.getFastRecognitionPassword();
     	}
     	System.out.println(userName + " " + password);
     	    	
-    	
+		ClientController.setCustomerIsSubsriber(false);
+
     	SCCP preparedMessage = new SCCP();
     	preparedMessage.setRequestType(ServerClientRequestTypes.EK_LOGIN);
     	preparedMessage.setMessageSent(new String[] {userName, password});
     	// request the login:
 		// send to server
     	System.out.println("Client: Sending login request to server as " + userName+".");
+    	ClientController.setCustomerIsSubsriber(false);
 		ClientUI.clientController.accept(preparedMessage);
 		// check client-side object for answer:
 		// if login succeeded:
@@ -113,7 +118,8 @@ public class _EKConfigurationLoginFrameController {
 				nextScreenPath = "/gui/_EKConfigurationCustomerHomeArea.fxml";
 				nextPathTitle = "Customer Home Frame";
 				break;
-			case LOGISTICS_EMPLOYEE:
+
+			case INVENTORY_WORKER:
 				nextScreenPath = "/gui/_EKConfigurationLogisticsEmployeeFrame.fxml";
 				nextPathTitle = "Logistics Employee Frame";
 				break;
@@ -135,6 +141,10 @@ public class _EKConfigurationLoginFrameController {
 			default:
 				statusLabel.setText("EK Configuration only supports customers and machine maintenance employees.");
 				statusLabel.setVisible(true);
+				if(ClientController.getCurrentSystemUser() != null) {
+					// log him out:
+					ClientController.sendLogoutRequest();
+				}
 				return;
 				
 			}

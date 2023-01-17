@@ -46,7 +46,7 @@ public class WindowStarter {
 			Scene scene = new Scene(root);
 			if(cssAddress != null)
 				scene.getStylesheets().add(classObject.getClass().getResource(cssAddress).toExternalForm());
-			Image image = new Image("/gui/Images/ekrut.png");
+			Image image = new Image("controllers/Images/ekrut.png");
 			primaryStage.getIcons().add(image);
 			
 			primaryStage.setTitle(windowTitle);
@@ -75,7 +75,7 @@ public class WindowStarter {
 				    new TimerTask() {
 				        @Override
 				        public void run() {
-				        	if(ClientController._EkCurrentMachineID != 0 && ClientController.getCurrentSystemUser() != null &&
+				        	if(ClientController.getEKCurrentMachineID() != 0 && ClientController.getCurrentSystemUser() != null &&
 				        			ClientController.getCurrentSystemUser().getUsername() != null)
 				        		{	
 				        			Long currentCreatedNewWindow = currentWindowCount;

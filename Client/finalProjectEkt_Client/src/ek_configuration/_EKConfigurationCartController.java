@@ -2,33 +2,24 @@ package ek_configuration;
 
 import java.io.ByteArrayInputStream;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import client.ClientController;
-import client.ClientUI;
-import common.SCCP;
-import common.ServerClientRequestTypes;
 import common.WindowStarter;
 import controllers.EktProductFormController;
+import entityControllers.OrderController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -36,7 +27,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -74,7 +64,7 @@ public class _EKConfigurationCartController {
 	
 	private void calculatePriceToAdd(Double costPerUnit, Integer quantityNum, Product product) {
 		
-		quantityNum = ClientController.currentUserCart.get(product.getProductID());
+		quantityNum = OrderController.getCurrentUserCart().get(product.getProductID());
 		costPerUnit = Double.valueOf(product.getCostPerUnit());
 		priceToAdd = quantityNum * costPerUnit;
 
@@ -82,9 +72,9 @@ public class _EKConfigurationCartController {
 	
 	private void calculateTotalPrice() {
 		totalPrice = 0.0;
-		for (Product product: ClientController.cartPrice.keySet()) {
+		for (Product product: OrderController.getCartPrice().keySet()) {
 			System.out.println("Adding the price of " + product.getProductName()+ "in");
-			totalPrice += ClientController.cartPrice.get(product);
+			totalPrice += OrderController.getCartPrice().get(product);
 		}
 		if(totalPrice == 0.0) {
 			emptyCart = true;
@@ -95,8 +85,8 @@ public class _EKConfigurationCartController {
 	
 	@FXML
 	public void initialize() {
-		ClientController.orderType = "";
-		ClientController.pickupPlace = "";
+		OrderController.setOrderType("");
+		OrderController.setPickupPlace("");
 		
 		vboxCart = new VBox();
 		gridpaneIntoVbox  = new GridPane();
@@ -117,14 +107,14 @@ public class _EKConfigurationCartController {
 		gridpaneIntoVbox.setPrefSize(800 - 10, 550);
 		gridpaneIntoVbox.setHgap(5);;
 		gridpaneIntoVbox.setVgap(5);;
-		ClientController.orderType = "Local";
+		OrderController.setOrderType("Local");
 		
 		
 		int i = 0, j = 0;
-		for (superProduct product: ClientController.getProductByID.values()) {
+		for (superProduct product: OrderController.getGetProductByID().values()) {
 			String currentProductID = product.getProductID();
-			calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(currentProductID), product);
-			ClientController.cartPrice.put(product,priceToAdd);
+			calculatePriceToAdd(costPerUnit, OrderController.getCurrentUserCart().get(currentProductID), product);
+			OrderController.getCartPrice().put(product,priceToAdd);
 			calculateTotalPrice();
 			txtTotalPrice.setText("Cart Total: " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 			txtTotalPrice.setLayoutX(400 - txtTotalPrice.minWidth(0)/2);
@@ -166,11 +156,12 @@ public class _EKConfigurationCartController {
 					
 			
 			Text productName = new Text(product.getProductName());
-			Text quantityLabel = new Text("Quantity: " + ClientController.currentUserCart.get(currentProductID));
+			Text quantityLabel = new Text("Quantity: " + OrderController.getCurrentUserCart().get(currentProductID));
 			
-			productName.setStyle("-fx-font: 18 System; -fx-font-weight: bold;");
+			productName.setStyle("-fx-font: 18 System; -fx-font-weight: bold; -fx-text-fill:  #DADF76");
 			productName.setFont(new Font(18));
 			quantityLabel.setFont(new Font(18));
+			quantityLabel.setStyle("-fx-text-fill: #DADF76");
 			
 			Button removeButton = new Button();
 			Button addButton = new Button();
@@ -219,11 +210,12 @@ public class _EKConfigurationCartController {
 			
 			
 			removeButton.setOnAction(action -> {
-				
+				System.out.println(currentProductID);
+				System.out.println(_EKConfigurationProductController.productsInStockMap.get(currentProductID));
 				// ROTEM ADDED URGENT 1.16:
 				_EKConfigurationProductController.productsInStockMap.put(currentProductID, 
 						_EKConfigurationProductController.productsInStockMap.get(currentProductID)
-						+ ClientController.currentUserCart.get(currentProductID));
+						+ OrderController.getCurrentUserCart().get(currentProductID));
 				
 				
 				System.out.println("item" + product.getProductName() + " was removed");
@@ -235,10 +227,10 @@ public class _EKConfigurationCartController {
 				gridpaneIntoVbox.getChildren().remove(productImageView);
 
 				//removeProduct = true;
-				_EKConfigurationProductController.itemsInCart -= ClientController.currentUserCart.get(currentProductID);
-				ClientController.currentUserCart.put(currentProductID, 0);
-				calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(currentProductID), product);
-				ClientController.cartPrice.put(product, 0.0);
+				_EKConfigurationProductController.itemsInCart -= OrderController.getCurrentUserCart().get(currentProductID);
+				OrderController.getCurrentUserCart().put(currentProductID, 0);
+				calculatePriceToAdd(costPerUnit, OrderController.getCurrentUserCart().get(currentProductID), product);
+				OrderController.getCartPrice().put(product, 0.0);
 				calculateTotalPrice();
 				txtTotalPrice.setText("Cart Total: " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 				txtTotalPrice.setLayoutX(400 - txtTotalPrice.minWidth(0)/2);
@@ -246,9 +238,9 @@ public class _EKConfigurationCartController {
 
 				//Max 7/1
 				if(_EKConfigurationProductController.itemsInCart == 0){
-					ClientController.currentUserCart.keySet().clear();
-					ClientController.getProductByID.keySet().clear();
-					ClientController.cartPrice.keySet().clear();
+					OrderController.getCurrentUserCart().keySet().clear();
+					OrderController.getGetProductByID().keySet().clear();
+					OrderController.getCartPrice().keySet().clear();
 				}
 
 			});
@@ -256,10 +248,10 @@ public class _EKConfigurationCartController {
 
 			addButton.setOnAction(action -> {
 				_EKConfigurationProductController.itemsInCart++;
-				ClientController.currentUserCart.put(currentProductID, ClientController.currentUserCart.get(currentProductID) + 1);
-				quantityLabel.setText("Quantity: " + (ClientController.currentUserCart.get(currentProductID).toString()));
-				calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(currentProductID), product);
-				ClientController.cartPrice.put(product, priceToAdd);
+				OrderController.getCurrentUserCart().put(currentProductID, OrderController.getCurrentUserCart().get(currentProductID) + 1);
+				quantityLabel.setText("Quantity: " + (OrderController.getCurrentUserCart().get(currentProductID).toString()));
+				calculatePriceToAdd(costPerUnit, OrderController.getCurrentUserCart().get(currentProductID), product);
+				OrderController.getCartPrice().put(product, priceToAdd);
 				calculateTotalPrice();
 				txtTotalPrice.setText("Cart Total: " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 				txtTotalPrice.setLayoutX(400 - txtTotalPrice.minWidth(0)/2);
@@ -280,14 +272,14 @@ public class _EKConfigurationCartController {
 				
 				
 				_EKConfigurationProductController.itemsInCart--;
-				ClientController.currentUserCart.put(currentProductID, ClientController.currentUserCart.get(currentProductID) - 1);
-				quantityLabel.setText("Quantity: " + (ClientController.currentUserCart.get(currentProductID).toString()));
-				calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(currentProductID), product);
-				ClientController.cartPrice.put(product, priceToAdd);
+				OrderController.getCurrentUserCart().put(currentProductID, OrderController.getCurrentUserCart().get(currentProductID) - 1);
+				quantityLabel.setText("Quantity: " + (OrderController.getCurrentUserCart().get(currentProductID).toString()));
+				calculatePriceToAdd(costPerUnit, OrderController.getCurrentUserCart().get(currentProductID), product);
+				OrderController.getCartPrice().put(product, priceToAdd);
 				calculateTotalPrice();
 				txtTotalPrice.setText("Cart Total: " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 				txtTotalPrice.setLayoutX(400 - txtTotalPrice.minWidth(0)/2);
-				if (ClientController.currentUserCart.get(currentProductID) < 1) {
+				if (OrderController.getCurrentUserCart().get(currentProductID) < 1) {
 					System.out.println("item" + product.getProductName() + " was removed");
 					gridpaneIntoVbox.getChildren().remove(productName);
 					gridpaneIntoVbox.getChildren().remove(quantityLabel);
@@ -298,21 +290,21 @@ public class _EKConfigurationCartController {
 				}
 				//Max 7/1
 				if(_EKConfigurationProductController.itemsInCart == 0){
-					ClientController.currentUserCart.keySet().clear();
-					ClientController.getProductByID.keySet().clear();
-					ClientController.cartPrice.keySet().clear();
+					OrderController.getCurrentUserCart().keySet().clear();
+					OrderController.getGetProductByID().keySet().clear();
+					OrderController.getCartPrice().keySet().clear();
 				}
 
 			});
 			
 
-			if(!ClientController.currentUserCart.get(currentProductID).equals(0)) {
-				ClientController.arrayOfAddedProductsToGridpane.add(product);
+			if(!OrderController.getCurrentUserCart().get(currentProductID).equals(0)) {
+				OrderController.getArrayOfAddedProductsToGridpane().add(product);
 				emptyCart = false;
 			}
 			
-			if(ClientController.currentUserCart.get(currentProductID).equals(0)) {
-				ClientController.cartPrice.put(product, 0.0);
+			if(OrderController.getCurrentUserCart().get(currentProductID).equals(0)) {
+				OrderController.getCartPrice().put(product, 0.0);
 				emptyCart = true;
 				gridpaneIntoVbox.getChildren().remove(productName);
 				gridpaneIntoVbox.getChildren().remove(quantityLabel);
@@ -325,14 +317,15 @@ public class _EKConfigurationCartController {
 			//Implement amount of items
 		}
 
-		ClientController.orderTotalPrice = totalPrice;
-		System.out.println("total price = " + ClientController.orderTotalPrice);
+		OrderController.setOrderTotalPrice(totalPrice);
+		System.out.println("total price = " + OrderController.getOrderTotalPrice());
 		vboxCart.getChildren().add(gridpaneIntoVbox);
 		ScrollPane scrollPane = new ScrollPane(vboxCart);
 		
 		scrollPane.prefHeight(600);
 		scrollPane.prefWidth(800);
-		scrollPane.setStyle("-fx-background:  linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO); -fx-border-color: transparent;"
+		scrollPane.getStylesheets().add("controllers/textCss.css");
+		scrollPane.setStyle("-fx-background:   linear-gradient(from 0px 0px to 0px 1000px, #a837b4, #DADF76); -fx-border-color: transparent;"
 				+ "-fx-background-color: transparent;");
 		
 		borderPane.setCenter(scrollPane);
@@ -343,7 +336,9 @@ public class _EKConfigurationCartController {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
 		//category is located in a ArrayList
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/_EKConfigurationProductForm.fxml", null, ClientController.CurrentProductCategory.get(0), true);
+		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), 
+				"/gui/_EKConfigurationProductForm.fxml", null, 
+				OrderController.getCurrentProductCategory().get(0), true);
 		vboxCart.getChildren().clear();
 		primaryStage.show();
 		
@@ -371,11 +366,11 @@ public class _EKConfigurationCartController {
 			Stage primaryStage = new Stage();
 			//category is located in a ArrayList
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/_EKConfigurationCustomerLocalOrderFrame.fxml.fxml", null, 
-					ClientController.CurrentProductCategory.get(0), true);
+					OrderController.getCurrentProductCategory().get(0), true);
 
-			ClientController.currentUserCart.keySet().clear();
-			ClientController.getProductByID.keySet().clear();
-			ClientController.cartPrice.keySet().clear();
+			OrderController.getCurrentUserCart().keySet().clear();
+			OrderController.getGetProductByID().keySet().clear();
+			OrderController.getCartPrice().keySet().clear();
 			primaryStage.show();
 			//////////////////////
 			((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
@@ -406,9 +401,9 @@ public class _EKConfigurationCartController {
     			Stage primaryStage = new Stage();
     			//category is located in a ArrayList
     			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/_EKConfigurationProductForm.fxml", null, 
-    					ClientController.CurrentProductCategory.get(0), true);
+    					OrderController.getCurrentProductCategory().get(0), true);
     	
-    			ClientController.currentUserCart.keySet().clear();
+    			OrderController.getCurrentUserCart().keySet().clear();
     			
     			primaryStage.show();
     			//////////////////////
@@ -423,7 +418,7 @@ public class _EKConfigurationCartController {
 			//category is located in a ArrayList
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/_EKConfigurationOrderSummary.fxml", null, "Order Summary", true);
 			vboxCart.getChildren().clear();
-			ClientController.deliveryAddress = tf.getText();
+			OrderController.setDeliveryAddress(tf.getText());
 			primaryStage.show();
 		}
 

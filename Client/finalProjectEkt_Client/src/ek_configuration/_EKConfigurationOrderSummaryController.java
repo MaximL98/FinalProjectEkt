@@ -12,6 +12,7 @@ import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
+import entityControllers.OrderController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -70,8 +71,9 @@ public class _EKConfigurationOrderSummaryController {
 
 		centerScrollBar.setPrefHeight(600);
 		centerScrollBar.setPrefWidth(800);
+		centerScrollBar.getStylesheets().add("controllers/testCss.css");
 		centerScrollBar.setStyle(
-				"-fx-background-color: transparent; -fx-background:  linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO);");
+				"-fx-background-color: transparent; -fx-background-color:  linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO);");
 		gridPane = new GridPane();
 
 		Double totalPrice = 0.0;
@@ -92,22 +94,22 @@ public class _EKConfigurationOrderSummaryController {
 		LocalDateTime tomorrow = now.plusDays(1);
 		tomorrow = tomorrow.plusHours(1);
 		
-		ClientController.orderDateReceived = dtf.format(now);
-		ClientController.orderDeliveryTime = dtf.format(tomorrow);
+		OrderController.setOrderDateReceived(dtf.format(now));
+		OrderController.setOrderDeliveryTime(dtf.format(tomorrow));
 		
-		OrderInformation.add(ClientController.orderDateReceived);
-		OrderInformation.add(ClientController.orderNumber.toString());
+		OrderInformation.add(OrderController.getOrderDateReceived());
+		OrderInformation.add(OrderController.getOrderNumber().toString());
 		OrderInformation.add("Items in order:");
 		
 		int i = 0, j = 0;
-		for (superProduct product : ClientController.getProductByID.values()) {
+		for (superProduct product : OrderController.getGetProductByID().values()) {
 			
-			if (!(ClientController.cartPrice.get(product) == 0.0)) {
+			if (!(OrderController.getCartPrice().get(product) == 0.0)) {
 				String currentProductID = product.getProductID();
 				Text productName = new Text("" + product.getProductName());
-				productName.setStyle("-fx-font: 20 System; -fx-font-weight: bold;");
+				productName.setStyle("-fx-font: 20 System; -fx-font-weight: bold; -fx-text-fill: white;" );
 
-				Integer quantityNum = ClientController.currentUserCart.get(currentProductID);
+				Integer quantityNum = OrderController.getCurrentUserCart().get(currentProductID);
 				totalQuantity += quantityNum;
 				Text quantity = new Text("Quantity: " + (quantityNum).toString());
 				Double costPerUnit = Double.valueOf(product.getCostPerUnit());
@@ -159,11 +161,11 @@ public class _EKConfigurationOrderSummaryController {
 		}
 		txtOrderTotal.setText("ORDER TOTAL: " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 		txtOrderTotal.setLayoutX(400 - txtOrderTotal.minWidth(0) / 2);
-		ClientController.orderTotalPrice = totalPrice;
+		OrderController.setOrderTotalPrice(totalPrice);
 		OrderInformation.add("\nAt a total price of " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 		//Max 7/1: Add to user order hash map the items in the order!
-		ClientController.userOrders.put(ClientController.orderNumber, OrderInformation);
-		ClientController.orderTotalQuantity = totalQuantity;
+		OrderController.getUserOrders().put(OrderController.getOrderNumber(), OrderInformation);
+		OrderController.setOrderTotalQuantity(totalQuantity);
 		
 		productsVbox.getChildren().add(gridPane);
 		borderPane.setCenter(centerScrollBar);
@@ -209,12 +211,12 @@ public class _EKConfigurationOrderSummaryController {
 
 			//category is located in a ArrayList
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/_EKConfigurationCustomerLocalOrderFrame.fxml", null, 
-					ClientController.CurrentProductCategory.get(0), true);
+					OrderController.getCurrentProductCategory().get(0), true);
 	
 			_EKConfigurationProductController.itemsInCart = 0;
-			ClientController.getProductByID.keySet().clear();
-			ClientController.cartPrice.keySet().clear();
-			ClientController.currentUserCart.keySet().clear();;
+			OrderController.getGetProductByID().keySet().clear();
+			OrderController.getCartPrice().keySet().clear();
+			OrderController.getCurrentUserCart().keySet().clear();;
 			primaryStage.show();
 			//////////////////////
 			((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // hiding primary window

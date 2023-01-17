@@ -9,7 +9,6 @@ import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -18,16 +17,26 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logic.Role;
 import logic.SystemUser;
-import javafx.scene.control.TableView;
 import javafx.scene.control.ComboBox;
+/**
 
+
+The AddUserToDbController class is responsible for controlling the behavior and actions of the UI elements
+
+related to adding a user to the database.
+
+@author [maxsim]
+
+@version [1.0]
+
+@since [12.12.22]
+*/
 public class AddUserToDbController {
 
     @FXML
@@ -88,7 +97,10 @@ public class AddUserToDbController {
 
 	@FXML ComboBox<Role> cmbRole;
     
+	/**
 
+	This method is called when the FXML file is loaded. It initializes the values of the role ComboBox.
+	*/ 
 	@FXML
 	private void initialize() {
 		Role[] roles = new Role[] {Role.CEO, Role.CUSTOMER, Role.DELIVERY_WORKER, Role.DIVISION_MANAGER, Role.INVENTORY_WORKER, 
@@ -99,7 +111,11 @@ public class AddUserToDbController {
 		cmbRole.setValue(Role.UNAPPROVED_CUSTOMER);
 		
 	}
-	
+	/**
+	 * This method is called when the Add User button is clicked. It checks the input fields for validity and adds the user to the database.
+	 *
+	 * @param event The ActionEvent object representing the button click event.
+	 */
 	@FXML
     void getAddUserToDB(ActionEvent event) {
     	Integer id;
@@ -187,8 +203,15 @@ public class AddUserToDbController {
     		lblStatus.setText("Status: Invalid input");
     	}
     }
+	/**
+
+	This method is responsible for validating the input fields of the user.
+	It checks that the user has entered a valid ID, username, password, first name, last name, email, credit card, phone number and role.
+	If any of the fields are not valid, it will display an error message and return false.
+	If all fields are valid it will return true.
+	@return true if all fields are valid, false otherwise
+	*/
 	
-	// lblId, lblUsername, lblName, lblEmail, lblCreditCard, lblPhone
 		private boolean validFieldInput() {
 			boolean flag = true;
 			// I forgot to check ID
@@ -217,26 +240,21 @@ public class AddUserToDbController {
 				lblCreditCard.setText("Credit card must be numeric and non empty");
 				flag = false;
 			}
-			// proper check (for valid companies)
-			/*if(!(txtCreditCard.getText().matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])"
-					+ "[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$")))
-				return false;*/
-			
+		
 			// check phone is a number (currently not letters)
 			if(!(txtPhoneNumber.getText().matches("^[0-9.-]+$"))) {
 				lblPhone.setText("Phone number must be numeric and non empty");
 				flag = false;
 			}
-			/*try {
-				Role.valueOf(txtRole.getText());
-			}catch(Exception ex) {
-				lblRole.setText("Role must be a valid role");
-				flag = false;
-			}*/
+			
 			
 			return flag;
 		}	
-
+		/**
+		* This method is called when the Back button is clicked. It closes the current window and returns to the previous window.
+		*
+		* @param event The ActionEvent object representing the button click event.
+		*/
 	@FXML
 	public void getBtnBack(ActionEvent event) {
 		// 
@@ -246,9 +264,20 @@ public class AddUserToDbController {
 		primaryStage.show();
 		((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
 	}
-
+	/**
+	 * Handles the event when the user selects a role from the role combobox.
+	 * 
+	 * @param event the action event that triggered the method call
+	 */
 	@FXML public void getCmbRole(ActionEvent event) {}
-	
+
+/**
+ * This method checks if the selected user role has a balance or not.
+ * It returns true if the selected role is subscriber, unapproved subscriber, unapproved customer, or customer.
+ * Otherwise, it returns false.
+ *
+ * @return true if the user role has a balance, false otherwise
+ */
 	private boolean haveBalance() {
 		if(cmbRole.getValue() == Role.SUBSCRIBER ||
 				cmbRole.getValue() == Role.UNAPPROVED_SUBSCRIBER ||

@@ -240,7 +240,7 @@ public class ClientLoginController {
 	@FXML public void chooseMachine(ActionEvent event) {
 		System.out.println("Chose machine " + cmbMachines.getValue());
 		
-		ClientController._EkCurrentMachineName = cmbMachines.getValue();
+		ClientController.setEKCurrentMachineName(cmbMachines.getValue());
 	}
 	/**
 	 * This method gets the finish configuration for easy recognition.
@@ -253,20 +253,20 @@ public class ClientLoginController {
 	 */
 	@FXML public void getFinishEkConfig(ActionEvent event) {
 		// check that the chosen machine is valid:
-		if(ClientController._EkCurrentMachineName == null || !machines.contains(ClientController._EkCurrentMachineName)) {
+		if(ClientController.getEKCurrentMachineName() == null || !machines.contains(ClientController.getEKCurrentMachineName())) {
 			System.out.println("Invalid machine choice - please select an existing machine!");
 			return;
 		}
 		// send query to get the machine ID (yeah yeah):
 		SCCP msg = new SCCP(ServerClientRequestTypes.SELECT, 
-				new Object[]{"machine", true, "machineId", true, "machineName = '" +ClientController._EkCurrentMachineName+ "'", false, null});
+				new Object[]{"machine", true, "machineId", true, "machineName = '" +ClientController.getEKCurrentMachineName()+ "'", false, null});
 		ClientUI.clientController.accept(msg);
 		if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
 			@SuppressWarnings("unchecked")
 			ArrayList<ArrayList<Object>> tmp= (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
 			System.out.println(tmp);
-			ClientController._EkCurrentMachineID = (Integer.valueOf(tmp.get(0).get(0).toString()));
-			System.out.println("Machine ID set to " + ClientController._EkCurrentMachineID);
+			ClientController.setEKCurrentMachineID((Integer.valueOf(tmp.get(0).get(0).toString())));
+			System.out.println("Machine ID set to " + ClientController.getEKCurrentMachineID());
 		}
 		else {
 			throw new RuntimeException("Error getting machine ID from database");

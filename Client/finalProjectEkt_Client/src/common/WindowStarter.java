@@ -75,7 +75,7 @@ public class WindowStarter {
 				    new TimerTask() {
 				        @Override
 				        public void run() {
-				        	if(ClientController._EkCurrentMachineID != 0 && ClientController.getCurrentSystemUser() != null &&
+				        	if(ClientController.getEKCurrentMachineID() != 0 && ClientController.getCurrentSystemUser() != null &&
 				        			ClientController.getCurrentSystemUser().getUsername() != null)
 				        		{	
 				        			Long currentCreatedNewWindow = currentWindowCount;

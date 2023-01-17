@@ -2,6 +2,7 @@ package ek_configuration;
 
 import client.ClientController;
 import common.WindowStarter;
+import entityControllers.OrderController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -52,30 +53,26 @@ public class _EKConfigurationOrderReceiptController {
 				+ "\n and " + ClientController.getCurrentSystemUser().getPhoneNumber());
 		txtCustomerEmail.setLayoutX(200 - (txtCustomerEmail.minWidth(0) / 2));
 		
-		txtOrderNumber.setText("Order Number: " + ClientController.orderNumber);
+		txtOrderNumber.setText("Order Number: " + OrderController.getOrderNumber());
 		txtOrderNumber.setLayoutX(200 - (txtOrderNumber.minWidth(0) / 2));
 		
-		txtOrderTotal.setText("Order total: " + (new DecimalFormat("##.##").format(ClientController.orderTotalPrice)) + "$");
+		txtOrderTotal.setText("Order total: " + (new DecimalFormat("##.##").format(OrderController.getOrderTotalPrice())) + "$");
 		txtOrderTotal.setLayoutX(200 - (txtOrderTotal.minWidth(0) / 2));
 		
-		System.out.println("ClientController.orderType = " + ClientController.orderType);
-		if(ClientController.orderType.equals("Delivery")) {
-			txtBillingDate.setText("Delivery Date: " + ClientController.orderDeliveryTime);
-			txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
-		}
+		System.out.println("ClientController.orderType = " + OrderController.getOrderType());
+
 		
-		if(ClientController.orderType.equals("Pickup")) {
-			txtBillingDate.setText("Pickup Place: " + ClientController.pickupPlace);
-			txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
-		}
+		txtBillingDate.setText("Your items are waiting in the tray - enjoy!");
+		txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
+		
 		
 
 		//////////IF WE HAVE TIME WE CAN DO IT. I THINK WE CAN DO IT BUT NOT USING A GOOGLE ACCOUNT!
 		String CustomerEmail = "dimakislitsyn96@gmail.com";
 		SendEmail(CustomerEmail);
 		
-		if (!ClientController.deliveryAddress.equals("")) {
-			txtDeliveryAddress.setText("Delivery Address: " + ClientController.deliveryAddress);
+		if (!OrderController.getDeliveryAddress().equals("")) {
+			txtDeliveryAddress.setText("Delivery Address: " + OrderController.getDeliveryAddress());
 		}
 	}
 

@@ -130,7 +130,7 @@ public class EktRegionalManagerSetThresholdController implements Serializable {
 				@SuppressWarnings("unchecked")
 				ArrayList<ArrayList<Object>> tmp= (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
 				System.out.println(tmp);
-				ClientController.OLCurrentMachineID = (Integer.valueOf(tmp.get(0).get(0).toString()));
+				ClientController.setOLCurrentMachineID((Integer.valueOf(tmp.get(0).get(0).toString())));
 				System.out.println("Machine ID set to " + MachineId);
 			}
 		}

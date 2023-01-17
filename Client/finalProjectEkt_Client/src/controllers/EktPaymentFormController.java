@@ -10,6 +10,7 @@ import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
+import entityControllers.OrderController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -99,7 +100,7 @@ public class EktPaymentFormController {
 		}catch(NumberFormatException ex) {
 			accBalance=0.;
 		}
-		if(accBalance <= 0.0 || accBalance < ClientController.orderTotalPrice)
+		if(accBalance <= 0.0 || accBalance < OrderController.getOrderTotalPrice())
 			btnPayWithBalance.setDisable(true);
 		txtAccountBalance.setText("ACCOUNT BALANCE: " + new DecimalFormat("##.##").format(accBalance) + "$");
 
@@ -167,7 +168,7 @@ public class EktPaymentFormController {
 	@FXML
 	void getBtnChargeMyCreditCard(ActionEvent event) {
 		String[] date = java.time.LocalDate.now().toString().split("-");
-		ClientController.billingDate = date[0] + "-" + date[1] + "-" + date[2];
+		OrderController.setBillingDate(date[0] + "-" + date[1] + "-" + date[2]);
 		txtProcessing.setText("PROCESSING...");
 		processOrder(event);
 	}
@@ -185,9 +186,9 @@ public class EktPaymentFormController {
 	void getBtnPayUsingTheEktApp(ActionEvent event) {
 		String[] date = comboBoxBillingDate.getValue().split(" ");
 		if (date.length == 3) {
-			ClientController.billingDate = date[2];
+			OrderController.setBillingDate(date[2]);
 		} else {
-			ClientController.billingDate = date[1];
+			OrderController.setBillingDate(date[1]);
 		}
 		txtProcessing.setText("PROCESSING...");
 		processOrder(event);
@@ -208,10 +209,10 @@ public class EktPaymentFormController {
 	void getBtnPayWithBalance(ActionEvent event) {
 		String[] date = java.time.LocalDate.now().toString().split("-");
 		System.out.println(date);
-		ClientController.billingDate = date[0] + "-" + date[1] + "-" + date[2];
+		OrderController.setBillingDate(date[0] + "-" + date[1] + "-" + date[2]);
 		txtProcessing.setText("PROCESSING...");
 
-		Double newBalance = accBalance - ClientController.orderTotalPrice;
+		Double newBalance = accBalance - OrderController.getOrderTotalPrice();
 
 		SCCP updateStock = new SCCP();
 		updateStock.setRequestType(ServerClientRequestTypes.UPDATE);
@@ -277,21 +278,21 @@ public class EktPaymentFormController {
 
 		Object[] fillOrder = new Object[3];
 
-		if (getTypeId(ClientController.orderType) == 2) {
+		if (getTypeId(OrderController.getOrderType()) == 2) {
 			fillOrder[0] = "orders (total_price, total_quantity, machineID, date_received, deliveryTime, typeId, statusId)";
 			fillOrder[1] = false;
-			fillOrder[2] = new Object[] { "(" + new DecimalFormat("##.##").format(ClientController.orderTotalPrice) + ","
-					+ ClientController.orderTotalQuantity + "," + ClientController.OLCurrentMachineID + ",\""
-					+ ClientController.orderDateReceived + "\"" + ",\"" + ClientController.orderDeliveryTime + "\""
-					+ "," + getTypeId(ClientController.orderType) + "," + 1 + ")" };
+			fillOrder[2] = new Object[] { "(" + new DecimalFormat("##.##").format(OrderController.getOrderTotalPrice()) + ","
+					+ OrderController.getOrderTotalQuantity() + "," + ClientController.getOLCurrentMachineID() + ",\""
+					+ OrderController.getOrderDateReceived() + "\"" + ",\"" + OrderController.getOrderDeliveryTime() + "\""
+					+ "," + getTypeId(OrderController.getOrderType()) + "," + 1 + ")" };
 		} else {
 			fillOrder[0] = "orders (total_price, total_quantity, machineID, date_received, typeId, statusId)";
 			fillOrder[1] = false;
 			fillOrder[2] = new Object[] {
-					"(" + new DecimalFormat("##.##").format(ClientController.orderTotalPrice) + "," + 
-							ClientController.orderTotalQuantity + ","
-							+ ClientController.OLCurrentMachineID + ",\"" + ClientController.orderDateReceived + "\""
-							+ "," + getTypeId(ClientController.orderType) + "," + 1 + ")" };
+					"(" + new DecimalFormat("##.##").format(OrderController.getOrderTotalPrice()) + "," + 
+							OrderController.getOrderTotalQuantity() + ","
+							+ ClientController.getOLCurrentMachineID() + ",\"" + OrderController.getOrderDateReceived() + "\""
+							+ "," + getTypeId(OrderController.getOrderType()) + "," + 1 + ")" };
 		}
 
 		preparedMessage.setMessageSent(fillOrder);
@@ -320,15 +321,15 @@ public class EktPaymentFormController {
 		}
 
 		Integer maxOrderId = Integer.parseInt(temp);
-		ClientController.orderNumber = maxOrderId;
+		OrderController.setOrderNumber(maxOrderId);
 
 		////////////////
 		/*
 		 * Rotem: 1.12.23 -> adding an insert to customer_orders (associate a customer
 		 * with an order in DB)
 		 */
-		CustomerOrder toInsert = new CustomerOrder(ClientController.getCurrentSystemUser().getId(), maxOrderId, ClientController.OLCurrentMachineID, 
-				ClientController.billingDate);
+		CustomerOrder toInsert = new CustomerOrder(ClientController.getCurrentSystemUser().getId(), maxOrderId, ClientController.getOLCurrentMachineID(), 
+				OrderController.getBillingDate());
 		ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.ADD,
 				new Object[] { "customer_orders", false, new Object[] { toInsert } }));
 
@@ -358,7 +359,7 @@ public class EktPaymentFormController {
 		fillOrderContents[1] = true;
 
 		int i = 3, j = 4;
-		for (ArrayList<?> order : ClientController.userOrders.values()) {
+		for (ArrayList<?> order : OrderController.getUserOrders().values()) {
 			while (j < order.size() - 1) {
 				fillArrayToOrderContents
 						.add("(" + maxOrderId + ",\"" + order.get(i) + "\"" + ",\"" + order.get(j) + "\")");
@@ -371,14 +372,14 @@ public class EktPaymentFormController {
 
 		preparedMessage.setMessageSent(fillOrderContents);
 		ClientUI.clientController.accept(preparedMessage);
-		ClientController.orderNumber++;
+		OrderController.setOrderNumber(OrderController.getOrderNumber() + 1);
 
 		for (Map.Entry<String, Integer> set : EktProductFormController.productsInStockMap.entrySet()) {
-			if(ClientController.currentUserCart.get(set.getKey())!=null && ClientController.currentUserCart.get(set.getKey()) > 0) {
+			if(OrderController.getCurrentUserCart().get(set.getKey())!=null && OrderController.getCurrentUserCart().get(set.getKey()) > 0) {
 				SCCP updateStock = new SCCP();
 				updateStock.setRequestType(ServerClientRequestTypes.UPDATE);
 				updateStock.setMessageSent(new Object[] { "products_in_machine", "stock = " + set.getValue(),
-						" machineID = " + ClientController.OLCurrentMachineID + " AND productID = " + set.getKey() });
+						" machineID = " + ClientController.getOLCurrentMachineID() + " AND productID = " + set.getKey() });
 	
 				ClientUI.clientController.accept(updateStock);
 				System.out.println("For Product " + set.getKey() + "the Stock was updated!");
@@ -386,10 +387,10 @@ public class EktPaymentFormController {
 		}
 
 		EktProductFormController.itemsInCart = 0;
-		ClientController.currentUserCart.keySet().clear();
-		ClientController.getProductByID.keySet().clear();
-		ClientController.cartPrice.keySet().clear();
-		ClientController.userOrders.keySet().clear();
+		OrderController.getCurrentUserCart().keySet().clear();
+		OrderController.getGetProductByID().keySet().clear();
+		OrderController.getCartPrice().keySet().clear();
+		OrderController.getUserOrders().keySet().clear();
 		nextPage(event, "/gui/OrderReceiptPage.fxml", "EKrut Order Receipt");
 		if (EktSystemUserLoginController.firstOrderForSubscriber()) {
 			SCCP updateSubscriber = new SCCP();

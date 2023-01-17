@@ -398,7 +398,7 @@ public class ServerMessageHandler {
 	// EK LOGIN (Electronic Turk machine login)
 	private static final class HandleMessageLoginEK implements IServerSideFunction{
 		private static final int SYSTEM_USER_TABLE_COL_COUNT = 9;
-		List<Role> VALID_ROLES = Arrays.asList(new Role[] {Role.SUBSCRIBER, Role.CUSTOMER, Role.LOGISTICS_EMPLOYEE});
+		//List<Role> VALID_ROLES = Arrays.asList(new Role[] {Role.SUBSCRIBER, Role.CUSTOMER, Role.INVENTORY_WORKER});
 		// TODO:
 		// we need to modify this, we need to ask the DB for an entry with username,
 		// if not found, we return error "no such user",
@@ -463,7 +463,6 @@ public class ServerMessageHandler {
 								password, 
 								role);
 								
-						if(validEKConfigRole(role)) {
 							System.out.println("Role " + role + " is valid, continuing");
 							// now, check if it is already logged in (... you know what I want to say)
 							ResultSet rs2 = (ResultSet)DatabaseController.
@@ -510,7 +509,7 @@ public class ServerMessageHandler {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-						}
+						
 						
 					}catch(IllegalArgumentException ex) {
 						throw new SQLDataException("We expect Role(typeOfUser column) to be of a set of available roles "
@@ -524,14 +523,7 @@ public class ServerMessageHandler {
 			return new SCCP(ServerClientRequestTypes.ERROR_MESSAGE, "error");		
 		}
 
-		/**
-		 * Check if a given Role is valid for the EK configuration
-		 * @param role
-		 * @return
-		 */
-		private boolean validEKConfigRole(Role role) {
-			return VALID_ROLES.contains(role);
-		}
+
 		
 	}
 

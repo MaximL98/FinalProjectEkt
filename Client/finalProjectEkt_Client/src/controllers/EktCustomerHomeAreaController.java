@@ -9,10 +9,13 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
 /**
- * This controller (and UI) is meant to be used as the customer home page - currently not in use
- * @author Rotem
- *
- */
+
+This class is the controller for the customer home page.
+It contains methods for handling button events and updating the UI.
+@author nastya
+@version [1.0]
+@since [1.1.23]
+*/
 
 public class EktCustomerHomeAreaController{
 
@@ -27,18 +30,30 @@ public class EktCustomerHomeAreaController{
 
     @FXML
     private Text txtWelcomeText;
-
+    /**
+     * Initializes the UI by setting the welcome text to display the current user's first name
+     */
 	@FXML
 	public void initialize() {
 		this.txtWelcomeText.setText("Welcome back " + ClientController.getCurrentSystemUser().getFirstName());
 	}
 
-	// TODO: DO!
+	/**
+	 * Handles the event when the "View Orders" button is clicked.
+	 * This method is currently not implemented.
+	 * 
+	 * @param event the action event that triggered the method call
+	 */
 	@FXML public void getBtnViewOrders(ActionEvent event) {
 		
 		assert 1 == 0;
 	}
-
+	/**
+	 * Handles the event when the "Create Order" button is clicked.
+	 * This method is currently not implemented.
+	 * 
+	 * @param event the action event that triggered the method call
+	 */
 	@FXML public void getBtnCreateOrder(ActionEvent event) {
 		
 		assert 1 == 0;

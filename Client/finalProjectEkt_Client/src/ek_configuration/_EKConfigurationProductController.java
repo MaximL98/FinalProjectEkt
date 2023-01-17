@@ -42,6 +42,34 @@ import javafx.stage.Stage;
 import logic.Role;
 import logic.superProduct;
 
+import java.awt.Scrollbar;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+
+
+import controllers.EktCatalogFormController;
+import entityControllers.OrderController;
+import client.ClientController;
+import client.ClientUI;
+import common.SCCP;
+import common.ServerClientRequestTypes;
+import common.WindowStarter;
+
 public class _EKConfigurationProductController {
 	
     @FXML
@@ -118,7 +146,7 @@ public class _EKConfigurationProductController {
     	getDiscountAmount.setMessageSent(new Object[] { "promotions", true, "promotions.promotionStatus, promotions.discountPercentage",
     			false, null, true, "JOIN locations ON promotions.locationID = locations.locationID \r\n"
     					+ "JOIN machine ON promotions.locationID = machine.locationId" + 
-    					" WHERE machine.machineId = " + ClientController._EkCurrentMachineID + ";"
+    					" WHERE machine.machineId = " + ClientController.getEKCurrentMachineID() + ";"
     	});
     	ClientUI.clientController.accept(getDiscountAmount);
     	
@@ -165,8 +193,8 @@ public class _EKConfigurationProductController {
 		// if we switch machines - clear the order and so on [please test this! I only Rotem-tested it]
 		if(isMachineSwitchedFlag() ) {
 			productsInStockMap = new HashMap<>();
-			ClientController.currentUserCart = new HashMap<>();
-			ClientController.getProductByID = new HashMap<>();
+			OrderController.setCurrentUserCart(new HashMap<>());
+			OrderController.setGetProductByID(new HashMap<>());
 			itemsInCart=0;
 			// don't forget to release it
 			setMachineSwitchedFlag(false);
@@ -204,7 +232,7 @@ public class _EKConfigurationProductController {
 		cartImg.setPreserveRatio(true);
 		btnCart.setGraphic(cartImg);
 		
-		String productCategory = ClientController.CurrentProductCategory.get(0);
+		String productCategory = OrderController.getCurrentProductCategory().get(0);
 		txtCategoryName.setText(productCategory);
 		//txtCategoryName.setTextFill(Color.WHITE);
 		txtCategoryName.setLayoutX(400 - (txtCategoryName.minWidth(gridPaneRow))/2);
@@ -216,7 +244,7 @@ public class _EKConfigurationProductController {
 				+ "JOIN products_in_machine ON product.productID = products_in_machine.productID",true, 
 				"product.*, files.file_name, files.file, products_in_machine.stock", true, "(category = " + "'"+ productCategory + "'" + 
 				"OR product.subCategory =" + "'"+ productCategory + "')" + 
-				" AND products_in_machine.machineID = " + ClientController._EkCurrentMachineID, false, null});
+				" AND products_in_machine.machineID = " + ClientController.getEKCurrentMachineID(), false, null});
 		
 		ClientUI.clientController.accept(testmsg);
 		if (ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
@@ -370,16 +398,16 @@ public class _EKConfigurationProductController {
 					//If it does not exist, set value to "1"
 					String currentProductID = ((ArrayList<?>)product).get(0).toString();
 
-					if (!ClientController.getProductByID.containsKey(currentProductID)) {
+					if (!OrderController.getGetProductByID().containsKey(currentProductID)) {
 						double pricePerProductBeforeDiscount = new Double(((ArrayList<?>)product).get(2).toString());
 						Double priceAfterDiscount = new Double(pricePerProductBeforeDiscount * salePromotionAmount);
 						superProduct p = new superProduct(((ArrayList<?>)product).get(0).toString(),
 								((ArrayList<?>)product).get(1).toString(), 
 								priceAfterDiscount.toString() ,((ArrayList<?>)product).get(3).toString(),
 								(""), ((ArrayList<?>)product).get(5).toString(), (byte[])((ArrayList<?>)product).get(6));
-						ClientController.getProductByID.put(currentProductID, p);
+						OrderController.getGetProductByID().put(currentProductID, p);
 					}
-					ClientController.currentUserCart.merge(currentProductID, 1, Integer::sum);
+					OrderController.getCurrentUserCart().merge(currentProductID, 1, Integer::sum);
 					//Animate add to cart
 				});
 				

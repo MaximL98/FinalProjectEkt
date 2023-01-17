@@ -2,46 +2,32 @@ package client;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+
 
 import common.SCCP;
 import common.ServerClientRequestTypes;
-import logic.Product;
+import entityControllers.OrderController;
 import logic.Role;
 import logic.SystemUser;
-import logic.superProduct;
-import ocsf.server.ConnectionToClient;
 
 public class ClientController
 {
   public static int DEFAULT_PORT ;
-  public static ArrayList<ConnectionToClient> clients = new ArrayList<ConnectionToClient>();
-  public static SCCP responseFromServer = new SCCP(); 
-  private static Configuration launchConfig = null;
+  
+  // commented out as it is not in use:
+  //public static ArrayList<ConnectionToClient> clients = new ArrayList<ConnectionToClient>();
   
   // Controller specific fields - TODO: move these to dedicated controllers, and use setters to these controllers here (I will show example )
+  public static SCCP responseFromServer = new SCCP(); 
+  private static Configuration launchConfig = null;
   private static SystemUser connectedSystemUser = null; // ClientController.getconnectedSystemUser().getID()
-  public static ArrayList<String> CurrentProductCategory = new ArrayList<>();
-  //Map that holds the current cart contents of the user
-  public static HashMap<String,Integer> currentUserCart = new HashMap<>();
-  
-  ////// Dima 30/12 20:00
-  public static HashMap<String,superProduct> getProductByID = new HashMap<>();
-  ////////////////////////////////////////////////////////////////////
-  //Max 7/1-----------------------------------------------------------------------//
-  public static Integer orderNumber = 8; //for now, change later
-  public static HashMap<Integer, ArrayList<String>> userOrders = new HashMap<>();
-  //------------------------------------------------------------------------------//
-  public static ArrayList<Product> arrayOfAddedProductsToGridpane = new ArrayList<>();
-
-  public static long orderCounter = 5;   // TODO: remove this
-  
-  public static Double orderTotalPrice = new Double(0.0);
-  public static HashMap<Product, Double> cartPrice = new HashMap<>();
   public EKTClient client;
   private static Role currentUserRole = null;
+
+  // rotem 1.12.23
+  private static Boolean customerIsSubsriber=false;
+  
+  // dohot related fields
   
   /////////////Dima 6/1/2023 21:00
   private static ArrayList<String> machineID_TypeOfReport_Dates = new ArrayList<>();
@@ -50,37 +36,25 @@ public class ClientController
   /////////////Dima 11/1/2023 11:50
   private static String currentUserRegion;
 
+  // machine related fields
+  
   // Rotem added for now (8.1)
-  public static String _EkCurrentMachineName;
+  private static String EKCurrentMachineName;
   // Rotem added also (10.1)
-  public static int _EkCurrentMachineID;
-  
-  //Maxim Added (11.1)
-  public static Integer orderTotalQuantity;
-  public static String orderDateReceived;
-  public static String orderDeliveryTime;
-
-  //Maxim (12.1)
-  public static String orderType = "";
-  public static String pickupPlace = "";
-  
+  private static int EKCurrentMachineID;
   // Maxim added for now (13.1)
-  public static String OLCurrentMachineName;
+  private static String OLCurrentMachineName;
   // Maxim added also (13.1)
-  public static int OLCurrentMachineID;
-
-  // rotem 1.12.23
-  private static Boolean customerIsSubsriber=null;
+  private static int OLCurrentMachineID;
   
-  // Dima 13/1/2023
-  public static String billingDate=null;
 
+  
   // one buggish lookin chick
   private static boolean fastRecognitionToggle = false;
   private static String fastRecognitionUserName = null;
   private static String fastRecognitionPassword = null;
   
-  public static String deliveryAddress = "";
+
   
 
   public ClientController(String host, int port) throws IOException
@@ -177,40 +151,24 @@ public class ClientController
 	 * This method is used by the login manager to reset user-specific variables
 	 */
 	public static void resetVars() {
+		OrderController.resetVars();
 		// TODO Auto-generated method stub
 		  connectedSystemUser = null; // ClientController.getconnectedSystemUser().getID()
-		  CurrentProductCategory = new ArrayList<>();
-		  //Map that holds the current cart contents of the user
-		  currentUserCart = new HashMap<>();
-		  
-		  ////// Dima 30/12 20:00
-		  getProductByID = new HashMap<>();
-		  userOrders = new HashMap<>();
-		  //------------------------------------------------------------------------------//
-		  arrayOfAddedProductsToGridpane = new ArrayList<>();
-		  
-		  orderTotalPrice = new Double(0.0);
-		  cartPrice = new HashMap<>();
+
 		  currentUserRole = null;
 		  
 		  /////////////Dima 6/1/2023 21:00
 		  machineID_TypeOfReport_Dates = new ArrayList<>();
 		  requestedOrderDates = new ArrayList<>();
 		  
-		  //Maxim (12.1)
-		  orderType = "";
-		  pickupPlace = "";
-		  
 		  // Maxim added for now (13.1)
-		  OLCurrentMachineName=null;
+		  setOLCurrentMachineName(null);
 		  // Maxim added also (13.1)
-		  OLCurrentMachineID=0;
+		  setOLCurrentMachineID(0);
 
 		  // rotem 1.12.23
 		  customerIsSubsriber=null;
-		  
-		  // Dima 13/1/2023
-		  billingDate=null;
+
 	}
 
 	public static boolean isFastRecognitionToggle() {
@@ -236,6 +194,44 @@ public class ClientController
 	public static void setFastRecognitionPassword(String fastRecognitionPassword) {
 		ClientController.fastRecognitionPassword = fastRecognitionPassword;
 	}
+
+	
+
+	public static String getEKCurrentMachineName() {
+		return EKCurrentMachineName;
+	}
+
+	public static void setEKCurrentMachineName(String eKCurrentMachineName) {
+		EKCurrentMachineName = eKCurrentMachineName;
+	}
+
+	public static int getEKCurrentMachineID() {
+		return EKCurrentMachineID;
+	}
+
+	public static void setEKCurrentMachineID(int eKCurrentMachineID) {
+		EKCurrentMachineID = eKCurrentMachineID;
+	}
+
+	
+
+	public static String getOLCurrentMachineName() {
+		return OLCurrentMachineName;
+	}
+
+	public static void setOLCurrentMachineName(String oLCurrentMachineName) {
+		OLCurrentMachineName = oLCurrentMachineName;
+	}
+
+	public static int getOLCurrentMachineID() {
+		return OLCurrentMachineID;
+	}
+
+	public static void setOLCurrentMachineID(int oLCurrentMachineID) {
+		OLCurrentMachineID = oLCurrentMachineID;
+	}
+
+
 
 
 }

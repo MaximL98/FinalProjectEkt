@@ -11,9 +11,9 @@
 
 <AnchorPane prefHeight="511.0" prefWidth="302.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ClientLoginController">
    <children>
-      <Text layoutX="29.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CONNECT TO SERVER" wrappingWidth="249.0">
+      <Text layoutX="36.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CONNECT TO SERVER" wrappingWidth="231.0">
          <font>
-            <Font name="Berlin Sans FB" size="26.0" />
+            <Font name="Berlin Sans FB" size="23.0" />
          </font></Text>
       <Text layoutX="33.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="INSERT SERVER IP">
          <font>

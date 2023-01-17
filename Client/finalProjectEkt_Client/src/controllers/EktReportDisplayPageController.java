@@ -334,7 +334,8 @@ public class EktReportDisplayPageController {
 			}
 		}
 		barChart.getData().add(dataSeries1);
-		barChart.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-background: linear-gradient(from 0px 0px to 0px 1500px, #CBC3E3, black); "
+		barChart.getStylesheets().add("controllers/testCss.css");
+		barChart.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-background-color: linear-gradient(from 0px 0px to 0px 1500px, #CBC3E3, black); "
 				+ "-fx-font-color: black; -fx-font: black; -fx-background-color: transparent;");
 		borderPane.setCenter(barChart);
 	}
@@ -444,11 +445,13 @@ public class EktReportDisplayPageController {
 		}
 
 		barChart.getData().add(dataSeries1);
-		barChart.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-background: linear-gradient(from 0px 0px to 0px 1500px, #CBC3E3, black); "
+		barChart.getStylesheets().add("controllers/testCss.css");
+		barChart.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-background-color: linear-gradient(from 0px 0px to 0px 1500px, #CBC3E3, black); "
 				+ "-fx-font-color: black; -fx-font: black; -fx-background-color: transparent;");
 		// Adding data to the table
 		tableViewForProductStockInfo.setItems(data);
-		tableViewForProductStockInfo.setStyle("-fx-font-size: 14; -fx-font-weight: bold; -fx-background: linear-gradient(from 0px 0px to 0px 1500px, #CBC3E3, black); "
+		tableViewForProductStockInfo.getStylesheets().add("controllers/testCss.css");
+		tableViewForProductStockInfo.setStyle("-fx-font-size: 14; -fx-font-weight: bold; -fx-background-color: linear-gradient(from 0px 0px to 0px 1500px, #CBC3E3, black); "
 				+ "-fx-font-color: black; -fx-font: black; -fx-background-color: transparent;");
 		tableViewForProductStockInfo.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		tableViewForProductStockInfo.getColumns().addAll(productNameColumn, inStockColumn, minStockColumn,

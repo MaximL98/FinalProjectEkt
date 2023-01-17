@@ -27,6 +27,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+/**
+ * This class is a JavaFX controller for the active promotions editing form.
+ * @author DimaKyn
+ *
+ */
 public class EditActivePromotionsController implements Initializable {
 
 	@FXML
@@ -49,6 +54,9 @@ public class EditActivePromotionsController implements Initializable {
 	
 	private ObservableList<promotionToTable> listView = FXCollections.observableArrayList();
 
+	/**
+	 * Sends a request to the server to get the promotions to display in the table
+	 */
 	private void displayPromotionsTable() {
 		// Connect to the database and retrieve the promotion names
 		// Return the retrieved promotion names in an ArrayList
@@ -62,10 +70,11 @@ public class EditActivePromotionsController implements Initializable {
 		ClientUI.clientController.accept(preparedMessage);
 
 	}
-	
-	/**Display the promotions table by connecting to the database,
-	 * retrieving the promotion names and returning them in an ArrayList.
-	 * it uses SCCP message to communicate with the server.
+
+
+	/**
+	 * Navigates the user back to the sales manager page.
+	 * @param event
 	 */
 	public void goBackHandler(ActionEvent event) {
 		Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();

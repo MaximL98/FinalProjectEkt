@@ -203,10 +203,6 @@ public class SystemUser implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		/*return "SystemUser [firstName=" + firstName + ", lastName=" + lastName + ", id=" + id + ", phoneNumber="
-				+ phoneNumber + ", emailAddress=" + emailAddress + ", creditCard=" + creditCard + ", username="
-				+ username + ", password=" + password + "]";*/
-		// I'm tired!
 		return sqlFormatObject();
 	}
 	

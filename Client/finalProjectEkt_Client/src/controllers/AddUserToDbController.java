@@ -33,7 +33,7 @@ import javafx.scene.control.ComboBox;
  *
  * related to adding a user to the database.
  *
- * @author [maxsim]
+ * @author [maxim]
  *
  * @version [1.0]
  *

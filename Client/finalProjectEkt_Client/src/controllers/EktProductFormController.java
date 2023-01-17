@@ -278,12 +278,9 @@ public class EktProductFormController {
 		ClientUI.clientController.accept(testmsg);
 
 		if (ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
-			System.out.println("I got it good");
 			// Might want to check this suppression
 			ArrayList<?> arrayOfProducts = (ArrayList<?>) ClientController.responseFromServer.getMessageSent();
-			System.out.println(arrayOfProducts);
 			for (Object product : arrayOfProducts) {
-				System.out.println(product);
 				// Main product hbox
 				HBox productHBox = new HBox();
 
@@ -403,7 +400,6 @@ public class EktProductFormController {
 					txtProductStock.setText("Stock: " + newStock);
 					productsInStockMap.put(((ArrayList<?>) product).get(0).toString(), newStock);
 					if (newStock == 0) {
-						System.out.println("we reached lvl 0");
 						addToCartButton.setDisable(true);
 					}
 
@@ -443,13 +439,7 @@ public class EktProductFormController {
 					gridPaneRow++;
 					nextItemLocation = "left";
 				}
-				//////////////////////////////////////////////////////
 
-				// System.out.println(((Product) product).getProductID());
-				/*
-				 * One more rotem 1.13: if stock is zero, disable the damned button
-				 */
-				System.out.println("productsInStockMap = " + productsInStockMap);
 				if (productsInStockMap.get(((ArrayList<?>) product).get(0).toString()) == 0) {
 					addToCartButton.setDisable(true);////////////////////////////////////////////////////////////////////////
 				}

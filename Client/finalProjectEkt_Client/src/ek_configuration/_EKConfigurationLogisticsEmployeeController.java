@@ -31,6 +31,8 @@ public class _EKConfigurationLogisticsEmployeeController {
     @FXML
     private Text txtWelcomeText;
 
+	@FXML Button btnLogout;
+
     @FXML
     void getBtnPartialRestock(ActionEvent event) {
     	String nextScreenPath = "/gui/_EKConfigurationPartialRestockFrame.fxml";
@@ -64,5 +66,21 @@ public class _EKConfigurationLogisticsEmployeeController {
 		successMessage.show();
     	
     }
+
+	@FXML public void getBtnLogout(ActionEvent event) {
+    	// actually log him out
+    	ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.LOGOUT, ClientController.getCurrentSystemUser().getUsername()));
+    	// inform log
+    	System.out.println("EK Customer "+ ClientController.getCurrentSystemUser().getUsername()+" logged out!");
+		// load home area for service rep
+		// sammy D the current window
+		((Node)event.getSource()).getScene().getWindow().hide();
+		// prepare the new stage:
+		Stage primaryStage = new Stage();
+
+		WindowStarter.createWindow(primaryStage, this, "/gui/_EKConfigurationLoginFrame.fxml", null, "Login", false);
+		primaryStage.show();
+		
+	}
 
 }

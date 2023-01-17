@@ -140,6 +140,10 @@ public class _EKConfigurationLoginFrameController {
 			default:
 				statusLabel.setText("EK Configuration only supports customers and machine maintenance employees.");
 				statusLabel.setVisible(true);
+				if(ClientController.getCurrentSystemUser() != null) {
+					// log him out:
+					ClientController.sendLogoutRequest();
+				}
 				return;
 				
 			}

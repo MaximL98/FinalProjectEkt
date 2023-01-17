@@ -24,15 +24,17 @@ public class Machine implements Serializable {
 	private ArrayList<ProductInMachine> products = new ArrayList<>();
 	private Location location;
 	private int threshold;
+
 	/**
 	 * Machine constructor.
+	 * 
 	 * @param threshold TODO
 	 */
 	public Machine(int machineId, String machineName, Location location, int threshold) {
 		this.machineId = machineId;
 		this.machineName = machineName;
 		this.location = location;
-		this.threshold = threshold;
+		this.setThreshold(threshold);
 	}
 
 	/**
@@ -99,7 +101,6 @@ public class Machine implements Serializable {
 		this.location = location;
 	}
 
-
 	/**
 	 * @return the machineId
 	 */
@@ -150,6 +151,22 @@ public class Machine implements Serializable {
 	 */
 	public void setMachineName(String machineName) {
 		this.machineName = machineName;
+	}
+
+	/**
+	 * 
+	 * @return machine threshold
+	 */
+	public int getThreshold() {
+		return threshold;
+	}
+
+	/**
+	 * 
+	 * @param set machine threshold
+	 */
+	public void setThreshold(int threshold) {
+		this.threshold = threshold;
 	}
 
 }

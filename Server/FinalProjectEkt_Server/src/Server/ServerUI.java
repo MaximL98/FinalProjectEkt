@@ -3,8 +3,15 @@ package Server;
 import gui.ServerPortController;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
+/**
+ * The ServerUI class is the main class of the EKT project's server-side application.
+ * It launches the main GUI window of the server and also handles server's start and shutdown operations.
+ * The class main() method is the entry point of the program, it calls the JavaFX's launch method which calls the start method of the class,
+ * where the main GUI window is loaded.
+ * The class also contains methods for starting the server and handling server shutdowns.
+ * @author Rotem, Maxim
+ *
+ */
 public class ServerUI extends Application {
 	final public static int DEFAULT_PORT = 5555;
 	private static EktServer serverObject;
@@ -25,8 +32,10 @@ public class ServerUI extends Application {
 	  } 
 	
 	/**
-	 * This method override the JavaFX start method - it calls the server-side GUI controller and loads the window shown to the user.
-	 */
+	 * start method is the main method for the ServerUI class. It creates a new instance of the ServerPortController class,
+	 * sets the action for the close button of the primary stage, and calls the start method of the serverGuiWindow object.
+	 * @param primaryStage - the main stage of the JavaFX application, where the main window is displayed.
+	 * @throws Exception - if an error occurs while loading the GUI window.	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		ServerPortController serverGuiWindow = new ServerPortController();
@@ -46,7 +55,16 @@ public class ServerUI extends Application {
 		}); 
 		serverGuiWindow.start(primaryStage);
 	}
-	
+	/**
+	 * The runServer method is used to start a new instance of the EktServer class, which is responsible for managing client connections and handling client requests.
+	 * It takes a single argument, the port number on which the server should listen for connections.
+	 * The method first attempts to parse the port number argument as an integer, and assigns it to the variable 'port'.
+	 * If the parseInt method throws an exception, the method prints an error message to the console.
+	 * Next, a new instance of EktServer is created, passing the 'port' variable as an argument.
+	 * The method then calls the listen method on the server object, which begins listening for client connections on the specified port.
+	 * If an exception is thrown while calling the listen method, the method prints an error message to the console.
+	 * @param port number on which the server will listen
+	 */
 	public static void runServer(String p)
 	{
 		 int port = 0; //Port to listen on
@@ -73,11 +91,18 @@ public class ServerUI extends Application {
 	        	System.out.println("ERROR - Could not listen for clients!");
 	        }
 	}
-
+	/**
+	 * This method returns the current instance of the EktServer object that is being used by the application.
+	 * @return EktServer object that is currently in use by the application.
+	 */
 	public static EktServer getEktServerObject() {
 		return serverObject;
 	}
-	
+	/**
+	 * This method is used to perform a forced shutdown of the server.
+	 * It will close all active connections and stop the server from listening for new connections.
+	 * This method is typically called when the user closes the server GUI window.
+	 */
 	public static void serverForcedShutdown() {
 		System.out.println("Server starting shutdown process");
 		if(getEktServerObject() != null)

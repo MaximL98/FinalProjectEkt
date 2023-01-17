@@ -7,7 +7,7 @@ import java.sql.Date;
  * Project Name: finalProjectEkt_Client Logic class that contains the details
  * needed to save up for each promotion.
  * 
- * @author Maxim Lebedinsky,Nastya chesnov,Raz waiss
+ * @author Nastya chesnov,Raz waiss
  * @version 16/12/2022
  */
 public class Promotions implements Serializable {

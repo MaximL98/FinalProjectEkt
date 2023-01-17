@@ -20,6 +20,14 @@ public class DatabaseOperationsMap {
 	/*
 	 * 1.15... IMPORT SIM.
 	 */
+	/**
+	 * protected static final class DatabaseActionImportSimulation implements IDatabaseAction
+	 * This class is responsible for importing simulation data into the systemuser and manager_location tables.
+	 * The class retrieves all rows from the ektdb.external_users table, formats the data, and inserts it into the appropriate tables.
+	 * The class also checks for null values, invalid data formats, and enforces constraints on the data.
+	 * @author Rotem
+	 *
+	 */
 	protected static final class DatabaseActionImportSimulation implements IDatabaseAction
 	{
 		@Override
@@ -92,6 +100,14 @@ public class DatabaseOperationsMap {
 	// I recommend not using this one - it returns ResultSet to server so you have to parse it
 	// use GenericSelect instead (call the map with GENERIC_SELECT), and you will get 
 	// an array list of rows from the DB.
+	/**
+	 * protected static final class DatabaseActionSelect implements IDatabaseAction
+	 * This class is responsible for performing a SELECT operation on the database.
+	 * The class only accepts a single argument, which should be a string containing the SELECT query to be executed.
+	 * The class checks the number and type of arguments, and throws an IllegalArgumentException if they are not valid.
+	 * The class then executes the query and returns the ResultSet containing the query results.
+	 * @author Rotem
+	 */
 	protected static final class DatabaseActionSelect implements IDatabaseAction{
 
 		@Override
@@ -161,6 +177,15 @@ public class DatabaseOperationsMap {
 	/*
 	 * Generic update query: "update table tablename set setters where condition;"
 	 */
+	/**
+	 * protected static final class DatabaseActionGenericSelect implements IDatabaseAction
+	 * This class is responsible for performing a Generic SELECT operation on the database.
+	 * The class only accepts a single argument, which should be a string containing the SELECT query to be executed.
+	 * The class checks the number and type of arguments, and throws an IllegalArgumentException if they are not valid.
+	 * The class then executes the query, retrieves the ResultSet containing the query results, and converts the result set to an ArrayList of ArrayList of Objects and returns it.
+	 * @author Rotem
+	 *
+	 */
 	protected static final class DatabaseActionGenericUpdate implements IDatabaseAction{
 
 		@Override
@@ -183,6 +208,15 @@ public class DatabaseOperationsMap {
 	/*
 	 * Generic delete query: "Delete from tablename where condition;"
 	 */
+	/**
+	 * The class DatabaseActionDelete implements the IDatabaseAction interface and is used to delete data from a database table.
+	 * It takes in three parameters: a table name, setters, and conditions.
+	 * The table name and setters are used to construct the SQL DELETE query, and the conditions are used to specify which rows to delete.
+	 * The query is then executed using the DatabaseSimpleOperation.executeQuery method.
+	 * The method returns true if the deletion is successful.
+	 * @author Rotem
+	 *
+	 */
 	protected static final class DatabaseActionDelete implements IDatabaseAction {
 
 		@Override
@@ -203,6 +237,17 @@ public class DatabaseOperationsMap {
 	}
 		
 	// this has to be protected (not private) because we need it in DatabaseController
+	/**
+	 * The class DatabaseActionInsert implements the IDatabaseAction interface and is used to insert data into a database table.
+	 * It takes in three parameters: table name, a boolean flag indicating whether to add many objects at once, and an array of objects to add.
+	 * The table name is used to construct the SQL INSERT query, and the objects are used to specify the data to be inserted.
+	 * The query is then executed using the DatabaseSimpleOperation.executeQuery method.
+	 * If the addMany flag is set to true, the method will insert all objects in the array, and will return false if any of them fail.
+	 * If the addMany flag is set to false, the method will insert only the first object in the array and will return false if it fails.
+	 * The method returns true if the insertion is successful.
+	 * @author Rotem
+	 *
+	 */
 	 protected static final class DatabaseActionInsert implements IDatabaseAction{
 		private String tableName;
 		private Boolean addMany;
@@ -245,6 +290,9 @@ public class DatabaseOperationsMap {
 			return true;
 		}
 
+		/**
+		 * The cleanUp method is used to set all class fields (tableName, addMany, and objectsToAdd) to null.
+		 */
 		// after action - clean up static stuff
 		public void cleanUp() {
 			tableName = null;
@@ -252,27 +300,45 @@ public class DatabaseOperationsMap {
 			objectsToAdd = null;
 			
 		}
-		
+		/**
+		 * @return the current table name field.
+		 */
 		public String getTableName() {
 			return tableName;
 		}
-
+		/**
+		 * The setTableName method sets the table name field to the given value.
+		 * @param tableName The new table name to be set.
+		 */
 		public void setTableName(String tableName) {
 			this.tableName = tableName;
 		}
-		
+		/**
+		 * 
+		 * @return the current addMany field
+		 */
 		public Boolean getAddMany() {
 			return addMany;
 		}
-
+		/**
+		 * The setAddMany method sets the addMany field to the given value.
+		 * @param addMany The new value for addMany field.
+		 */
 		public void setAddMany(Boolean addMany) {
 			this.addMany = addMany;
 		} 
-		
+		/**
+		 * 
+		 * @return the current objectsToAdd field.
+		 */
 		public Object[] getObjectsToAdd() {
 			return objectsToAdd;
 		}
-
+		/**
+		 * 
+		 * The setObjectsToAdd method sets the objectsToAdd field to the given value.
+		 * @param objectsToAdd The new value for objectsToAdd field.
+		 */
 		public void setObjectsToAdd(Object[] objectsToAdd) {
 			this.objectsToAdd = objectsToAdd;
 		}
@@ -282,6 +348,16 @@ public class DatabaseOperationsMap {
 	 }
 	 
 	 //Return currently logged in user back to client
+	 /**
+	  * The class DatabaseActionSelectForLogin implements the IDatabaseAction interface and is used to select data from a database table for login purposes.
+	  * It takes in two parameters: a table name, and a string array containing the user and password.
+	  * The table name is used to construct the SQL SELECT query, and the user and password are used to specify which rows to select.
+	  * The query is then executed using the DatabaseSimpleOperation.executeQueryWithResults method.
+	  * The method then constructs a new SystemUser object from the selected data, if a match is found, and returns it.
+	  * If no match is found, the method returns null.
+	  * @author Rotem
+	  *
+	  */
 	 protected static final class DatabaseActionSelectForLogin implements IDatabaseAction{
 		private String tableName;
 
@@ -338,7 +414,18 @@ public class DatabaseOperationsMap {
 
 	}
 	 
-	 //Class which is used to return a result set of all products with the category name categoryName[0] 
+	 //Class which is used to return a result set of all products with the category name categoryName[0]
+	 /**
+	  * The class DatabaseActionSelectForFetchProducts implements the IDatabaseAction interface and is used to select data from a product table.
+	  * It takes in one parameter: a category name.
+	  * The table name is hardcoded as "product".
+	  * The category name is used to construct the SQL SELECT query. If category name is "ALL PRODUCTS" it will fetch all products, otherwise it will fetch all products of a specified category or subcategory.
+	  * The query is then executed using the DatabaseSimpleOperation.executeQueryWithResults method.
+	  * The method then constructs an ArrayList of Product objects from the selected data, and returns it.
+	  * If no match is found, the method returns an empty ArrayList.
+	  * @author Rotem
+	  *
+	  */
 	 protected static final class DatabaseActionSelectForFetchProducts implements IDatabaseAction {
         private String tableName;
 
@@ -436,6 +523,16 @@ public class DatabaseOperationsMap {
 
 		// Class which is used to return a result set of all online orders with the
 		// status name in orderFilters[0]
+		/**
+		 * The class DatabaseActionUpdateForUpdateOrders implements the IDatabaseAction interface and is used to update data from an orders table.
+		 * It takes in one parameter: an array of Order objects.
+		 * The table name is hardcoded as "orders" and is a part of a schema "schema_ekrut".
+		 * The method updates total_price, total_quantity, deliveryTime, typeId, statusId fields of the orders table for all orders passed as the parameter.
+		 * The query is then executed using the DatabaseSimpleOperation.executeQuery method.
+		 * The method returns true if all the queries are executed successfully, otherwise it returns false.
+		 * @author Rotem
+		 *
+		 */
 		protected static final class DatabaseActionSelectForFetchOrders implements IDatabaseAction {
 			private String ORDERS_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "orders";
 			private String MACHINES_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + "." + "machine";
@@ -502,7 +599,14 @@ public class DatabaseOperationsMap {
 			}
 
 		}
-
+		/**
+		 * The class DatabaseActionSelectPromotionNames implements the IDatabaseAction interface and is used to select promotion names from the database.
+		 * It takes in one parameter: a string containing the SQL query to select promotion names.
+		 * The method executes the query using the DatabaseSimpleOperation.executeQueryWithResults method.
+		 * The method returns a ResultSet containing the result of the query.
+		 * @author Rotem
+		 *
+		 */
 		protected static final class DatabaseActionSelectPromotionNames implements IDatabaseAction {
 
 			@Override
@@ -515,6 +619,15 @@ public class DatabaseOperationsMap {
 		
 
 		// Object[] params contains just the sqlQuery at the [0] index
+		/**
+		 * This class implements the {@link IDatabaseAction} interface and is used to select a promotion from the database.
+		 * The class takes in a single parameter of type {@link Object} array, where the first element is expected to be a {@link String}
+		 * containing the promotion name.
+		 * The method {@link #getDatabaseAction(Object[])} returns an {@link ArrayList} of {@link Promotions} objects
+		 * containing all the information of the selected promotion.
+		 * @author Rotem
+		 *
+		 */
 		protected static final class DatabaseActionSelectPromotion implements IDatabaseAction {
 
 			@Override
@@ -547,7 +660,14 @@ public class DatabaseOperationsMap {
 				return arrayOfPromotions;
 			}
 		}
-		
+		/**
+		 * The {@code DatabaseActionUpdatePromotionStatus} class is a concrete implementation of the
+		 * {@link IDatabaseAction} interface that updates the status of an existing promotion in the database.
+		 * This class takes a single parameter, a {@code String} representing an SQL query that updates the
+		 * status of a promotion, and returns a {@code boolean} indicating the success of the update operation.
+		 * @author Rotem
+		 *
+		 */
 		protected static final class DatabaseActionUpdatePromotionStatus implements IDatabaseAction{
 			@Override
 			public Object getDatabaseAction(Object[] params) {
@@ -555,7 +675,15 @@ public class DatabaseOperationsMap {
 				return DatabaseSimpleOperation.executeQuery(sqlQuery);
 			}			
 		}
-
+		 /**
+		 *  This method takes an array of Location objects as a parameter and returns an ArrayList of Machine objects.
+	 	 *  The returned machines are filtered based on their locationId. 
+	 	 * If the location array passed is empty, all machines are returned.
+	 	 * @param machineLocations an array of Location objects
+	 	 * @return ArrayList of Machine objects
+		 * @author Daniel
+		 *
+		 */
 		protected static final class DatabaseActionSelectForFetchMachines implements IDatabaseAction {
 			private static final String MACHINES_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + ".machine";
 
@@ -602,6 +730,15 @@ public class DatabaseOperationsMap {
 			}
 
 		}
+		/**
+		 * Database action class that handles the fetching of products in a machine. Implements the IDatabaseAction interface.
+		 * The class defines the table and schema names for the products in machine table and product table.
+		 * The getDatabaseAction method retrieves the products in machine by joining the two tables using the productID and
+		 * filtering by machineID and restock_flag. It returns an ArrayList of ProductInMachine objects.
+		 *
+		 * @author Daniel
+		 *
+		 */
 		protected static final class DatabaseActionSelectForFetchProductsInMachine implements IDatabaseAction {
 			private static final String PRODUCTS_IN_MACHINE_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT
 					+ ".products_in_machine";
@@ -645,6 +782,15 @@ public class DatabaseOperationsMap {
 			}
 
 		}
+		/**
+		 * Database action class that handles the updating of products in a machine. Implements the IDatabaseAction interface.
+		 * The class defines the table and schema names for the products in machine table.
+		 * The getDatabaseAction method updates the products in machine by filtering machineID and productID and update the stock and restock_flag.
+		 * It takes an array of ProductInMachine objects as a parameter, constructs and executes an update query for each object,
+		 * and returns a boolean indicating whether the update was successful or not.
+		 * @author Daniel
+		 *
+		 */
 		protected static final class DatabaseActionUpdateForUpdateProductsInMachine implements IDatabaseAction {
 			private static final String PRODUCTS_IN_MACHINE_TABLE = DatabaseOperationsMap.SCHEMA_EKRUT + ".products_in_machine";
 
@@ -678,7 +824,13 @@ public class DatabaseOperationsMap {
 
 		}
 		
-	
+	/**
+	 * HashMap that maps a DatabaseOperation enum to an IDatabaseAction implementation.
+	 * The map is initialized with key-value pairs that associate each DatabaseOperation with the corresponding IDatabaseAction implementation.
+	 * This allows for easy lookup and execution of the appropriate action for a given operation.
+	 * The class is defined as private and static so that it can only be accessed within the same class and only one instance of the map is created
+	 * The serialVersionUID is added for serialization.
+	 */
 	 private static HashMap<DatabaseOperation, IDatabaseAction> map = new HashMap<DatabaseOperation, IDatabaseAction>(){
 		 
 		private static final long serialVersionUID = 1L;
@@ -709,7 +861,10 @@ public class DatabaseOperationsMap {
 			
 		}};
 
-	
+	/**
+	 * Returns the HashMap instance that maps a DatabaseOperation enum to an IDatabaseAction implementation.
+	 * @return HashMap<DatabaseOperation, IDatabaseAction> the HashMap that contains the mapping of operations to actions.
+	 */
 	public static HashMap<DatabaseOperation, IDatabaseAction> getMap() {
 		return map;
 	}

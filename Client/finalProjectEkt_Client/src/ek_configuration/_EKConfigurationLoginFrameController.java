@@ -117,7 +117,8 @@ public class _EKConfigurationLoginFrameController {
 				nextScreenPath = "/gui/_EKConfigurationCustomerHomeArea.fxml";
 				nextPathTitle = "Customer Home Frame";
 				break;
-			case LOGISTICS_EMPLOYEE:
+				
+			case INVENTORY_WORKER:
 				nextScreenPath = "/gui/_EKConfigurationLogisticsEmployeeFrame.fxml";
 				nextPathTitle = "Logistics Employee Frame";
 				break;

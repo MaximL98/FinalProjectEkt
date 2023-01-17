@@ -9,13 +9,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1100.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EditActivePromotionsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1100.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1800px, #a837b4, transparent);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EditActivePromotionsController">
 	<children>
-		<Label layoutX="347.0" layoutY="163.0" text="ACTIVATE/DEACTIVATE A PROMOTION" textFill="PURPLE">
+		<Label layoutX="319.0" layoutY="161.0" text="ACTIVATE/DEACTIVATE A PROMOTION" textFill="WHITE">
          <font>
-            <Font name="Berlin Sans FB" size="24.0" />
+            <Font name="Arial Rounded MT Bold" size="24.0" />
          </font></Label>
-		<TableView fx:id="promotionTable" layoutX="71.0" layoutY="206.0" prefHeight="470.0" prefWidth="959.0" style="-fx-background-color: purple;">
+		<TableView fx:id="promotionTable" layoutX="71.0" layoutY="206.0" prefHeight="470.0" prefWidth="959.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1400px, #a837b4, transparent);">
 			<columns>
 			<TableColumn fx:id="promotionIDColumn" prefWidth="70.0" text="Promo. ID" />
 				<TableColumn fx:id="promotionNameColumn" prefWidth="140.0" text="Promotion Name" />
@@ -26,19 +26,19 @@
 					<TableColumn fx:id="promotionStatusColumn" prefWidth="100.0" text="Status" />
 			</columns>
 		</TableView>
-		<Button fx:id="btnGoBack" layoutX="12.0" layoutY="744.0" onAction="#goBackHandler" prefHeight="33.0" prefWidth="118.0" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
+		<Button fx:id="btnGoBack" layoutX="12.0" layoutY="744.0" onAction="#goBackHandler" prefHeight="33.0" prefWidth="118.0" style="-fx-background-radius: 300; -fx-border-radius: 300;" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
          <font>
-            <Font name="Berlin Sans FB" size="20.0" />
+            <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Button>
-      <Label layoutX="293.0" layoutY="49.0" text="ACTIVATE PROMOTIONS">
+      <Label layoutX="256.0" layoutY="47.0" text="ACTIVATE PROMOTIONS" textFill="WHITE">
          <font>
-            <Font name="Berlin Sans FB" size="48.0" />
+            <Font name="Arial Rounded MT Bold" size="48.0" />
          </font>
       </Label>
-      <ImageView fitHeight="122.0" fitWidth="154.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutY="-25.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Images/Logo.png" />
+            <Image url="@Images/logo%20final%20-%20yellow.png" />
          </image>
       </ImageView>
 	</children>

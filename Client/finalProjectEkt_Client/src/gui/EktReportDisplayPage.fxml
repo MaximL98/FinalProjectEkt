@@ -9,30 +9,30 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1500px, #e6e6fa, indigo);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktReportDisplayPageController">
+<AnchorPane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1400px, #a837b4, transparent);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktReportDisplayPageController">
    <children>
       <BorderPane fx:id="borderPane" prefHeight="700.0" prefWidth="800.0">
          <top>
             <Pane prefHeight="120.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                <children>
-                  <Text fx:id="txtTypeOfReport" layoutX="227.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Type of report&quot; Report">
+                  <Text fx:id="txtTypeOfReport" fill="WHITE" layoutX="194.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Type of report&quot; Report">
                      <font>
-                        <Font name="Berlin Sans FB" size="36.0" />
+                        <Font name="Arial Rounded MT Bold" size="36.0" />
                      </font>
                   </Text>
-                  <Text fx:id="txtMachineName" layoutX="316.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" &quot;Machine name&quot;">
+                  <Text fx:id="txtMachineName" fill="WHITE" layoutX="293.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" &quot;Machine name&quot;">
                      <font>
-                        <Font name="Berlin Sans FB" size="24.0" />
+                        <Font name="Arial Rounded MT Bold" size="26.0" />
                      </font>
                   </Text>
-                  <ImageView fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="200.0" fitWidth="200.0" layoutY="-32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@Images/TheBetterLogo.png" />
+                        <Image url="@Images/logo%20final%20-%20yellow.png" />
                      </image>
                   </ImageView>
-                  <Text fx:id="txtLocationName" layoutX="373.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                  <Text fx:id="txtLocationName" fill="WHITE" layoutX="369.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
                      <font>
-                        <Font name="Berlin Sans FB" size="30.0" />
+                        <Font name="Arial Rounded MT Bold" size="30.0" />
                      </font>
                   </Text>
                </children>
@@ -41,9 +41,9 @@
       </BorderPane>
       <Pane fx:id="paneBottom" layoutY="700.0" prefHeight="100.0" prefWidth="800.0">
          <children>
-            <Button fx:id="btnBack" layoutX="14.0" layoutY="41.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="45.0" prefWidth="100.0" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
+            <Button fx:id="btnBack" layoutX="14.0" layoutY="41.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="45.0" prefWidth="100.0" style="-fx-background-radius: 200; -fx-border-radius: 200;" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font name="Arial Rounded MT Bold" size="20.0" />
                </font>
             </Button>
          </children>

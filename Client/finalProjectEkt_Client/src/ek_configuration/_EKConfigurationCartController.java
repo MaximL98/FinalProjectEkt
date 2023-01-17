@@ -154,11 +154,13 @@ public class _EKConfigurationCartController {
 					
 			
 			Text productName = new Text(product.getProductName());
+			
 			Text quantityLabel = new Text("Quantity: " + ClientController.currentUserCart.get(currentProductID));
 			
-			productName.setStyle("-fx-font: 18 System; -fx-font-weight: bold;");
+			productName.setStyle("-fx-font: 18 System; -fx-font-weight: bold; -fx-text-fill:  #DADF76");
 			productName.setFont(new Font(18));
 			quantityLabel.setFont(new Font(18));
+			quantityLabel.setStyle("-fx-text-fill: #DADF76");
 			
 			Button removeButton = new Button();
 			Button addButton = new Button();
@@ -321,7 +323,8 @@ public class _EKConfigurationCartController {
 		
 		scrollPane.prefHeight(600);
 		scrollPane.prefWidth(800);
-		scrollPane.setStyle("-fx-background:  linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO); -fx-border-color: transparent;"
+		scrollPane.getStylesheets().add("controllers/textCss.css");
+		scrollPane.setStyle("-fx-background:   linear-gradient(from 0px 0px to 0px 1000px, #a837b4, #DADF76); -fx-border-color: transparent;"
 				+ "-fx-background-color: transparent;");
 		
 		borderPane.setCenter(scrollPane);

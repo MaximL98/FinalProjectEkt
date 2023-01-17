@@ -105,7 +105,7 @@ public class _EKConfigurationOrderSummaryController {
 			if (!(ClientController.cartPrice.get(product) == 0.0)) {
 				String currentProductID = product.getProductID();
 				Text productName = new Text("" + product.getProductName());
-				productName.setStyle("-fx-font: 20 System; -fx-font-weight: bold;");
+				productName.setStyle("-fx-font: 20 System; -fx-font-weight: bold; -fx-text-fill: white;" );
 
 				Integer quantityNum = ClientController.currentUserCart.get(currentProductID);
 				totalQuantity += quantityNum;

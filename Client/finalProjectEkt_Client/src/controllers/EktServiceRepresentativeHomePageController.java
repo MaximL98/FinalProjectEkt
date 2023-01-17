@@ -38,8 +38,8 @@ public class EktServiceRepresentativeHomePageController {
 	@FXML
 	private void initialize() {
 		String tmp = txtGreeting.getText();
-		tmp = tmp.replace(", ", ", " + ClientController.getCurrentSystemUser().getFirstName() + " ");
-		txtGreeting.setText(tmp);
+		txtGreeting.setText("Welcome back, " + ClientController.getCurrentSystemUser().getFirstName());
+		txtGreeting.setLayoutX(400 - txtGreeting.minWidth(0) / 2);
 	}
 
 	/**

@@ -1,15 +1,15 @@
 package common;
 
-/*
- * This interface needs to be implemented according to the devised protocol:
- * For every client-side action that requires server communication, 
- * one must fit a proper function (that does what the server needs to do for that action)
- * inside the dedicated server-side static hash-map. 
+/**
+ * The IServerSideFunction interface defines a protocol for handling client-side
+ * actions that require server communication. Each client-side action must have
+ * a corresponding server-side function that is mapped to it in a static
+ * hash-map. The {@link #handleMessage(SCCP)} method takes in an SCCP message
+ * and returns an SCCP message as the response.
  * 
- * TODO:
- * We might not need it as a common object but server only.
+ * @author Rotem
  */
 
 public interface IServerSideFunction {
-	SCCP handleMessage(SCCP message);	
+	SCCP handleMessage(SCCP message);
 }

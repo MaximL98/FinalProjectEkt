@@ -12,17 +12,12 @@ import common.ServerClientRequestTypes;
 import common.WindowStarter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import logic.Machine;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.CheckBox;
 
@@ -30,12 +25,17 @@ import javafx.scene.control.CheckBox;
  * Important: Read this - The configuration is OL - OL = when you buy from home or somewhere - the administrative part of the system.
  * 										   EK = when you physically assault the machine
  * So, here, when we log in, to use the system we made - we must choose OL - and this is the default configuration
- * @author Rotem
- *
  */
+/**
+
+
+The class ClientLoginController is responsible for the login screen of the client.
+It allows the user to connect to the server and choose the configuration of the system (OL/EK).
+It also allows the user to select a machine to connect to and to set fast recognition credentials for future usage.
+@author Rotem
+*/
 
 public class ClientLoginController {
-	// Rotem - moved this in 1.13 outside
 	private List<String> machines=null;
 
 	@FXML
@@ -59,7 +59,10 @@ public class ClientLoginController {
 	@FXML Text txtUsername;
 	
 	@FXML Text txtPassword;
-	
+	/**
+
+	Initializes the login form. It sets the default configuration to OL and populates the combobox with the options of OL and EK.
+	*/
 	@FXML
 	void initialize() {
 		ClientController.setFastRecognitionToggle(false);
@@ -74,7 +77,12 @@ public class ClientLoginController {
 		ClientController.setLaunchConfig(Configuration.OL);
 	}
 	
-	//start primary stage
+	/**
+
+	Starts the primary stage of the login form.
+	@param primaryStage the primary stage of the application
+	@throws Exception
+	*/
 		public void start(Stage primaryStage) throws Exception {
 			WindowStarter.createWindow(primaryStage, this, "/gui/ClientLoginForm.fxml", "/gui/ClientLogin.css", "Login", true);
 			primaryStage.show();	 	
@@ -90,7 +98,13 @@ public class ClientLoginController {
 			getConnectToServer(ae);
 		}
 		
-	
+		/**
+
+		Attempts to connect to the server using the IP address specified in the text field.
+		It also sets the configuration and the machine to connect to.
+		If fast recognition is enabled, it also stores the user credentials for future use.
+		@param event
+		*/
 	public void getConnectToServer(ActionEvent event) {
 		if(!ClientController.getLaunchConfig().equals(Configuration.EK)) {
 			ClientController.setFastRecognitionToggle(false);
@@ -154,8 +168,7 @@ public class ClientLoginController {
 			return;
 		}
 
-		// this line is to add stuff to db in a mesudar fashion
-		//WindowStarter.createWindow(primaryStage, this, "/gui/AddUserToDbForm.fxml", null, "dbg");
+
 
 		
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
@@ -163,30 +176,20 @@ public class ClientLoginController {
 		WindowStarter.createWindow(primaryStage, this, "/gui/EktSystemUserLoginForm.fxml", null, "Login", true);
 
 		
-		/*switch(ClientController.getLaunchConfig()) {
-		case OL:
-			break;
-		case EK:
-			
-			//throw new UnsupportedOperationException("EK Conf is not supported yet");
-			break;
-		default:
-			throw new IllegalStateException("This should never happen");
-		}*/
-		
 		System.out.println("Client is now connected to server");
 		primaryStage.show();	 	
 
-		/*Pane root = loader.load(getClass().getResource("/gui/EkrutUserLoginForm.fxml").openStream());
-		Scene scene = new Scene(root);			
-		scene.getStylesheets().add(getClass().getResource("/gui/EkrutUserLoginForm.css").toExternalForm());
-		primaryStage.setTitle("Worker Page");
-		primaryStage.setScene(scene);		
-		primaryStage.show();*/
+
 	}
-
-
-
+	/**
+	 * This method sets the tezura configuration of the application.
+	 * It takes an ActionEvent as a parameter and sets the launch configuration
+	 * of the ClientController to the value selected in the tezura combo box.
+	 * It also makes the toggle button for easy recognition visible and enabled 
+	 * if the configuration is set to EK, and invisible and disabled otherwise.
+	 * 
+	 * @param event the action event that triggers the method call
+	 */
 	@FXML public void setTezura(ActionEvent event) {
 		System.out.println("Switched to " + cmbTezura.getValue());
 		ClientController.setLaunchConfig(Configuration.valueOf(cmbTezura.getValue()));
@@ -200,7 +203,16 @@ public class ClientLoginController {
 			toggleEasyRecognition.setDisable(true);
 		}
 	}
-
+	/**
+	 * This method retrieves a list of existing machines from the server.
+	 * It opens a connection to the server, sends a request for all existing machines,
+	 * and closes the connection. It then checks the response from the server
+	 * and returns a list of strings representing the names of the machines if the response is an ACK.
+	 * Otherwise, it prints "FAILURE" and returns null.
+	 * 
+	 * @return a list of strings representing the names of existing machines, or null if the request fails
+	 * @throws IOException if there is an error with the connection to the server
+	 */
 	private List<String> getExistingMachinesFromServer() throws IOException {
 		ClientUI.clientController.client.openConnection();
 		ClientUI.clientController.accept(new SCCP(ServerClientRequestTypes.REQUEST_ALL_MACHINES, ""));
@@ -218,13 +230,27 @@ public class ClientLoginController {
 		}
 		return null;
 	}
-
+	/**
+	 * This method sets the chosen machine for easy recognition.
+	 * It takes an ActionEvent as a parameter and sets the _EkCurrentMachineName
+	 * of the ClientController to the value selected in the machines combo box.
+	 * 
+	 * @param event the action event that triggers the method call
+	 */
 	@FXML public void chooseMachine(ActionEvent event) {
 		System.out.println("Chose machine " + cmbMachines.getValue());
 		
 		ClientController._EkCurrentMachineName = cmbMachines.getValue();
 	}
-
+	/**
+	 * This method gets the finish configuration for easy recognition.
+	 * It checks that the chosen machine is valid, and if it is, sends a query to the server to get the machine ID.
+	 * If the response from the server is an ACK, it sets the _EkCurrentMachineID of the ClientController to the retrieved ID
+	 * and opens a new window for login.
+	 * If the response is not an ACK, it throws a runtime exception.
+	 * 
+	 * @param event the action event that triggers the method call
+	 */
 	@FXML public void getFinishEkConfig(ActionEvent event) {
 		// check that the chosen machine is valid:
 		if(ClientController._EkCurrentMachineName == null || !machines.contains(ClientController._EkCurrentMachineName)) {
@@ -251,7 +277,15 @@ public class ClientLoginController {
 		WindowStarter.createWindow(primaryStage, this, "/gui/_EKConfigurationLoginFrame.fxml", null, "Login", true);
 		primaryStage.show();
 	}
-
+	/**
+	 * This method sets the easy recognition toggle.
+	 * It takes an ActionEvent as a parameter and sets the fast recognition toggle
+	 * of the ClientController to true if it is currently false, and vice versa.
+	 * It also makes the text fields for the fast recognition username and password
+	 * visible and enabled if the toggle is set to true, and invisible and disabled otherwise.
+	 * 
+	 * @param event the action event that triggers the method call
+	 */
 	@FXML public void easyRecognitionSetter(ActionEvent event) {
 		if(!ClientController.isFastRecognitionToggle()) {
 			System.out.println("Fast recognition simulation on");

@@ -3,43 +3,34 @@ package controllers;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import logic.Role;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import client.ClientController;
 import client.ClientUI;
+/**
 
+The EktCatalogFormController class is responsible for handling the events and actions for the EktCatalogForm.fxml file.
+This class is responsible for displaying the different catalogs available to the user,
+ allowing them to navigate to the EktProductForm,
+logging out, viewing their orders, and selecting a machine from the ComboBox.
+@author Dima,Maxsim
+*/
 public class EktCatalogFormController implements Serializable {
 	
 	private static boolean bUserSwitchedConfigurations=true;
 
-	
-	/**
-	 * Advanced TODO after we're done: add support for variable categories.
-	 * Implementation idea: Remove the buttons from fxml, leave just a pane with an
-	 * HBox or something, and in initialize() do: query all categories from a
-	 * dedicated table, run in a loop: i = 1 for category in categories:
-	 * insertToHBoxInPane(category) if (i++) % 5 == 0 createNewHBox()
-	 * moveToNextRow()
-	 * 
-	 * Something like that.
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	@FXML
@@ -108,6 +99,10 @@ public class EktCatalogFormController implements Serializable {
 	
 	String productFormFXMLLocation = "/gui/EktProductForm.fxml";
 
+	/**
+	 * A method to initialize the EktCatalogFormController class. It sets the welcome message for the user, the images for each catalog,
+	 *  and the machine selection combo box. It also checks if the user's first order and displays a message if it is.
+*/
 	
 	@FXML
 	public void initialize() {
@@ -196,7 +191,11 @@ public class EktCatalogFormController implements Serializable {
 		
 	}
 
-	// Category 1
+	/**
+	 * A method that is called when the user clicks on the button representing catalog 1.
+	 *  It opens the EktProductForm window and displays the products of the selected catalog.
+	 * @param event The event that triggered this method.
+	 */
 	@FXML
 	private void getBtnCatalog0_0(ActionEvent event) {
 		Stage primaryStage = new Stage();
@@ -209,8 +208,13 @@ public class EktCatalogFormController implements Serializable {
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
-
-	// Category 2
+	/**
+	 * This method is called when the "SOFT DRINKS" button is clicked.
+	 * It creates a new window with the products in the "SOFT DRINKS" category.
+	 * It also sets the value of the CurrentProductCategory variable in the ClientController class to "SOFT DRINKS"
+	 * 
+	 * @param event the event that triggers the method. It is usually a button click.
+	 */
 	@FXML
 	private void getBtnCatalog0_1(ActionEvent event) {
 		Stage primaryStage = new Stage();
@@ -221,8 +225,13 @@ public class EktCatalogFormController implements Serializable {
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
-
-	// Category 3
+	/**
+	 * This method is called when the "FRUITS" button is clicked.
+	 * It creates a new window with the products in the "FRUITS" category.
+	 * It also sets the value of the CurrentProductCategory variable in the ClientController class to "FRUITS"
+	 * 
+	 * @param event the event that triggers the method. It is usually a button click.
+	 */
 	@FXML
 	private void getBtnCatalog0_2(ActionEvent event) {
 		Stage primaryStage = new Stage();
@@ -233,8 +242,13 @@ public class EktCatalogFormController implements Serializable {
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
-
-	// Category 4
+	/**
+	 * This method is called when the "VEGETABLES" button is clicked.
+	 * It creates a new window with the products in the "VEGETABLES" category.
+	 * It also sets the value of the CurrentProductCategory variable in the ClientController class to "VEGETABLES"
+	 * 
+	 * @param event the event that triggers the method. It is usually a button click.
+	 */
 	@FXML
 	private void getBtnCatalog0_3(ActionEvent event) {
 		Stage primaryStage = new Stage();
@@ -246,7 +260,13 @@ public class EktCatalogFormController implements Serializable {
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
 
-	// Category 5
+	/**
+	 * This method is called when the "SNACKS" button is clicked.
+	 * It creates a new window with the products in the "SNACKS" category.
+	 * It also sets the value of the CurrentProductCategory variable in the ClientController class to "SNACKS"
+	 * 
+	 * @param event the event that triggers the method. It is usually a button click.
+	 */
 	@FXML
 	private void getBtnCatalog1_0(ActionEvent event) {
 		Stage primaryStage = new Stage();
@@ -257,8 +277,13 @@ public class EktCatalogFormController implements Serializable {
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
-
-	// Category 6
+	/**
+	 * This method is called when the "SANDWICHES" button is clicked.
+	 * It creates a new window with the products in the "SANDWICHES" category.
+	 * It also sets the value of the CurrentProductCategory variable in the ClientController class to "SANDWICHES"
+	 * 
+	 * @param event the event that triggers the method. It is usually a button click.
+	 */
 	@FXML
 	private void getBtnCatalog1_1(ActionEvent event) {
 		Stage primaryStage = new Stage();
@@ -269,8 +294,13 @@ public class EktCatalogFormController implements Serializable {
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
-
-	// Category 7
+	/**
+	* Handles the event when the "CHEWING GUM" category button is clicked.
+	* It sets the current product category to "CHEWING GUM" and opens a new window for the product form.
+	* The primary window is closed after the new window is opened.
+	*
+	* @param event the action event that triggered the method call
+	*/
 	@FXML
 	private void getBtnCatalog1_2(ActionEvent event) {
 		Stage primaryStage = new Stage();
@@ -282,8 +312,13 @@ public class EktCatalogFormController implements Serializable {
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
-
-	// Category 8
+	/**
+	 * Handles the event when the "DAIRY" category button is clicked.
+	 * It sets the current product category to "DAIRY" and opens a new window for the product form.
+	 * The primary window is closed after the new window is opened.
+	 * 
+	 * @param event the action event that triggered the method call
+	 */
 	@FXML
 	private void getBtnCatalog1_3(ActionEvent event) {
 		Stage primaryStage = new Stage();
@@ -295,6 +330,13 @@ public class EktCatalogFormController implements Serializable {
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
 
+/**
+ * Handles the event when the "Logout" button is clicked.
+ * It sends a logout request to the server and opens a new window for the login form.
+ * The primary window is closed after the new window is opened.
+ * 
+ * @param event the action event that triggered the method call
+ */
 	@FXML
 	void getBtnLogout(ActionEvent event) {
 		// actually log the user out
@@ -307,7 +349,13 @@ public class EktCatalogFormController implements Serializable {
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
-
+	/**
+	 * Handles the event when the "My Orders" button is clicked.
+	 * It opens a new window for the "Ekt My Orders" form.
+	 * The primary window is closed after the new window is opened.
+	 * 
+	 * @param event the action event that triggered the method call
+*/
 	@FXML
 	void getBtnMyOrders(ActionEvent event) {
 		Stage primaryStage = new Stage();
@@ -315,7 +363,13 @@ public class EktCatalogFormController implements Serializable {
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
-
+	/**
+	 * Handles the event when the "All Items" category button is clicked.
+	 * It sets the current product category to "ALL ITEMS" and opens a new window for the product form.
+	 * The primary window is closed after the new window is opened.
+	 * 
+	 * @param event the action event that triggered the method call
+	 */
 	@FXML
 	void getBtnCatalogAllItems(ActionEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
@@ -327,7 +381,11 @@ public class EktCatalogFormController implements Serializable {
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
 	}
-	
+	/**
+	 * Method to disable all category buttons
+	 * 
+	 * @param value the boolean value to set the buttons to
+	 */
 	public void setDisableCatalog(boolean value) {
 		btnCatalog1.setDisable(value);btnCatalog2.setDisable(value);
 		btnCatalog3.setDisable(value);btnCatalog4.setDisable(value);

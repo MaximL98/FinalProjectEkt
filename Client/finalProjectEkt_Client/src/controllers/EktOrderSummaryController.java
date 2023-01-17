@@ -35,6 +35,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 /**
  * This class represents the controller for the EktOrderSummary.fxml file, which
@@ -103,7 +104,7 @@ public class EktOrderSummaryController {
 		centerScrollBar.setPrefWidth(800);
 		centerScrollBar.getStylesheets().add("controllers/testCss.css");
 		centerScrollBar.setStyle(
-				"-fx-background-color: linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO);");
+				"-fx-background-color:  linear-gradient(from -200px 0px to 0px 1800px, #a837b4, transparent);");
 		gridPane = new GridPane();
 
 		Double totalPrice = 0.0;
@@ -137,11 +138,13 @@ public class EktOrderSummaryController {
 			if (!(OrderController.getCartPrice().get(product) == 0.0)) {
 				String currentProductID = product.getProductID();
 				Text productName = new Text("" + product.getProductName());
+				productName.setFill(Color.WHITE);
 				productName.setStyle("-fx-font: 20 System; -fx-font-weight: bold;");
 
 				Integer quantityNum = OrderController.getCurrentUserCart().get(currentProductID);
 				totalQuantity += quantityNum;
 				Text quantity = new Text("Quantity: " + (quantityNum).toString());
+				quantity.setFill(Color.WHITE);
 				Double costPerUnit = Double.valueOf(product.getCostPerUnit());
 //				if (ClientController.getCustomerIsSubsriber() != null && ClientController.getCustomerIsSubsriber()) {
 //					if (firstOrderForSubscriber())
@@ -149,6 +152,7 @@ public class EktOrderSummaryController {
 //				}
 				Double totalSum = quantityNum * costPerUnit;
 				Text sum = new Text("Cost: " + (new DecimalFormat("##.##").format(totalSum)).toString() + " $");
+				sum.setFill(Color.WHITE);
 				totalPrice += totalSum;
 				Label emptySpace = new Label("");
 				emptySpace.setMinHeight(75);

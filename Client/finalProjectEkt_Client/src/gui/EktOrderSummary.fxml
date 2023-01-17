@@ -25,9 +25,9 @@
                         <Font name="Arial Rounded MT Bold" size="36.0" />
                      </font>
                   </Text>
-                  <Button fx:id="btnClose" layoutX="628.0" layoutY="39.0" mnemonicParsing="false" onAction="#getBtnClose" prefHeight="20.0" prefWidth="158.0" style="-fx-background-color: #f28484; -fx-border-color: crimson; -fx-border-width: 3;" text="CANCEL ORDER">
+                  <Button fx:id="btnClose" layoutX="598.0" layoutY="39.0" mnemonicParsing="false" onAction="#getBtnClose" prefHeight="39.0" prefWidth="188.0" style="-fx-background-color: red; -fx-border-color: white; -fx-border-width: 3;" text="CANCEL ORDER" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="17.0" />
+                        <Font name="Arial Rounded MT Bold" size="17.0" />
                      </font>
                   </Button>
                </children>
@@ -41,9 +41,9 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnApprove" layoutX="586.0" layoutY="54.0" mnemonicParsing="false" onAction="#getBtnApprove" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: #b6e194; -fx-border-color: green; -fx-border-width: 3;" text="APPROVE ORDER">
+                  <Button fx:id="btnApprove" layoutX="586.0" layoutY="54.0" mnemonicParsing="false" onAction="#getBtnApprove" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: green; -fx-border-color: white; -fx-border-width: 3;" text="APPROVE ORDER" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font name="Arial Rounded MT Bold" size="17.0" />
                      </font>
                   </Button>
                   <Text fx:id="txtOrderTotal" fill="WHITE" layoutX="247.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ORDER TOTAL: 0$">

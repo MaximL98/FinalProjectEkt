@@ -150,7 +150,7 @@
                                  </font>
                               </Text>
                               <Line endX="350.0" layoutX="399.0" layoutY="84.0" startX="-350.0" stroke="WHITE" />
-                              <ImageView fitHeight="325.0" fitWidth="408.0" layoutX="238.0" layoutY="320.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="273.0" fitWidth="285.0" layoutX="264.0" layoutY="359.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@Images/barChart.png" />
                                  </image>

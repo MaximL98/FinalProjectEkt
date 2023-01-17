@@ -19,7 +19,7 @@
                   <Font name="Arial Rounded MT Bold" size="48.0" />
                </font>
             </Text>
-            <Button fx:id="btnBack" layoutX="14.0" layoutY="751.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="32.0" prefWidth="91.0" style="-fx-background-radius: 300; -fx-border-radius: 300;" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
+            <Button fx:id="btnBack" layoutX="14.0" layoutY="751.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="43.0" prefWidth="116.0" style="-fx-background-radius: 300; -fx-border-radius: 300;" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
                <font>
                   <Font name="Arial Rounded MT Bold" size="20.0" />
                </font>

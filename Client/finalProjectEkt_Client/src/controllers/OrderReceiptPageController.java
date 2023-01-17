@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -62,13 +63,12 @@ public class OrderReceiptPageController {
 			txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
 		}
 
-		////////// IF WE HAVE TIME WE CAN DO IT. I THINK WE CAN DO IT BUT NOT USING A
-		////////// GOOGLE ACCOUNT!
-		String CustomerEmail = "dimakislitsyn96@gmail.com";
+		String CustomerEmail = "";
 		SendEmail(CustomerEmail);
 
 		if (!OrderController.getDeliveryAddress().equals("")) {
 			txtDeliveryAddress.setText("Delivery Address: " + OrderController.getDeliveryAddress());
+			txtDeliveryAddress.setFill(Color.WHITE);
 		}
 
 	}

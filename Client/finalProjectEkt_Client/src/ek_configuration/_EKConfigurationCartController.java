@@ -26,6 +26,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -157,6 +158,8 @@ public class _EKConfigurationCartController {
 			
 			Text productName = new Text(product.getProductName());
 			Text quantityLabel = new Text("Quantity: " + OrderController.getCurrentUserCart().get(currentProductID));
+			quantityLabel.setFill(Color.WHITE);
+			productName.setFill(Color.WHITE);
 			
 			productName.setStyle("-fx-font: 18 System; -fx-font-weight: bold; -fx-text-fill:  #DADF76");
 			productName.setFont(new Font(18));
@@ -172,18 +175,18 @@ public class _EKConfigurationCartController {
 			/////////////////////// Dima 31/12 10:18
 			removeButton.setPrefSize(50, 50);
 			removeButton.setGraphic(removeItemIconImageView);
-			removeButton.setStyle("-fx-background-color: transparent; -fx-border-color: black; "
-					+ "-fx-border-width: 1px; -fx-border-radius: 100");
+			removeButton.setStyle("-fx-background-color: transparent; -fx-border-color: white; "
+					+ "-fx-border-width: 3px; -fx-border-radius: 100");
 			
 			addButton.setPrefSize(50, 50);
 			addButton.setGraphic(addOneToCartIconImageView);
-			addButton.setStyle("-fx-background-color: transparent; -fx-border-color: green; "
-					+ "-fx-border-width: 1px; -fx-border-radius: 100");
+			addButton.setStyle("-fx-background-color: transparent; -fx-border-color: white; "
+					+ "-fx-border-width: 3px; -fx-border-radius: 100");
 			
 			removeOneButton.setPrefSize(50, 50);
 			removeOneButton.setGraphic(removeOneFromCartIconImageView);
-			removeOneButton.setStyle("-fx-background-color: transparent; -fx-border-color:crimson; "
-					+ "-fx-border-width: 1px; -fx-border-radius: 100");
+			removeOneButton.setStyle("-fx-background-color: transparent; -fx-border-color: white; "
+					+ "-fx-border-width: 3px; -fx-border-radius: 100");
 			///////////////////////////////////////////////////////////////////////
 			
 			j++;
@@ -325,7 +328,7 @@ public class _EKConfigurationCartController {
 		scrollPane.prefHeight(600);
 		scrollPane.prefWidth(800);
 		scrollPane.getStylesheets().add("controllers/textCss.css");
-		scrollPane.setStyle("-fx-background:   linear-gradient(from 0px 0px to 0px 1000px, #a837b4, #DADF76); -fx-border-color: transparent;"
+		scrollPane.setStyle("-fx-background: linear-gradient(from -200px 0px to 0px 1800px, #a837b4, transparent); -fx-border-color: transparent;"
 				+ "-fx-background-color: transparent;");
 		
 		borderPane.setCenter(scrollPane);

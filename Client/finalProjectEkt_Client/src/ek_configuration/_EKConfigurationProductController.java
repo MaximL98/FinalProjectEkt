@@ -275,6 +275,10 @@ public class _EKConfigurationProductController {
 				txtProductCostPerUnit.setFont(new Font(18));
 				txtProductCostPerUnit.setFill(Color.WHITE);
 				
+				txtProductID.setFill(Color.WHITE);
+				txtProductCostPerUnit.setFill(Color.WHITE);
+				txtProductName.setFill(Color.WHITE);
+				
 				/*
 				 * Rotem - insert stock to map (for each product in machine)
 				 * Only inserts if nothing inside (like Shimon's mom)
@@ -335,7 +339,7 @@ public class _EKConfigurationProductController {
 				addToCartImageView.setFitWidth(45);
 				addToCartButton.setPrefSize(50, 50);
 				addToCartButton.setGraphic(addToCartImageView);
-				addToCartButton.setStyle("-fx-background-color: transparent; -fx-border-color: #DADF76; "
+				addToCartButton.setStyle("-fx-background-color: transparent; -fx-border-color: white; "
 						+ "-fx-border-width: 3px; -fx-border-radius: 100");
 				////////////////////////////////////////////
 			
@@ -360,8 +364,8 @@ public class _EKConfigurationProductController {
 				
 				BorderPane pane = new BorderPane();
 				pane.minHeight(170);
-				pane.setStyle("-fx-border-color: #DADF76; -fx-border-width: 3px; -fx-border-radius: 10;"
-						+ " -fx-background-color: linear-gradient(from 0px 0px to 0px 400px, #a837b4, transparent); -fx-background-radius: 12");
+				pane.setStyle("-fx-border-color: black; -fx-border-width: 3px; -fx-border-radius: 10;"
+						+ " -fx-background-color:  linear-gradient(from 0px 0px to 0px 400px, #a837b4, transparent); -fx-background-radius: 12");
 
 				//pane.getChildren().add(productHBox);
 				pane.setCenter(productHBox);
@@ -444,7 +448,7 @@ public class _EKConfigurationProductController {
 			borderPane.setCenter(scrollPane);
 			scrollPane.getStylesheets().add("controllers/testCss.css");
 			scrollPane.setStyle(
-					"-fx-background-color: transparent; -fx-background-color:   linear-gradient(from 0px 0px to 0px 1600px, #a837b4, transparent);"
+					"-fx-background-color: transparent; -fx-background-color:    linear-gradient(from 0px 0px to 0px 1400px, #a837b4, transparent);"
 							+ "-fx-border-color: transparent;");
 			scrollPane.setBorder(border);
 			

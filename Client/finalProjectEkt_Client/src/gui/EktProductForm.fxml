@@ -38,11 +38,11 @@
                         <Font name="Arial Rounded MT Bold" size="36.0" />
                      </font>
                   </Text>
-                  <Button fx:id="btnCart" layoutX="636.0" layoutY="29.0" mnemonicParsing="false" onAction="#getBtnCart" prefHeight="70.0" prefWidth="155.0" style="-fx-background-radius: 200; -fx-border-color: purple; -fx-border-width: 3; -fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO); -fx-border-radius: 300;" text="      CART">
+                  <Button fx:id="btnCart" layoutX="605.0" layoutY="29.0" mnemonicParsing="false" onAction="#getBtnCart" prefHeight="70.0" prefWidth="186.0" style="-fx-background-radius: 200; -fx-border-color: purple; -fx-border-width: 3; -fx-background-color: transparent; -fx-border-radius: 300;" text="      CART" textFill="WHITE">
                      <font>
-                        <Font name="Berlin Sans FB" size="18.0" />
+                        <Font name="Arial Rounded MT Bold" size="18.0" />
                      </font></Button>
-                  <Label fx:id="txtNumberOfItemsInCart" alignment="CENTER" disable="true" layoutX="695.0" layoutY="30.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: #a7f8a8; -fx-background-radius: 200; -fx-opacity: 0.75;" text="0" wrapText="true">
+                  <Label fx:id="txtNumberOfItemsInCart" alignment="CENTER" disable="true" layoutX="675.0" layoutY="30.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: #a7f8a8; -fx-background-radius: 200; -fx-opacity: 0.75;" text="0" wrapText="true">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>

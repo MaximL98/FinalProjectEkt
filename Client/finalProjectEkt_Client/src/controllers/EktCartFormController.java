@@ -11,6 +11,7 @@ import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
 import ek_configuration._EKConfigurationProductController;
+import entityControllers.OrderController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -77,7 +78,7 @@ public class EktCartFormController {
 	
 	private void calculatePriceToAdd(Double costPerUnit, Integer quantityNum, Product product) {
 		
-		quantityNum = ClientController.currentUserCart.get(product.getProductID());
+		quantityNum = OrderController.getCurrentUserCart().get(product.getProductID());
 		costPerUnit = Double.valueOf(product.getCostPerUnit());
 		priceToAdd = quantityNum * costPerUnit;
 
@@ -85,9 +86,9 @@ public class EktCartFormController {
 	
 	private void calculateTotalPrice() {
 		totalPrice = 0.0;
-		for (Product product: ClientController.cartPrice.keySet()) {
+		for (Product product: OrderController.getCartPrice().keySet()) {
 			System.out.println("Adding the price of " + product.getProductName()+ "in");
-			totalPrice += ClientController.cartPrice.get(product);
+			totalPrice += OrderController.getCartPrice().get(product);
 		}
 		if(totalPrice == 0.0) {
 			emptyCart = true;
@@ -98,8 +99,8 @@ public class EktCartFormController {
 	
 	@FXML
 	public void initialize() {
-		ClientController.orderType = "";
-		ClientController.pickupPlace = "";
+		OrderController.setOrderType("");
+		OrderController.setPickupPlace("");
 		
 		vboxCart = new VBox();
 		gridpaneIntoVbox  = new GridPane();
@@ -128,7 +129,7 @@ public class EktCartFormController {
 		choiceBox.setOnAction(event ->{
 			if(choiceBox.getValue().equals("Pickup")) {
 				System.out.println("Client Order Type is = " + choiceBox.getValue());
-				ClientController.orderType = choiceBox.getValue();
+				OrderController.setOrderType(choiceBox.getValue());
 				btmPane.getChildren().removeAll(tf,t);
 
 				cb.getItems().setAll("Haifa, Downtown","Beer Sheva, Center","Beer Sheva, Downtown",
@@ -142,7 +143,7 @@ public class EktCartFormController {
 				
 			}
 			else if(choiceBox.getValue().equals("Delivery")) {
-				ClientController.orderType = choiceBox.getValue();
+				OrderController.setOrderType(choiceBox.getValue());
 				btmPane.getChildren().remove(cb);
 				tf.setLayoutX(509);
 				tf.setLayoutY(22);
@@ -158,15 +159,15 @@ public class EktCartFormController {
 			}
 		});
 		
-		cb.setOnAction(event ->{ClientController.pickupPlace = cb.getValue();});
+		cb.setOnAction(event ->{OrderController.setPickupPlace(cb.getValue());});
 		
 		
 		System.out.println("deliveryAddress = " + deliveryAddress);
 		int i = 0, j = 0;
-		for (superProduct product: ClientController.getProductByID.values()) {
+		for (superProduct product: OrderController.getGetProductByID().values()) {
 			String currentProductID = product.getProductID();
-			calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(currentProductID), product);
-			ClientController.cartPrice.put(product,priceToAdd);
+			calculatePriceToAdd(costPerUnit, OrderController.getCurrentUserCart().get(currentProductID), product);
+			OrderController.getCartPrice().put(product,priceToAdd);
 			calculateTotalPrice();
 			txtTotalPrice.setText("Cart Total: " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 			txtTotalPrice.setLayoutX(400 - txtTotalPrice.minWidth(0)/2);
@@ -205,7 +206,7 @@ public class EktCartFormController {
 			//Image productImage = new Image("controllers/Images/" + currentProductID + ".png");
 			//ImageView productImageView = new ImageView(productImage);
 			Text productName = new Text(product.getProductName());
-			Text quantityLabel = new Text("Quantity: " + ClientController.currentUserCart.get(currentProductID));
+			Text quantityLabel = new Text("Quantity: " + OrderController.getCurrentUserCart().get(currentProductID));
 			
 			productName.setStyle("-fx-font: 18 System; -fx-font-weight: bold;");
 			productName.setFont(new Font(18));
@@ -261,7 +262,7 @@ public class EktCartFormController {
 				// Rotem added urgent 16.1
 				EktProductFormController.productsInStockMap.put(currentProductID, 
 						EktProductFormController.productsInStockMap.get(currentProductID) +
-						ClientController.currentUserCart.get(currentProductID));
+						OrderController.getCurrentUserCart().get(currentProductID));
 				
 				System.out.println("item" + product.getProductName() + " was removed");
 				gridpaneIntoVbox.getChildren().remove(productName);
@@ -272,19 +273,19 @@ public class EktCartFormController {
 				gridpaneIntoVbox.getChildren().remove(productImageView);
 
 				//removeProduct = true;
-				EktProductFormController.itemsInCart -= ClientController.currentUserCart.get(currentProductID);
-				ClientController.currentUserCart.put(currentProductID, 0);
-				calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(currentProductID), product);
-				ClientController.cartPrice.put(product, 0.0);
+				EktProductFormController.itemsInCart -= OrderController.getCurrentUserCart().get(currentProductID);
+				OrderController.getCurrentUserCart().put(currentProductID, 0);
+				calculatePriceToAdd(costPerUnit, OrderController.getCurrentUserCart().get(currentProductID), product);
+				OrderController.getCartPrice().put(product, 0.0);
 				calculateTotalPrice();
 				txtTotalPrice.setText("Cart Total: " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 				txtTotalPrice.setLayoutX(400 - txtTotalPrice.minWidth(0)/2);
 				
 				//Max 7/1
 				if(EktProductFormController.itemsInCart == 0){
-					ClientController.currentUserCart.keySet().clear();
-					ClientController.getProductByID.keySet().clear();
-					ClientController.cartPrice.keySet().clear();
+					OrderController.getCurrentUserCart().keySet().clear();
+					OrderController.getGetProductByID().keySet().clear();
+					OrderController.getCartPrice().keySet().clear();
 				}
 				
 
@@ -294,10 +295,10 @@ public class EktCartFormController {
 
 			addButton.setOnAction(action -> {
 				EktProductFormController.itemsInCart++;
-				ClientController.currentUserCart.put(currentProductID, ClientController.currentUserCart.get(currentProductID) + 1);
-				quantityLabel.setText("Quantity: " + (ClientController.currentUserCart.get(currentProductID).toString()));
-				calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(currentProductID), product);
-				ClientController.cartPrice.put(product, priceToAdd);
+				OrderController.getCurrentUserCart().put(currentProductID, OrderController.getCurrentUserCart().get(currentProductID) + 1);
+				quantityLabel.setText("Quantity: " + (OrderController.getCurrentUserCart().get(currentProductID).toString()));
+				calculatePriceToAdd(costPerUnit, OrderController.getCurrentUserCart().get(currentProductID), product);
+				OrderController.getCartPrice().put(product, priceToAdd);
 				calculateTotalPrice();
 				txtTotalPrice.setText("Cart Total: " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 				txtTotalPrice.setLayoutX(400 - txtTotalPrice.minWidth(0)/2);
@@ -311,14 +312,14 @@ public class EktCartFormController {
 
 			removeOneButton.setOnAction(action -> {
 				EktProductFormController.itemsInCart--;
-				ClientController.currentUserCart.put(currentProductID, ClientController.currentUserCart.get(currentProductID) - 1);
-				quantityLabel.setText("Quantity: " + (ClientController.currentUserCart.get(currentProductID).toString()));
-				calculatePriceToAdd(costPerUnit, ClientController.currentUserCart.get(currentProductID), product);
-				ClientController.cartPrice.put(product, priceToAdd);
+				OrderController.getCurrentUserCart().put(currentProductID, OrderController.getCurrentUserCart().get(currentProductID) - 1);
+				quantityLabel.setText("Quantity: " + (OrderController.getCurrentUserCart().get(currentProductID).toString()));
+				calculatePriceToAdd(costPerUnit, OrderController.getCurrentUserCart().get(currentProductID), product);
+				OrderController.getCartPrice().put(product, priceToAdd);
 				calculateTotalPrice();
 				txtTotalPrice.setText("Cart Total: " + (new DecimalFormat("##.##").format(totalPrice)).toString() + "$");
 				txtTotalPrice.setLayoutX(400 - txtTotalPrice.minWidth(0)/2);
-				if (ClientController.currentUserCart.get(currentProductID) < 1) {
+				if (OrderController.getCurrentUserCart().get(currentProductID) < 1) {
 					System.out.println("item" + product.getProductName() + " was removed");
 					gridpaneIntoVbox.getChildren().remove(productName);
 					gridpaneIntoVbox.getChildren().remove(quantityLabel);
@@ -329,9 +330,9 @@ public class EktCartFormController {
 				}
 				//Max 7/1
 				if(EktProductFormController.itemsInCart == 0){
-					ClientController.currentUserCart.keySet().clear();
-					ClientController.getProductByID.keySet().clear();
-					ClientController.cartPrice.keySet().clear();
+					OrderController.getCurrentUserCart().keySet().clear();
+					OrderController.getGetProductByID().keySet().clear();
+					OrderController.getCartPrice().keySet().clear();
 				}
 				
 				// ROTEM ADDED URGENT 1.16:
@@ -342,13 +343,13 @@ public class EktCartFormController {
 			});
 			
 
-			if(!ClientController.currentUserCart.get(currentProductID).equals(0)) {
-				ClientController.arrayOfAddedProductsToGridpane.add(product);
+			if(!OrderController.getCurrentUserCart().get(currentProductID).equals(0)) {
+				OrderController.getArrayOfAddedProductsToGridpane().add(product);
 				emptyCart = false;
 			}
 			
-			if(ClientController.currentUserCart.get(currentProductID).equals(0)) {
-				ClientController.cartPrice.put(product, 0.0);
+			if(OrderController.getCurrentUserCart().get(currentProductID).equals(0)) {
+				OrderController.getCartPrice().put(product, 0.0);
 				emptyCart = true;
 				gridpaneIntoVbox.getChildren().remove(productName);
 				gridpaneIntoVbox.getChildren().remove(quantityLabel);
@@ -361,8 +362,8 @@ public class EktCartFormController {
 			//Implement amount of items
 		}
 
-		ClientController.orderTotalPrice = totalPrice;
-		System.out.println("total price = " + ClientController.orderTotalPrice);
+		OrderController.setOrderTotalPrice(totalPrice);
+		System.out.println("total price = " + OrderController.getOrderTotalPrice());
 		vboxCart.getChildren().add(gridpaneIntoVbox);
 		ScrollPane scrollPane = new ScrollPane(vboxCart);
 		
@@ -379,7 +380,7 @@ public class EktCartFormController {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
 		//category is located in a ArrayList
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktProductForm.fxml", null, ClientController.CurrentProductCategory.get(0), true);
+		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktProductForm.fxml", null, OrderController.getCurrentProductCategory().get(0), true);
 		vboxCart.getChildren().clear();
 		primaryStage.show();
 		
@@ -407,11 +408,11 @@ public class EktCartFormController {
 			Stage primaryStage = new Stage();
 			//category is located in a ArrayList
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktCatalogForm.fxml", null, 
-					ClientController.CurrentProductCategory.get(0), true);
+					OrderController.getCurrentProductCategory().get(0), true);
 
-			ClientController.currentUserCart.keySet().clear();
-			ClientController.getProductByID.keySet().clear();
-			ClientController.cartPrice.keySet().clear();
+			OrderController.getCurrentUserCart().keySet().clear();
+			OrderController.getGetProductByID().keySet().clear();
+			OrderController.getCartPrice().keySet().clear();
 			primaryStage.show();
 			//////////////////////
 			((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
@@ -443,9 +444,9 @@ public class EktCartFormController {
     			Stage primaryStage = new Stage();
     			//category is located in a ArrayList
     			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktProductForm.fxml", null, 
-    					ClientController.CurrentProductCategory.get(0), true);
+    					OrderController.getCurrentProductCategory().get(0), true);
     	
-    			ClientController.currentUserCart.keySet().clear();
+    			OrderController.getCurrentUserCart().keySet().clear();
     			
     			primaryStage.show();
     			//////////////////////
@@ -453,9 +454,9 @@ public class EktCartFormController {
 
     		}
     	}
-		else if(ClientController.orderType.equals("") || 
-				(ClientController.orderType.equals("Pickup") && ClientController.pickupPlace.equals("") ||
-						(ClientController.orderType.equals("Delivery") && deliveryAddress.equals("")))) {
+		else if(OrderController.getOrderType().equals("") || 
+				(OrderController.getOrderType().equals("Pickup") && OrderController.getPickupPlace().equals("") ||
+						(OrderController.getOrderType().equals("Delivery") && deliveryAddress.equals("")))) {
 			//Alert window
     		Alert alert = new Alert(AlertType.WARNING);
     		alert.setTitle("Select Order Type");
@@ -471,7 +472,7 @@ public class EktCartFormController {
 			//category is located in a ArrayList
 			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/EktOrderSummary.fxml", null, "Order Summary", true);
 			vboxCart.getChildren().clear();
-			ClientController.deliveryAddress = deliveryAddress;
+			OrderController.setDeliveryAddress(deliveryAddress);
 			primaryStage.show();
 		}
 

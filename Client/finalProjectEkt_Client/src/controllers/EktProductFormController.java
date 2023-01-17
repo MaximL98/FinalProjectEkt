@@ -44,6 +44,7 @@ import client.ClientUI;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
+import entityControllers.OrderController;
 
 /**
  * 
@@ -165,7 +166,7 @@ public class EktProductFormController {
 				"promotions.promotionStatus, promotions.discountPercentage", false, null, true,
 				"JOIN locations ON promotions.locationID = locations.locationID \r\n"
 						+ "JOIN machine ON promotions.locationID = machine.locationId" + " WHERE machine.machineId = "
-						+ ClientController.OLCurrentMachineID + ";" });
+						+ ClientController.getOLCurrentMachineID() + ";" });
 		ClientUI.clientController.accept(getDiscountAmount);
 
 		ArrayList<?> promotionStatusAndPromotionID = (ArrayList<?>) ClientController.responseFromServer
@@ -218,8 +219,8 @@ public class EktProductFormController {
 		// Rotem-tested it]
 		if (isMachineSwitchedFlag()) {
 			productsInStockMap = new HashMap<>();
-			ClientController.currentUserCart = new HashMap<>();
-			ClientController.getProductByID = new HashMap<>();
+			OrderController.setCurrentUserCart(new HashMap<>());
+			OrderController.setGetProductByID(new HashMap<>());
 			itemsInCart = 0;
 			// don't forget to release it
 			setMachineSwitchedFlag(false);
@@ -260,7 +261,7 @@ public class EktProductFormController {
 		cartImg.setPreserveRatio(true);
 		btnCart.setGraphic(cartImg);
 
-		String productCategory = ClientController.CurrentProductCategory.get(0);
+		String productCategory = OrderController.getCurrentProductCategory().get(0);
 		txtCategoryName.setText(productCategory);
 		txtCategoryName.setLayoutX(400 - (txtCategoryName.minWidth(gridPaneRow)) / 2);
 
@@ -271,7 +272,7 @@ public class EktProductFormController {
 						+ "JOIN products_in_machine ON product.productID = products_in_machine.productID",
 				true, "product.*, files.file_name, files.file, products_in_machine.stock", true,
 				"(category = " + "'" + productCategory + "'" + "OR product.subCategory =" + "'" + productCategory + "')"
-						+ " AND products_in_machine.machineID = " + ClientController.OLCurrentMachineID,
+						+ " AND products_in_machine.machineID = " + ClientController.getOLCurrentMachineID(),
 				false, null });
 
 		ClientUI.clientController.accept(testmsg);
@@ -416,16 +417,16 @@ public class EktProductFormController {
 					// If it does not exist, set value to "1"
 					String currentProductID = ((ArrayList<?>) product).get(0).toString();
 
-					if (!ClientController.getProductByID.containsKey(currentProductID)) {
+					if (!OrderController.getGetProductByID().containsKey(currentProductID)) {
 						double pricePerProductBeforeDiscount = new Double(((ArrayList<?>) product).get(2).toString());
 						Double priceAfterDiscount = new Double(pricePerProductBeforeDiscount * salePromotionAmount);
 						superProduct p = new superProduct(((ArrayList<?>) product).get(0).toString(),
 								((ArrayList<?>) product).get(1).toString(), priceAfterDiscount.toString(),
 								((ArrayList<?>) product).get(3).toString(), (""),
 								((ArrayList<?>) product).get(5).toString(), (byte[]) ((ArrayList<?>) product).get(6));
-						ClientController.getProductByID.put(currentProductID, p);
+						OrderController.getGetProductByID().put(currentProductID, p);
 					}
-					ClientController.currentUserCart.merge(currentProductID, 1, Integer::sum);
+					OrderController.getCurrentUserCart().merge(currentProductID, 1, Integer::sum);
 					// Animate add to cart
 				});
 

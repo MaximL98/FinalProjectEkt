@@ -48,7 +48,7 @@ public class _EKConfigurationCustomerCollectOrderController {
     			new Object[] {"orders JOIN customer_orders on orders.orderID=customer_orders.orderId", 
     					true, "orders.orderID", 
     					true, "customerId="+ClientController.getCurrentSystemUser().getId()+
-    					" AND orders.statusId=1 AND orders.typeId=1 AND orders.machineID="+ClientController._EkCurrentMachineID, false, null}));
+    					" AND orders.statusId=1 AND orders.typeId=1 AND orders.machineID="+ClientController.getEKCurrentMachineID(), false, null}));
     	@SuppressWarnings("unchecked")
 		ArrayList<ArrayList<Object>> res = (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
     	for(ArrayList<Object> row : res) {

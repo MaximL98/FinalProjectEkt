@@ -3,21 +3,18 @@ package controllers;
 import common.SCCP;
 import common.ServerClientRequestTypes;
 import common.WindowStarter;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import entityControllers.OrderController;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import logic.Role;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,8 +24,6 @@ import client.ClientUI;
 
 public class EktCatalogFormController implements Serializable {
 	
-	private static boolean bUserSwitchedConfigurations=true;
-
 	
 	/**
 	 * Advanced TODO after we're done: add support for variable categories.
@@ -114,10 +109,10 @@ public class EktCatalogFormController implements Serializable {
 		if(EktSystemUserLoginController.firstOrderForSubscriber()) {
 			txtDiscountFirstOrder.setVisible(true);
 		}
-		if(ClientController.OLCurrentMachineName == null)
+		if(ClientController.getOLCurrentMachineName() == null)
 			setDisableCatalog(true);
-		if(ClientController.OLCurrentMachineName != null)
-			cmbMachineName.setValue(ClientController.OLCurrentMachineName);
+		if(ClientController.getOLCurrentMachineName() != null)
+			cmbMachineName.setValue(ClientController.getOLCurrentMachineName());
 		
 		txtWelcomeCustomer
 				.setText("Hi " + ClientController.getCurrentSystemUser().getFirstName() + ", glad you are back!");
@@ -143,8 +138,8 @@ public class EktCatalogFormController implements Serializable {
 		cmbMachineName.getItems().setAll(machinesNames);
 		
 		cmbMachineName.setOnAction(event ->{
-			if(!cmbMachineName.getValue().equals(ClientController.OLCurrentMachineName)) {
-				if(ClientController.OLCurrentMachineName != null) {
+			if(!cmbMachineName.getValue().equals(ClientController.getOLCurrentMachineName())) {
+				if(ClientController.getOLCurrentMachineName() != null) {
 					Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 					alert.setTitle("WARNING");
 					alert.setContentText("Changing a machine will clear your cart! Are you sure?");
@@ -152,9 +147,8 @@ public class EktCatalogFormController implements Serializable {
 					alert.showAndWait().ifPresent(type -> {
                         if (type == ButtonType.OK) {
                         	EktProductFormController.setMachineSwitchedFlag(true);
-							ClientController.OLCurrentMachineName = cmbMachineName.getValue();
-							bUserSwitchedConfigurations = true;
-							System.out.println("SET MACHINE TO " + ClientController.OLCurrentMachineName);
+							ClientController.setOLCurrentMachineName(cmbMachineName.getValue());
+							System.out.println("SET MACHINE TO " + ClientController.getOLCurrentMachineName());
                         } else if (type == ButtonType.NO) {
                         } else {
                         }
@@ -164,26 +158,24 @@ public class EktCatalogFormController implements Serializable {
 				else {
 					// don't inform user first time
 					EktProductFormController.setMachineSwitchedFlag(true);
-					ClientController.OLCurrentMachineName = cmbMachineName.getValue();
-					bUserSwitchedConfigurations = true;
+					ClientController.setOLCurrentMachineName(cmbMachineName.getValue());
 				}
 
 			}
 			
-			if(ClientController.OLCurrentMachineName != null) {
+			if(ClientController.getOLCurrentMachineName() != null) {
 				// first, drop the flag!
-				bUserSwitchedConfigurations = false;
 				
 				SCCP msg = new SCCP(ServerClientRequestTypes.SELECT, 
 						new Object[]{"machine", true, "machineId", true,
-								"machineName = '" +ClientController.OLCurrentMachineName+ "'", false, null});
+								"machineName = '" +ClientController.getOLCurrentMachineName()+ "'", false, null});
 				ClientUI.clientController.accept(msg);
 				if(ClientController.responseFromServer.getRequestType().equals(ServerClientRequestTypes.ACK)) {
 					@SuppressWarnings("unchecked")
 					ArrayList<ArrayList<Object>> tmp= (ArrayList<ArrayList<Object>>) ClientController.responseFromServer.getMessageSent();
 					System.out.println(tmp);
-					ClientController.OLCurrentMachineID = (Integer.valueOf(tmp.get(0).get(0).toString()));
-					System.out.println("Machine ID set to " + ClientController.OLCurrentMachineID);
+					ClientController.setOLCurrentMachineID((Integer.valueOf(tmp.get(0).get(0).toString())));
+					System.out.println("Machine ID set to " + ClientController.getOLCurrentMachineID());
 				}
 			}
 			
@@ -195,100 +187,57 @@ public class EktCatalogFormController implements Serializable {
 			
 		
 	}
-
 	// Category 1
 	@FXML
 	private void getBtnCatalog0_0(ActionEvent event) {
-		Stage primaryStage = new Stage();
-		// category.text"Healthy";
-		ClientController.CurrentProductCategory.add(0, "HEALTHY");
-		// ClientController.CurrentProductCategory = changeSt;
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
-				"Healthy", true);
-
-		primaryStage.show();
-		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+		loadCategoryPage(event,"HEALTHY");
 	}
 
 	// Category 2
 	@FXML
 	private void getBtnCatalog0_1(ActionEvent event) {
-		Stage primaryStage = new Stage();
-		String category = "SOFT DRINKS";
-		ClientController.CurrentProductCategory.add(0, category);
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
-				category, true);
-		primaryStage.show();
-		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+		loadCategoryPage(event, "SOFT DRINKS");
 	}
 
 	// Category 3
 	@FXML
 	private void getBtnCatalog0_2(ActionEvent event) {
-		Stage primaryStage = new Stage();
-		String category = "FRUITS";
-		ClientController.CurrentProductCategory.add(0, category);
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
-				category, true);
-		primaryStage.show();
-		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+		loadCategoryPage(event, "FRUITS");
 	}
 
 	// Category 4
 	@FXML
 	private void getBtnCatalog0_3(ActionEvent event) {
-		Stage primaryStage = new Stage();
-		String category = "VEGETABLES";
-		ClientController.CurrentProductCategory.add(0, category);
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
-				category, true);
-		primaryStage.show();
-		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+		loadCategoryPage(event, "VEGETABLES");
 	}
 
 	// Category 5
 	@FXML
 	private void getBtnCatalog1_0(ActionEvent event) {
-		Stage primaryStage = new Stage();
-		String category = "SNACKS";
-		ClientController.CurrentProductCategory.add(0, category);
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
-				category, true);
-		primaryStage.show();
-		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+		loadCategoryPage(event, "SNACKS");
 	}
 
 	// Category 6
 	@FXML
 	private void getBtnCatalog1_1(ActionEvent event) {
-		Stage primaryStage = new Stage();
-		String category = "SANDWICHES";
-		ClientController.CurrentProductCategory.add(0, category);
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
-				category, true);
-		primaryStage.show();
-		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+		loadCategoryPage(event, "SANDWICHES");
 	}
 
 	// Category 7
 	@FXML
 	private void getBtnCatalog1_2(ActionEvent event) {
-		Stage primaryStage = new Stage();
-		String category = "CHEWING GUM";
-		ClientController.CurrentProductCategory.add(0, category);
-		System.out.println(ClientController.getCurrentSystemUser().getFirstName());
-		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
-				category, true);
-		primaryStage.show();
-		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // closing primary window
+		loadCategoryPage(event, "CHEWING GUM");
 	}
 
 	// Category 8
 	@FXML
 	private void getBtnCatalog1_3(ActionEvent event) {
+		loadCategoryPage(event, "DAIRY");
+	}
+
+	private void loadCategoryPage(ActionEvent event, String category) {
 		Stage primaryStage = new Stage();
-		String category = "DAIRY";
-		ClientController.CurrentProductCategory.add(0, category);
+		OrderController.getCurrentProductCategory().add(0, category);
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
 				category, true);
 		primaryStage.show();
@@ -321,7 +270,7 @@ public class EktCatalogFormController implements Serializable {
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		Stage primaryStage = new Stage();
 		String category = "ALL ITEMS";
-		ClientController.CurrentProductCategory.add(0, category);
+		OrderController.getCurrentProductCategory().add(0, category);
 		WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), productFormFXMLLocation, null,
 				category, true);
 		primaryStage.show();

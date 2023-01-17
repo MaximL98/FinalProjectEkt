@@ -2,6 +2,7 @@ package controllers;
 
 import client.ClientController;
 import common.WindowStarter;
+import entityControllers.OrderController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -43,21 +44,21 @@ public class OrderReceiptPageController {
 						+ "\n and " + ClientController.getCurrentSystemUser().getPhoneNumber());
 		txtCustomerEmail.setLayoutX(200 - (txtCustomerEmail.minWidth(0) / 2));
 
-		txtOrderNumber.setText("Order Number: " + ClientController.orderNumber);
+		txtOrderNumber.setText("Order Number: " + OrderController.getOrderNumber());
 		txtOrderNumber.setLayoutX(200 - (txtOrderNumber.minWidth(0) / 2));
 
 		txtOrderTotal
-				.setText("Order total: " + (new DecimalFormat("##.##").format(ClientController.orderTotalPrice)) + "$");
+				.setText("Order total: " + (new DecimalFormat("##.##").format(OrderController.getOrderTotalPrice())) + "$");
 		txtOrderTotal.setLayoutX(200 - (txtOrderTotal.minWidth(0) / 2));
 
-		System.out.println("ClientController.orderType = " + ClientController.orderType);
-		if (ClientController.orderType.equals("Delivery")) {
-			txtBillingDate.setText("Delivery Date: " + ClientController.orderDeliveryTime);
+		System.out.println("ClientController.orderType = " + OrderController.getOrderType());
+		if (OrderController.getOrderType().equals("Delivery")) {
+			txtBillingDate.setText("Delivery Date: " + OrderController.getOrderDeliveryTime());
 			txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
 		}
 
-		if (ClientController.orderType.equals("Pickup")) {
-			txtBillingDate.setText("Pickup Place: " + ClientController.pickupPlace);
+		if (OrderController.getOrderType().equals("Pickup")) {
+			txtBillingDate.setText("Pickup Place: " + OrderController.getPickupPlace());
 			txtBillingDate.setLayoutX(200 - (txtBillingDate.minWidth(0) / 2));
 		}
 
@@ -66,8 +67,8 @@ public class OrderReceiptPageController {
 		String CustomerEmail = "dimakislitsyn96@gmail.com";
 		SendEmail(CustomerEmail);
 
-		if (!ClientController.deliveryAddress.equals("")) {
-			txtDeliveryAddress.setText("Delivery Address: " + ClientController.deliveryAddress);
+		if (!OrderController.getDeliveryAddress().equals("")) {
+			txtDeliveryAddress.setText("Delivery Address: " + OrderController.getDeliveryAddress());
 		}
 
 	}

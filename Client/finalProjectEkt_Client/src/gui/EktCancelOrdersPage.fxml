@@ -10,34 +10,34 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktCancelOrderPageController">
+<AnchorPane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1400px, #a837b4, transparent);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktCancelOrderPageController">
    <children>
-      <Pane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);">
+      <Pane prefHeight="800.0" prefWidth="800.0">
          <children>
             <Pane prefHeight="120.0" prefWidth="800.0">
                <children>
-                  <Text layoutX="266.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CANCEL ORDERS">
+                  <Text fill="WHITE" layoutX="242.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CANCEL ORDERS">
                      <font>
-                        <Font name="Berlin Sans FB" size="36.0" />
+                        <Font name="Arial Rounded MT Bold" size="36.0" />
                      </font>
                   </Text>
-                  <ImageView fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="200.0" fitWidth="200.0" layoutY="-39.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@Images/TheBetterLogo.png" />
+                        <Image url="@Images/logo%20final%20-%20yellow.png" />
                      </image>
                   </ImageView>
                </children>
             </Pane>
-            <TableView fx:id="tableUsers" layoutX="50.0" layoutY="133.0" prefHeight="595.0" prefWidth="700.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);">
+            <TableView fx:id="tableUsers" layoutX="50.0" layoutY="133.0" prefHeight="595.0" prefWidth="700.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1400px, #a837b4, transparent);">
               <columns>
                 <TableColumn fx:id="columnOrderID" prefWidth="200.0" text="Order ID" />
                 <TableColumn fx:id="columnTotalPrice" minWidth="0.0" prefWidth="200.0" text="Total Price" />
                   <TableColumn fx:id="columnDateReceived" prefWidth="200.0" text="Date Received" />
               </columns>
             </TableView>
-            <Button fx:id="btnBack" layoutX="14.0" layoutY="744.0" mnemonicParsing="false" onAction="#getBtnBack" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
+            <Button fx:id="btnBack" layoutX="14.0" layoutY="744.0" mnemonicParsing="false" onAction="#getBtnBack" style="-fx-background-radius: 300; -fx-border-radius: 300;" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
                <font>
-                  <Font name="Berlin Sans FB" size="20.0" />
+                  <Font name="Arial Rounded MT Bold" size="20.0" />
                </font>
             </Button>
             <Text fx:id="txtOrderCancelled" fill="#098000" layoutX="292.0" layoutY="771.0" strokeType="OUTSIDE" strokeWidth="0.0">

@@ -22,11 +22,11 @@
 	private String password;
 	-->
 
-<AnchorPane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddUserToDbController">
+<AnchorPane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1800px, #a837b4, transparent);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddUserToDbController">
    <children>
-      <Button fx:id="btnAdd" layoutX="192.0" layoutY="692.0" mnemonicParsing="false" onAction="#getAddUserToDB" prefHeight="93.0" prefWidth="417.0" stylesheets="@buttonCSS.css" text="ADD" textFill="WHITE">
+      <Button fx:id="btnAdd" layoutX="296.0" layoutY="703.0" mnemonicParsing="false" onAction="#getAddUserToDB" prefHeight="69.0" prefWidth="192.0" stylesheets="@buttonCSS.css" text="ADD" textFill="WHITE">
          <font>
-            <Font name="Berlin Sans FB" size="36.0" />
+            <Font name="Arial Rounded MT Bold" size="36.0" />
          </font></Button>
       <TextField fx:id="txtUsername" layoutX="250.0" layoutY="130.0" prefHeight="25.0" prefWidth="300.0" promptText="Username" stylesheets="@textfieldCSS.css" />
       <TextField fx:id="txtPassword" layoutX="250.0" layoutY="160.0" prefHeight="25.0" prefWidth="300.0" promptText="Password" stylesheets="@textfieldCSS.css" />
@@ -38,13 +38,13 @@
       <TextField fx:id="txtPhoneNumber" layoutX="249.0" layoutY="392.0" prefHeight="25.0" prefWidth="300.0" promptText="Phone number" stylesheets="@textfieldCSS.css" />
             <TextField fx:id="txtEmail" layoutX="250.0" layoutY="442.0" prefHeight="25.0" prefWidth="300.0" promptText="Email" stylesheets="@textfieldCSS.css" />
       
-      <Text fx:id="lblStatus" layoutX="348.0" layoutY="678.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status: Warning">
+      <Text fx:id="lblStatus" fill="WHITE" layoutX="330.0" layoutY="680.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status: Warning">
          <font>
-            <Font name="Berlin Sans FB" size="16.0" />
+            <Font name="Arial Rounded MT Bold" size="16.0" />
          </font></Text>
-      <Button fx:id="btnBack" layoutX="14.0" layoutY="738.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="49.0" prefWidth="79.0" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
+      <Button fx:id="btnBack" layoutX="14.0" layoutY="739.0" mnemonicParsing="false" onAction="#getBtnBack" prefHeight="49.0" prefWidth="105.0" style="-fx-background-radius: 300; -fx-border-radius: 300;" stylesheets="@buttonCSS.css" text="BACK" textFill="WHITE">
          <font>
-            <Font name="Berlin Sans FB" size="18.0" />
+            <Font name="Arial Rounded MT Bold" size="20.0" />
          </font></Button>
       <Label fx:id="lblUsername" layoutX="250.0" layoutY="185.0" prefHeight="25.0" prefWidth="324.0" textFill="RED" />
       <Label fx:id="lblId" layoutX="250.0" layoutY="286.0" prefHeight="25.0" prefWidth="324.0" textFill="RED" />
@@ -54,56 +54,56 @@
       <Label fx:id="lblCreditCard" layoutX="250.0" layoutY="237.0" prefHeight="25.0" prefWidth="324.0" textFill="RED" />
       <Pane prefHeight="120.0" prefWidth="800.0">
          <children>
-            <ImageView fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@Images/TheBetterLogo.png" />
-               </image>
-            </ImageView>
-            <Text layoutX="221.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="INSERT USER DETAILS" wrappingWidth="359.0">
+            <Text fill="WHITE" layoutX="183.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="INSERT USER DETAILS" wrappingWidth="434.0">
                <font>
-                  <Font name="Berlin Sans FB" size="38.0" />
+                  <Font name="Arial Rounded MT Bold" size="36.0" />
                </font>
             </Text>
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutY="-40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/logo%20final%20-%20yellow.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
-      <Text layoutX="173.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USERNAME">
+      <Text fill="WHITE" layoutX="146.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USERNAME">
          <font>
-            <Font name="Berlin Sans FB" size="14.0" />
+            <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
       </Text>
-      <Text layoutX="172.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD">
+      <Text fill="WHITE" layoutX="144.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD">
          <font>
-            <Font name="Berlin Sans FB" size="14.0" />
+            <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
       </Text>
-      <Text layoutX="169.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FIRST NAME">
+      <Text fill="WHITE" layoutX="142.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FIRST NAME">
          <font>
-            <Font name="Berlin Sans FB" size="14.0" />
+            <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
       </Text>
-      <Text layoutX="192.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USER ID">
+      <Text fill="WHITE" layoutX="174.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USER ID">
          <font>
-            <Font name="Berlin Sans FB" size="14.0" />
+            <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
       </Text>
-      <Text layoutX="138.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PHONE NUMBER">
+      <Text fill="WHITE" layoutX="107.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PHONE NUMBER">
          <font>
-            <Font name="Berlin Sans FB" size="14.0" />
+            <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
       </Text>
-      <Text layoutX="171.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LAST NAME">
+      <Text fill="WHITE" layoutX="145.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LAST NAME">
          <font>
-            <Font name="Berlin Sans FB" size="14.0" />
+            <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
       </Text>
-      <Text layoutX="207.0" layoutY="460.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EMAIL">
+      <Text fill="WHITE" layoutX="191.0" layoutY="461.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EMAIL">
          <font>
-            <Font name="Berlin Sans FB" size="14.0" />
+            <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
       </Text>
-      <Text layoutX="164.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CREDIT CARD">
+      <Text fill="WHITE" layoutX="129.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CREDIT CARD">
          <font>
-            <Font name="Berlin Sans FB" size="14.0" />
+            <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
       </Text>
       <Label fx:id="lblRole" layoutX="237.0" layoutY="587.0" prefHeight="32.0" prefWidth="324.0" textFill="RED" />

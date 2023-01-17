@@ -10,41 +10,41 @@
 
 <VBox xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationOrderReceiptController">
    <children>
-      <Pane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);">
+      <Pane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1800px, #a837b4, transparent);">
          <children>
-            <Text fx:id="txtOrderNumber" layoutX="95.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order number: XXXXXXX">
+            <Text fx:id="txtOrderNumber" fill="WHITE" layoutX="95.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order number: XXXXXXX">
                <font>
-                  <Font name="Berlin Sans FB" size="20.0" />
+                  <Font name="Arial Rounded MT Bold" size="20.0" />
                </font></Text>
-            <Text fx:id="txtOrderTotal" layoutX="15.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order total: XXXX">
+            <Text fx:id="txtOrderTotal" fill="WHITE" layoutX="15.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order total: XXXX">
                <font>
-                  <Font name="Berlin Sans FB" size="20.0" />
+                  <Font name="Arial Rounded MT Bold" size="18.0" />
                </font></Text>
-            <Text fx:id="txtCustomerEmail" layoutX="89.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order information was sent to&#10;XXXXX@XXXX.COM" textAlignment="CENTER">
+            <Text fx:id="txtCustomerEmail" fill="WHITE" layoutX="76.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order information was sent to&#10;XXXXX@XXXX.COM" textAlignment="CENTER">
                <font>
-                  <Font name="Berlin Sans FB" size="18.0" />
+                  <Font name="Arial Rounded MT Bold" size="17.0" />
                </font></Text>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="124.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/checkmark%20(1).png" />
                </image>
             </ImageView>
-            <Button fx:id="btnLogout" layoutX="14.0" layoutY="344.0" mnemonicParsing="false" onAction="#getBtnLogout" stylesheets="@buttonCSS.css" text="Logout" textFill="WHITE">
+            <Button fx:id="btnLogout" layoutX="15.0" layoutY="348.0" mnemonicParsing="false" onAction="#getBtnLogout" style="-fx-background-radius: 300; -fx-border-radius: 300;" stylesheets="@buttonCSS.css" text="LOGOUT" textFill="WHITE">
                <font>
-                  <Font name="Berlin Sans FB" size="20.0" />
+                  <Font name="Arial Rounded MT Bold" size="16.0" />
                </font></Button>
-            <Button fx:id="btnBack" layoutX="288.0" layoutY="344.0" mnemonicParsing="false" onAction="#getBtnBack" stylesheets="@buttonCSS.css" text="Catalog" textFill="WHITE">
+            <Button fx:id="btnBack" layoutX="275.0" layoutY="348.0" mnemonicParsing="false" onAction="#getBtnBack" style="-fx-background-radius: 222; -fx-border-radius: 222;" stylesheets="@buttonCSS.css" text="CATALOG" textFill="WHITE">
                <font>
-                  <Font name="Berlin Sans FB" size="20.0" />
+                  <Font name="Arial Rounded MT Bold" size="16.0" />
                </font></Button>
-            <Text layoutX="73.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ORDER COMPLETE!" underline="true">
+            <Text fill="WHITE" layoutX="53.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ORDER COMPLETE!" underline="true">
                <font>
-                  <Font name="Berlin Sans FB" size="30.0" />
+                  <Font name="Arial Rounded MT Bold" size="30.0" />
                </font>
             </Text>
-            <Text fx:id="txtBillingDate" layoutX="146.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Billing Date: ">
+            <Text fx:id="txtBillingDate" fill="WHITE" layoutX="143.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Billing Date: ">
                <font>
-                  <Font name="Berlin Sans FB" size="20.0" />
+                  <Font name="Arial Rounded MT Bold" size="18.0" />
                </font>
             </Text>
          </children>

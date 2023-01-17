@@ -13,18 +13,18 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="txtDiscountFirstOrder" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationCustomerLocalOrderController">
+<AnchorPane fx:id="txtDiscountFirstOrder" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1800px, #a837b4, transparent);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ek_configuration._EKConfigurationCustomerLocalOrderController">
    <children>
       <Pane fx:id="txtDiscountFirstOrder" prefHeight="120.0" prefWidth="800.0">
          <children>
-            <ImageView fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="206.0" fitWidth="242.0" layoutY="-37.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Images/TheBetterLogo.png" />
+                  <Image url="@Images/logo%20final%20-%20yellow.png" />
                </image>
             </ImageView>
-            <Text fx:id="txtWelcomeCustomer" layoutX="223.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi username, glad you are back">
+            <Text fx:id="txtWelcomeCustomer" fill="WHITE" layoutX="216.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi username, glad you are back">
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="Arial Rounded MT Bold" size="24.0" />
                </font>
             </Text>
          </children>
@@ -41,48 +41,70 @@
           <RowConstraints maxHeight="200.0" minHeight="200.0" prefHeight="200.0" valignment="CENTER" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="btnCatalog1" maxHeight="150.0" maxWidth="150.0" minHeight="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#getBtnCatalog0_0" prefHeight="150.0" prefWidth="150.0" style="-fx-border-radius: 300; -fx-background-radius: 300; -fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO); -fx-border-color: PURPLE; -fx-border-width: 3;" textAlignment="JUSTIFY" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+            <Button fx:id="btnCatalog1" maxHeight="150.0" maxWidth="150.0" minHeight="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#getBtnCatalog0_0" prefHeight="150.0" prefWidth="150.0" style="-fx-border-radius: 300; -fx-background-radius: 300; -fx-background-color: linear-gradient(from 0px 0px to 0px 180px, #a837b4, #DADF76); -fx-border-color: PURPLE; -fx-border-width: 3;" textAlignment="JUSTIFY" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <graphic>
-                  <ImageView fx:id="imgClatalog0_0" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgClatalog0_0" fitHeight="145.0" fitWidth="146.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../controllers/Images/HealthyText.png" />
+                        <Image url="@Images/healthy.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btnCatalog2" maxHeight="150.0" maxWidth="150.0" minHeight="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#getBtnCatalog0_1" prefHeight="150.0" prefWidth="150.0" style="-fx-border-radius: 300; -fx-background-radius: 300; -fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO); -fx-border-color: purple; -fx-border-width: 3;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+            <Button fx:id="btnCatalog2" maxHeight="150.0" maxWidth="150.0" minHeight="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#getBtnCatalog0_1" prefHeight="150.0" prefWidth="150.0" style="-fx-border-radius: 300; -fx-background-radius: 300; -fx-background-color: linear-gradient(from 0px 0px to 0px 180px, #a837b4, #DADF76); -fx-border-color: purple; -fx-border-width: 3;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <graphic>
-                  <ImageView fx:id="imgClatalog0_1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgClatalog0_1" fitHeight="203.0" fitWidth="207.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Soft%20Drinks%20(200%20×%20200%20ממ).png" />
+                     </image>
+                  </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btnCatalog3" maxHeight="150.0" maxWidth="150.0" minHeight="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#getBtnCatalog0_2" prefHeight="150.0" prefWidth="150.0" style="-fx-border-radius: 300; -fx-background-radius: 300; -fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO); -fx-border-color: purple; -fx-border-width: 3;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+            <Button fx:id="btnCatalog3" maxHeight="150.0" maxWidth="150.0" minHeight="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#getBtnCatalog0_2" prefHeight="150.0" prefWidth="150.0" style="-fx-border-radius: 300; -fx-background-radius: 300; -fx-background-color: linear-gradient(from 0px 0px to 0px 180px, #a837b4, #DADF76); -fx-border-color: purple; -fx-border-width: 3;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <graphic>
-                  <ImageView fx:id="imgClatalog0_2" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgClatalog0_2" fitHeight="154.0" fitWidth="169.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Fruits.png" />
+                     </image></ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btnCatalog4" maxHeight="150.0" maxWidth="150.0" minHeight="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#getBtnCatalog0_3" prefHeight="150.0" prefWidth="150.0" style="-fx-border-radius: 300; -fx-background-radius: 300; -fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO); -fx-border-color: purple; -fx-border-width: 3;" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+            <Button fx:id="btnCatalog4" maxHeight="150.0" maxWidth="150.0" minHeight="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#getBtnCatalog0_3" prefHeight="150.0" prefWidth="150.0" style="-fx-border-radius: 300; -fx-background-radius: 300; -fx-background-color: linear-gradient(from 0px 0px to 0px 180px, #a837b4, #DADF76); -fx-border-color: purple; -fx-border-width: 3;" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <graphic>
-                  <ImageView fx:id="imgClatalog0_3" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgClatalog0_3" fitHeight="176.0" fitWidth="183.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/vegetables.png" />
+                     </image></ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btnCatalog5" maxHeight="150.0" maxWidth="150.0" minHeight="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#getBtnCatalog1_0" prefHeight="150.0" prefWidth="150.0" style="-fx-border-radius: 300; -fx-background-radius: 300; -fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO); -fx-border-color: purple; -fx-border-width: 3;" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+            <Button fx:id="btnCatalog5" maxHeight="150.0" maxWidth="150.0" minHeight="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#getBtnCatalog1_0" prefHeight="150.0" prefWidth="150.0" style="-fx-border-radius: 300; -fx-background-radius: 300; -fx-background-color: linear-gradient(from 0px 0px to 0px 180px, #a837b4, #DADF76); -fx-border-color: purple; -fx-border-width: 3;" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <graphic>
-                  <ImageView fx:id="imgClatalog1_0" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgClatalog1_0" fitHeight="161.0" fitWidth="155.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/snacks.png" />
+                     </image></ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btnCatalog6" maxHeight="150.0" maxWidth="150.0" minHeight="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#getBtnCatalog1_1" prefHeight="150.0" prefWidth="150.0" style="-fx-border-radius: 300; -fx-background-radius: 300; -fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO); -fx-border-color: purple; -fx-border-width: 3;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+            <Button fx:id="btnCatalog6" maxHeight="150.0" maxWidth="150.0" minHeight="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#getBtnCatalog1_1" prefHeight="150.0" prefWidth="150.0" style="-fx-border-radius: 300; -fx-background-radius: 300; -fx-background-color: linear-gradient(from 0px 0px to 0px 180px, #a837b4, #DADF76); -fx-border-color: purple; -fx-border-width: 3;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <graphic>
-                  <ImageView fx:id="imgClatalog1_1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgClatalog1_1" fitHeight="167.0" fitWidth="163.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/sandwiches.png" />
+                     </image></ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btnCatalog7" maxHeight="150.0" maxWidth="150.0" minHeight="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#getBtnCatalog1_2" prefHeight="150.0" prefWidth="150.0" style="-fx-border-radius: 300; -fx-background-radius: 300; -fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO); -fx-border-color: purple; -fx-border-width: 3;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+            <Button fx:id="btnCatalog7" maxHeight="150.0" maxWidth="150.0" minHeight="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#getBtnCatalog1_2" prefHeight="150.0" prefWidth="150.0" style="-fx-border-radius: 300; -fx-background-radius: 300; -fx-background-color: linear-gradient(from 0px 0px to 0px 180px, #a837b4, #DADF76); -fx-border-color: purple; -fx-border-width: 3;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <graphic>
-                  <ImageView fx:id="imgClatalog1_2" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgClatalog1_2" fitHeight="174.0" fitWidth="164.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/chawing%20gum.png" />
+                     </image></ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btnCatalog8" maxHeight="150.0" maxWidth="150.0" minHeight="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#getBtnCatalog1_3" prefHeight="150.0" prefWidth="150.0" style="-fx-border-radius: 300; -fx-background-radius: 300; -fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO); -fx-border-color: purple; -fx-border-width: 3;" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+            <Button fx:id="btnCatalog8" maxHeight="150.0" maxWidth="150.0" minHeight="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#getBtnCatalog1_3" prefHeight="150.0" prefWidth="150.0" style="-fx-border-radius: 300; -fx-background-radius: 300; -fx-background-color: linear-gradient(from 0px 0px to 0px 180px, #a837b4, #DADF76); -fx-border-color: purple; -fx-border-width: 3;" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <graphic>
-                  <ImageView fx:id="imgClatalog1_3" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgClatalog1_3" fitHeight="193.0" fitWidth="173.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Dairy.png" />
+                     </image></ImageView>
                </graphic>
             </Button>
          </children>
@@ -90,13 +112,13 @@
             <Insets bottom="-30.0" left="-30.0" right="-30.0" top="-30.0" />
          </padding>
       </GridPane>
-      <Button fx:id="btnLogout" layoutX="14.0" layoutY="741.0" mnemonicParsing="false" onAction="#getBtnLogout" prefHeight="45.0" prefWidth="126.0" stylesheets="@buttonCSS.css" text="LOGOUT" textFill="WHITE">
+      <Button fx:id="btnLogout" layoutX="14.0" layoutY="741.0" mnemonicParsing="false" onAction="#getBtnLogout" prefHeight="45.0" prefWidth="126.0" style="-fx-background-radius: 300; -fx-border-radius: 300; -fx-border-width: 2;" stylesheets="@buttonCSS.css" text="LOGOUT" textFill="WHITE">
          <font>
-            <Font name="Berlin Sans FB" size="20.0" />
+            <Font name="Arial Rounded MT Bold" size="20.0" />
          </font></Button>
-      <Text layoutX="235.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CATALOG">
+      <Text fill="WHITE" layoutX="215.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CATALOG">
          <font>
-            <Font name="System Bold" size="72.0" />
+            <Font name="Arial Rounded MT Bold" size="74.0" />
          </font>
       </Text>
       <Line endX="320.0" layoutX="400.0" layoutY="248.0" startX="-320.0" stroke="PURPLE" />

@@ -2,34 +2,24 @@ package ek_configuration;
 
 import java.io.ByteArrayInputStream;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import client.ClientController;
-import client.ClientUI;
-import common.SCCP;
-import common.ServerClientRequestTypes;
 import common.WindowStarter;
 import controllers.EktProductFormController;
 import entityControllers.OrderController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -37,7 +27,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -169,9 +158,10 @@ public class _EKConfigurationCartController {
 			Text productName = new Text(product.getProductName());
 			Text quantityLabel = new Text("Quantity: " + OrderController.getCurrentUserCart().get(currentProductID));
 			
-			productName.setStyle("-fx-font: 18 System; -fx-font-weight: bold;");
+			productName.setStyle("-fx-font: 18 System; -fx-font-weight: bold; -fx-text-fill:  #DADF76");
 			productName.setFont(new Font(18));
 			quantityLabel.setFont(new Font(18));
+			quantityLabel.setStyle("-fx-text-fill: #DADF76");
 			
 			Button removeButton = new Button();
 			Button addButton = new Button();
@@ -220,7 +210,8 @@ public class _EKConfigurationCartController {
 			
 			
 			removeButton.setOnAction(action -> {
-				
+				System.out.println(currentProductID);
+				System.out.println(_EKConfigurationProductController.productsInStockMap.get(currentProductID));
 				// ROTEM ADDED URGENT 1.16:
 				_EKConfigurationProductController.productsInStockMap.put(currentProductID, 
 						_EKConfigurationProductController.productsInStockMap.get(currentProductID)
@@ -333,9 +324,9 @@ public class _EKConfigurationCartController {
 		
 		scrollPane.prefHeight(600);
 		scrollPane.prefWidth(800);
-		scrollPane.getStylesheets().add("controllers/testCss.css");
-		scrollPane.setStyle("-fx-background-color: transparent; -fx-background-color:  linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO); -fx-border-color: transparent;"
-				);
+		scrollPane.getStylesheets().add("controllers/textCss.css");
+		scrollPane.setStyle("-fx-background:   linear-gradient(from 0px 0px to 0px 1000px, #a837b4, #DADF76); -fx-border-color: transparent;"
+				+ "-fx-background-color: transparent;");
 		
 		borderPane.setCenter(scrollPane);
 	}

@@ -89,6 +89,7 @@ public class _EKConfigurationLoginFrameController {
     	// request the login:
 		// send to server
     	System.out.println("Client: Sending login request to server as " + userName+".");
+    	ClientController.setCustomerIsSubsriber(false);
 		ClientUI.clientController.accept(preparedMessage);
 		// check client-side object for answer:
 		// if login succeeded:
@@ -117,7 +118,7 @@ public class _EKConfigurationLoginFrameController {
 				nextScreenPath = "/gui/_EKConfigurationCustomerHomeArea.fxml";
 				nextPathTitle = "Customer Home Frame";
 				break;
-				
+
 			case INVENTORY_WORKER:
 				nextScreenPath = "/gui/_EKConfigurationLogisticsEmployeeFrame.fxml";
 				nextPathTitle = "Logistics Employee Frame";

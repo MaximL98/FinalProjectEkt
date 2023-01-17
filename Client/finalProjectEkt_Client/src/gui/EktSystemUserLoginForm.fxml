@@ -10,18 +10,18 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktSystemUserLoginController">
+<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EktSystemUserLoginController">
    <children>
-      <Pane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0px 0px to 0px 1800px,#e6e6fa , INDIGO);">
+      <Pane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from -200px 0px to 0px 1400px, #a837b4, transparent);">
          <children>
-            <ImageView fitHeight="166.0" fitWidth="248.0" layoutY="289.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="282.0" fitWidth="431.0" layoutX="-6.0" layoutY="237.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Images/TheBetterLogo.png" />
+                  <Image url="@Images/logo%20final%20-%20yellow.png" />
                </image>
             </ImageView>
-            <Text layoutX="258.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USER LOGIN" textAlignment="CENTER">
+            <Text fill="WHITE" layoutX="225.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USER LOGIN" textAlignment="CENTER">
                <font>
-                  <Font name="Berlin Sans FB" size="70.0" />
+                  <Font name="Arial Rounded MT Bold" size="70.0" />
                </font>
             </Text>
             <TextField fx:id="txtUsername" layoutX="290.0" layoutY="310.0" prefHeight="42.0" prefWidth="316.0" stylesheets="@textfieldCSS.css">
@@ -34,20 +34,20 @@
                   <Font name="Berlin Sans FB" size="24.0" />
                </font>
             </TextField>
-            <Button fx:id="btnLogin" layoutX="376.0" layoutY="529.0" mnemonicParsing="false" onAction="#getBtnLogin" prefHeight="51.0" prefWidth="140.0" stylesheets="@buttonCSS.css" text="LOGIN" textFill="WHITE">
+            <Button fx:id="btnLogin" layoutX="376.0" layoutY="529.0" mnemonicParsing="false" onAction="#getBtnLogin" prefHeight="51.0" prefWidth="140.0" style="-fx-background-radius: 222; -fx-border-radius: 222;" stylesheets="@buttonCSS.css" text="LOGIN" textFill="WHITE">
                <font>
                   <Font name="Berlin Sans FB" size="30.0" />
                </font>
             </Button>
             <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="290.0" layoutY="450.0" prefHeight="79.0" prefWidth="334.0" text="test" textAlignment="CENTER" visible="false" />
-            <Text fx:id="lblFastRecognition1" layoutX="295.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USERNAME">
+            <Text fx:id="lblFastRecognition1" fill="WHITE" layoutX="294.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USERNAME">
                <font>
-                  <Font name="Berlin Sans FB" size="20.0" />
+                  <Font name="Arial Rounded MT Bold" size="18.0" />
                </font>
             </Text>
-            <Text fx:id="lblFastRecognition2" layoutX="295.0" layoutY="396.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD">
+            <Text fx:id="lblFastRecognition2" fill="WHITE" layoutX="295.0" layoutY="396.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD">
                <font>
-                  <Font name="Berlin Sans FB" size="20.0" />
+                  <Font name="Arial Rounded MT Bold" size="18.0" />
                </font>
             </Text>
          </children>

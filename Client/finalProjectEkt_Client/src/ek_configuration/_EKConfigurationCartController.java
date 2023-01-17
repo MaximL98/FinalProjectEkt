@@ -327,10 +327,9 @@ public class _EKConfigurationCartController {
 		
 		scrollPane.prefHeight(600);
 		scrollPane.prefWidth(800);
-		scrollPane.getStylesheets().add("controllers/textCss.css");
-		scrollPane.setStyle("-fx-background: linear-gradient(from -200px 0px to 0px 1800px, #a837b4, transparent); -fx-border-color: transparent;"
-				+ "-fx-background-color: transparent;");
-		
+		scrollPane.getStylesheets().add("controllers/testCss.css");
+        scrollPane.setStyle("-fx-background-color: transparent; "
+        		+ "-fx-background-color:   linear-gradient(from 000px 0px to 0px 1800px, #a837b4, transparent); -fx-border-color: transparent;");
 		borderPane.setCenter(scrollPane);
 	}
 	
@@ -368,7 +367,7 @@ public class _EKConfigurationCartController {
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
 			//category is located in a ArrayList
-			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/_EKConfigurationCustomerLocalOrderFrame.fxml.fxml", null, 
+			WindowStarter.createWindow(primaryStage, ClientController.getCurrentSystemUser(), "/gui/_EKConfigurationCustomerLocalOrderFrame.fxml", null, 
 					OrderController.getCurrentProductCategory().get(0), true);
 
 			OrderController.getCurrentUserCart().keySet().clear();

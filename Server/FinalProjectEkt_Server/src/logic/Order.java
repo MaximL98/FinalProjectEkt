@@ -16,11 +16,24 @@ import java.util.stream.Stream;
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Enum class representing the different types of an order. It contains values
+	 * for Pickup, Delivery and Local. Each type has a unique typeId associated with
+	 * it.
+	 * 
+	 * @author Maxim
+	 *
+	 */
 	public enum Type {
 		Pickup(1), Delivery(2), Local(3);
 
 		int typeId;
 
+		/**
+		 * Constructor to set the typeId of the type
+		 * 
+		 * @param typeId the typeId of the type
+		 */
 		Type(int typeId) {
 			this.typeId = typeId;
 		}
@@ -31,6 +44,13 @@ public class Order implements Serializable {
 			TYPES_BY_TYPE_ID = Stream.of(Type.values()).collect(Collectors.toMap(type -> type.typeId, type -> type));
 		}
 
+		/**
+		 * Returns the type of the order, based on the typeId passed as parameter.
+		 * 
+		 * @param typeId the typeId of the order
+		 * @return the type of the order
+		 * @throws IllegalArgumentException if the typeId passed as parameter is invalid
+		 */
 		public static Type fromTypeId(int typeId) {
 			Type type = TYPES_BY_TYPE_ID.get(typeId);
 			if (type == null) {
@@ -39,41 +59,78 @@ public class Order implements Serializable {
 			return type;
 		}
 
+		/**
+		 * @return the typeId of the type
+		 */
 		public int getTypeId() {
 			return typeId;
 		}
 	}
 
+	/**
+	 * The enum class Status defines the different statuses that an order can have.
+	 * It has a mapping between a status ID and the corresponding status string, as
+	 * well as a method to get the status from its status ID.
+	 * 
+	 * @author Rotem
+	 *
+	 */
 	public enum Status {
 		InProgress(1, "In Progress"), Complete(2, "Complete"), Cancelled(3, "Cancelled"),
-		RequestedCancellation(4, "Requested Cancellation"), Delivered(5,"Delivered"),Received(6,"Received");
+		RequestedCancellation(4, "Requested Cancellation"), Delivered(5, "Delivered"), Received(6, "Received");
 
 		int statusId;
 		String statusString;
 
+		/**
+		 * Constructor for the {@code Status} enum.
+		 * 
+		 * @param statusId     Integer identifier for the status.
+		 * @param statusString String representation of the status.
+		 */
 		Status(int statusId, String statusString) {
 			this.statusId = statusId;
 			this.statusString = statusString;
 		}
-		
+
 		private static final Map<Integer, Status> STATUS_BY_ID;
-	    static {
-	    	STATUS_BY_ID = Stream.of(Status.values()).collect(Collectors.toMap(status -> status.statusId, status -> status));
+		/**
+		 * This static block initializes a map of statuses by their ID, by using a
+		 * stream of all possible status values and mapping them to their corresponding
+		 * status ID. This map is used later in the {@link #fromStatusId(int)} method to
+		 * return the corresponding status enum value for a given ID.
+		 */
+		static {
+			STATUS_BY_ID = Stream.of(Status.values())
+					.collect(Collectors.toMap(status -> status.statusId, status -> status));
 
-	    }
+		}
 
-	    public static Status fromStatusId(int statusId) {
-	        Status status = STATUS_BY_ID.get(statusId);
-	        if (status == null) {
-	            throw new IllegalArgumentException("Invalid statusId: " + statusId);
-	        }
-	        return status;
-	    }
+		/**
+		 * A static method that takes an integer statusId as a parameter and returns the
+		 * corresponding Status enum value. If the provided statusId is invalid, an
+		 * IllegalArgumentException is thrown with the message "Invalid statusId: " +
+		 * statusId.
+		 * 
+		 * @param statusId the integer value representing the desired status
+		 * @return the corresponding Status enum value
+		 */
+		public static Status fromStatusId(int statusId) {
+			Status status = STATUS_BY_ID.get(statusId);
+			if (status == null) {
+				throw new IllegalArgumentException("Invalid statusId: " + statusId);
+			}
+			return status;
+		}
+
 		@Override
 		public String toString() {
 			return statusString;
 		}
 
+		/**
+		 * @return the status ID
+		 */
 		public int getStatusId() {
 			return statusId;
 		}

@@ -1,38 +1,45 @@
 package gui;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+
 
 import Server.ServerUI;
 import common.WindowStarter;
 import database.DatabaseController;
 import database.DatabaseOperation;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ocsf.server.ConnectionToClient;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextArea;
-
+/**
+ * The class ServerPortController is the controller for the server port GUI.
+ * It provides functionality for starting and stopping the server, connecting to the database and adding/removing users from the database.
+ * Additionally, it shows a list of all the currently connected clients to the server.
+ * @author Rotem
+ *
+ */
 public class ServerPortController  {
-	
+	/**
+	 * The clientsViewer class is a thread that is used to display a list of connected clients to the server at any given time.
+	 * It uses the oldClientList and newClientList arrays to compare the current connected clients to the previous connected clients.
+	 * If there is a change in the connected clients, the list of clients is updated on the GUI.
+	 * The thread runs as long as the server is listening for connections.
+	 * When the server stops listening for connections, the thread is closed.
+	 * @author Rotem
+	 *
+	 */
 	private final class clientsViewer extends Thread {
 		private Thread[] oldClientList = new Thread[1];
 		private Thread[] newClientList;
@@ -98,41 +105,57 @@ public class ServerPortController  {
 	@FXML TableColumn<Object, String> colClients;
 
 	@FXML TextArea txtClients;
-	
+	/**
+	 * Method that initializes the GUI elements when the FXML file is loaded.
+	 * Specifically, it sets the text of the "addUserToDB" button to "Import Simulation (one time use)".
+	 */
 	@FXML
 	private void initialize() {
 		//colClients.setCellValueFactory(null);
 		addUserToDB.setText("Import Simulation (one time use)");
 	}
-	
+	/**
+	 * This method start the stage of the server window by loading the fxml and css files, setting the title and showing the window.
+	 * Also, it sets the behavior of the X button to be handled in ServerUI's main method.
+	 * @param primaryStage the main stage of the application
+	 * @throws Exception if an error occurs while loading the fxml or css files
+	 */
 	public void start(Stage primaryStage) throws Exception {	
 		// load server window
 		WindowStarter.createWindow(primaryStage, this, "/gui/ServerPort.fxml", "/gui/ServerPort.css", "Server");
-		
-		/*Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerPort.fxml"));
-				
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/gui/ServerPort.css").toExternalForm());
-		primaryStage.setTitle("Server");
-		primaryStage.setScene(scene);
-		*/
+
 		// here, we don't catch the X button, since we already did it in ServerUI's main
 		primaryStage.show();		
 	}
-	
+	/**
+	 * Retrieves the text entered in the port text field.
+	 * @return the text in the port text field as a String.
+	 */
 	private String getport() {
 		return portxt.getText();			
 	}
 
-	
+	/**
+	 * Returns the value of the database username text field
+	 * @return A string representing the value of the database username text field
+	 */
 	private String getDbUser() {
 		return databaseUsernameTxt.getText();			
 	}
-	
+	/**
+	 * Method to retrieve the text entered in the database password text field.
+	 * @return the text entered in the database password text field.
+	 */
 	private String getDbPass() {
 		return databasePasswdTxt.getText();			
 	}
-	
+	/**
+	 * This method is the event handler for the 'Enter' key press when the focus is on the port number text field.
+	 * If the server is already listening, the method will return without doing anything.
+	 * Otherwise, it will call the {@link #clickConnectBtn(ActionEvent)} method to start the server.
+	 * @param ae ActionEvent representing the 'Enter' key press
+	 * @throws Exception if there is an error starting the server
+	 */
 	@FXML
 	public void onEnter(ActionEvent ae) throws Exception{
 		if(ServerUI.getEktServerObject() != null && ServerUI.getEktServerObject().isListening()) {
@@ -142,7 +165,13 @@ public class ServerPortController  {
 		clickConnectBtn(ae);
 		}
 	}
-	
+	/**
+	 * This method is an event handler for the connect button press. It is responsible for setting the server's port number, SQL username, and SQL password.
+	 * It then checks the validity of the entered SQL credentials, and if they are valid, it starts the server and loads the connected clients list.
+	 * It also enables the 'add user to database' button, and shows the disconnect button.
+	 * @param event the event triggered by the connect button press.
+	 * @throws Exception if server port number is not entered, or if SQL credentials are invalid
+	 */
 	@FXML
 	public void clickConnectBtn(ActionEvent event) throws Exception {		
 		// try asking database controller to log in using the text fields
@@ -185,7 +214,12 @@ public class ServerPortController  {
 			btnConnect.setDisable(true);
 		}
 	}
-	
+	/**
+	 * This method handles the Exit button click event. It will close the server and exit the application.
+	 * It first calls the {@link ServerUI#serverForcedShutdown()} method to properly shutdown the server,
+	 * and then exits the application by calling {@link System#exit(int)} with a status of 0.
+	 * @param event the event that triggered the call of this method.
+	 */
 	public void getExitBtn(ActionEvent event)  {
 		System.out.println("exit Academic Tool");
 		ServerUI.serverForcedShutdown();
@@ -193,7 +227,11 @@ public class ServerPortController  {
 		// find a better way to do this
 		System.exit(0);			
 	}
-
+	/**
+	 * This method is called when the "Import Simulation" button is pressed. It reads the user-management table (one big table), an external table with all user related info and places every user in the appropriate tables. It insert into systemuser, manager_location, worker(maybe worker is not needed?).
+	 * @param event the event triggered by the button press
+	 * @throws IOException
+	 */
 	@FXML public void getAddUserToDbBtn(ActionEvent event) throws IOException {
 		// what happens here:
 		// we read the user-management table (one big table), an external table with all user related info
@@ -226,29 +264,16 @@ public class ServerPortController  {
             alert.setContentText(pText);
             alert.showAndWait();
             addUserToDB.setDisable(true);
-//            if (result.get() == ButtonType.OK) {
 		}
 		
-		// OLD VERSION:
-		// start a new window with a selection tool for all the tables in the database.
-		// when user selects a table, show it, and show all fields to fill	
-//		System.out.println("Server is loading Database Control page");
-//		
-//		FXMLLoader loader = new FXMLLoader();
-//
-//		
-//		Stage primaryStage = new Stage();
-//		Pane root = loader.load(getClass().getResource("/gui/ServerDatabaseAdditionForm.fxml").openStream());
-//		//UpdateCustomerController updateCustomerController = loader.getController();		
-//		//UpdateCustomerController.loadStudent(ChatClient.s1);
-//	
-//		Scene scene = new Scene(root);			
-//		primaryStage.setTitle("Database Control");
-//
-//		primaryStage.setScene(scene);		
-//		primaryStage.show();
 	}
-
+	/**
+	 * This method is triggered when the user clicks on the "Disconnect" button in the GUI.
+	 * It stops the connection to the database and shuts down the server.
+	 * The program does not close, allowing for re-connection. The "Connect" button is re-enabled,
+	 * the "Disconnect" button is disabled, and the "Add user to DB" button is also disabled.
+	 * @param event
+	 */
 	@FXML public void clickDisconnectBtn(ActionEvent event) {
 		// similar to exit, we stop the connection to the database, and shut down the server:
 		ServerUI.serverForcedShutdown();

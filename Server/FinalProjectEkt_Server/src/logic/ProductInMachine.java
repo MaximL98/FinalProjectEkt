@@ -1,9 +1,18 @@
 package logic;
 
 import java.io.Serializable;
-import java.util.jar.Attributes.Name;
 
 //Class that represents a product in a machine, that includes that product and it's stock in the machine.
+/**
+ * ProductInMachine class represents a product and its stock in a specific
+ * machine. It includes information about the product, the machine that contains
+ * it, the stock amount, the minimum and maximum stock amount and a restock
+ * flag.
+ * 
+ * @serial serialVersionUID
+ * @author Maxim, Rotem
+ *
+ */
 public class ProductInMachine implements Serializable {
 	/**
 	 * 
@@ -21,8 +30,21 @@ public class ProductInMachine implements Serializable {
 	private int maxStock;
 	// flag that says if restock is needed. defualt false
 	private boolean restockFlag = false;
-	
-	public ProductInMachine(Product product, Machine machine, int stock, int minStock, int maxStock, boolean restockFlag) {
+
+	/**
+	 * Constructor for creating a new ProductInMachine object.
+	 * 
+	 * @param product     The Product object that represents the product.
+	 * @param machine     The Machine object that represents the machine that
+	 *                    contains the product.
+	 * @param stock       The current stock of the product in the machine.
+	 * @param minStock    The minimum stock level of the product in the machine.
+	 * @param maxStock    The maximum stock level of the product in the machine.
+	 * @param restockFlag A boolean flag that indicates if the product needs to be
+	 *                    restocked in the machine.
+	 */
+	public ProductInMachine(Product product, Machine machine, int stock, int minStock, int maxStock,
+			boolean restockFlag) {
 		this.product = product;
 		this.machine = machine;
 		this.stock = stock;
@@ -31,18 +53,32 @@ public class ProductInMachine implements Serializable {
 		this.setRestockFlag(restockFlag);
 	}
 
+	/**
+	 * @return the stock of the product in the machine
+	 */
 	public int getStock() {
 		return stock;
 	}
 
+	/**
+	 * @param stock set the stock of the product in the machine
+	 */
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
 
+	/**
+	 * 
+	 * @return the product object
+	 */
 	public Product getProduct() {
 		return product;
 	}
 
+	/**
+	 * 
+	 * @return the machine object
+	 */
 	public Machine getMachine() {
 		return machine;
 	}
@@ -94,7 +130,8 @@ public class ProductInMachine implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return product + ", " + machine + ", stock=" + stock + ", mistock=" + minStock + ", maxstock=" + maxStock +", restock flag=" + restockFlag;  
+		return product + ", " + machine + ", stock=" + stock + ", mistock=" + minStock + ", maxstock=" + maxStock
+				+ ", restock flag=" + restockFlag;
 	}
-	
+
 }

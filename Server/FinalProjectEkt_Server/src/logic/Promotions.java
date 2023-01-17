@@ -2,7 +2,6 @@ package logic;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
 
 /**
  * Project Name: finalProjectEkt_Client Logic class that contains the details
@@ -30,7 +29,18 @@ public class Promotions implements Serializable {
 	private String promotionId;
 	private int locationID;
 	private Boolean promotionStatus;
-
+	/**
+	 * 
+	 * Constructor for creating a new promotion object
+	 * @param promotionName the name of the promotion
+	 * @param locationID the location where the promotion is valid
+	 * @param promotionDescription the description of the promotion
+	 * @param productID the id of the product that the promotion applies to
+	 * @param promotionId the id of the promotion
+	 * @param discountPercentage the percentage of discount for the promotion
+	 * @param startDate the start date of the promotion
+	 * @param endDate the end date of the promotion
+	 */
 	public Promotions(String promotionName, int locationID, String promotionDescription, String productID,
 			String promotionId, String discountPercentage, java.sql.Date startDate, java.sql.Date endDate,
 			Boolean promotionStatus) {
@@ -45,11 +55,15 @@ public class Promotions implements Serializable {
 		this.promotionStatus = promotionStatus;
 
 	}
-
+	/**
+	 * @return the store location
+	 */
 	public String getStoreLocation() {
 		return storeLocation;
 	}
-
+	/**
+	 * @param storeLocation the store location to set
+	 */
 	public void setStoreLocation(String storeLocation) {
 		this.storeLocation = storeLocation;
 	}
@@ -63,19 +77,30 @@ public class Promotions implements Serializable {
 	public int getLocationID() {
 		return locationID;
 	}
-
+	/**
+	 * Setter for the location ID of the promotion.
+	 * @param locationID the location ID of the promotion.
+	 */
 	public void setLocationID(int locationID) {
 		this.locationID = locationID;
 	}
-
+	/**
+	 * Getter for the ID of the promotion.
+	 * @return the ID of the promotion.
+	 */
 	public String getPromotionId() {
 		return promotionId;
 	}
-
+	/**
+	 * Setter for the ID of the promotion.
+	 * @param promotionId the ID of the promotion.
+	 */
 	public void setPromotionId(String promotionId) {
 		this.promotionId = promotionId;
 	}
-
+	/**
+	 * A default constructor for the Promotions class.
+	 */
 	public Promotions() {
 		// TODO Auto-generated constructor stub
 	}
@@ -165,14 +190,4 @@ public class Promotions implements Serializable {
 	public void setPromotionStatus(Boolean promotionStatus) {
 		this.promotionStatus = promotionStatus;
 	}
-
-	// (promotionName, promotionDescription, storeLocation, productID,
-	// discountPercentage, startDate, endDate)
-
-//	public static void main(String[] args) {
-//		Promotions promotion = new Promotions("1","ä","b","c", "123", new Date(0), new Date(1) );
-//		
-//		System.out.println(promotion.toString());
-//		
-//	}
 }

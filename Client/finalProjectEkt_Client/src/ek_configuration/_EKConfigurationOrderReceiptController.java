@@ -12,16 +12,16 @@ import javafx.stage.Stage;
 
 import java.text.DecimalFormat;
 import java.util.Properties;
+/**
 
-//import javax.mail.Message;
-//import javax.mail.MessagingException;
-//import javax.mail.PasswordAuthentication;
-//import javax.mail.Session;
-//import javax.mail.Transport;
-//import javax.mail.internet.InternetAddress;
-//import javax.mail.internet.MimeMessage;
+The _EKConfigurationOrderReceiptController class is the controller for the receipt page for orders.
 
+This page displays the order number, total price, delivery address and billing date.
 
+It also sends an email to the customer's email address with the order details.
+
+The user can also go back to the customer's home area or log out.
+*/
 public class _EKConfigurationOrderReceiptController {
 	@FXML
 	private Button btnBack;
@@ -47,7 +47,12 @@ public class _EKConfigurationOrderReceiptController {
 	
 	private static String EktEmailUsername = "EkrutShop@gmail.com";
 	private static String EktEmailPassword = "dimarotemmaxim";
-	
+	/**
+
+	This method is called when the _EKConfigurationOrderReceiptController is initialized. It sets the text for various Text objects
+	on the GUI, including the customer's email address, order number, order total, billing date, and delivery address. It also
+	sends an email to the customer's email address, and displays a message in the console.
+	*/
 	public void initialize() {
 		txtCustomerEmail.setText("Order information was sent to\n" + ClientController.getCurrentSystemUser().getEmailAddress()
 				+ "\n and " + ClientController.getCurrentSystemUser().getPhoneNumber());
@@ -75,7 +80,11 @@ public class _EKConfigurationOrderReceiptController {
 			txtDeliveryAddress.setText("Delivery Address: " + OrderController.getDeliveryAddress());
 		}
 	}
-
+	/**
+	This method is called when the "Back" button is pressed.
+	It opens the customer's local order page.
+	@param event the button press event
+	*/
 	@FXML
 	void getBtnBack(ActionEvent event) {
 		Stage primaryStage = new Stage();
@@ -84,7 +93,11 @@ public class _EKConfigurationOrderReceiptController {
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // hiding primary window
 	}
-
+	/**
+	This method is called when the "Logout" button is pressed.
+	It logs the user out and opens the login page.
+	@param event the button press event
+	*/
 	@FXML
 	void getBtnLogout(ActionEvent event) {
 		// log the user out:
@@ -96,7 +109,11 @@ public class _EKConfigurationOrderReceiptController {
 		primaryStage.show();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close(); // hiding primary window
 	}
+	/**
 
+	This method sends an email to the customer's email address with the order details.
+	@param CustomerEmail the email address to send the order details to
+	*/
 	private void SendEmail(String CustomerEmail) {
 	        final String username = EktEmailUsername;
 	        final String password = EktEmailPassword;
@@ -107,34 +124,8 @@ public class _EKConfigurationOrderReceiptController {
 	        prop.put("mail.smtp.port", "587");
 	        prop.put("mail.smtp.auth", "true");
 	        prop.put("mail.smtp.starttls.enable", "true"); //TLS
-	     
-//	        Session session = Session.getInstance(prop,
-//	                new javax.mail.Authenticator() {
-//	                    protected PasswordAuthentication getPasswordAuthentication() {
-//	                        return new PasswordAuthentication(username, password);
-//	                    }
-//	                });
-//
-//	        try {
-//
-//	            Message message = new MimeMessage(session);
-//	            message.setFrom(new InternetAddress(EktEmailUsername));
-//	            message.setRecipients(
-//	                    Message.RecipientType.TO,
-//	                    InternetAddress.parse(CustomerEmail)
-//	            );
-//	            message.setSubject("Testing Gmail TLS");
-//	            message.setText("Dear Mail Crawler,"
-//	                    + "\n\n Please do not spam my email!");
-//
-//	            Transport.send(message);
-//
-//	            System.out.println("Done");
-//
-//	        } catch (MessagingException e) {
-//	            e.printStackTrace();
-//	        }
-//	    
+
+	    
 	}
 	
 }

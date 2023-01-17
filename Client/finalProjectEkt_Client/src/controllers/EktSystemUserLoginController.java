@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import logic.SystemUser;
 import javafx.scene.control.Label;
@@ -69,6 +70,8 @@ public class EktSystemUserLoginController {
 			txtUsername.setDisable(false);
 			txtPassword.setDisable(false);
 		}
+		statusLabel.setTextFill(Color.RED);
+		statusLabel.setStyle("-fx-font-weight: bold;");
 	}
 	
 	/**

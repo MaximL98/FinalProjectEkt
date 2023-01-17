@@ -25,9 +25,9 @@
          <font>
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font></Button>
-      <Label fx:id="hiddenLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="19.0" layoutY="144.0" prefHeight="17.0" prefWidth="270.0" text="Please choose a machine and click finish" textAlignment="CENTER" textFill="WHITE" visible="false">
+      <Label fx:id="hiddenLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="144.0" prefHeight="17.0" prefWidth="291.0" text="Please choose a machine and click finish" textAlignment="CENTER" textFill="WHITE" visible="false">
          <font>
-            <Font name="Arial Rounded MT Bold" size="14.0" />
+            <Font name="Arial Rounded MT Bold" size="11.0" />
          </font></Label>
       <ComboBox fx:id="cmbMachines" layoutX="24.0" layoutY="167.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#chooseMachine" prefHeight="35.0" prefWidth="258.0" promptText="CHOOSE MACHINE" stylesheets="@comboboxCSS.css" visible="false" />
       <Button fx:id="btnFinish" layoutX="79.0" layoutY="208.0" mnemonicParsing="false" onAction="#getFinishEkConfig" prefHeight="29.0" prefWidth="149.0" stylesheets="@buttonCSS.css" text="CHOOSE MACHINE" textFill="WHITE" visible="false">

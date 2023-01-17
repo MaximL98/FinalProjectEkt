@@ -25,28 +25,28 @@
                   <Font name="Arial Rounded MT Bold" size="36.0" />
                </font>
             </Text>
-            <TextField fx:id="txtUsername" layoutX="68.0" layoutY="241.0" onAction="#onEnter" prefHeight="42.0" prefWidth="316.0" stylesheets="@textfieldCSS.css">
+            <TextField fx:id="txtUsername" layoutX="100.0" layoutY="237.0" onAction="#onEnter" prefHeight="42.0" prefWidth="316.0" stylesheets="@textfieldCSS.css">
                <font>
                   <Font size="24.0" />
                </font>
             </TextField>
-                        <PasswordField fx:id="pwdField" layoutX="68.0" layoutY="321.0" onAction="#onEnter" prefHeight="51.0" prefWidth="316.0" stylesheets="@textfieldCSS.css">
+                        <PasswordField fx:id="pwdField" layoutX="100.0" layoutY="317.0" onAction="#onEnter" prefHeight="51.0" prefWidth="316.0" stylesheets="@textfieldCSS.css">
                <font>
                   <Font size="24.0" />
                </font>
             </PasswordField>
-            <Button fx:id="btnLogin" layoutX="448.0" layoutY="241.0" mnemonicParsing="false" onAction="#getBtnLoginEK" prefHeight="131.0" prefWidth="277.0" stylesheets="@buttonCSS.css" text="LOGIN" textFill="WHITE">
+            <Button fx:id="btnLogin" layoutX="507.0" layoutY="278.0" mnemonicParsing="false" onAction="#getBtnLoginEK" prefHeight="54.0" prefWidth="153.0" stylesheets="@buttonCSS.css" text="LOGIN" textFill="WHITE">
                <font>
                   <Font name="Arial Rounded MT Bold" size="24.0" />
                </font>
             </Button>
             <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="217.0" layoutY="411.0" prefHeight="79.0" prefWidth="334.0" text="test" textAlignment="CENTER" visible="false" />
-            <Text fx:id="lblFastRecognition" fill="WHITE" layoutX="68.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USERNAME">
+            <Text fx:id="lblFastRecognition" fill="WHITE" layoutX="100.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USERNAME">
                <font>
                   <Font name="Arial Rounded MT Bold" size="18.0" />
                </font>
             </Text>
-            <Text fx:id="lblFastRecognition2" fill="WHITE" layoutX="67.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD">
+            <Text fx:id="lblFastRecognition2" fill="WHITE" layoutX="99.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD">
                <font>
                   <Font name="Arial Rounded MT Bold" size="18.0" />
                </font>

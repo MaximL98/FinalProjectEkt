@@ -57,7 +57,7 @@ public class EktLowStockAlertTableController {
 		centerScrollBar.setPrefWidth(800);
 		centerScrollBar.getStylesheets().add("controllers/testCss.css");
 		centerScrollBar.setStyle(
-				"-fx-background-color: transparent; -fx-background-color:  linear-gradient(from 0px 0px to 0px 1500px, pink, yellow);");
+				"-fx-background-color: transparent; -fx-background-color:   linear-gradient(from -200px 0px to 0px 1800px, #a837b4, transparent);");
 
 		gridPane = new GridPane();
 
@@ -68,9 +68,8 @@ public class EktLowStockAlertTableController {
 			gridPane.getColumnConstraints().add(colConst);
 		}
 
-		gridPane.setMaxSize(790, Region.USE_COMPUTED_SIZE);
+		gridPane.setMaxSize(770, Region.USE_COMPUTED_SIZE);
 		gridPane.setPrefSize(800 - 2, 550);
-		gridPane.setVgap(5);
 
 		Integer managerLocationID = ClientController.getCurrentSystemUser().getId();
 
@@ -104,33 +103,33 @@ public class EktLowStockAlertTableController {
 
 				Text txtMachineID = new Text();
 				txtMachineID.setText("Machine id: " + ((ArrayList<?>) alert).get(0).toString());
-				txtMachineID.setFill(Color.BLACK);
-				txtMachineID.setStyle("-fx-font: 16 System; -fx-font-weight: bold;");
+				txtMachineID.setFill(Color.WHITE);
+				txtMachineID.setStyle("-fx-font: 13 System; -fx-font-weight: bold;");
 
 				Text txtMachineName = new Text();
 				txtMachineName.setText(((ArrayList<?>) alert).get(1).toString());
-				txtMachineName.setFill(Color.BLACK);
-				txtMachineName.setStyle("-fx-font: 16 System; -fx-font-weight: bold;");
+				txtMachineName.setFill(Color.WHITE);
+				txtMachineName.setStyle("-fx-font: 13 System; -fx-font-weight: bold;");
 
 				Text txtProductID = new Text();
 				txtProductID.setText("Product id: " + ((ArrayList<?>) alert).get(2).toString());
-				txtProductID.setFill(Color.BLACK);
-				txtProductID.setStyle("-fx-font: 16 System; -fx-font-weight: bold;");
+				txtProductID.setFill(Color.WHITE);
+				txtProductID.setStyle("-fx-font: 13 System; -fx-font-weight: bold;");
 
 				Text txtProductName = new Text();
 				txtProductName.setText(((ArrayList<?>) alert).get(3).toString());
-				txtProductName.setFill(Color.BLACK);
-				txtProductName.setStyle("-fx-font: 16 System; -fx-font-weight: bold;");
+				txtProductName.setFill(Color.WHITE);
+				txtProductName.setStyle("-fx-font: 13 System; -fx-font-weight: bold;");
 
 				Text txtStockLvl = new Text();
 				txtStockLvl.setText("Stock: " + ((ArrayList<?>) alert).get(4).toString());
-				txtStockLvl.setFill(Color.BLACK);
-				txtStockLvl.setStyle("-fx-font: 16 System; -fx-font-weight: bold;");
+				txtStockLvl.setFill(Color.WHITE);
+				txtStockLvl.setStyle("-fx-font: 13 System; -fx-font-weight: bold;");
 
 				Text txtLocationID = new Text();
 				txtLocationID.setText("Location id: " + ((ArrayList<?>) alert).get(5).toString());
-				txtLocationID.setFill(Color.BLACK);
-				txtLocationID.setStyle("-fx-font: 16 System; -fx-font-weight: bold;");
+				txtLocationID.setFill(Color.WHITE);
+				txtLocationID.setStyle("-fx-font: 13 System; -fx-font-weight: bold;");
 
 				gridPane.add(txtMachineID, j, i);
 				GridPane.setHalignment(txtMachineID, HPos.CENTER);

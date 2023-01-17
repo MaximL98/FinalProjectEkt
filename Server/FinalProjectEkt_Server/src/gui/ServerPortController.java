@@ -261,11 +261,19 @@ public class ServerPortController  {
             alert.initStyle(StageStyle.UNDECORATED);
             alert.setTitle(popupTitle);
             alert.setHeaderText(pHeader);
-            alert.setContentText(pText);
+            alert.setContentText("thank you for understanding!");
             alert.showAndWait();
             addUserToDB.setDisable(true);
 		}
-		
+		else {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.setTitle("You dont have the table external_users");
+            alert.setHeaderText("you need to add it yourself");
+            alert.setContentText("thank you for understanding!");
+            alert.showAndWait();
+            addUserToDB.setDisable(true);
+		}
 	}
 	/**
 	 * This method is triggered when the user clicks on the "Disconnect" button in the GUI.

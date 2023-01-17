@@ -27,6 +27,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -209,6 +210,8 @@ public class EktCartFormController {
 		
 			Text productName = new Text(product.getProductName());
 			Text quantityLabel = new Text("Quantity: " + OrderController.getCurrentUserCart().get(currentProductID));
+			quantityLabel.setFill(Color.WHITE);
+			productName.setFill(Color.WHITE);
 			
 			productName.setStyle("-fx-font: 18 System; -fx-font-weight: bold;");
 			productName.setFont(new Font(18));
@@ -222,17 +225,17 @@ public class EktCartFormController {
 			removeOneButton.setFont(new Font(18));
 			removeButton.setPrefSize(50, 50);
 			removeButton.setGraphic(removeItemIconImageView);
-			removeButton.setStyle("-fx-background-color: transparent; -fx-border-color: black; "
+			removeButton.setStyle("-fx-background-color: transparent; -fx-border-color: white; "
 					+ "-fx-border-width: 2px; -fx-border-radius: 100");
 			
 			addButton.setPrefSize(50, 50);
 			addButton.setGraphic(addOneToCartIconImageView);
-			addButton.setStyle("-fx-background-color: transparent; -fx-border-color: green; "
+			addButton.setStyle("-fx-background-color: transparent; -fx-border-color: white; "
 					+ "-fx-border-width: 2px; -fx-border-radius: 100");
 			
 			removeOneButton.setPrefSize(50, 50);
 			removeOneButton.setGraphic(removeOneFromCartIconImageView);
-			removeOneButton.setStyle("-fx-background-color: transparent; -fx-border-color: crimson; "
+			removeOneButton.setStyle("-fx-background-color: transparent; -fx-border-color: white; "
 					+ "-fx-border-width: 2px; -fx-border-radius: 100");
 			///////////////////////////////////////////////////////////////////////
 			
@@ -367,7 +370,7 @@ public class EktCartFormController {
 		scrollPane.prefHeight(600);
 		scrollPane.prefWidth(800);
 		scrollPane.getStylesheets().add("controllers/testCss.css");
-		scrollPane.setStyle("-fx-background-color: linear-gradient(from -200px 0px to 0px 1500px,#e6e6fa , INDIGO); -fx-border-color: transparent;");
+		scrollPane.setStyle("-fx-background-color:  linear-gradient(from -200px 0px to 0px 1800px, #a837b4, transparent); -fx-border-color: transparent;");
 		
 		borderPane.setCenter(scrollPane);
 	}

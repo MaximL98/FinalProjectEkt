@@ -435,7 +435,14 @@ public class EktReportDisplayPageController {
 			if (stock >= min_stock) {
 				threshold = Math.round(InventoryCalculations.valueOf(category).getValue() * 24) + " Hours";
 				outOfStock = Math.round(InventoryCalculations.valueOf(category).getValue() * 29) + " Hours";
-			} else {
+		
+			} 
+			else if (stock == 0) {
+				threshold = "Below the threshold! Needs A Restock!";
+				outOfStock = "Out of stock!";
+				
+			}
+			else {
 				threshold = "Below the threshold! Needs A Restock!";
 				outOfStock = Math.round(InventoryCalculations.valueOf(category).getValue() * 5) + " Hours";
 			}

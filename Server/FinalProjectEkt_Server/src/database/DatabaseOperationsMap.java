@@ -159,6 +159,8 @@ public class DatabaseOperationsMap {
 			// do it
 			String query = (String) params[0];
 			rs = DatabaseSimpleOperation.executeQueryWithResults(query, null);
+			if(rs == null)
+				return rs;
 			ResultSetMetaData rsmd;
 			try {
 				rsmd = rs.getMetaData();
